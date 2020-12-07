@@ -1,18 +1,32 @@
 package nc.unc.cs.entities;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.Value;
+
 /**
  * DTO for Car entity.
  * @since 0.1.0
  */
+@Table(name = "cars")
+@Entity
+@Value
 public class Car {
-    private final String number;
+    @Id
+    private String number;
 
-    public final String owner;
+    public String owner;
 
     public Car(String number, String owner) {
         this.number = number;
         this.owner = owner;
+    }
+
+    public Car() {
+        this.number  = "0";
+        this.owner = "test";
     }
 
     public String getNumber() {

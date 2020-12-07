@@ -1,6 +1,5 @@
 package nc.unc.cs.services;
 
-import java.util.List;
 import nc.unc.cs.entities.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +20,13 @@ public class RestGibddService {
     }
 
     @GetMapping(value = "/", produces = "application/json")
-    public List<Car> indexCars() {
+    public Iterable<Car> indexCars() {
         return this.logic.getCars();
     }
 
-    @PostMapping(value = "/", produces = "application/json")
-    public boolean addCar(@RequestBody final Car car) {
-        this.logic.addCar(car);
-        return true;
+    @PostMapping(value = "/", consumes = "application/json", produces = "application/json")
+    public Car addCar(@RequestBody final Car car) {
+        return this.logic.addCar(car);
     }
+
 }
