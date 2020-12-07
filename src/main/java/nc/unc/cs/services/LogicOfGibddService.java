@@ -1,8 +1,8 @@
 package nc.unc.cs.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import nc.unc.cs.entities.Car;
+import nc.unc.cs.repositories.CarsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,17 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class LogicOfGibddService {
 
-    private final List<Car> cars;
+    private CarsRepo carsRepo;
 
-    public LogicOfGibddService() {
-        this.cars = new ArrayList<>();
+    @Autowired
+    public LogicOfGibddService(final CarsRepo carsRepo) {
+        this.carsRepo = carsRepo;
     }
 
-    public List<Car> getCars() {
-        return cars;
+    public Iterable<Car> getCars() {
+        return this.carsRepo.findAll();
     }
 
-    public void addCar(Car car) {
-        this.cars.add(car);
+    public Car addCar(Car car) {
+        return this.carsRepo.save(car);
     }
 }
