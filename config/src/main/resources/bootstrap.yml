@@ -1,5 +1,6 @@
 spring:
   application:
-    name: comfig
-  profiles:
-    active: dev, git
+    name: config
+  config:
+    activate:
+      on-profile: config
