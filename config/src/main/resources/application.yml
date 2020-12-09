@@ -1,0 +1,25 @@
+spring:
+  main:
+    banner-mode: off
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+    platform: h2
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URL:file:./config_repo}
+          ignoreLocalSshSettings: true
+          skipSslValidation: true
+          privateKey: |
+                      $DEPLOY_KEY
+server:
+  port: ${PORT:8088}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
