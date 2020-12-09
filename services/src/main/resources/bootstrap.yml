@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: template
+---
+spring:
+  application:
+    name: gibdd
+  config:
+    activate:
+      on-profile: gibdd
+---
