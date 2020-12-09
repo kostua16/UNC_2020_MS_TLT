@@ -1,6 +1,5 @@
 spring:
   application:
-    name: discovery
-  config:
-    activate:
-      on-profile: discovery
+    name: comfig
+  profiles:
+    active: dev, git

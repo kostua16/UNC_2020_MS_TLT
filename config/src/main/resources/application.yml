@@ -16,7 +16,8 @@ spring:
           ignoreLocalSshSettings: true
           skipSslValidation: true
           privateKey: |
-                      $DEPLOY_KEY
+                      ${DEPLOY_KEY}
+          basedir: target/repo
 server:
   port: ${PORT:8088}
 eureka:
