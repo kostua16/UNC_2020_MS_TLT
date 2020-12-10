@@ -1,30 +1,15 @@
 spring:
   application:
-    name: config
-  profiles:
-    active: config, dev, git
+    name: configserver
   main:
     banner-mode: off
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  datasource:
-    url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: sa
-    platform: h2
   cloud:
     config:
       server:
-        git:
-          uri: ${CONFIG_REPO_URL:file:./config_repo}
-          ignoreLocalSshSettings: true
-          skipSslValidation: true
-          privateKey: |
-                      ${DEPLOY_KEY}
-          basedir: target/repo
-          force-pull: true
+        native:
+          search-locations: [classpath:/config, file:./config, file:../config_repo]
 server:
-  port: ${PORT:8088}
+  port: ${PORT:8762}
 eureka:
   client:
     service-url:
@@ -32,3 +17,20 @@ eureka:
 logging:
   level:
     org.springframework.cloud: debug
+---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URL:file://config_repo}
+          ignoreLocalSshSettings: true
+          skipSslValidation: true
+          privateKey: |
+            ${DEPLOY_KEY:test}
+          basedir: target/repo
+          force-pull: true
+          preferredAuthentications: publickey
+  config:
+    activate:
+      on-profile: git

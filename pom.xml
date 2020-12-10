@@ -20,6 +20,10 @@
 		<spring-cloud.version>2020.0.0-M6</spring-cloud.version>
 	</properties>
 
+	<!--
+	Зависимость\библиотека версий дргугих зависимостей,
+	содержит информацию об актуальных совместимых версиях модулей Spring Cloud
+		-->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -32,11 +36,80 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- список модулей\под-проектов	-->
 	<modules>
 		<module>services</module>
 		<module>discovery</module>
 		<module>config</module>
+		<module>gateway</module>
 	</modules>
+
+	<!-- общие зависимости для всех модулей	-->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+
+		<!--
+		Возможность использовать bootstrap.yml файлы - которые загружают конфигурацию до
+		активации Spring сервиса
+			-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
+
+		<!-- дополнительные сервисы для ускорения разработки	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- дополнительные сервисы для показа состояния сервиса	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Подсказки для IDE во время редактирования application.yml \ bootstrap.yml	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Автогенерация кода через простановку аннотаций	-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Модуль для написания тестов с использованием Spring	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Зависимость для модуля для написания тестов	-->
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>asm</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Зависимость для модуля для написания тестов	-->
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 
 	<build>
