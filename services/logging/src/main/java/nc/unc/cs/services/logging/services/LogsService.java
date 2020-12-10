@@ -3,6 +3,8 @@ package nc.unc.cs.services.logging.services;
 import java.util.List;
 import nc.unc.cs.services.logging.entities.LogEntry;
 import nc.unc.cs.services.logging.repositories.LogsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Profile;
@@ -23,6 +25,8 @@ public class LogsService {
 
     private final LogsRepository repository;
 
+    private final Logger logger = LoggerFactory.getLogger(LogsService.class);
+
     @Autowired
     public LogsService(final LogsRepository repository) {
         this.repository = repository;
@@ -31,7 +35,7 @@ public class LogsService {
     @GetMapping(path = "/", produces = "application/json")
     public List<LogEntry> viewLastLogs() {
         return this.repository.findAll(
-            PageRequest.of(1,15, Sort.by(Sort.Direction.DESC, "created"))
+            PageRequest.of(0,15, Sort.by(Sort.Direction.DESC, "created"))
         ).getContent();
     }
 
@@ -39,12 +43,15 @@ public class LogsService {
     public List<LogEntry> viewLogs(@PathVariable final String service) {
         return this.repository.findLogEntriesByService(
             service,
-            PageRequest.of(1,15, Sort.by(Sort.Direction.DESC, "created"))
+            PageRequest.of(0,15, Sort.by(Sort.Direction.DESC, "created"))
         ).getContent();
     }
 
     @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
     public LogEntry addLog(@RequestBody final LogEntry log) {
-        return this.repository.save(log);
+        this.logger.debug("before adding log: {}", log);
+        final LogEntry saved = this.repository.save(log);
+        this.logger.debug("after adding log: {}", saved);
+        return saved;
     }
 }

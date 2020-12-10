@@ -2,7 +2,9 @@ package nc.unc.cs.services.gibdd.integration;
 
 import java.util.Date;
 import javax.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class LogEntry {
 
     private long id;

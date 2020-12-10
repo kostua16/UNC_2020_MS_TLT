@@ -17,5 +17,5 @@ spring:
 logging:
   level:
     org.springframework.cloud.config: debug
-
+    nc.unc.cs.services: debug
 
