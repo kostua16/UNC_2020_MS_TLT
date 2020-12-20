@@ -18,6 +18,8 @@
   <modules>
     <module>gibdd</module>
     <module>logging</module>
+      <module>bank</module>
+    <module>tax</module>
   </modules>
 
 
