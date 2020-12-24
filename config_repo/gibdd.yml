@@ -1,0 +1,15 @@
+gibdd:
+  test: 12345
+---
+spring:
+  profiles:
+    active: default
+gibdd:
+  test: def
+---
+spring:
+  profiles:
+    active: test
+gibdd:
+  test: test
+---

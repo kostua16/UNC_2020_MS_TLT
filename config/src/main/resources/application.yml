@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: configserver
+  main:
+    banner-mode: off
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: [classpath:/config, file:./config, file:../config_repo]
+server:
+  port: ${PORT:8762}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+logging:
+  level:
+    org.springframework.cloud: debug
+---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URL:file://config_repo}
+          ignoreLocalSshSettings: true
+          skipSslValidation: true
+          privateKey: |
+            ${DEPLOY_KEY:test}
+          basedir: target/repo
+          force-pull: true
+          preferredAuthentications: publickey
+  config:
+    activate:
+      on-profile: git
