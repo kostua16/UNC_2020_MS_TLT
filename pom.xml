@@ -41,7 +41,8 @@
 		<module>services</module>
 		<module>discovery</module>
 		<module>config</module>
-	</modules>
+        <module>passport</module>
+    </modules>
 
 	<!-- общие зависимости для всех модулей	-->
 	<dependencies>
