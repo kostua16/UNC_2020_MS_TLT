@@ -1,7 +1,7 @@
 package nc.unc.cs.services.tax.services;
 
-import java.util.Date;
 import java.util.List;
+import nc.unc.cs.services.tax.controllers.payloads.responses.TaxPayment;
 import nc.unc.cs.services.tax.entities.Tax;
 import nc.unc.cs.services.tax.exceptions.TaxNotFoundException;
 import nc.unc.cs.services.tax.repositories.TaxRepository;
@@ -11,15 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
  * Tax service
- * @since 0.1.1
+ * @since 0.1.8
  */
 @Service
 public class TaxService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaxService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaxService.class);
 
     private final TaxRepository taxRepository;
 
@@ -30,43 +31,61 @@ public class TaxService {
         this.taxRepository = taxRepository;
     }
 
+    /**
+     * Checking tax status.
+     *
+     * @param taxId The ID of the tax by which the tax is searched in the database;
+     * @return Tax status;
+     */
     public Boolean isPaid(final Long taxId) {
-
         return this.taxRepository
             .findById(taxId)
-            .orElseThrow(() -> new TaxNotFoundException(taxId)) // return ???
+            .orElseThrow(() -> new TaxNotFoundException(taxId))
             .getStatus();
     }
 
+    /**
+     * Service tax creation.
+     *
+     * @param serviceId The ID of the service that provided the service;
+     * @param citizenId The Id of the citizen (account);
+     * @param taxAmount Service tax;
+     *
+     * @return tax id
+     */
     public Long createTax(
         final Long serviceId,
         final Long citizenId,
-        Integer taxAmount
+        final Integer taxAmount
     ) {
         return this.taxRepository.save(new Tax(taxAmount, citizenId, serviceId)).getTaxId();
     }
 
-    public void payTax( // void to ResponseEntity
-                        final Long taxId,
-                        final Date taxPaymentDate
-    ) {
+    /**
+     * Payment of tax.
+     *
+     * @param taxPayment object with tax id and payment date
+     * @return ResponseEntity with tax id;
+     */
+    public ResponseEntity<Long> payTax(final TaxPayment taxPayment) {
         Tax changeTax = this.taxRepository
-            .findById(taxId)
-            .orElseThrow(() -> new TaxNotFoundException(taxId));
+            .findById(taxPayment.getTaxId())
+            .orElseThrow(() -> new TaxNotFoundException(taxPayment.getTaxId()));
 
         changeTax.setStatus(true);
-        changeTax.setTaxPaymentDate(taxPaymentDate);
+        changeTax.setTaxPaymentDate(taxPayment.getTaxPaymentDate());
 
-        this.taxRepository.save(changeTax);
+        logger.info("Tax with ID = {} has been payed", taxPayment.getTaxId());
+
+        return ResponseEntity.ok(this.taxRepository.save(changeTax).getTaxId());
     }
 
     public List<Tax> getTaxes(final Long citizenId) {
-        LOGGER.info("Providing all taxes for citizen with ID: {}", citizenId);
+        logger.info("Providing all taxes for citizen with ID: {}", citizenId);
         return this.taxRepository.findTaxesByCitizenId(citizenId);
     }
 
     public List<Tax> getListUnpaidTaxes(final Long serviceId, final Long citizenId) {
-        // false - неоплачченные (заглушка)
         return this.taxRepository
             .findTaxesByServiceIdAndCitizenIdAndStatus(serviceId, citizenId, false);
     }

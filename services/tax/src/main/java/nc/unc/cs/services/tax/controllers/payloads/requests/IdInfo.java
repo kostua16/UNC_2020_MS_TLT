@@ -1,4 +1,4 @@
-package nc.unc.cs.services.tax.controllers.payloads;
+package nc.unc.cs.services.tax.controllers.payloads.requests;
 
 public class IdInfo {
     private Long citizenId;

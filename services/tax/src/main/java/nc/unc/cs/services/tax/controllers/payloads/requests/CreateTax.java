@@ -1,4 +1,4 @@
-package nc.unc.cs.services.tax.controllers.payloads;
+package nc.unc.cs.services.tax.controllers.payloads.requests;
 
 public class CreateTax {
     private Long serviceId;

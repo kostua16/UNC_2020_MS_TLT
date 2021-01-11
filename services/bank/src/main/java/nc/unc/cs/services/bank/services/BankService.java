@@ -1,31 +1,43 @@
 package nc.unc.cs.services.bank.services;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 import nc.unc.cs.services.bank.controllers.payloads.responses.TaxPayment;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.exceptions.PaymentRequestNotFoundException;
+import nc.unc.cs.services.bank.integration.CreateTax;
+import nc.unc.cs.services.bank.integration.TaxService;
 import nc.unc.cs.services.bank.repositories.PaymentRequestRepository;
 import nc.unc.cs.services.bank.repositories.TransactionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BankService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BankService.class);
+
     private final PaymentRequestRepository paymentRequestRepository;
     private final TransactionRepository transactionRepository;
+    private final TaxService taxService;
 
     @Autowired
     public BankService(
         final PaymentRequestRepository paymentRequestRepository,
-        final TransactionRepository transactionRepository
+        final TransactionRepository transactionRepository,
+        final TaxService taxService
     ) {
         this.paymentRequestRepository = paymentRequestRepository;
         this.transactionRepository = transactionRepository;
+        this.taxService = taxService;
     }
 
+    /**
+     * @param paymentId The ID of the payment by which the payment is searched in the database.
+     */
     public PaymentRequest findPaymentRequestById(Long paymentId) {
         return this.paymentRequestRepository
             .findById(paymentId)
@@ -34,6 +46,16 @@ public class BankService {
             );
     }
 
+    /**
+     * Service Provided Registration Method.
+     *
+     * @param serviceId The ID of the service that provided the service;
+     * @param citizenId The Id of the citizen (account);
+     * @param amount The cost of the service provided;
+     * @param taxAmount Service tax;
+     *
+     * @return Payment ID;
+     */
     public Long requestPayment(
         final Long serviceId,
         final Long citizenId,
@@ -47,14 +69,27 @@ public class BankService {
         paymentRequest.setCitizenId(citizenId);
         paymentRequest.setStatus(false);
 
-        paymentRequest.setTaxId(11111L); // заглушка
+        try {
+            CreateTax createTax = new CreateTax(serviceId, citizenId, taxAmount);
+            Long taxId = this.taxService.createTax(createTax); ///// принимать в метод requestPayment() объект а не поля
+            paymentRequest.setTaxId(taxId);
+            logger.info("Tax with ID = {} has been created", taxId);
+        } catch (Exception e) {
+            logger.error("No tax has been created.");
+        }
 
         return this.paymentRequestRepository.save(paymentRequest).getPaymentRequestId();
     }
 
-    public TaxPayment payment(final Long paymentId) {
-        PaymentRequest paymentRequest = findPaymentRequestById(paymentId);
+    /**
+     * Payment of invoice and tax.
+     *
+     * @param paymentId;
+     * @return ResponseEntity with transaction id;
+     */
+    public ResponseEntity<Long> payment(final Long paymentId) {
 
+        PaymentRequest paymentRequest = findPaymentRequestById(paymentId);
         paymentRequest.setStatus(true);
 
         Transaction transaction = new Transaction();
@@ -66,9 +101,20 @@ public class BankService {
         this.transactionRepository.save(transaction);
         this.paymentRequestRepository.save(paymentRequest);
 
-        return new TaxPayment(paymentRequest.getPaymentRequestId(), transaction.getCreationDate());
+        TaxPayment taxPayment = new TaxPayment();
+        taxPayment.setTaxId(paymentRequest.getTaxId());
+        taxPayment.setTaxPaymentDate(transaction.getCreationDate());
+
+        this.taxService.payTax(taxPayment);
+        return ResponseEntity.ok(transaction.getTransactionId());
     }
 
+    /**
+     * Checking the status of the issued invoice.
+     *
+     * @param paymentId;
+     * @return payment status;
+     */
     public Boolean isPaid(Long paymentId) {
         return findPaymentRequestById(paymentId).getStatus();
     }

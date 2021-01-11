@@ -1,18 +1,17 @@
-package nc.unc.cs.services.tax.controllers.payloads;
+package nc.unc.cs.services.tax.controllers.payloads.responses;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-
-public class UpdateTax {
+public class TaxPayment {
     private Long taxId;
-    private LocalDateTime taxPaymentDate;
+    private Date taxPaymentDate;
 
-    public UpdateTax() {
+    public TaxPayment() {
     }
 
-    public UpdateTax(
+    public TaxPayment(
         final Long taxId,
-        final LocalDateTime taxPaymentDate
+        final Date taxPaymentDate
     ) {
         this.taxId = taxId;
         this.taxPaymentDate = taxPaymentDate;
@@ -26,11 +25,11 @@ public class UpdateTax {
         this.taxId = taxId;
     }
 
-    public LocalDateTime getTaxPaymentDate() {
+    public Date getTaxPaymentDate() {
         return taxPaymentDate;
     }
 
-    public void setTaxPaymentDate(LocalDateTime taxPaymentDate) {
+    public void setTaxPaymentDate(Date taxPaymentDate) {
         this.taxPaymentDate = taxPaymentDate;
     }
 }
