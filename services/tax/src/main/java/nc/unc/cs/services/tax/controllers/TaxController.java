@@ -29,14 +29,13 @@ public class TaxController {
         this.taxService = taxService;
     }
 
-    @GetMapping("{taxId}")
+    @GetMapping(value = "{taxId}", produces = "application/json", consumes = "application/json")
     public Boolean checkPaid(@PathVariable("taxId") final Long taxId) {
         return this.taxService.isPaid(taxId);
     }
 
     @PostMapping(value = "create", produces = "application/json", consumes = "application/json")
     public Long createTax(@RequestBody final CreateTax createTax) {
-
         return this.taxService.createTax(
             createTax.getServiceId(), createTax.getCitizenId(), createTax.getTaxAmount());
     }
@@ -46,18 +45,18 @@ public class TaxController {
         return this.taxService.payTax(taxPayment);
     }
 
-    @PostMapping("my-debt")
+    @PostMapping(value = "my-debt", produces = "application/json", consumes = "application/json")
     public List<Tax> getTaxes(@RequestBody final IdInfo idInfo) {
         return this.taxService.getTaxes(idInfo.getCitizenId());
     }
 
     @PostMapping(value = "debt", produces = "application/json", consumes = "application/json")
-    public List<Tax> getListUnpaidTaxes(@RequestBody final IdInfo idInfo) {
-        return this.taxService.getListUnpaidTaxes(idInfo.getServiceId(), idInfo.getCitizenId());
+    public Boolean isNotDebtor(@RequestBody final IdInfo idInfo) {
+        return this.taxService.isNotDebtor(idInfo.getServiceId(), idInfo.getCitizenId());
     }
 
     // e.g.: http://localhost:8080/tax/page-debt?startPage=2&endPage=2&status=false
-    @GetMapping("page-debt")
+    @GetMapping(value = "page-debt", produces = "application/json", consumes = "application/json")
     public List<Tax> getPage(
         @PathParam("pageNumber") final Integer pageNumber,
         @PathParam("size") final Integer size,

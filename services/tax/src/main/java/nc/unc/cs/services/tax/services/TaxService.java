@@ -85,9 +85,17 @@ public class TaxService {
         return this.taxRepository.findTaxesByCitizenId(citizenId);
     }
 
-    public List<Tax> getListUnpaidTaxes(final Long serviceId, final Long citizenId) {
+    /**
+     * Debt check
+     *
+     * @param serviceId The ID of the service that provided the service;
+     * @param citizenId The Id of the citizen (account);
+     * @return true - if there are no debts, otherwise false
+     */
+    public Boolean isNotDebtor(final Long serviceId, final Long citizenId) {
         return this.taxRepository
-            .findTaxesByServiceIdAndCitizenIdAndStatus(serviceId, citizenId, false);
+            .findTaxesByServiceIdAndCitizenIdAndStatus(serviceId, citizenId, false)
+            .isEmpty();
     }
 
     public List<Tax> getPage(
