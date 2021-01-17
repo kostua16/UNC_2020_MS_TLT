@@ -9,6 +9,7 @@ import nc.unc.cs.services.tax.entities.Tax;
 import nc.unc.cs.services.tax.services.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("tax")
+@CrossOrigin
 public class TaxController {
 
     private final TaxService taxService;
@@ -26,7 +28,6 @@ public class TaxController {
     public TaxController(final TaxService taxService) {
         this.taxService = taxService;
     }
-
 
     @GetMapping("{taxId}")
     public Boolean checkPaid(@PathVariable("taxId") final Long taxId) {
@@ -50,7 +51,7 @@ public class TaxController {
         return this.taxService.getTaxes(idInfo.getCitizenId());
     }
 
-    @PostMapping("debt")
+    @PostMapping(value = "debt", produces = "application/json", consumes = "application/json")
     public List<Tax> getListUnpaidTaxes(@RequestBody final IdInfo idInfo) {
         return this.taxService.getListUnpaidTaxes(idInfo.getServiceId(), idInfo.getCitizenId());
     }
