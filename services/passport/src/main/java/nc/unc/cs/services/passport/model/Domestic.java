@@ -25,21 +25,6 @@ public class Domestic {
     private Boolean isActive;
     private Integer series;
     private Integer number;
+    private Long citizenId;
 
-    public Domestic(String registration,
-                    String name,
-                    String surname,
-                    Date dateOfBirth,
-                    Boolean isActive,
-                    Integer series,
-                    Integer number
-    ) {
-        this.registration = registration;
-        this.name = name;
-        this.surname = surname;
-        this.dateOfBirth = dateOfBirth;
-        this.isActive = isActive;
-        this.series = series;
-        this.number = number;
-    }
 }

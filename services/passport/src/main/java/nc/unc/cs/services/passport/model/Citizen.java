@@ -10,5 +10,6 @@ public class Citizen {
     private String surname;
     private Date dateOfBirth;
     private String registration;
+    private Long citizenId;
 
 }

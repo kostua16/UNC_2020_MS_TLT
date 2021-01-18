@@ -22,17 +22,5 @@ public class International {
     private String surname;
     private Date dateOfBirth;
     private Boolean isActive;
-
-    public International(Boolean locked,
-                         String name,
-                         String surname,
-                         Date dateOfBirth,
-                         Boolean isActive
-    ) {
-        this.locked = locked;
-        this.name = name;
-        this.surname = surname;
-        this.dateOfBirth = dateOfBirth;
-        this.isActive = isActive;
-    }
+    private Long citizenId;
 }

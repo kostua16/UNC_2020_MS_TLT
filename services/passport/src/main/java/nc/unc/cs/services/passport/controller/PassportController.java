@@ -6,6 +6,7 @@ import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.service.PassportTable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,7 +54,7 @@ public class PassportController {
     }
 
     @PostMapping(value = "/updateDomestic/{id}", produces = "application/json")
-    public Domestic updateDomesticPassport(@PathVariable Long id, @RequestBody Domestic domestic) throws Exception {
+    public ResponseEntity<Domestic> updateDomesticPassport(@PathVariable("id") Long id, @RequestBody Domestic domestic)  {
         return this.passportTable.updateDomestic(id,domestic);
     }
 
