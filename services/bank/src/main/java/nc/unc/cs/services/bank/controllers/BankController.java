@@ -1,6 +1,9 @@
 package nc.unc.cs.services.bank.controllers;
 
+import java.util.List;
 import nc.unc.cs.services.bank.controllers.payloads.requests.PaymentPayload;
+import nc.unc.cs.services.bank.entities.PaymentRequest;
+import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-/**
- * Tax service
- * @since 0.1.9
- */
 @RestController
 @RequestMapping("bank")
 @CrossOrigin
@@ -50,5 +48,10 @@ public class BankController {
     @GetMapping("{paymentId}")
     public Boolean checkPaymentStatus(@PathVariable("paymentId") final Long paymentId) {
         return this.bankService.isPaid(paymentId);
+    }
+
+    @GetMapping("check/{citizenId}")
+    public List<PaymentRequest> getPayments(@PathVariable("citizenId") Long citizenId) {
+        return this.bankService.getPayments(citizenId);
     }
 }

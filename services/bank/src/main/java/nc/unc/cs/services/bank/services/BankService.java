@@ -1,6 +1,7 @@
 package nc.unc.cs.services.bank.services;
 
 import java.util.Date;
+import java.util.List;
 import nc.unc.cs.services.bank.controllers.payloads.responses.TaxPayment;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
@@ -117,6 +118,10 @@ public class BankService {
      */
     public Boolean isPaid(Long paymentId) {
         return findPaymentRequestById(paymentId).getStatus();
+    }
+
+    public List<PaymentRequest> getPayments(Long citizenId) {
+        return this.paymentRequestRepository.findAllByCitizenId(citizenId);
     }
 
 }
