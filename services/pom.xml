@@ -20,6 +20,7 @@
     <module>logging</module>
       <module>bank</module>
     <module>tax</module>
+    <module>communal</module>
   </modules>
 
 
