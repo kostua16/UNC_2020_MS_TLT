@@ -21,6 +21,7 @@
       <module>bank</module>
     <module>tax</module>
     <module>passport</module>
+    <module>communal</module>
   </modules>
 
 

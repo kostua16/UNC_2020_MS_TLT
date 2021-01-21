@@ -1,14 +1,14 @@
-package nc.unc.cs.services.tax.controllers.payloads;
+package nc.unc.cs.services.tax.controllers.payloads.requests;
 
-public class CreateTax {
+public class CreationTax {
     private Long serviceId;
     private Long citizenId;
     private Integer taxAmount;
 
-    public CreateTax() {
+    public CreationTax() {
     }
 
-    public CreateTax(
+    public CreationTax(
         final Long serviceId,
         final Long citizenId,
         final Integer taxAmount
