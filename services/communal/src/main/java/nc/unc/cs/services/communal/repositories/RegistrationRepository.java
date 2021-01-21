@@ -8,5 +8,5 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     Registration findRegistrationByRegistrationId(Long registrationId);
     List<Registration> findRegistrationsByCitizenId(Long citizenId);
-    List<Registration> findRegistrationsByCitizenIdAndIsActive(Long citizenId, Boolean isActive);
+    Registration findRegistrationByCitizenIdAndIsActive(Long citizenId, Boolean isActive);
 }
