@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTax {
+public class CreationTax {
     private Long serviceId;
     private Long citizenId;
     private Integer taxAmount;

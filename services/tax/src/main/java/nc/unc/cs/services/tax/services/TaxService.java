@@ -80,11 +80,6 @@ public class TaxService {
         return ResponseEntity.ok(this.taxRepository.save(changeTax).getTaxId());
     }
 
-    public List<Tax> getTaxes(final Long citizenId) {
-        logger.info("Providing all taxes for citizen with ID: {}", citizenId);
-        return this.taxRepository.findTaxesByCitizenId(citizenId);
-    }
-
     /**
      * Debt check
      *

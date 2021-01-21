@@ -2,7 +2,7 @@ package nc.unc.cs.services.tax.controllers;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
-import nc.unc.cs.services.tax.controllers.payloads.requests.CreateTax;
+import nc.unc.cs.services.tax.controllers.payloads.requests.CreationTax;
 import nc.unc.cs.services.tax.controllers.payloads.requests.IdInfo;
 import nc.unc.cs.services.tax.controllers.payloads.responses.TaxPayment;
 import nc.unc.cs.services.tax.entities.Tax;
@@ -35,7 +35,7 @@ public class TaxController {
     }
 
     @PostMapping(value = "create", produces = "application/json", consumes = "application/json")
-    public Long createTax(@RequestBody final CreateTax createTax) {
+    public Long createTax(@RequestBody final CreationTax createTax) {
         return this.taxService.createTax(
             createTax.getServiceId(), createTax.getCitizenId(), createTax.getTaxAmount());
     }
@@ -43,11 +43,6 @@ public class TaxController {
     @PostMapping(value = "pay-tax", produces = "application/json", consumes = "application/json")
     public ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment) {
         return this.taxService.payTax(taxPayment);
-    }
-
-    @PostMapping(value = "my-debt", produces = "application/json", consumes = "application/json")
-    public List<Tax> getTaxes(@RequestBody final IdInfo idInfo) {
-        return this.taxService.getTaxes(idInfo.getCitizenId());
     }
 
     @PostMapping(value = "debt", produces = "application/json", consumes = "application/json")

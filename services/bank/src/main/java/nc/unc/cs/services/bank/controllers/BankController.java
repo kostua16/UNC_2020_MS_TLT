@@ -30,7 +30,7 @@ public class BankController {
 
 
     @PostMapping(value = "request-payment", consumes = "application/json", produces = "application/json")
-    public Long requestPayment(@RequestBody final PaymentPayload paymentPayload) {
+    public ResponseEntity<PaymentRequest> requestPayment(@RequestBody final PaymentPayload paymentPayload) {
         return this.bankService.requestPayment(
                 paymentPayload.getServiceId(),
                 paymentPayload.getCitizenId(),
@@ -40,7 +40,7 @@ public class BankController {
     }
 
     @PutMapping(value = "payment/{paymentId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Long> pay(@PathVariable("paymentId") final Long paymentId) {
+    public ResponseEntity<Transaction> pay(@PathVariable("paymentId") final Long paymentId) {
         System.out.println(paymentId);
         return this.bankService.payment(paymentId);
     }

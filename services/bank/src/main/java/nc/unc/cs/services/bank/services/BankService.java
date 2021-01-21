@@ -6,7 +6,7 @@ import nc.unc.cs.services.bank.controllers.payloads.responses.TaxPayment;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.exceptions.PaymentRequestNotFoundException;
-import nc.unc.cs.services.bank.integration.CreateTax;
+import nc.unc.cs.services.bank.integration.CreationTax;
 import nc.unc.cs.services.bank.integration.TaxService;
 import nc.unc.cs.services.bank.repositories.PaymentRequestRepository;
 import nc.unc.cs.services.bank.repositories.TransactionRepository;
@@ -57,7 +57,7 @@ public class BankService {
      *
      * @return Payment ID;
      */
-    public Long requestPayment(
+    public ResponseEntity<PaymentRequest> requestPayment(
         final Long serviceId,
         final Long citizenId,
         final Integer amount,
@@ -71,15 +71,18 @@ public class BankService {
         paymentRequest.setStatus(false);
 
         try {
-            CreateTax createTax = new CreateTax(serviceId, citizenId, taxAmount);
-            Long taxId = this.taxService.createTax(createTax); ///// принимать в метод requestPayment() объект а не поля
+            Long taxId = this.taxService.createTax(new CreationTax(serviceId, citizenId, taxAmount));
             paymentRequest.setTaxId(taxId);
+
             logger.info("Tax with ID = {} has been created", taxId);
+            this.paymentRequestRepository.save(paymentRequest);
+
+            return ResponseEntity.ok(paymentRequest);
         } catch (Exception e) {
             logger.error("No tax has been created.");
-        }
 
-        return this.paymentRequestRepository.save(paymentRequest).getPaymentRequestId();
+            return ResponseEntity.status(503).body(paymentRequest);
+        }
     }
 
     /**
@@ -88,7 +91,7 @@ public class BankService {
      * @param paymentId;
      * @return ResponseEntity with transaction id;
      */
-    public ResponseEntity<Long> payment(final Long paymentId) {
+    public ResponseEntity<Transaction> payment(final Long paymentId) {
 
         PaymentRequest paymentRequest = findPaymentRequestById(paymentId);
         paymentRequest.setStatus(true);
@@ -99,15 +102,21 @@ public class BankService {
         transaction.setAmount(paymentRequest.getAmount());
         transaction.setCreationDate(new Date());
 
-        this.transactionRepository.save(transaction);
-        this.paymentRequestRepository.save(paymentRequest);
-
         TaxPayment taxPayment = new TaxPayment();
         taxPayment.setTaxId(paymentRequest.getTaxId());
         taxPayment.setTaxPaymentDate(transaction.getCreationDate());
 
-        this.taxService.payTax(taxPayment);
-        return ResponseEntity.ok(transaction.getTransactionId());
+        try {
+            this.taxService.payTax(taxPayment);
+            this.transactionRepository.save(transaction);
+            this.paymentRequestRepository.save(paymentRequest);
+            logger.info("Tax paid.");
+
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            logger.error("Failed to pay tax!");
+            return ResponseEntity.status(503).body(transaction);
+        }
     }
 
     /**

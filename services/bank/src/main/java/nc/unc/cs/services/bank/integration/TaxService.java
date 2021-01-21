@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface TaxService {
 
     @PostMapping(value = "tax/create", produces = "application/json", consumes = "application/json")
-    Long createTax(@RequestBody final CreateTax createTax);
+    Long createTax(@RequestBody final CreationTax creationTax);
 
     @PostMapping(value = "tax/pay-tax", produces = "application/json", consumes = "application/json")
     ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment);
