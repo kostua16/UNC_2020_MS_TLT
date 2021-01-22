@@ -6,7 +6,7 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_URI:http://localhost:8762}
-      fail-fast: true
+      fail-fast: false
       label: master
 eureka:
   client:
