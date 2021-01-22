@@ -44,12 +44,12 @@ public class PassportController {
     }
 
     @PostMapping(value = "/registerDomestic", produces = "application/json")
-    public Domestic registerDomesticPassport(@RequestBody final Citizen citizen) {
+    public ResponseEntity<Domestic> registerDomesticPassport(@RequestBody final Citizen citizen) {
         return this.passportTable.registerDomesticPassport(citizen);
     }
 
     @PostMapping(value = "/registerInternational", produces = "application/json")
-    public International registerInternationalPassport(@RequestBody final Citizen citizen) {
+    public ResponseEntity<International> registerInternationalPassport(@RequestBody final Citizen citizen) {
         return this.passportTable.registerInternationalPassport(citizen);
     }
 
@@ -61,5 +61,15 @@ public class PassportController {
     @PostMapping(value = "/activateDomestic/{id}", produces = "application/json")
     public Domestic activateDomesticPassport(@PathVariable Long id) throws Exception {
         return this.passportTable.activateDomestic(id);
+    }
+
+    @PostMapping(value = "/updateInternational/{id}", produces = "application/json")
+    public ResponseEntity<International> updateInternationalPassport(@PathVariable("id") Long id, @RequestBody International international)  {
+        return this.passportTable.updateInternational(id,international);
+    }
+
+    @PostMapping(value = "/activateInternational/{id}", produces = "application/json")
+    public International activateInternationalPassport(@PathVariable Long id) throws Exception {
+        return this.passportTable.activateInternational(id);
     }
 }

@@ -2,6 +2,7 @@ package nc.unc.cs.services.passport.service;
 
 
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
+import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.passport.integration.bank_service.BankService;
 import nc.unc.cs.services.passport.integration.bank_service.PaymentPayload;
 import nc.unc.cs.services.passport.integration.tax_service.IdInfo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Random;
 
 @Service
@@ -57,7 +59,7 @@ public class PassportTable {
         return this.domesticRepository.findById(id).orElseGet(null);
     }
 
-    public Domestic registerDomesticPassport(Citizen citizen) {
+    public ResponseEntity<Domestic> registerDomesticPassport(Citizen citizen) {
         Domestic domestic = new Domestic();
                 domestic.setRegistration(citizen.getRegistration());
                 domestic.setName(citizen.getName());
@@ -69,15 +71,17 @@ public class PassportTable {
                 domestic.setNumber(random.nextInt(899999) + 100000);
 //        Сохранять в базу, только после успешной регистрации в банке и как это сделать?
         try {
-            this.bankService.requestPayment(new PaymentPayload(citizen.getCitizenId(), 2L, 2000, 200));
+            this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
             this.domesticRepository.save(domestic);
+            return ResponseEntity.ok(domestic);
         } catch (Exception e) {
             logger.error("Услуга не зарегистрирована");
+            e.printStackTrace();
+            return ResponseEntity.status(503).body(domestic);
         }
-        return domestic;
     }
 
-    public International registerInternationalPassport(Citizen citizen) {
+    public ResponseEntity<International> registerInternationalPassport(Citizen citizen) {
         International international = new International();
         international.setName(citizen.getName());
         international.setSurname(citizen.getSurname());
@@ -91,13 +95,13 @@ public class PassportTable {
         }
         try {
             this.bankService.requestPayment(new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
-            this.internationalRepository.save(international);
+            return ResponseEntity.ok(this.internationalRepository.save(international));
         } catch (Exception e) {
             logger.error("Услуга не зарегистрирована");
+            return  ResponseEntity.status(503).body(international);
         }
-          return international;
     }
-// Правильно ли использовать ResponseEntity или возвращать объект
+
     public ResponseEntity<Domestic> updateDomestic(Long id, Domestic domestic)  {
         Domestic updateDomestic = domesticRepository.findById(id).orElseThrow(()-> new DomesticPassportNotFoundException(id));
         updateDomestic.setRegistration(domestic.getRegistration());
@@ -108,12 +112,29 @@ public class PassportTable {
         updateDomestic.setSeries(domestic.getSeries());
         updateDomestic.setNumber(domestic.getNumber());
         try {
-            this.bankService.requestPayment(new PaymentPayload(updateDomestic.getCitizenId() , 2L, 3500, 350));
+            this.bankService.requestPayment(new PaymentPayload(2L, updateDomestic.getCitizenId() , 3500, 350));
             this.domesticRepository.save(updateDomestic);
             return ResponseEntity.ok(updateDomestic);
         } catch (Exception e) {
             logger.error("Услуга не зарегистрирована");
-            return ResponseEntity.badRequest().body(domestic);
+            return ResponseEntity.status(503).body(domestic);
+        }
+    }
+
+    public ResponseEntity<International> updateInternational(Long id, International international)  {
+        International updateInternational = internationalRepository.findById(id).orElseThrow(()-> new InternationalPassportNotFoundException(id));
+        updateInternational.setInternationalId(international.getInternationalId());
+        updateInternational.setName(international.getName());
+        updateInternational.setSurname(international.getSurname());
+        updateInternational.setDateOfBirth(international.getDateOfBirth());
+        updateInternational.setIsActive(international.getIsActive());
+        try {
+            this.bankService.requestPayment(new PaymentPayload(2L, updateInternational.getCitizenId() , 3500, 350));
+            this.internationalRepository.save(updateInternational);
+            return ResponseEntity.ok(updateInternational);
+        } catch (Exception e) {
+            logger.error("Услуга не зарегистрирована");
+            return ResponseEntity.status(503).body(international);
         }
     }
 
@@ -124,5 +145,14 @@ public class PassportTable {
         }
         updateDomestic.setIsActive(true);
         return domesticRepository.save(updateDomestic);
+    }
+
+    public International activateInternational(Long id) throws Exception {
+        International updateInternational= internationalRepository.findById(id).orElse(null);
+        if (updateInternational == null) {
+            throw new Exception("Cannot find domestic with id:" + id);
+        }
+        updateInternational.setIsActive(true);
+        return internationalRepository.save(updateInternational);
     }
 }
