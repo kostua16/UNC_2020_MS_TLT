@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.services;
 
-import nc.unc.cs.services.communal.integrations.BankService;
+import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;

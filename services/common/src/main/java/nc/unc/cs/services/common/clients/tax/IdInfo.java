@@ -1,4 +1,4 @@
-package nc.unc.cs.services.passport.integration.tax_service;
+package nc.unc.cs.services.common.clients.tax;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

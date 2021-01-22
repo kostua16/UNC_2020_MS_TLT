@@ -1,13 +1,14 @@
-package nc.unc.cs.services.passport.integration.bank_service;
+package nc.unc.cs.services.common.clients.tax;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class PaymentPayload {
+@NoArgsConstructor
+public class CreationTax {
     private Long serviceId;
     private Long citizenId;
-    private Integer amount;
     private Integer taxAmount;
 }

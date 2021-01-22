@@ -1,9 +1,8 @@
-package nc.unc.cs.services.bank.services;
+package nc.unc.cs.services.common.services;
 
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -17,7 +16,14 @@ public class Swagger {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                    .select()
-                   .apis(RequestHandlerSelectors.basePackage("nc.unc.cs.services"))
+                   .apis(
+                       Predicates.and(
+                           RequestHandlerSelectors.basePackage("nc.unc.cs.services"),
+                           Predicates.not(
+                               RequestHandlerSelectors.basePackage("nc.unc.cs.services.common.clients")
+                           )
+                       )
+                   )
                    .paths(PathSelectors.any())
                    .build();
     }

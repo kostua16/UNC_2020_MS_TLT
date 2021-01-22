@@ -9,6 +9,12 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 15
+  server:
+    expected-client-renewal-interval-seconds: 15
+
 logging:
   level:
     com:

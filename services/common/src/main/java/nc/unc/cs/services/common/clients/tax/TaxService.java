@@ -1,12 +1,14 @@
-package nc.unc.cs.services.bank.integration;
+package nc.unc.cs.services.common.clients.tax;
 
-import nc.unc.cs.services.bank.controllers.payloads.responses.TaxPayment;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient("tax")
+@ConditionalOnMissingClass("nc.unc.cs.services.tax.controllers.TaxController")
 public interface TaxService {
 
     @PostMapping(value = "tax/create", produces = "application/json", consumes = "application/json")
@@ -14,4 +16,7 @@ public interface TaxService {
 
     @PostMapping(value = "tax/pay-tax", produces = "application/json", consumes = "application/json")
     ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment);
+
+    @PostMapping(value = "tax/debt", produces = "application/json", consumes = "application/json")
+    public Boolean getListUnpaidTaxes(@RequestBody final IdInfo idInfo);
 }

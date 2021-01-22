@@ -1,12 +1,12 @@
 package nc.unc.cs.services.passport.service;
 
 
+import nc.unc.cs.services.common.clients.bank.BankService;
+import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.common.clients.tax.TaxService;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
-import nc.unc.cs.services.passport.integration.bank_service.BankService;
-import nc.unc.cs.services.passport.integration.bank_service.PaymentPayload;
-import nc.unc.cs.services.passport.integration.tax_service.IdInfo;
-import nc.unc.cs.services.passport.integration.tax_service.TaxService;
+import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Random;
 
 @Service

@@ -11,5 +11,14 @@
 
     <artifactId>bank</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>nc.unc.cs</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 
 </project>

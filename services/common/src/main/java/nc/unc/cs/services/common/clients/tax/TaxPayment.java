@@ -1,4 +1,4 @@
-package nc.unc.cs.services.bank.controllers.payloads.responses;
+package nc.unc.cs.services.common.clients.tax;
 
 import java.util.Date;
 import lombok.Data;

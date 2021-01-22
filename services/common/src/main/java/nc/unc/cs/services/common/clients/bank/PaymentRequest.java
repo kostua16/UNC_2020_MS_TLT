@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.integrations;
+package nc.unc.cs.services.common.clients.bank;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
