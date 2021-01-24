@@ -81,41 +81,41 @@ public class BankService {
             paymentRequest.setTaxId(taxId);
 
             logger.info("Tax with ID = {} has been created", taxId);
-            logging.addLog(
-                LogEntry
-                    .builder()
-                    .service("bank")
-                    .created(new Date())
-                    .message(
-                        String.format(
-                            "Tax with ID = %d has been created for serviceId = %d, citizenId = %d",
-                            taxId,
-                            serviceId,
-                            citizenId
-                        )
-                    )
-                    .build()
-            );
+//            logging.addLog(
+//                LogEntry
+//                    .builder()
+//                    .service("bank")
+//                    .created(new Date())
+//                    .message(
+//                        String.format(
+//                            "Tax with ID = %d has been created for serviceId = %d, citizenId = %d",
+//                            taxId,
+//                            serviceId,
+//                            citizenId
+//                        )
+//                    )
+//                    .build()
+//            );
             this.paymentRequestRepository.save(paymentRequest);
 
             return ResponseEntity.ok(paymentRequest);
         } catch (Exception e) {
             logger.error("No tax has been created.", e);
-            logging.addLog(
-                LogEntry
-                    .builder()
-                    .service("bank")
-                    .created(new Date())
-                    .message(
-                        String.format(
-                            "Tax wasn't created for serviceId = %d, citizenId = %d due %.3900s",
-                            serviceId,
-                            citizenId,
-                            e.getMessage()
-                        )
-                    )
-                    .build()
-            );
+//            logging.addLog(
+//                LogEntry
+//                    .builder()
+//                    .service("bank")
+//                    .created(new Date())
+//                    .message(
+//                        String.format(
+//                            "Tax wasn't created for serviceId = %d, citizenId = %d due %.3900s",
+//                            serviceId,
+//                            citizenId,
+//                            e.getMessage()
+//                        )
+//                    )
+//                    .build()
+//            );
             return ResponseEntity.status(503).body(paymentRequest);
         }
     }
@@ -146,30 +146,30 @@ public class BankService {
             this.transactionRepository.save(transaction);
             this.paymentRequestRepository.save(paymentRequest);
             logger.info("Tax paid.");
-            logging.addLog(
-                LogEntry
-                    .builder()
-                    .service("bank")
-                    .created(new Date())
-                    .message(String.format("Tax paid for id = %d", paymentId))
-                    .build()
-            );
+//            logging.addLog(
+//                LogEntry
+//                    .builder()
+//                    .service("bank")
+//                    .created(new Date())
+//                    .message(String.format("Tax paid for id = %d", paymentId))
+//                    .build()
+//            );
 
             return ResponseEntity.ok(transaction);
         } catch (Exception e) {
             logger.error("Failed to pay tax!", e);
-            logging.addLog(
-                LogEntry
-                    .builder()
-                    .service("bank")
-                    .created(new Date())
-                    .message(
-                        String.format(
-                            "Failed to pay tax for id = %d due %.3900s", paymentId, e.getMessage()
-                        )
-                    )
-                    .build()
-            );
+//            logging.addLog(
+//                LogEntry
+//                    .builder()
+//                    .service("bank")
+//                    .created(new Date())
+//                    .message(
+//                        String.format(
+//                            "Failed to pay tax for id = %d due %.3900s", paymentId, e.getMessage()
+//                        )
+//                    )
+//                    .build()
+//            );
             return ResponseEntity.status(503).body(transaction);
         }
     }
