@@ -29,7 +29,7 @@ public class TaxController {
         this.taxService = taxService;
     }
 
-    @GetMapping(value = "{taxId}", produces = "application/json", consumes = "application/json")
+    @GetMapping(value = "{taxId}", produces = "application/json")
     public Boolean checkPaid(@PathVariable("taxId") final Long taxId) {
         return this.taxService.isPaid(taxId);
     }
@@ -51,7 +51,7 @@ public class TaxController {
     }
 
     // e.g.: http://localhost:8080/tax/page-debt?startPage=2&endPage=2&status=false
-    @GetMapping(value = "page-debt", produces = "application/json", consumes = "application/json")
+    @GetMapping(value = "page-debt", produces = "application/json")
     public List<Tax> getPage(
         @PathParam("pageNumber") final Integer pageNumber,
         @PathParam("size") final Integer size,
