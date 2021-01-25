@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@FeignClient(name = "tax", url = "nc-edu-2020-tax.herokuapp.com") // вынести в переменную
+@FeignClient(name = "tax") // вынести в переменную
 @ConditionalOnMissingClass("nc.unc.cs.services.tax.controllers.TaxController")
 @RequestMapping("tax")
 public interface TaxService {
