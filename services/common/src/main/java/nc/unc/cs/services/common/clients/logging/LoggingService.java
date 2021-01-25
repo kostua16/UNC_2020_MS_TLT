@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient("logging")
+@FeignClient(name = "logging", url = "nc-edu-2020-logging.herokuapp.com") // сервер не развёрнут
 @ConditionalOnMissingClass("nc.unc.cs.services.logging.services.LogsService")
 public interface LoggingService {
     @GetMapping(path = "logs/", produces = "application/json")
