@@ -5,11 +5,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-@FeignClient(name = "tax") // вынести в переменную
+@FeignClient(name = "tax", path = "tax") // вынести в переменную
 @ConditionalOnMissingClass("nc.unc.cs.services.tax.controllers.TaxController")
-@RequestMapping("tax")
 public interface TaxService {
 
     @PostMapping(value = "create", produces = "application/json", consumes = "application/json")
