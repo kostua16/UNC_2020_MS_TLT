@@ -18,5 +18,9 @@ logging:
   level:
     org.springframework.cloud.config: debug
     nc.unc.cs.services: debug
-
+feign:
+  httpclient:
+    connection-timeout: 2000
+  okhttp:
+    enabled: true
 
