@@ -1,3 +1,5 @@
+app:
+  public-url: ${APP_URL:localhost:${server.port}}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020pass}
   user: ${EUREKA_UID:unc2020}
