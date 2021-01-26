@@ -28,7 +28,14 @@ eureka:
 
 logging:
   level:
+    org.springframework.cloud: debug
+    nc.unc.cs.services: debug
     com:
       netflix:
         eureka: DEBUG
         discovery: DEBUG
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
