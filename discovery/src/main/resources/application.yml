@@ -1,5 +1,6 @@
 app:
-  public-url: ${APP_URL:localhost:${server.port}}
+  local-url: localhost:${server.port}
+  public-url: ${APP_URL:${app.local-url}}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020pass}
   user: ${EUREKA_UID:unc2020}

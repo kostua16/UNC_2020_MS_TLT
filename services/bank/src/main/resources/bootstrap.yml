@@ -1,5 +1,6 @@
 app:
-  public-url: ${APP_URL:localhost:${server.port}}
+  local-url: localhost:${server.port}
+  public-url: ${APP_URL:${app.local-url}}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020pass}
   user: ${EUREKA_UID:unc2020}
@@ -30,3 +31,6 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 15
     hostname: ${app.public-url}
+    status-page-url: "http://${eureka.instance.hostname}${eureka.instance.statusPageUrlPath}"
+    health-check-url: "http://${eureka.instance.hostname}${eureka.instance.health-check-url-path}"
+    home-page-url: "http://${eureka.instance.hostname}${eureka.instance.home-page-url-path}"
