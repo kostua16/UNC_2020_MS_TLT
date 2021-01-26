@@ -32,10 +32,10 @@ logging:
     nc.unc.cs.services: debug
     com:
       netflix:
-        eureka: DEBUG
-        discovery: DEBUG
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate: DEBUG
+        eureka: INFO
+        discovery: INFO
+#    org:
+#      springframework:
+#        web:
+#          client:
+#            RestTemplate: DEBUG
