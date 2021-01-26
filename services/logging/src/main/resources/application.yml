@@ -29,6 +29,8 @@ logging:
             RestTemplate: DEBUG
 feign:
   client:
+    config:
+      connection-timeout: 2000
   httpclient:
     connection-timeout: 2000
     enabled: false
