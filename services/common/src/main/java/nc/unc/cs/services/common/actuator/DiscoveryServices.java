@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Endpoint(id = "eureka")
 @Component
+@Slf4j
 public class DiscoveryServices {
 
     private final OkHttpClient httpClient;
@@ -55,16 +57,17 @@ public class DiscoveryServices {
                                                   .findFirst();
 
         if (service.isPresent()) {
+            String current = "";
             final Application application = service.get();
             for (InstanceInfo instance : application.getInstances()) {
-                final Call call = this.httpClient.newCall(
-                    new Request.Builder()
-                        .get()
-                        .url(new URL(instance.getHealthCheckUrl()))
-                        .build()
-                );
-                String current = "";
+                log.error(String.format("Testing %s - %s...", application.getName(), instance.getId()));
                 try {
+                    final Call call = this.httpClient.newCall(
+                        new Request.Builder()
+                            .get()
+                            .url(new URL(instance.getHealthCheckUrl()))
+                            .build()
+                    );
                     final Response response = call.execute();
                     current = String.format(
                         "[%s = %s, Code: %d, Success: %b]",
@@ -73,7 +76,9 @@ public class DiscoveryServices {
                         response.code(),
                         response.isSuccessful()
                     );
+
                 } catch (IOException exception) {
+                    log.error("Test failed", exception);
                     String.format(
                         "[%s = %s, Fail: %s]",
                         instance.getId(),
@@ -82,6 +87,7 @@ public class DiscoveryServices {
                     );
                 }
                 result.add(current);
+                log.error(current);
             }
         }
         return result;
