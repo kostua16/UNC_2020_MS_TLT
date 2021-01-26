@@ -28,8 +28,8 @@ logging:
           client:
             RestTemplate: DEBUG
 feign:
-  httpclient:
-    connection-timeout: 2000
-    enabled: false
-  okhttp:
-    enabled: true
+#  httpclient:
+#    connection-timeout: 2000
+#    enabled: false
+#  okhttp:
+#    enabled: true
