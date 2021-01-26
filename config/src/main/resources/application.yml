@@ -49,13 +49,13 @@ logging:
     org.springframework.cloud: debug
     com:
       netflix:
-        eureka: DEBUG
-        discovery: DEBUG
+        eureka: OFF
+        discovery: OFF
     org:
       springframework:
         web:
           client:
-            RestTemplate: DEBUG
+            RestTemplate: OFF
 ---
 spring:
   cloud:

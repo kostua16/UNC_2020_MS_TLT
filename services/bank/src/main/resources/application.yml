@@ -20,13 +20,13 @@ logging:
     nc.unc.cs.services: debug
     com:
       netflix:
-        eureka: DEBUG
-        discovery: DEBUG
+        eureka: OFF
+        discovery: OFF
     org:
       springframework:
         web:
           client:
-            RestTemplate: DEBUG
+            RestTemplate: OFF
 #feign:
 #  httpclient:
 #    connection-timeout: 2000
