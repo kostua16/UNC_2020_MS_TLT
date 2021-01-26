@@ -17,7 +17,7 @@ server:
   port: ${PORT:8082}
 spring:
   application:
-    name: tax
+    name: TAX
   cloud:
     config:
       uri: ${config.url}

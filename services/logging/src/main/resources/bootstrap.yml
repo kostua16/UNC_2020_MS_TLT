@@ -20,7 +20,7 @@ management:
     port: ${server.port}
 spring:
   application:
-    name: logging
+    name: LOGGER
   cloud:
     config:
       uri: ${config.url}

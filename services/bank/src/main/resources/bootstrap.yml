@@ -17,7 +17,7 @@ server:
   port: ${PORT:8084}
 spring:
   application:
-    name: bank
+    name: BANK
   cloud:
     config:
       uri: ${config.url}

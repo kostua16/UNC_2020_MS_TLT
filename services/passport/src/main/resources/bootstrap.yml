@@ -17,7 +17,7 @@ server:
   port: ${PORT:8095}
 spring:
   application:
-    name: passport
+    name: PASSPORT
   cloud:
     config:
       uri: ${config.url}
