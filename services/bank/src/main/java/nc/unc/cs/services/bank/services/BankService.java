@@ -54,7 +54,7 @@ public class BankService {
     }
 
     /**
-     * Service Provided Registration Method.
+     * Registration of provided services.
      *
      * @param serviceId The ID of the service that provided the service;
      * @param citizenId The Id of the citizen (account);
@@ -184,8 +184,8 @@ public class BankService {
         return findPaymentRequestById(paymentId).getStatus();
     }
 
-    public List<PaymentRequest> getPayments(Long citizenId) {
-        return this.paymentRequestRepository.findAllByCitizenId(citizenId);
+    public List<PaymentRequest> getDebtPaymentRequests(Long citizenId) {
+        return this.paymentRequestRepository.findAllByCitizenIdAndStatus(citizenId, false);
     }
 
 }
