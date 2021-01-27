@@ -1,3 +1,17 @@
+app:
+  public-url: ${APP_URL:localhost:${server.port}}
+discovery:
+  password: ${EUREKA_PASSWORD:unc2020pass}
+  user: ${EUREKA_UID:unc2020}
+  host: ${EUREKA_HOST:localhost:8761}
+  protocol: ${EUREKA_PROTOCOL:http}
+  url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
+config:
+  password: ${CFG_PASSWORD:unc2020pass}
+  user: ${CFG_UID:unc2020}
+  host: ${CFG_HOST:localhost:8762}
+  protocol: ${CFG_PROTOCOL:http}
+  url: ${config.protocol}://${config.user}:${config.password}@${config.host}/
 server:
   port: ${PORT:8083}
 spring:
@@ -5,11 +19,14 @@ spring:
     name: communal
   cloud:
     config:
-      uri: ${CONFIG_URI:http://localhost:8762}
+      uri: ${config.url}
       fail-fast: true
       label: master
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-
+      defaultZone: ${discovery.url}
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 15
+    hostname: ${app.public-url}

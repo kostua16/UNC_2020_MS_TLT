@@ -23,7 +23,7 @@ public class LogEntry {
     @Size(min = 1, max = 10)
     private String service;
 
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 4000)
     private String message;
 
 

@@ -16,6 +16,20 @@ spring:
     platform: h2
 logging:
   level:
-    org.springframework.cloud.config: debug
+    org.springframework.cloud: debug
     nc.unc.cs.services: debug
-
+    com:
+      netflix:
+        eureka: DEBUG
+        discovery: DEBUG
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
+feign:
+  httpclient:
+    connection-timeout: 2000
+    enabled: false
+  okhttp:
+    enabled: true

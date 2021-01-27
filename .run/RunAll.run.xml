@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RunAll" type="Multirun" factoryName="Multirun" separateTabs="false" reuseTabsWithFailures="false" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0.0">
+    <runConfiguration name="DiscoveryApplication" type="Spring Boot" />
+    <runConfiguration name="ConfigApplication" type="Spring Boot" />
+    <runConfiguration name="LoggingApp" type="Spring Boot" />
+    <runConfiguration name="TaxApplication" type="Spring Boot" />
+    <runConfiguration name="GibddApp" type="Spring Boot" />
+    <runConfiguration name="BankApplication" type="Spring Boot" />
+    <runConfiguration name="CommunalApplication" type="Spring Boot" />
+    <runConfiguration name="PassportApp" type="Spring Boot" />
+    <method v="2" />
+  </configuration>
+</component>

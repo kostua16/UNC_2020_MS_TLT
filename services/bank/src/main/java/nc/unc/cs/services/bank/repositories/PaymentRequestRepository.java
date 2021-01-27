@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentRequestRepository extends JpaRepository<PaymentRequest, Long> {
-    List<PaymentRequest> findAllByCitizenId(Long citizenId);
+    List<PaymentRequest> findAllByCitizenIdAndStatus(Long citizenId, Boolean status);
 }

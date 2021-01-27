@@ -1,17 +1,43 @@
+app:
+  public-url: ${APP_URL:localhost:${server.port}}
+discovery:
+  password: ${EUREKA_PASSWORD:unc2020pass}
+  user: ${EUREKA_UID:unc2020}
+  host: ${EUREKA_HOST:localhost:8761}
+  protocol: ${EUREKA_PROTOCOL:http}
+  url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
 spring:
   application:
     name: discovery
   main:
     banner-mode: off
+  security:
+    user:
+      password: ${discovery.password}
+      name: ${discovery.user}
 server:
   port: ${PORT:8761}
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 15
+  server:
+    expected-client-renewal-interval-seconds: 15
+    my-url: ${discovery.url}
+
 logging:
   level:
+    org.springframework.cloud: debug
+    nc.unc.cs.services: debug
     com:
       netflix:
-        eureka: OFF
-        discovery: OFF
+        eureka: INFO
+        discovery: INFO
+#    org:
+#      springframework:
+#        web:
+#          client:
+#            RestTemplate: DEBUG

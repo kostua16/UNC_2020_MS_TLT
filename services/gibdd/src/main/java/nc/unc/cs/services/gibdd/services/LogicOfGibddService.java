@@ -2,8 +2,8 @@ package nc.unc.cs.services.gibdd.services;
 
 import java.util.Date;
 import nc.unc.cs.services.gibdd.entities.Car;
-import nc.unc.cs.services.gibdd.integration.LogEntry;
-import nc.unc.cs.services.gibdd.integration.LoggingService;
+import nc.unc.cs.services.common.clients.logging.LogEntry;
+import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +40,16 @@ public class LogicOfGibddService {
         this.logger.debug("before adding car: {}", car);
         final Car saved = this.carsRepo.save(car);
         this.logger.debug("after adding car: {}", saved);
-        final LogEntry logEntry = new LogEntry(
-            new Date(),
-            "gibdd",
-            String.format("Added new car: %s", saved.toString())
-        );
+        final LogEntry lgm = LogEntry
+                                 .builder()
+                                 .service("gibdd")
+                                 .created(new Date())
+                                 .message(String.format("Added new car: %s", saved.toString()))
+                                 .build();
         try {
-            this.logger.debug("before sending log: {}", logEntry);
-            final LogEntry storedLogEntry = this.loggingService.addLog(logEntry);
+            this.logger.debug("before sending log: {}", lgm);
+            final LogEntry storedLogEntry =
+                this.loggingService.addLog(lgm);
             this.logger.debug("after sending log: {}", storedLogEntry);
         } catch (Exception exception) {
             this.logger.error("Failed to send log", exception);

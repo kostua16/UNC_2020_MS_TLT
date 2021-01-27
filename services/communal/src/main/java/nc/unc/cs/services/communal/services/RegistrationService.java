@@ -1,10 +1,9 @@
 package nc.unc.cs.services.communal.services;
 
 import java.util.List;
-import nc.unc.cs.services.communal.entities.Property;
+import nc.unc.cs.services.common.clients.bank.BankService;
+import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.communal.entities.Registration;
-import nc.unc.cs.services.communal.integrations.BankService;
-import nc.unc.cs.services.communal.integrations.PaymentPayload;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.RegistrationRepository;
 import org.slf4j.Logger;
