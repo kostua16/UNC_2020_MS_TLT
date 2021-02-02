@@ -49,7 +49,7 @@ public class Property {
 
     @NonNull
     @Column(nullable = false)
-    private Long propertyTaxValue; // mb @ManyToOne
+    private Long propertyTaxValueId; // mb @ManyToOne
 
     @NonNull
     @Column(nullable = false)
