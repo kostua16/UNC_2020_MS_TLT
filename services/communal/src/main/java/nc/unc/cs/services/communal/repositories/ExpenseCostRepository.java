@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface ExpenseCostRepository extends JpaRepository<ExpenseCost, Long> {
 
     ExpenseCost findExpenseCostByExpenseCostId(Long expenseCostId);
-    ExpenseCost findExpenseCostByState(String state);
+    ExpenseCost findExpenseCostByRegion(String region);
 }

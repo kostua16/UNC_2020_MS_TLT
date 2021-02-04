@@ -34,21 +34,33 @@ public class PropertyTaxService {
         this.bankService = bankService;
     }
 
+    public List<PropertyTaxValue> getListPropertyTaxValue() {
+        return this.propertyTaxValueRepository.findAll();
+    }
+
+    public PropertyTaxValue getPropertyTaxValueById(final Long propertyTaxValueId) {
+        return this.propertyTaxValueRepository.findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
+    }
+
+    public PropertyTaxValue getPropertyTaxValueByRegion(final String region) {
+        return this.propertyTaxValueRepository.findPropertyTaxValueByRegion(region.toUpperCase());
+    }
+
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(final PropertyTaxValue propertyTaxValue) {
         if (
             propertyTaxValue.getCadastralValue() != null
-            && propertyTaxValue.getState() != null
-            && propertyTaxValue.getCadastralValue() > 0
-            && !propertyTaxValue.getState().isEmpty()
+                && propertyTaxValue.getRegion() != null
+                && propertyTaxValue.getCadastralValue() > 0
+                && !propertyTaxValue.getRegion().isEmpty()
         ) {
             try {
-                propertyTaxValue.setState(propertyTaxValue.getState().toUpperCase());
+                propertyTaxValue.setRegion(propertyTaxValue.getRegion().toUpperCase());
                 this.propertyTaxValueRepository.save(propertyTaxValue);
                 logger.info("Property Tax Value has been created");
 
                 return ResponseEntity.ok(propertyTaxValue);
             } catch (Exception e) {
-                logger.error("The state was entered incorrectly.");
+                logger.error("The region was entered incorrectly.");
                 e.printStackTrace();
                 return ResponseEntity.status(400).body(propertyTaxValue);
             }
@@ -59,15 +71,28 @@ public class PropertyTaxService {
         }
     }
 
-    public List<PropertyTaxValue> getListPropertyTaxValue() {
-        return this.propertyTaxValueRepository.findAll();
-    }
+    public ResponseEntity<PropertyTaxValue> updatePropertyTaxValue(
+        final Long propertyTaxValueId,
+        final PropertyTaxValue newPropertyTaxValue
+    ) {
+        // переделать этот ужас
+        PropertyTaxValue propertyTaxValue =
+            this.propertyTaxValueRepository
+                .findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
 
-    public PropertyTaxValue getPropertyTaxValueById(final Long propertyTaxValueId) {
-        return this.propertyTaxValueRepository.findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
-    }
+        if (propertyTaxValue == null) {
+            propertyTaxValue = this.propertyTaxValueRepository
+                .findPropertyTaxValueByPropertyTaxValueId(newPropertyTaxValue.getPropertyTaxValueId());
+        }
 
-    public PropertyTaxValue getPropertyTaxValueByState(final String state) {
-        return this.propertyTaxValueRepository.findPropertyTaxValueByState(state.toUpperCase());
+        if (propertyTaxValue == null) {
+            logger.error("PropertyTaxValue with ID = {} not found", propertyTaxValueId);
+            return ResponseEntity.status(400).body(newPropertyTaxValue);
+        }
+
+        propertyTaxValue.setCadastralValue(newPropertyTaxValue.getCadastralValue());
+        this.propertyTaxValueRepository.save(propertyTaxValue); // регион не меняется
+
+        return ResponseEntity.ok(propertyTaxValue);
     }
 }

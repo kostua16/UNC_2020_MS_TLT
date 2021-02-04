@@ -21,7 +21,7 @@ public class Property {
 
     @NonNull
     @Column(nullable = false, length = 40)
-    private String state;
+    private String region;
 
     @NonNull
     @Column(nullable = false, length = 40)
