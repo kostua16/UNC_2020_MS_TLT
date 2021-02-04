@@ -20,10 +20,10 @@ public class PropertyTaxValue {
     private Long propertyTaxValueId;
 
     @NonNull
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 40, unique = true)
     private String state;
 
     @NonNull
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Integer cadastralValue;
 }
