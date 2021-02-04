@@ -87,8 +87,8 @@ public class RegistrationService {
                 new PaymentPayload(14L, property.getCitizenId(), 10000, 1000) // hard code
             );
             Property lastProperty = this.propertyRepository
-                .findPropertyByStateAndCityAndStreetAndHouseAndApartment(
-                    property.getState(),
+                .findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
+                    property.getRegion(),
                     property.getCity(),
                     property.getStreet(),
                     property.getHouse(),

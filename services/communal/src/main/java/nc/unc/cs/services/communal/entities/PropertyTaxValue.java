@@ -21,7 +21,7 @@ public class PropertyTaxValue {
 
     @NonNull
     @Column(nullable = false, length = 40, unique = true)
-    private String state;
+    private String region;
 
     @NonNull
     @Column(nullable = false)

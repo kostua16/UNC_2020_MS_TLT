@@ -22,7 +22,7 @@ public class ExpenseCost {
 
     @NonNull
     @Column(nullable = false, unique = true, length = 40)
-    private String state;
+    private String region;
 
     @NonNull
     @Column(nullable = false)
