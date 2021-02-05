@@ -25,5 +25,9 @@ public class PropertyTaxValue {
 
     @NonNull
     @Column(nullable = false)
+    private Integer pricePerSquareMeter;
+
+    @NonNull
+    @Column(nullable = false)
     private Integer cadastralValue;
 }

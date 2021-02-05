@@ -82,6 +82,7 @@ public class RegistrationService {
     }
 
     public ResponseEntity<Property> addCitizensProperty(final Property property) {
+        property.setRegion(property.getRegion().toUpperCase());
         try {
             this.bankService.requestPayment(
                 new PaymentPayload(14L, property.getCitizenId(), 10000, 1000) // hard code
@@ -96,9 +97,6 @@ public class RegistrationService {
                 );
 
             if (lastProperty == null) {
-                // здесь сделать ассоцативный поиск по области и присвоить id ценников по коммуналке и налога на недвижимость
-                property.setPropertyTaxValueId(0L); // hard code
-                property.setExpenseCostId(0L); // hard code
 
                 this.propertyRepository.save(property);
                 logger.info("New property added");

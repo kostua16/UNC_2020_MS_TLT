@@ -1,7 +1,11 @@
 package nc.unc.cs.services.communal.services;
 
+import java.util.Date;
 import java.util.List;
 import nc.unc.cs.services.common.clients.bank.BankService;
+import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.communal.entities.Property;
+import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
@@ -15,6 +19,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PropertyTaxService {
     private static final Logger logger = LoggerFactory.getLogger(PropertyTaxService.class);
+
+    // процент от суммы, который уходит в налоговый сервис // изменить!!!
+    private final Integer TAX_PERCENT = 10;
+    private final Long SERVICE_ID = 20L;
 
     private final PropertyRepository propertyRepository;
     private final PropertyTaxRepository propertyTaxRepository;
@@ -34,6 +42,22 @@ public class PropertyTaxService {
         this.bankService = bankService;
     }
 
+    /**
+     * Расчёт налога на имущество
+     *
+     * @param apartmentSize кол-во кв.м. в помещении
+     * @param pricePerSquareMeter стоимость кв.м. в данном регионе
+     * @param cadastralValue кадастровый значение (процент) в данном регионе
+     * @return налог
+     */
+    private Integer calculatePropertyTaxAmount(
+        final Double apartmentSize,
+        final Double pricePerSquareMeter,
+        final Double cadastralValue
+    ) {
+        return (int) (apartmentSize * pricePerSquareMeter / 100 * (cadastralValue / 100));
+    }
+
     public List<PropertyTaxValue> getListPropertyTaxValue() {
         return this.propertyTaxValueRepository.findAll();
     }
@@ -46,11 +70,14 @@ public class PropertyTaxService {
         return this.propertyTaxValueRepository.findPropertyTaxValueByRegion(region.toUpperCase());
     }
 
+    // написать тесты
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(final PropertyTaxValue propertyTaxValue) {
         if (
             propertyTaxValue.getCadastralValue() != null
+                && propertyTaxValue.getPricePerSquareMeter() != null
                 && propertyTaxValue.getRegion() != null
                 && propertyTaxValue.getCadastralValue() > 0
+                && propertyTaxValue.getPricePerSquareMeter() > 0
                 && !propertyTaxValue.getRegion().isEmpty()
         ) {
             try {
@@ -94,5 +121,72 @@ public class PropertyTaxService {
         this.propertyTaxValueRepository.save(propertyTaxValue); // регион не меняется
 
         return ResponseEntity.ok(propertyTaxValue);
+    }
+
+    public ResponseEntity<PropertyTax> calculatePropertyTax(final Long propertyId) {
+        PropertyTax propertyTax = new PropertyTax();
+        final Property property = this.propertyRepository.findPropertyByPropertyId(propertyId);
+
+        if (property == null) {
+            logger.error("Property with ID = {} not found", propertyId);
+            return ResponseEntity.status(400).body(propertyTax);
+        }
+
+        PropertyTaxValue propertyTaxValue
+            = this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion());
+
+        if (propertyTaxValue == null) {
+            logger.error("PropertyTaxValue with region = {} not found", property.getRegion());
+            return ResponseEntity.status(503).body(propertyTax);
+        }
+
+        propertyTax.setPropertyId(property.getPropertyId());
+        propertyTax.setCitizenId(property.getCitizenId());
+        propertyTax.setIsPaid(false);
+        propertyTax.setDate(new Date());
+        propertyTax.setTaxAmount(
+            this.calculatePropertyTaxAmount(
+                Double.valueOf(property.getApartmentSize()),
+                Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+                Double.valueOf(propertyTaxValue.getCadastralValue()))
+        );
+
+        try {
+            this.bankService
+                .requestPayment(new PaymentPayload(
+                    SERVICE_ID,
+                    propertyTax.getCitizenId(),
+                    propertyTax.getTaxAmount(),
+                    propertyTax.getTaxAmount() / TAX_PERCENT
+                ));
+            this.propertyTaxRepository.save(propertyTax);
+
+            logger.info("PropertyTax successfully created");
+            return ResponseEntity.ok(propertyTax);
+        } catch (Exception e) {
+
+            logger.error("Failed to create PropertyTax!");
+            e.printStackTrace();
+            return ResponseEntity.status(503).body(propertyTax);
+        }
+    }
+
+    // придумать как будут синхронизироваться оплата в банке и статус в платёжках на сервисах
+    public ResponseEntity<PropertyTax> changePropertyTaxStatus(final Long propertyTaxId) {
+        PropertyTax propertyTax
+            = this.propertyTaxRepository.findPropertyTaxByPropertyTaxId(propertyTaxId);
+        propertyTax.setIsPaid(true);
+        this.propertyTaxRepository.save(propertyTax);
+
+        logger.info("Status in PropertyTax with ID = {} has been changed", propertyTaxId);
+        return ResponseEntity.ok(propertyTax);
+    }
+
+    public List<PropertyTax> getPropertyTaxByCitizenId(final Long citizenId) {
+        return this.propertyTaxRepository.findPropertyTaxByCitizenId(citizenId);
+    }
+
+    public List<PropertyTax> getDebtPropertyTaxesByProperty(final Long propertyId) {
+        return this.propertyTaxRepository.findPropertyTaxesByPropertyIdAndIsPaid(propertyId, false);
     }
 }

@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +24,7 @@ public class PropertyTax {
     private Long propertyTaxId;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     private Integer taxAmount;
 
     @NonNull
@@ -29,14 +32,16 @@ public class PropertyTax {
     private Boolean isPaid;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(value = TemporalType.TIMESTAMP)
     private Date date;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     private Long propertyId;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     private Long citizenId;
 }

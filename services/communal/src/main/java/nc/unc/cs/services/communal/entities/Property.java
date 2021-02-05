@@ -45,13 +45,5 @@ public class Property {
 
     @NonNull
     @Column(nullable = false)
-    private Long expenseCostId; // mb @ManyToOne
-
-    @NonNull
-    @Column(nullable = false)
-    private Long propertyTaxValueId; // mb @ManyToOne
-
-    @NonNull
-    @Column(nullable = false)
     private Long citizenId;
 }
