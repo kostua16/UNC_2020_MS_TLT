@@ -43,5 +43,9 @@ public class PropertyTax {
 
     @NonNull
     @Column(updatable = false, nullable = false)
+    private Long paymentRequestId;
+
+    @NonNull
+    @Column(updatable = false, nullable = false)
     private Long citizenId;
 }

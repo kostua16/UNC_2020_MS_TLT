@@ -58,7 +58,7 @@ public class BankController {
         dataTypeClass = PaymentPayload.class,
         paramType = "query"
     )
-    public ResponseEntity<PaymentRequest> requestPayment(@RequestBody final PaymentPayload paymentPayload) {
+    public ResponseEntity<Long> requestPayment(@RequestBody final PaymentPayload paymentPayload) {
         return this.bankService.requestPayment(
                 paymentPayload.getServiceId(),
                 paymentPayload.getCitizenId(),
@@ -78,7 +78,7 @@ public class BankController {
         @ApiResponse(code = 500, message = "Uncreated transaction", response = Transaction.class),
         @ApiResponse(code = 503, message = "Uncreated transaction", response = Transaction.class)
     })
-    @PutMapping(value = "payment/{paymentId}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "payment/{paymentId}", produces = "application/json")
     public ResponseEntity<Transaction> pay(
         @ApiParam(name = "paymentId", type = "long", value = "PaymentPayload ID", required = true)
         @PathVariable("paymentId") final Long paymentId
@@ -87,12 +87,12 @@ public class BankController {
         return this.bankService.payment(paymentId);
     }
 
+    @GetMapping(value = "{paymentId}", produces = "application/json")
     @ApiOperation(
         httpMethod = "GET",
         value = "Checking the status of invoice payment.",
         nickname = "checkPaymentStatus"
     )
-    @GetMapping("{paymentId}")
     public Boolean checkPaymentStatus(
         @ApiParam(name = "paymentId", type = "long", value = "PaymentPayload ID", required = true)
         @PathVariable("paymentId") final Long paymentId

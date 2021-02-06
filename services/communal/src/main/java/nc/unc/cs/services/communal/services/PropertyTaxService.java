@@ -152,13 +152,15 @@ public class PropertyTaxService {
         );
 
         try {
-            this.bankService
+            Long paymentRequestId = this.bankService
                 .requestPayment(new PaymentPayload(
                     SERVICE_ID,
                     propertyTax.getCitizenId(),
                     propertyTax.getTaxAmount(),
                     propertyTax.getTaxAmount() / TAX_PERCENT
-                ));
+                )).getBody();
+
+            propertyTax.setPaymentRequestId(paymentRequestId);
             this.propertyTaxRepository.save(propertyTax);
 
             logger.info("PropertyTax successfully created");
@@ -175,11 +177,30 @@ public class PropertyTaxService {
     public ResponseEntity<PropertyTax> changePropertyTaxStatus(final Long propertyTaxId) {
         PropertyTax propertyTax
             = this.propertyTaxRepository.findPropertyTaxByPropertyTaxId(propertyTaxId);
-        propertyTax.setIsPaid(true);
-        this.propertyTaxRepository.save(propertyTax);
 
-        logger.info("Status in PropertyTax with ID = {} has been changed", propertyTaxId);
-        return ResponseEntity.ok(propertyTax);
+        if (propertyTax == null) {
+            logger.error("PropertyTax with ID = {} not found", propertyTaxId);
+            return ResponseEntity.status(400).body(null);
+        } else {
+            try {
+                if (this.bankService.checkPaymentStatus(propertyTax.getPaymentRequestId())) {
+
+                    propertyTax.setIsPaid(true);
+                    this.propertyTaxRepository.save(propertyTax);
+                    logger.info("PropertyTax with ID = {} has been paid", propertyTaxId);
+
+                    return ResponseEntity.ok(propertyTax);
+                } else {
+                    logger.error("PropertyTax with ID = {} was not paid", propertyTax.getPropertyTaxId());
+                    return ResponseEntity.status(400).body(propertyTax);
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                logger.info("Failed to verify payment");
+                return ResponseEntity.status(503).body(propertyTax);
+            }
+        }
     }
 
     public List<PropertyTax> getPropertyTaxesByCitizenId(final Long citizenId) {

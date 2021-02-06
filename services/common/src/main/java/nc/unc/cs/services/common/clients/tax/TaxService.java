@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "TAX", path = "tax") // вынести в переменную
+@FeignClient(name = "TAX", path = "tax")
 @ConditionalOnMissingClass("nc.unc.cs.services.tax.controllers.TaxController")
 public interface TaxService {
 
