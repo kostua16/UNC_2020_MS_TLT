@@ -176,7 +176,7 @@ public class PropertyTaxService {
     // придумать как будут синхронизироваться оплата в банке и статус в платёжках на сервисах
     public ResponseEntity<PropertyTax> changePropertyTaxStatus(final Long propertyTaxId) {
         PropertyTax propertyTax
-            = this.propertyTaxRepository.findPropertyTaxByPropertyTaxId(propertyTaxId);
+            = this.getPropertyTaxById(propertyTaxId);
 
         if (propertyTax == null) {
             logger.error("PropertyTax with ID = {} not found", propertyTaxId);
