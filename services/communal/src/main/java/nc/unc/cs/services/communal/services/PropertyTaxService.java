@@ -182,11 +182,19 @@ public class PropertyTaxService {
         return ResponseEntity.ok(propertyTax);
     }
 
-    public List<PropertyTax> getPropertyTaxByCitizenId(final Long citizenId) {
+    public List<PropertyTax> getPropertyTaxesByCitizenId(final Long citizenId) {
         return this.propertyTaxRepository.findPropertyTaxByCitizenId(citizenId);
     }
 
     public List<PropertyTax> getDebtPropertyTaxesByProperty(final Long propertyId) {
         return this.propertyTaxRepository.findPropertyTaxesByPropertyIdAndIsPaid(propertyId, false);
+    }
+
+    public List<PropertyTax> getAllPropertyTax() {
+        return this.propertyTaxRepository.findAll();
+    }
+
+    public PropertyTax getPropertyTaxById(final Long propertyTaxId) {
+        return this.propertyTaxRepository.findPropertyTaxByPropertyTaxId(propertyTaxId);
     }
 }
