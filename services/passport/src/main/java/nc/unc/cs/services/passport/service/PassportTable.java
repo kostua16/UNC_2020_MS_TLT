@@ -68,7 +68,6 @@ public class PassportTable {
                 domestic.setCitizenId(citizen.getCitizenId());
                 domestic.setSeries(random.nextInt(8999) + 1000);
                 domestic.setNumber(random.nextInt(899999) + 100000);
-//        Сохранять в базу, только после успешной регистрации в банке и как это сделать?
         try {
             this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
             this.domesticRepository.save(domestic);
