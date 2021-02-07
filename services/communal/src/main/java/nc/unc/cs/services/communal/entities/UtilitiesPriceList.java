@@ -14,14 +14,15 @@ import lombok.NonNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExpenseCost {
+// Все цены на коммунальные услуги в копейках
+public class UtilitiesPriceList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long expenseCostId;
+    private Long utilitiesPriceListId;
 
     @NonNull
-    @Column(nullable = false, unique = true, length = 40)
+    @Column(nullable = false, unique = true, updatable = false, length = 40)
     private String region;
 
     @NonNull
