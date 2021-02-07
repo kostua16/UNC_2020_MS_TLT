@@ -78,16 +78,16 @@ public class PropertyTaxService {
                 && propertyTaxValue.getRegion() != null
                 && propertyTaxValue.getCadastralValue() > 0
                 && propertyTaxValue.getPricePerSquareMeter() > 0
-                && !propertyTaxValue.getRegion().isEmpty()
+                && !propertyTaxValue.getRegion().trim().isEmpty()
         ) {
             try {
-                propertyTaxValue.setRegion(propertyTaxValue.getRegion().toUpperCase());
+                propertyTaxValue.setRegion(propertyTaxValue.getRegion().trim().toUpperCase());
                 this.propertyTaxValueRepository.save(propertyTaxValue);
                 logger.info("Property Tax Value has been created");
 
                 return ResponseEntity.ok(propertyTaxValue);
             } catch (Exception e) {
-                logger.error("The region was entered incorrectly.");
+                logger.error("Invalid input data!");
                 e.printStackTrace();
                 return ResponseEntity.status(400).body(propertyTaxValue);
             }
@@ -123,6 +123,7 @@ public class PropertyTaxService {
         return ResponseEntity.ok(propertyTaxValue);
     }
 
+    // добавить проверку на валидность входных данных
     public ResponseEntity<PropertyTax> calculatePropertyTax(final Long propertyId) {
         PropertyTax propertyTax = new PropertyTax();
         final Property property = this.propertyRepository.findPropertyByPropertyId(propertyId);
@@ -132,6 +133,7 @@ public class PropertyTaxService {
             return ResponseEntity.status(400).body(propertyTax);
         }
 
+        property.setRegion(property.getRegion().trim().toUpperCase());
         PropertyTaxValue propertyTaxValue
             = this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion());
 
