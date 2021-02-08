@@ -119,6 +119,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Зависимость для написания тестов (д/з)-->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Зависимость для модуля для написания тестов	-->
 		<dependency>
 			<groupId>net.minidev</groupId>

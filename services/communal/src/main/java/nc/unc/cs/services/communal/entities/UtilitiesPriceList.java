@@ -36,4 +36,8 @@ public class UtilitiesPriceList {
     @NonNull
     @Column(nullable = false)
     private Integer electricityPrice;
+
+    public void setRegion(String region) {
+        this.region = region.trim().toUpperCase();
+    }
 }

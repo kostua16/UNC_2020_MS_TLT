@@ -46,7 +46,7 @@ public class PropertyTaxController {
         @ApiResponse(code = 503, message = "PropertyTax with ID = null", response = PropertyTax.class)
     })
     @ApiImplicitParam(
-        name = "propertyId",
+        name = "idRequest",
         value = "Property ID for which the tax will be calculated",
         required = true,
         type = "IdRequest",

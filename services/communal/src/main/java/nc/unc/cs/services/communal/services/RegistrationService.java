@@ -47,7 +47,6 @@ public class RegistrationService {
         // возможно стоит добавить расчёт стоимости услуги и налога на неё
         registration.setIsActive(true);
         registration.setCitizenId(111L);
-        registration.setRegion(registration.getRegion().trim().toUpperCase());
         try {
             this.bankService.requestPayment(
                 new PaymentPayload(13L, registration.getCitizenId(), 1000, 1000)
@@ -83,7 +82,6 @@ public class RegistrationService {
     }
 
     public ResponseEntity<Property> addCitizensProperty(final Property property) {
-        property.setRegion(property.getRegion().trim().toUpperCase());
         try {
             this.bankService.requestPayment(
                 new PaymentPayload(14L, property.getCitizenId(), 10000, 1000) // hard code
@@ -112,7 +110,7 @@ public class RegistrationService {
             return ResponseEntity.ok(property);
         } catch (Exception e) {
             logger.error("Failed to privatize property!");
-
+            e.printStackTrace();
             return ResponseEntity.status(503).body(property);
         }
     }

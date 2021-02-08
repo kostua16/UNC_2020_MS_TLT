@@ -20,7 +20,7 @@ public class PropertyTaxValue {
     private Long propertyTaxValueId;
 
     @NonNull
-    @Column(nullable = false, length = 40, unique = true)
+    @Column(nullable = false, unique = true, updatable = false, length = 40)
     private String region;
 
     @NonNull
@@ -30,4 +30,8 @@ public class PropertyTaxValue {
     @NonNull
     @Column(nullable = false)
     private Integer cadastralValue;
+
+    public void setRegion(String region) {
+        this.region = region.trim().toUpperCase();
+    }
 }

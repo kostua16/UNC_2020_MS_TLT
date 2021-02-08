@@ -43,7 +43,6 @@ public class CommunalService {
             && utilitiesPriceList.getColdWaterPrice() > 0
             && utilitiesPriceList.getHotWaterPrice() > 0
         ) {
-            utilitiesPriceList.setRegion(utilitiesPriceList.getRegion().trim().toUpperCase());
             UtilitiesPriceList newPriceList
                 = this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(utilitiesPriceList.getRegion());
             if (newPriceList == null) {

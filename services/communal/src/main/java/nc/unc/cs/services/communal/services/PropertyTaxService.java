@@ -50,7 +50,7 @@ public class PropertyTaxService {
      * @param cadastralValue кадастровый значение (процент) в данном регионе
      * @return налог
      */
-    private Integer calculatePropertyTaxAmount(
+    public Integer calculatePropertyTaxAmount(
         final Double apartmentSize,
         final Double pricePerSquareMeter,
         final Double cadastralValue
@@ -81,7 +81,6 @@ public class PropertyTaxService {
                 && !propertyTaxValue.getRegion().trim().isEmpty()
         ) {
             try {
-                propertyTaxValue.setRegion(propertyTaxValue.getRegion().trim().toUpperCase());
                 this.propertyTaxValueRepository.save(propertyTaxValue);
                 logger.info("Property Tax Value has been created");
 
@@ -132,8 +131,6 @@ public class PropertyTaxService {
             logger.error("Property with ID = {} not found", propertyId);
             return ResponseEntity.status(400).body(propertyTax);
         }
-
-        property.setRegion(property.getRegion().trim().toUpperCase());
         PropertyTaxValue propertyTaxValue
             = this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion());
 
