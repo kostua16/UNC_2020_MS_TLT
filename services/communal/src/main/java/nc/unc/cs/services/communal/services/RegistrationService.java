@@ -3,6 +3,7 @@ package nc.unc.cs.services.communal.services;
 import java.util.List;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.RegistrationRepository;
@@ -80,19 +81,42 @@ public class RegistrationService {
         return this.registrationRepository.findRegistrationsByCitizenId(citizenId);
     }
 
-//    public ResponseEntity<Property> addCitizenProperty(final Property property) {
-//        try {
-//            this.bankService.requestPayment(
-//                new PaymentPayload(14L, property.getCitizenId(), 3000, 1000)
-//            );
-//            this.propertyRepository.save(property);
-//            logger.info("Property added to a citizen with ID = {}", property.getCitizenId());
-//
-//            return ResponseEntity.ok(property);
-//        } catch (Exception e) {
-//            logger.error("Failed to privatize property!");
-//            return ResponseEntity.status(503).body(property);
-//        }
-//    }
+    public ResponseEntity<Property> addCitizensProperty(final Property property) {
+        try {
+            this.bankService.requestPayment(
+                new PaymentPayload(14L, property.getCitizenId(), 10000, 1000) // hard code
+            );
+            Property lastProperty = this.propertyRepository
+                .findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
+                    property.getRegion(),
+                    property.getCity(),
+                    property.getStreet(),
+                    property.getHouse(),
+                    property.getApartment()
+                );
+
+            if (lastProperty == null) {
+
+                this.propertyRepository.save(property);
+                logger.info("New property added");
+            } else {
+                lastProperty.setCitizenId(property.getCitizenId());
+                property.setPropertyId(lastProperty.getPropertyId());
+                this.propertyRepository.save(lastProperty);
+
+                logger.info("Property owner updated");
+            }
+
+            return ResponseEntity.ok(property);
+        } catch (Exception e) {
+            logger.error("Failed to privatize property!");
+            e.printStackTrace();
+            return ResponseEntity.status(503).body(property);
+        }
+    }
+
+    public List<Property> getPropertiesByCitizenId(final Long citizenId) {
+        return this.propertyRepository.findPropertyByCitizenId(citizenId);
+    }
 
 }

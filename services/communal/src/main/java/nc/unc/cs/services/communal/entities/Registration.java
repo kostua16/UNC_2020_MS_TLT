@@ -21,7 +21,7 @@ public class Registration {
 
     @NonNull
     @Column(nullable = false, length = 40)
-    private String state;
+    private String region;
 
     @NonNull
     @Column(nullable = false, length = 40)
@@ -46,4 +46,8 @@ public class Registration {
     @NonNull
     @Column(nullable = false)
     private Long citizenId;
+
+    public void setRegion(String region) {
+        this.region = region.trim().toUpperCase();
+    }
 }
