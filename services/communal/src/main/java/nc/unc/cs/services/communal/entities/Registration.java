@@ -50,4 +50,20 @@ public class Registration {
     public void setRegion(String region) {
         this.region = region.trim().toUpperCase();
     }
+
+    public void setCity(String city) {
+        this.city = city.trim().toUpperCase();
+    }
+
+    public void setStreet(String street) {
+        this.street = street.trim().toUpperCase();
+    }
+
+    public void setHouse(String house) {
+        this.house = house.trim().toUpperCase();
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment.trim().toUpperCase();
+    }
 }
