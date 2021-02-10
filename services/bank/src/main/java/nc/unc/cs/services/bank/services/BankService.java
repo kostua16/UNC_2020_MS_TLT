@@ -54,7 +54,7 @@ public class BankService {
     }
 
     /**
-     * Service Provided Registration Method.
+     * Registration of provided services.
      *
      * @param serviceId The ID of the service that provided the service;
      * @param citizenId The Id of the citizen (account);
@@ -63,7 +63,7 @@ public class BankService {
      *
      * @return Payment ID;
      */
-    public ResponseEntity<PaymentRequest> requestPayment(
+    public ResponseEntity<Long> requestPayment(
         final Long serviceId,
         final Long citizenId,
         final Integer amount,
@@ -98,7 +98,7 @@ public class BankService {
             );
             this.paymentRequestRepository.save(paymentRequest);
 
-            return ResponseEntity.ok(paymentRequest);
+            return ResponseEntity.ok(paymentRequest.getPaymentRequestId());
         } catch (Exception e) {
             logger.error("No tax has been created.", e);
             logging.addLog(
@@ -116,7 +116,7 @@ public class BankService {
                     )
                     .build()
             );
-            return ResponseEntity.status(503).body(paymentRequest);
+            return ResponseEntity.status(503).body(-1L);
         }
     }
 
@@ -145,6 +145,7 @@ public class BankService {
             this.taxService.payTax(taxPayment);
             this.transactionRepository.save(transaction);
             this.paymentRequestRepository.save(paymentRequest);
+            logger.info("new payment request: {}", paymentRequest); ////////////////////
             logger.info("Tax paid.");
             logging.addLog(
                 LogEntry
@@ -184,8 +185,8 @@ public class BankService {
         return findPaymentRequestById(paymentId).getStatus();
     }
 
-    public List<PaymentRequest> getPayments(Long citizenId) {
-        return this.paymentRequestRepository.findAllByCitizenId(citizenId);
+    public List<PaymentRequest> getDebtPaymentRequests(Long citizenId) {
+        return this.paymentRequestRepository.findAllByCitizenIdAndStatus(citizenId, false);
     }
 
 }

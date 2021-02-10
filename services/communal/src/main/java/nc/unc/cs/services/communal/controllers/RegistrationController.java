@@ -1,6 +1,7 @@
 package nc.unc.cs.services.communal.controllers;
 
 import java.util.List;
+import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,15 @@ public class RegistrationController {
     @GetMapping(value = "registrations/{registrationId}", produces = "application/json")
     public Registration getRegistrationByRegistrationId(@PathVariable("registrationId") final Long registrationId) {
         return this.registrationService.getRegistrationByRegistrationId(registrationId);
+    }
+
+    @PostMapping(value = "property/add", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Property> addCitizensProperty(@RequestBody final Property property) {
+        return this.registrationService.addCitizensProperty(property);
+    }
+
+    @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
+    public List<Property> getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
+        return this.registrationService.getPropertiesByCitizenId(citizenId);
     }
 }
