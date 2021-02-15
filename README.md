@@ -1,6 +1,6 @@
 # UNC_2020_MS_TLT
 
-## [Читать документацю] [doc_link]
+## [Читать документацю][doc_link]
 [doc_link]: https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing
 
 
