@@ -1,22 +1,21 @@
 # UNC_2020_MS_TLT
 
-##*[Читать документацю] [1]* ##
-[1]: https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing "Гугл док"
+## [Читать документацю] [id_doc]
+[id_doc]:https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing
 
----
 
 ### Вы можете посмотреть сервисы на платформе Heroku: ###
-+ [Discovery Service] [30]
-+ [Config Service] [31]
-+ [Tax Service] [32]
-+ [Bank Service] [33]
-+ [Communal Service] [34]
++ [Discovery Service] [heroku_discovery]
++ [Config Service] [heroku_config]
++ [Tax Service] [heroku_tax]
++ [Bank Service] [heroku_bank]
++ [Communal Service] [heroku_communal]
 
-[30]: https://nc-edu-2020-discovery.herokuapp.com/
-[31]: https://nc-edu-2020-config.herokuapp.com/
-[32]: https://nc-edu-2020-tax.herokuapp.com/
-[33]: https://nc-edu-2020-bank.herokuapp.com/
-[34]: https://nc-edu-2020-communal.herokuapp.com/
+[heroku_discovery]: https://nc-edu-2020-discovery.herokuapp.com/
+[heroku_config]: https://nc-edu-2020-config.herokuapp.com/
+[heroku_tax]: https://nc-edu-2020-tax.herokuapp.com/
+[heroku_bank]: https://nc-edu-2020-bank.herokuapp.com/
+[heroku_communal]: https://nc-edu-2020-communal.herokuapp.com/
 
 ---
 ##Локально:
