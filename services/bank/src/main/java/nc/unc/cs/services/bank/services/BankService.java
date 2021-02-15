@@ -128,10 +128,22 @@ public class BankService {
      */
     public ResponseEntity<Transaction> payment(final Long paymentId) {
 
-        PaymentRequest paymentRequest = findPaymentRequestById(paymentId);
-        paymentRequest.setStatus(true);
-
         Transaction transaction = new Transaction();
+        PaymentRequest paymentRequest;
+
+        try {
+            paymentRequest = findPaymentRequestById(paymentId);
+            if (paymentRequest.getStatus()) {
+                logger.error("Payment Request with ID = {} already paid!", paymentId);
+                return ResponseEntity.status(400).body(transaction);
+            }
+        } catch (PaymentRequestNotFoundException ne) {
+            logger.error("Payment Request with ID = {} not found!", paymentId);
+            ne.printStackTrace();
+            return ResponseEntity.status(400).body(transaction);
+        }
+
+        paymentRequest.setStatus(true);
 
         transaction.setPaymentRequestId(paymentRequest.getPaymentRequestId());
         transaction.setAmount(paymentRequest.getAmount());

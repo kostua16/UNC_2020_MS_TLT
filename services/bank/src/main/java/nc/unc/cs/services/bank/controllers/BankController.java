@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("bank")
 @CrossOrigin
-@Api(value = "bank", description = "Banking operations")
+@Api(value = "Bank API")
 public class BankController {
 
     private final BankService bankService;
@@ -56,7 +56,7 @@ public class BankController {
         type = "PaymentPayload",
         dataType = "PaymentPayload",
         dataTypeClass = PaymentPayload.class,
-        paramType = "query"
+        paramType = "body"
     )
     public ResponseEntity<Long> requestPayment(@RequestBody final PaymentPayload paymentPayload) {
         return this.bankService.requestPayment(
@@ -71,10 +71,11 @@ public class BankController {
         httpMethod = "PUT",
         value = "Payment of the invoice",
         notes = "Payment of the issued invoice and the tax attached to it",
-//        response = ResponseEntity.class,
+        response = Transaction.class,
         nickname = "pay"
     )
     @ApiResponses({
+        @ApiResponse(code = 400, message = "Uncreated transaction", response = Transaction.class),
         @ApiResponse(code = 500, message = "Uncreated transaction", response = Transaction.class),
         @ApiResponse(code = 503, message = "Uncreated transaction", response = Transaction.class)
     })
@@ -83,7 +84,6 @@ public class BankController {
         @ApiParam(name = "paymentId", type = "long", value = "PaymentPayload ID", required = true)
         @PathVariable("paymentId") final Long paymentId
     ) {
-        System.out.println(paymentId);
         return this.bankService.payment(paymentId);
     }
 
