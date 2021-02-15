@@ -69,7 +69,7 @@ public class PassportTable {
                 domestic.setSeries(random.nextInt(8999) + 1000);
                 domestic.setNumber(random.nextInt(899999) + 100000);
         try {
-            this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
+//            this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
             this.domesticRepository.save(domestic);
             return ResponseEntity.ok(domestic);
         } catch (Exception e) {
