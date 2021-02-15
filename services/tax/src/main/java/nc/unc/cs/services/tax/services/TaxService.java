@@ -72,6 +72,11 @@ public class TaxService {
             .findById(taxPayment.getTaxId())
             .orElseThrow(() -> new TaxNotFoundException(taxPayment.getTaxId()));
 
+        if (changeTax.getStatus()) {
+            logger.error("Tax with ID = {} already paid!", changeTax.getTaxId());
+            return ResponseEntity.status(400).body(changeTax.getTaxId());
+        }
+
         changeTax.setStatus(true);
         changeTax.setTaxPaymentDate(taxPayment.getTaxPaymentDate());
 
