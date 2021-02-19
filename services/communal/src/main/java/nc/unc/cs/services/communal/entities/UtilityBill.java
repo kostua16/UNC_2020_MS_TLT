@@ -60,6 +60,14 @@ public class UtilityBill {
 
     @NonNull
     @Column(nullable = false, updatable = false)
+    private Integer utilityAmount;
+
+    @NonNull
+    @Column(nullable = false, updatable = false)
+    private Long paymentRequestId;
+
+    @NonNull
+    @Column(nullable = false, updatable = false)
     private Long propertyId;
 
     @NonNull
