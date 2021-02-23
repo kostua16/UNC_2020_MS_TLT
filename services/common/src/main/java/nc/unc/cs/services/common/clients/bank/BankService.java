@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "BANK", path = "bank") // вынести в переменную
+@FeignClient(name = "BANK", path = "bank", url = "${app.bank-url}")
 @ConditionalOnMissingClass("nc.unc.cs.services.bank.controllers.BankController")
 public interface BankService {
     @PostMapping(value = "request-payment", consumes = "application/json", produces = "application/json")
