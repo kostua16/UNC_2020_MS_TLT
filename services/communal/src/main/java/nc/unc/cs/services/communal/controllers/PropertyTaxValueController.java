@@ -94,30 +94,4 @@ public class PropertyTaxValueController {
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(@RequestBody final PropertyTaxValue propertyTaxValue) {
         return this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
     }
-
-    @PutMapping(value = "{propertyTaxValueId}", consumes = "application/json", produces = "application/json")
-    @ApiOperation(
-        httpMethod = "PUT",
-        value = "Update PropertyTaxValue",
-        nickname = "updatePropertyTaxValue"
-    )
-    @ApiResponses({
-        @ApiResponse(code = 400, message = "PropertyTaxService with ID = null", response = PropertyTaxValue.class)
-    })
-    @ApiImplicitParam(
-        name = "propertyTaxValue",
-        value = "new PropertyTaxValue",
-        required = true,
-        type = "PropertyTaxValue",
-        dataType = "PropertyTaxValue",
-        dataTypeClass = PropertyTaxValue.class,
-        paramType = "body"
-    )
-    public ResponseEntity<PropertyTaxValue> updatePropertyTaxValue(
-        @ApiParam(name = "propertyTaxValueId", type = "long", value = "Property Tax Value ID", required = true)
-        @PathVariable("propertyTaxValueId") final Long propertyTaxValueId,
-        @RequestBody final PropertyTaxValue propertyTaxValue
-    ) {
-        return this.propertyTaxService.updatePropertyTaxValue(propertyTaxValueId, propertyTaxValue);
-    }
 }

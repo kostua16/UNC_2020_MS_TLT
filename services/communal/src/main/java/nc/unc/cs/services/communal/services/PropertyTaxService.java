@@ -2,6 +2,7 @@ package nc.unc.cs.services.communal.services;
 
 import java.util.Date;
 import java.util.List;
+import feign.FeignException;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.communal.entities.Property;
@@ -13,22 +14,38 @@ import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PropertyTaxService {
+    /** Логгер. */
     private static final Logger logger = LoggerFactory.getLogger(PropertyTaxService.class);
 
-    // процент от суммы, который уходит в налоговый сервис // изменить!!!
-    private final Integer TAX_PERCENT = 10;
-    private final Long SERVICE_ID = 20L;
+    /** Налоговый процент от стоимости платежа. */
+    public static final Integer TAX_PERCENT = 10;
+    /** Номер сервиса. */
+    public static final Long SERVICE_ID = 20L;
+    /** Процентный делитель. */
+    public static final Double PERCENT_DIVISOR = 100.0;
 
+    /** Репозиторий недвижимости. */
     private final PropertyRepository propertyRepository;
+    /** Репозиторий налогов на недвижимость. */
     private final PropertyTaxRepository propertyTaxRepository;
+    /** Репозиторий прейскурантов. */
     private final PropertyTaxValueRepository propertyTaxValueRepository;
+    /** Интеграция с банковским сервисом. */
     private final BankService bankService;
 
+    /**
+     * Конструктор.
+     * @param propertyRepository репозиторий недвижимости
+     * @param  propertyTaxRepository репозиторий налогов на недвижимость
+     * @param propertyTaxValueRepository репозиторий прейскурантов
+     * @param bankService Банковский сервис
+     */
     @Autowired
     public PropertyTaxService(
         final PropertyRepository propertyRepository,
@@ -43,35 +60,32 @@ public class PropertyTaxService {
     }
 
     /**
-     * Расчёт налога на имущество
+     * Расчёт налога на имущество.
      *
      * @param apartmentSize кол-во кв.м. в помещении
      * @param pricePerSquareMeter стоимость кв.м. в данном регионе
      * @param cadastralValue кадастровый значение (процент) в данном регионе
-     * @return налог
+     * @return расчитанный налог
      */
     public Integer calculatePropertyTaxAmount(
         final Double apartmentSize,
         final Double pricePerSquareMeter,
         final Double cadastralValue
     ) {
-        return (int) (apartmentSize * pricePerSquareMeter / 100 * (cadastralValue / 100));
+        return (int) (apartmentSize * pricePerSquareMeter / PERCENT_DIVISOR * (cadastralValue / PERCENT_DIVISOR));
     }
 
-    public List<PropertyTaxValue> getListPropertyTaxValue() {
-        return this.propertyTaxValueRepository.findAll();
-    }
-
-    public PropertyTaxValue getPropertyTaxValueById(final Long propertyTaxValueId) {
-        return this.propertyTaxValueRepository.findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
-    }
-
-    public PropertyTaxValue getPropertyTaxValueByRegion(final String region) {
-        return this.propertyTaxValueRepository.findPropertyTaxValueByRegion(region.toUpperCase());
-    }
-
-    // написать тесты
-    public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(final PropertyTaxValue propertyTaxValue) {
+    /**
+     * Добавляет или изменяет прейскурант.
+     *
+     * @param propertyTaxValue новый прейскурант
+     * @return http-ответ, в теле которого находится созданный прейскурант
+     * @throws NullPointerException если пропущеныны какие либо поля
+     */
+    public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(
+        final PropertyTaxValue propertyTaxValue
+    ) {
+        ResponseEntity<PropertyTaxValue> response;
         if (
             propertyTaxValue.getCadastralValue() != null
                 && propertyTaxValue.getPricePerSquareMeter() != null
@@ -81,76 +95,104 @@ public class PropertyTaxService {
                 && !propertyTaxValue.getRegion().trim().isEmpty()
         ) {
             try {
-                this.propertyTaxValueRepository.save(propertyTaxValue);
-                logger.info("Property Tax Value has been created");
-
-                return ResponseEntity.ok(propertyTaxValue);
-            } catch (Exception e) {
-                logger.error("Invalid input data!");
-                e.printStackTrace();
-                return ResponseEntity.status(400).body(propertyTaxValue);
+                final PropertyTaxValue lastPropertyTaxValue =
+                    this.propertyTaxValueRepository
+                        .findPropertyTaxValueByRegion(
+                            propertyTaxValue.getRegion());
+                if (lastPropertyTaxValue == null) {
+                    this.propertyTaxValueRepository.save(propertyTaxValue);
+                    logger.info("Property Tax Value has been created.");
+                    response = ResponseEntity.ok(propertyTaxValue);
+                } else {
+                    lastPropertyTaxValue
+                        .setCadastralValue(propertyTaxValue
+                            .getCadastralValue());
+                    lastPropertyTaxValue
+                        .setPricePerSquareMeter(propertyTaxValue
+                            .getPricePerSquareMeter());
+                    this.propertyTaxValueRepository.save(lastPropertyTaxValue);
+                    logger.info("PropertyTaxValue has been updated.");
+                    response = ResponseEntity.ok(lastPropertyTaxValue);
+                }
+            } catch (NullPointerException npe) {
+                npe.printStackTrace();
+                logger.error("NPE"); // заглушка
+                response = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(propertyTaxValue);
             }
-
         } else {
             logger.error("Invalid input data!");
-            return ResponseEntity.status(400).body(propertyTaxValue);
+            response = ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(propertyTaxValue);
         }
+        return response;
     }
 
-    public ResponseEntity<PropertyTaxValue> updatePropertyTaxValue(
-        final Long propertyTaxValueId,
-        final PropertyTaxValue newPropertyTaxValue
-    ) {
-        // переделать этот ужас
-        PropertyTaxValue propertyTaxValue =
-            this.propertyTaxValueRepository
-                .findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
+    /**
+     * Возвращает все прейскуранты.
+     *
+     * @return Налоговая квитанция
+     */
+    public List<PropertyTaxValue> getListPropertyTaxValue() {
+        return this.propertyTaxValueRepository.findAll();
+    }
 
-        if (propertyTaxValue == null) {
-            propertyTaxValue = this.propertyTaxValueRepository
-                .findPropertyTaxValueByPropertyTaxValueId(newPropertyTaxValue.getPropertyTaxValueId());
-        }
+    /**
+     * Возвращает прейскурант по указанному идентификатору.
+     *
+     * @param propertyTaxValueId идентификатор прейскуранта
+     * @return Налоговая квитанция
+     */
+    public PropertyTaxValue getPropertyTaxValueById(final Long propertyTaxValueId) {
+        return this.propertyTaxValueRepository
+            .findPropertyTaxValueByPropertyTaxValueId(propertyTaxValueId);
+    }
 
-        if (propertyTaxValue == null) {
-            logger.error("PropertyTaxValue with ID = {} not found", propertyTaxValueId);
-            return ResponseEntity.status(400).body(newPropertyTaxValue);
-        }
-
-        propertyTaxValue.setCadastralValue(newPropertyTaxValue.getCadastralValue());
-        this.propertyTaxValueRepository.save(propertyTaxValue); // регион не меняется
-
-        return ResponseEntity.ok(propertyTaxValue);
+    /**
+     * Возвращает прейскурант для указанного региона.
+     *
+     * @param region название региона
+     * @return Налоговая квитанция
+     */
+    public PropertyTaxValue getPropertyTaxValueByRegion(final String region) {
+        return this.propertyTaxValueRepository
+            .findPropertyTaxValueByRegion(region.trim().toUpperCase());
     }
 
     // добавить проверку на валидность входных данных
+
+    /**
+     * Создаёт налог на недвижимость.
+     *
+     * @param propertyId идетнтификатор недвижимости
+     * @return http-ответ, в теле которого находится налоговая квитанция
+     * @throws NullPointerException если не удасться найти недвижимостьея
+     *          или прейскурант
+     * @throws FeignException если не удасться обратиться к Банковскому сервису
+     */
     public ResponseEntity<PropertyTax> calculatePropertyTax(final Long propertyId) {
-        PropertyTax propertyTax = new PropertyTax();
-        final Property property = this.propertyRepository.findPropertyByPropertyId(propertyId);
-
-        if (property == null) {
-            logger.error("Property with ID = {} not found", propertyId);
-            return ResponseEntity.status(400).body(propertyTax);
-        }
-        PropertyTaxValue propertyTaxValue
-            = this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion());
-
-        if (propertyTaxValue == null) {
-            logger.error("PropertyTaxValue with region = {} not found", property.getRegion());
-            return ResponseEntity.status(503).body(propertyTax);
-        }
-
-        propertyTax.setPropertyId(property.getPropertyId());
-        propertyTax.setCitizenId(property.getCitizenId());
-        propertyTax.setIsPaid(false);
-        propertyTax.setDate(new Date());
-        propertyTax.setTaxAmount(
-            this.calculatePropertyTaxAmount(
-                Double.valueOf(property.getApartmentSize()),
-                Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-                Double.valueOf(propertyTaxValue.getCadastralValue()))
-        );
+        ResponseEntity<PropertyTax> response;
+        final PropertyTax propertyTax = new PropertyTax();
 
         try {
+            final Property property = this.propertyRepository.
+                findPropertyByPropertyId(propertyId);
+            final PropertyTaxValue propertyTaxValue =
+                this.propertyTaxValueRepository
+                    .findPropertyTaxValueByRegion(property.getRegion());
+
+            propertyTax.setPropertyId(property.getPropertyId());
+            propertyTax.setCitizenId(property.getCitizenId());
+            propertyTax.setIsPaid(false);
+            propertyTax.setDate(new Date());
+            propertyTax.setTaxAmount(
+                this.calculatePropertyTaxAmount(
+                    Double.valueOf(property.getApartmentSize()),
+                    Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+                    Double.valueOf(propertyTaxValue.getCadastralValue()))
+            );
             Long paymentRequestId = this.bankService
                 .requestPayment(new PaymentPayload(
                     SERVICE_ID,
@@ -158,62 +200,119 @@ public class PropertyTaxService {
                     propertyTax.getTaxAmount(),
                     propertyTax.getTaxAmount() / TAX_PERCENT
                 )).getBody();
-
             propertyTax.setPaymentRequestId(paymentRequestId);
             this.propertyTaxRepository.save(propertyTax);
 
             logger.info("PropertyTax successfully created");
-            return ResponseEntity.ok(propertyTax);
-        } catch (Exception e) {
+            response = ResponseEntity.ok(propertyTax);
+        } catch (NullPointerException npe) {
+            logger.error("Data of property not found");
+            npe.printStackTrace();
+            response = ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(propertyTax);
+        } catch (FeignException fe) {
 
             logger.error("Failed to create PropertyTax!");
+            logger.error("Failed to send a request to the BankService.");
+            fe.printStackTrace();
+            response = ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(propertyTax);
+        } catch (Exception e) { // (ЗАГЛУШКА) нужно добавить проверок
+            logger.error("Database error");
             e.printStackTrace();
-            return ResponseEntity.status(503).body(propertyTax);
+            response = ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(propertyTax);
         }
+        return response;
     }
 
-    // придумать как будут синхронизироваться оплата в банке и статус в платёжках на сервисах
+    /**
+     * Проверяет и изменяет статуса опалаты налоговой квитанции.
+     *
+     * @param propertyTaxId идентификатор квитанции с данными о налоге
+     * @return http-ответ, в теле которого находится
+     *          изменённая налоговая квитанция
+     * @throws NullPointerException если не удасться найти налоговую квитанцию
+     * @throws FeignException если не удасться обратиться к Банковскому сервису
+     */
     public ResponseEntity<PropertyTax> changePropertyTaxStatus(final Long propertyTaxId) {
-        PropertyTax propertyTax
-            = this.getPropertyTaxById(propertyTaxId);
+        ResponseEntity<PropertyTax> response;
+        final PropertyTax propertyTax = this.getPropertyTaxById(propertyTaxId);
 
-        if (propertyTax == null) {
-            logger.error("PropertyTax with ID = {} not found", propertyTaxId);
-            return ResponseEntity.status(400).body(null);
-        } else {
-            try {
-                if (this.bankService.checkPaymentStatus(propertyTax.getPaymentRequestId())) {
+        try {
+            if (this.bankService.checkPaymentStatus(propertyTax.getPaymentRequestId())) {
 
-                    propertyTax.setIsPaid(true);
-                    this.propertyTaxRepository.save(propertyTax);
-                    logger.info("PropertyTax with ID = {} has been paid", propertyTaxId);
+                propertyTax.setIsPaid(true);
+                this.propertyTaxRepository.save(propertyTax);
+                logger.info("PropertyTax with ID = {} has been paid", propertyTaxId);
 
-                    return ResponseEntity.ok(propertyTax);
-                } else {
-                    logger.error("PropertyTax with ID = {} was not paid", propertyTax.getPropertyTaxId());
-                    return ResponseEntity.status(400).body(propertyTax);
-                }
-            } catch (Exception e) {
-
-                e.printStackTrace();
-                logger.info("Failed to verify payment");
-                return ResponseEntity.status(503).body(propertyTax);
+                response = ResponseEntity.ok(propertyTax);
+            } else {
+                logger.error("PropertyTax with ID = {} was not paid", propertyTax.getPropertyTaxId());
+                response = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(propertyTax);
             }
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+            logger.error("PropertyTax with ID = {} not found", propertyTaxId);
+
+            response = ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(propertyTax);
+        } catch (FeignException fe) {
+            fe.printStackTrace();
+            logger.info("Failed to verify payment");
+
+            response = ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(propertyTax);
         }
+        return response;
     }
 
+    /**
+     * Возвращает все налоговые квитанции на недвижимость
+     *          для конкретного гражданина.
+     *
+     * @param citizenId идентификатор гражданина
+     * @return Список налоговых квитанций
+     */
     public List<PropertyTax> getPropertyTaxesByCitizenId(final Long citizenId) {
         return this.propertyTaxRepository.findPropertyTaxByCitizenId(citizenId);
     }
 
+    /**
+     * Возвращает все налоговые квитанции на недвижимость
+     *          для конкретного имущества.
+     *
+     * @param propertyId идентификатор недвижимости,
+     *         на которую были расчитаны налоги
+     * @return Список налоговых квитанций
+     */
     public List<PropertyTax> getDebtPropertyTaxesByProperty(final Long propertyId) {
         return this.propertyTaxRepository.findPropertyTaxesByPropertyIdAndIsPaid(propertyId, false);
     }
 
+    /**
+     * Возвращает все налоговые квитанции.
+     *
+     * @return Список налоговых квитанций
+     */
     public List<PropertyTax> getAllPropertyTax() {
         return this.propertyTaxRepository.findAll();
     }
 
+    /**
+     * Возвращает налоговую квитанции на недвижимость
+     *          по указаноому идентификатору.
+     *
+     * @param propertyTaxId идентификатор налоговой квитанции
+     * @return Налоговая квитанция
+     */
     public PropertyTax getPropertyTaxById(final Long propertyTaxId) {
         return this.propertyTaxRepository.findPropertyTaxByPropertyTaxId(propertyTaxId);
     }
