@@ -50,3 +50,19 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: develop
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ####################################
+      # Run Checkstyle against code base #
+      ####################################
+      - name: Run CheckStyle
+        uses: nikitasavinov/checkstyle-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: 'github-pr-check'
+          tool_name: 'testtool'
+
+      ###################################################
+      # Run lint over commit messages against code base #
+      ###################################################
+      - name: Run Commit messages lint
+      - uses: wagoid/commitlint-github-action@v2
