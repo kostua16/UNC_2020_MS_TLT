@@ -1,5 +1,5 @@
 ﻿on: pull_request
-
+name: Checkstyle job
 jobs:
   checkstyle_job:
     runs-on: ubuntu-latest
