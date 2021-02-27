@@ -1,4 +1,5 @@
-﻿enabled: true
+﻿---
+enabled: true
 exclude:
   - "**/*.patch"
   - "**/node_modules/**/*"

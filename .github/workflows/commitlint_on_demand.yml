@@ -1,0 +1,47 @@
+﻿---
+###########################
+###########################
+## Linter GitHub Actions ##
+###########################
+###########################
+name: Lint Commit messages On Demand
+
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+#############################
+# Start the job on PR comment #
+#############################
+on:
+  issue_comment:
+    types: [created]
+
+###############
+# Set the Job #
+###############
+jobs:
+  on_demand_commit_lint:
+    # Name the Job
+    name: Lint Commit messages On Demand
+    # Set the agent to run on
+    runs-on: ubuntu-latest
+    if: contains(github.event.comment.body, '/dolint')
+    ##################
+    # Load all steps #
+    ##################
+    steps:
+      ##########################
+      # Checkout the code base #
+      ##########################
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      ###################################################
+      # Run lint over commit messages against code base #
+      ###################################################
+      - name: Run Commit messages lint
+        uses: wagoid/commitlint-github-action@v2
