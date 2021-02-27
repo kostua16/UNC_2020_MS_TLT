@@ -43,7 +43,20 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
-
+      ################################
+      # Remove workflow configs      #
+      ################################
+      - name: Remove workflow configs
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: .github/workflows
+      ################################
+      # Remove .restyled.yaml config #
+      ################################
+      - name: Remove .restyled.yaml config
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: .restyled.yaml
       ################################
       # Run Linter against code base #
       ################################
