@@ -7,6 +7,7 @@
 [![][depshield img]][depshield]
 [![][snyk img]][snyk]
 [![][dependabot img]][dependabot]
+[![][travisci img]][travisci]
 
 ## Rules
 
@@ -24,3 +25,5 @@
 [snyk img]: https://snyk.io/test/github/kostua16/UNC_2020_MS_TLT/badge.svg
 [dependabot]:https://dependabot.com
 [dependabot img]:https://api.dependabot.com/badges/status?host=github&repo=kostua16/UNC_2020_MS_TLT
+[travisci]:https://travis-ci.com/kostua16/UNC_2020_MS_TLT
+[travisci img]:https://travis-ci.com/kostua16/UNC_2020_MS_TLT.svg?branch=develop
