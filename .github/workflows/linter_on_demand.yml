@@ -65,4 +65,18 @@ jobs:
       # Run lint over commit messages against code base #
       ###################################################
       - name: Run Commit messages lint
-      - uses: wagoid/commitlint-github-action@v2
+        uses: wagoid/commitlint-github-action@v2
+
+      ##############
+      # Setup JAVA #
+      ##############
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      ########################
+      # Try to build project #
+      ########################
+      - name: Build with Maven
+        run: mvn -T 2C -B package --file pom.xml
