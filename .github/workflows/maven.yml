@@ -5,9 +5,9 @@ name: Build project with Maven
 
 on:
   push:
-    branches: [ main, nikita, artem, spring_step0, sprong_step1 ]
+    branches: [ main, nikita, artem, develop ]
   pull_request:
-    branches: [ main, nikita, artem, spring_step0, sprong_step1 ]
+    branches: [ main, nikita, artem, develop ]
 
 jobs:
   build:
@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -T 2C -B package --file pom.xml
