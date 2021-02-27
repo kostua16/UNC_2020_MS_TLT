@@ -13,7 +13,7 @@ on:
       - reopened
       - synchronize
   schedule:
-    - cron: '*/5 * * * *' # schedule daily check
+    - cron: '0 0 * * *' # schedule daily check
 
 jobs:
   check:
