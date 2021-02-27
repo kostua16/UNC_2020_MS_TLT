@@ -1,13 +1,12 @@
 ﻿---
 enabled: true
 exclude:
-  - "**/*.patch"
-  - "**/node_modules/**/*"
-  - "**/vendor/**/*"
-  - ".github/workflows/**/*"\
-  - "**/target/**"
-commit_template: |
-  Restyled by ${restyler.name}
+- "**/*.patch"
+- "**/node_modules/**/*"
+- "**/vendor/**/*"
+- ".github/workflows/**/*"
+- "**/target/**"
+commit_template: Restyled by ${restyler.name}
 pull_requests: true
 comments: true
 statuses:
@@ -17,8 +16,8 @@ statuses:
 request_review: author
 restylers_version: stable
 restylers:
-  - "jdt"
-  - "google-java-format"
-  - "prettier-json"
-  - "prettier-markdown"
-  - "prettier-yaml"
+- "jdt"
+- "google-java-format"
+- "prettier-json"
+- "prettier-markdown"
+- "prettier-yaml"
