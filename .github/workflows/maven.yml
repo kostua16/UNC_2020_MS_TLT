@@ -5,9 +5,9 @@ name: Build project with Maven
 
 on:
   push:
-    branches: [ nikita, artem, develop ]
+    branches: [ nikita, artem, develop, "feature/*" ]
   pull_request:
-    branches: [ nikita, artem, develop ]
+    branches: [ nikita, artem, develop, "feature/*" ]
 
 jobs:
   build:
