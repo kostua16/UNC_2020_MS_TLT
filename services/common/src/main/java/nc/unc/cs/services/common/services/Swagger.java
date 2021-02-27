@@ -17,12 +17,11 @@ public class Swagger {
         return new Docket(DocumentationType.SWAGGER_2)
                    .select()
                    .apis(
-                       Predicates.and(
-                           RequestHandlerSelectors.basePackage("nc.unc.cs.services"),
-                           Predicates.not(
-                               RequestHandlerSelectors.basePackage("nc.unc.cs.services.common.clients")
-                           )
-                       )
+                           RequestHandlerSelectors.basePackage("nc.unc.cs.services")
+                                   .and(
+                                           RequestHandlerSelectors.basePackage("nc.unc.cs.services.common.clients")
+                                                   .negate()
+                                   )
                    )
                    .paths(PathSelectors.any())
                    .build();
