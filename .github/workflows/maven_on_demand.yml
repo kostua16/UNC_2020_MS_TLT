@@ -27,7 +27,7 @@ jobs:
     name: Build project with Maven On Demand
     # Set the agent to run on
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, '/dolint')
+    if: contains(github.event.comment.body, '/build')
     ##################
     # Load all steps #
     ##################
