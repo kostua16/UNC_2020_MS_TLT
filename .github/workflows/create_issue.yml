@@ -1,4 +1,9 @@
 ﻿name: Create Issue Action
+on:
+  status:
+    types:
+    - error
+    - failure
 jobs:
   create_issue_action:
     runs-on: ubuntu-latest
