@@ -3,8 +3,6 @@ package nc.unc.cs.services.communal.services;
 import java.util.Date;
 import java.util.List;
 import feign.FeignException;
-import nc.unc.cs.services.common.clients.bank.BankService;
-import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
@@ -36,43 +34,27 @@ public class PropertyTaxService {
     private final PropertyTaxRepository propertyTaxRepository;
     /** Репозиторий прейскурантов. */
     private final PropertyTaxValueRepository propertyTaxValueRepository;
-    /** Интеграция с банковским сервисом. */
-    private final BankService bankService;
+    /** Класс с интеграциями с банковским сервисом. */
+    private final BankIntegrationService bankIntegrationService;
 
     /**
      * Конструктор.
      * @param propertyRepository репозиторий недвижимости
      * @param  propertyTaxRepository репозиторий налогов на недвижимость
      * @param propertyTaxValueRepository репозиторий прейскурантов
-     * @param bankService Банковский сервис
+     * @param bankIntegrationService класс с интеграциями с банковским сервисом.
      */
     @Autowired
     public PropertyTaxService(
         final PropertyRepository propertyRepository,
         final PropertyTaxRepository propertyTaxRepository,
         final PropertyTaxValueRepository propertyTaxValueRepository,
-        final BankService bankService
+        final BankIntegrationService bankIntegrationService
     ) {
         this.propertyRepository = propertyRepository;
         this.propertyTaxRepository = propertyTaxRepository;
         this.propertyTaxValueRepository = propertyTaxValueRepository;
-        this.bankService = bankService;
-    }
-
-    /**
-     * Расчёт налога на имущество.
-     *
-     * @param apartmentSize кол-во кв.м. в помещении
-     * @param pricePerSquareMeter стоимость кв.м. в данном регионе
-     * @param cadastralValue кадастровый значение (процент) в данном регионе
-     * @return расчитанный налог
-     */
-    public Integer calculatePropertyTaxAmount(
-        final Double apartmentSize,
-        final Double pricePerSquareMeter,
-        final Double cadastralValue
-    ) {
-        return (int) (apartmentSize * pricePerSquareMeter / PERCENT_DIVISOR * (cadastralValue / PERCENT_DIVISOR));
+        this.bankIntegrationService = bankIntegrationService;
     }
 
     /**
@@ -80,7 +62,7 @@ public class PropertyTaxService {
      *
      * @param propertyTaxValue новый прейскурант
      * @return http-ответ, в теле которого находится созданный прейскурант
-     * @throws NullPointerException если пропущеныны какие либо поля
+     * @throws NullPointerException если пропущеныны какие-либо поля
      */
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(
         final PropertyTaxValue propertyTaxValue
@@ -115,10 +97,9 @@ public class PropertyTaxService {
                     response = ResponseEntity.ok(lastPropertyTaxValue);
                 }
             } catch (NullPointerException npe) {
-                npe.printStackTrace();
-                logger.error("NPE"); // заглушка
+                logger.error("Data not found!", npe);
                 response = ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(propertyTaxValue);
             }
         } else {
@@ -161,7 +142,23 @@ public class PropertyTaxService {
             .findPropertyTaxValueByRegion(region.trim().toUpperCase());
     }
 
-    // добавить проверку на валидность входных данных
+    /**
+     * Расчёт налога на имущество.
+     *
+     * @param apartmentSize кол-во кв.м. в помещении
+     * @param pricePerSquareMeter стоимость кв.м. в данном регионе
+     * @param cadastralValue кадастровый значение (процент) в данном регионе
+     * @return расчитанный налог
+     */
+    public Integer calculatePropertyTaxAmount(
+        final Double apartmentSize,
+        final Double pricePerSquareMeter,
+        final Double cadastralValue
+    ) {
+        return
+            (int) (apartmentSize * pricePerSquareMeter / PERCENT_DIVISOR
+                * (cadastralValue / PERCENT_DIVISOR));
+    }
 
     /**
      * Создаёт налог на недвижимость.
@@ -170,12 +167,9 @@ public class PropertyTaxService {
      * @return http-ответ, в теле которого находится налоговая квитанция
      * @throws NullPointerException если не удасться найти недвижимостьея
      *          или прейскурант
-     * @throws FeignException если не удасться обратиться к Банковскому сервису
      */
     public ResponseEntity<PropertyTax> calculatePropertyTax(final Long propertyId) {
         ResponseEntity<PropertyTax> response;
-        final PropertyTax propertyTax = new PropertyTax();
-
         try {
             final Property property = this.propertyRepository.
                 findPropertyByPropertyId(propertyId);
@@ -183,48 +177,43 @@ public class PropertyTaxService {
                 this.propertyTaxValueRepository
                     .findPropertyTaxValueByRegion(property.getRegion());
 
-            propertyTax.setPropertyId(property.getPropertyId());
-            propertyTax.setCitizenId(property.getCitizenId());
-            propertyTax.setIsPaid(false);
-            propertyTax.setDate(new Date());
-            propertyTax.setTaxAmount(
-                this.calculatePropertyTaxAmount(
-                    Double.valueOf(property.getApartmentSize()),
-                    Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-                    Double.valueOf(propertyTaxValue.getCadastralValue()))
-            );
-            Long paymentRequestId = this.bankService
-                .requestPayment(new PaymentPayload(
-                    SERVICE_ID,
-                    propertyTax.getCitizenId(),
-                    propertyTax.getTaxAmount(),
-                    propertyTax.getTaxAmount() / TAX_PERCENT
-                )).getBody();
-            propertyTax.setPaymentRequestId(paymentRequestId);
+            final Integer amount = this.calculatePropertyTaxAmount(
+                Double.valueOf(property.getApartmentSize()),
+                Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+                Double.valueOf(propertyTaxValue.getCadastralValue()));
+
+            final PropertyTax propertyTax = PropertyTax
+                .builder()
+                .propertyId(property.getPropertyId())
+                .citizenId(property.getCitizenId())
+                .isPaid(false)
+                .date(new Date())
+                .taxAmount(amount)
+                .paymentRequestId(
+                    this.bankIntegrationService.bankRequest(
+                        SERVICE_ID,
+                        property.getCitizenId(),
+                        amount,
+                        TAX_PERCENT))
+                .build();
             this.propertyTaxRepository.save(propertyTax);
 
             logger.info("PropertyTax successfully created");
             response = ResponseEntity.ok(propertyTax);
         } catch (NullPointerException npe) {
-            logger.error("Data of property not found");
-            npe.printStackTrace();
+            logger.error("Data of property not found", npe);
             response = ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(propertyTax);
+                .body(new PropertyTax()); // or null ???
         } catch (FeignException fe) {
-
-            logger.error("Failed to create PropertyTax!");
-            logger.error("Failed to send a request to the BankService.");
-            fe.printStackTrace();
+            logger.error(
+                "Failed to create PropertyTax!"
+                    + " Failed to send a request to the BankService.",
+                fe
+            );
             response = ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(propertyTax);
-        } catch (Exception e) { // (ЗАГЛУШКА) нужно добавить проверок
-            logger.error("Database error");
-            e.printStackTrace();
-            response = ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(propertyTax);
+                .body(null);
         }
         return response;
     }
@@ -243,8 +232,10 @@ public class PropertyTaxService {
         final PropertyTax propertyTax = this.getPropertyTaxById(propertyTaxId);
 
         try {
-            if (this.bankService.checkPaymentStatus(propertyTax.getPaymentRequestId())) {
-
+            if (
+                this.bankIntegrationService
+                    .checkPaymentStatus(propertyTax.getPaymentRequestId())
+            ) {
                 propertyTax.setIsPaid(true);
                 this.propertyTaxRepository.save(propertyTax);
                 logger.info("PropertyTax with ID = {} has been paid", propertyTaxId);
@@ -253,20 +244,16 @@ public class PropertyTaxService {
             } else {
                 logger.error("PropertyTax with ID = {} was not paid", propertyTax.getPropertyTaxId());
                 response = ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.PAYMENT_REQUIRED)
                     .body(propertyTax);
             }
         } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            logger.error("PropertyTax with ID = {} not found", propertyTaxId);
-
+            logger.error("PropertyTax with ID = {} not found", propertyTaxId, npe);
             response = ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(propertyTax);
         } catch (FeignException fe) {
-            fe.printStackTrace();
-            logger.info("Failed to verify payment");
-
+            logger.info("Failed to verify payment", fe);
             response = ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(propertyTax);
