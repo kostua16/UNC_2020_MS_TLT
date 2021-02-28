@@ -1,13 +1,9 @@
-package nc.unc.cs.services.communal.services.integrations;
+package nc.unc.cs.services.communal.services.integrations.property_tax;
 
-import java.util.Date;
-import nc.unc.cs.services.common.clients.bank.BankService;
-import nc.unc.cs.services.communal.entities.Property;
-import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
-import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
+import nc.unc.cs.services.communal.services.BankIntegrationService;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,95 +15,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(SpringExtension.class)
-public class PropertyTaxServiceTest {
+public class PropertyTaxValueTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertyTaxServiceTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTest.class);
 
-    @Mock
-    private PropertyRepository propertyRepository;
     @Mock
     private PropertyTaxRepository propertyTaxRepository;
     @Mock
     private PropertyTaxValueRepository propertyTaxValueRepository;
     @Mock
-    private BankService bankService;
+    private BankIntegrationService bankIntegrationService;
 
     @InjectMocks
     private PropertyTaxService propertyTaxService;
-
-    public Property getProperty() {
-        Property property = new Property();
-
-        property.setPropertyId(1L);
-        property.setRegion(" samara ");
-        property.setCity(" tlt");
-        property.setStreet("main ");
-        property.setHouse("12B");
-        property.setApartment("11-d");
-        property.setApartmentSize(100);
-        property.setCitizenId(111L);
-
-        return property;
-    }
-
-    public PropertyTaxValue getPropertyTaxValue() {
-        PropertyTaxValue ptv = new PropertyTaxValue();
-        ptv.setPropertyTaxValueId(1L);
-        ptv.setRegion("samara  ");
-        ptv.setPricePerSquareMeter(1000);
-        ptv.setCadastralValue(15);
-
-        return ptv;
-    }
-
-    @Test
-    public void calculatePropertyTaxTest() {
-        Property property = this.getProperty();
-        PropertyTaxValue propertyTaxValue = getPropertyTaxValue();
-
-        given(this.propertyRepository.findPropertyByPropertyId(1L)).willReturn(property);
-        given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion())).willReturn(propertyTaxValue);
-
-        Date date = new Date(5555);
-
-        PropertyTax propertyTax = new PropertyTax();
-        propertyTax.setPropertyId(property.getPropertyId());
-        propertyTax.setIsPaid(false);
-        propertyTax.setDate(date);
-        propertyTax.setCitizenId(111L);
-        propertyTax.setTaxAmount(
-            this.propertyTaxService.calculatePropertyTaxAmount(
-                Double.valueOf(property.getApartmentSize()),
-                Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-                Double.valueOf(propertyTaxValue.getCadastralValue())));
-
-
-        logger.warn("Test Date: {} ", propertyTax.getDate().getTime());
-
-        System.out.println(propertyTax.toString());
-
-        given(this.bankService.requestPayment(anyObject())) // изменить тело метода, вынести PaymentPayload в переменную
-            .willReturn(new ResponseEntity<>(15L, HttpStatus.OK));
-
-        propertyTax.setPaymentRequestId(1L);
-        propertyTax.setPropertyTaxId(1L);
-        given(this.propertyTaxRepository.save(propertyTax)).willReturn(propertyTax);
-
-        ResponseEntity<PropertyTax> response = this.propertyTaxService.calculatePropertyTax(1L);
-
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-            () -> Assertions.assertNotNull(response.getBody().getTaxAmount()),
-            () -> Assertions.assertFalse(response.getBody().getIsPaid()),
-            () -> Assertions.assertEquals(15L, response.getBody().getPaymentRequestId())
-        );
-    }
-
 
     @Test
     public void addPropertyTaxValueTestNullCadastralValue() {
@@ -240,26 +164,5 @@ public class PropertyTaxServiceTest {
         );
     }
 
-    public void changePropertyTaxStatusTest() {
-        final PropertyTax propertyTax = new PropertyTax();
-        propertyTax.setPropertyTaxId(1L);
-        propertyTax.setPropertyId(1L);
-        propertyTax.setTaxAmount(10000);
-        propertyTax.setDate(new Date());
-        propertyTax.setIsPaid(false);
-        propertyTax.setCitizenId(111L);
-        propertyTax.setPaymentRequestId(15L);
 
-        System.out.println(propertyTax.getIsPaid());
-        given(this.bankService.checkPaymentStatus(propertyTax.getPaymentRequestId())).willReturn(true);
-        given(this.propertyTaxRepository.save(propertyTax)).willReturn(propertyTax);
-
-        ResponseEntity<PropertyTax> response = this.propertyTaxService.changePropertyTaxStatus(1L);
-        System.out.println(propertyTax.getIsPaid());
-
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-            () -> Assertions.assertTrue(response.getBody().getIsPaid())
-        );
-    }
 }
