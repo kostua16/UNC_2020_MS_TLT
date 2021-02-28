@@ -135,21 +135,25 @@ public class RegistrationService {
      */
     public ResponseEntity<Property> addCitizensProperty(final Property property) {
         ResponseEntity<Property> response;
-        try {
+
+        try { // сохранения недвижимости после регистрации услуги
+            final Property newProperty;
             final Property lastProperty = this.getPropertyByAddress(property);
 
             if (lastProperty == null) {
-                this.propertyRepository.save(property);
+                newProperty = property;
                 logger.info("New property added");
             } else {
                 lastProperty.setCitizenId(property.getCitizenId());
-                this.propertyRepository.save(lastProperty);
+                newProperty = lastProperty;
                 logger.info("Property owner updated");
             }
             this.bankIntegrationService.bankRequest(
                 SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT
             );
-            response = ResponseEntity.ok(property);
+            this.propertyRepository.save(newProperty);
+
+            response = ResponseEntity.ok(newProperty);
         } catch (NullPointerException npe) {
             logger.error("Invalid input data!", npe);
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(property);
