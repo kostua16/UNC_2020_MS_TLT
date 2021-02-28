@@ -38,7 +38,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -T 2C -B package org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+      run: mvn -T 2C -B package -Psonar --file pom.xml
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
