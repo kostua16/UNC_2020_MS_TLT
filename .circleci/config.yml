@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Analyze on SonarCloud
-          command: mvn package sonar:sonar
+          name: Run build
+          command: mvn -T 2C package
 
 workflows:
   main:
