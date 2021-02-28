@@ -5,9 +5,9 @@ name: Build project with Maven
 
 on:
   push:
-    branches: [ nikita, artem, develop, "feature/*" ]
+    branches: [ nikita, artem, develop, "feature/*", "feature-*" ]
   pull_request:
-    branches: [ nikita, artem, develop, "feature/*" ]
+    branches: [ nikita, artem, develop, "feature/*", "feature-*" ]
 
 jobs:
   build:
@@ -38,9 +38,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -T 2C -B package -Psonar --file pom.xml
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: BUILD
-        path: ./**/target/*.jar
+      run: mvn -T 2C -B test -Psonar --file pom.xml
+    # - name: Upload artifacts
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: BUILD
+    #     path: ./**/target/*.jar

@@ -212,7 +212,7 @@
                         <version>${sonar.version}</version>
                         <executions>
                             <execution>
-                                <phase>verify</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>sonar</goal>
                                 </goals>
