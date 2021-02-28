@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class CreationTax {
-    private Long serviceId;
-    private Long citizenId;
-    private Integer taxAmount;
+  private Long serviceId;
+  private Long citizenId;
+  private Integer taxAmount;
 }

@@ -21,23 +21,19 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class PropertyTaxValue {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long propertyTaxValueId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long propertyTaxValueId;
 
-    @NonNull
-    @Column(nullable = false, unique = true, updatable = false, length = 40)
-    private String region;
+  @NonNull
+  @Column(nullable = false, unique = true, updatable = false, length = 40)
+  private String region;
 
-    @NonNull
-    @Column(nullable = false)
-    private Integer pricePerSquareMeter;
+  @NonNull @Column(nullable = false) private Integer pricePerSquareMeter;
 
-    @NonNull
-    @Column(nullable = false)
-    private Integer cadastralValue;
+  @NonNull @Column(nullable = false) private Integer cadastralValue;
 
-    public void setRegion(String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(String region) {
+    this.region = region.trim().toUpperCase();
+  }
 }

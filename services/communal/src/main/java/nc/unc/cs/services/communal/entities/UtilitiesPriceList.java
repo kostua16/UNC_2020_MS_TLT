@@ -22,27 +22,21 @@ import lombok.ToString;
 @Builder
 public class UtilitiesPriceList {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long utilitiesPriceListId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long utilitiesPriceListId;
 
-    @NonNull
-    @Column(nullable = false, unique = true, updatable = false, length = 40)
-    private String region;
+  @NonNull
+  @Column(nullable = false, unique = true, updatable = false, length = 40)
+  private String region;
 
-    @NonNull
-    @Column(nullable = false)
-    private Integer coldWaterPrice;
+  @NonNull @Column(nullable = false) private Integer coldWaterPrice;
 
-    @NonNull
-    @Column(nullable = false)
-    private Integer hotWaterPrice;
+  @NonNull @Column(nullable = false) private Integer hotWaterPrice;
 
-    @NonNull
-    @Column(nullable = false)
-    private Integer electricityPrice;
+  @NonNull @Column(nullable = false) private Integer electricityPrice;
 
-    public void setRegion(String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(String region) {
+    this.region = region.trim().toUpperCase();
+  }
 }

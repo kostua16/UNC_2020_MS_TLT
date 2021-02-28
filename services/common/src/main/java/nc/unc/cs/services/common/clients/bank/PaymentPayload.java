@@ -12,8 +12,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class PaymentPayload {
-    private Long serviceId;
-    private Long citizenId;
-    private Integer amount;
-    private Integer taxAmount;
+  private Long serviceId;
+  private Long citizenId;
+  private Integer amount;
+  private Integer taxAmount;
 }

@@ -21,55 +21,39 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class Registration {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long registrationId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long registrationId;
 
-    @NonNull
-    @Column(nullable = false, length = 40)
-    private String region;
+  @NonNull @Column(nullable = false, length = 40) private String region;
 
-    @NonNull
-    @Column(nullable = false, length = 40)
-    private String city;
+  @NonNull @Column(nullable = false, length = 40) private String city;
 
-    @NonNull
-    @Column(nullable = false, length = 40)
-    private String street;
+  @NonNull @Column(nullable = false, length = 40) private String street;
 
-    @NonNull
-    @Column(nullable = false, length = 10)
-    private String house;
+  @NonNull @Column(nullable = false, length = 10) private String house;
 
-    @NonNull
-    @Column(nullable = false, length = 10)
-    private String apartment;
+  @NonNull @Column(nullable = false, length = 10) private String apartment;
 
-    @NonNull
-    @Column(nullable = false)
-    private Boolean isActive;
+  @NonNull @Column(nullable = false) private Boolean isActive;
 
-    @NonNull
-    @Column(nullable = false)
-    private Long citizenId;
+  @NonNull @Column(nullable = false) private Long citizenId;
 
-    public void setRegion(String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(String region) {
+    this.region = region.trim().toUpperCase();
+  }
 
-    public void setCity(String city) {
-        this.city = city.trim().toUpperCase();
-    }
+  public void setCity(String city) { this.city = city.trim().toUpperCase(); }
 
-    public void setStreet(String street) {
-        this.street = street.trim().toUpperCase();
-    }
+  public void setStreet(String street) {
+    this.street = street.trim().toUpperCase();
+  }
 
-    public void setHouse(String house) {
-        this.house = house.trim().toUpperCase();
-    }
+  public void setHouse(String house) {
+    this.house = house.trim().toUpperCase();
+  }
 
-    public void setApartment(String apartment) {
-        this.apartment = apartment.trim().toUpperCase();
-    }
+  public void setApartment(String apartment) {
+    this.apartment = apartment.trim().toUpperCase();
+  }
 }

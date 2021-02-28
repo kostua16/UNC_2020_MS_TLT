@@ -1,9 +1,9 @@
 package nc.unc.cs.services.common.clients.tax;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,29 +18,21 @@ import lombok.ToString;
 @Builder
 public class Tax {
 
-    private Long taxId;
+  private Long taxId;
 
-    @NonNull
-    private Integer taxAmount;
+  @NonNull private Integer taxAmount;
 
-    @NonNull
-    private Boolean status;
+  @NonNull private Boolean status;
 
-    @JsonFormat(
-        shape = JsonFormat.Shape.STRING,
-        pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date creationDate;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date creationDate;
 
-    @JsonFormat(
-        shape = JsonFormat.Shape.STRING,
-        pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date taxPaymentDate;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date taxPaymentDate;
 
-    @NonNull
-    private Long citizenId;
+  @NonNull private Long citizenId;
 
-    @NonNull
-    private Long serviceId;
+  @NonNull private Long serviceId;
 }

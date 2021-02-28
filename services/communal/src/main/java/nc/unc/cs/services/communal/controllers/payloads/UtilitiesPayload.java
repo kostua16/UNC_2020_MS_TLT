@@ -5,12 +5,8 @@ import lombok.NonNull;
 
 @Data
 public class UtilitiesPayload {
-    @NonNull
-    private Long propertyId;
-    @NonNull
-    private Integer coldWater;
-    @NonNull
-    private Integer hotWater;
-    @NonNull
-    private Integer electricity;
+  @NonNull private Long propertyId;
+  @NonNull private Integer coldWater;
+  @NonNull private Integer hotWater;
+  @NonNull private Integer electricity;
 }

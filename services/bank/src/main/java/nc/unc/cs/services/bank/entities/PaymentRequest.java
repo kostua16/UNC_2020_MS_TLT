@@ -20,25 +20,17 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class PaymentRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentRequestId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long paymentRequestId;
 
-    @NonNull
-    @Column(nullable = true)
-    private Long serviceId;
+  @NonNull @Column(nullable = true) private Long serviceId;
 
-    @NonNull
-    @Column(nullable = true)
-    private Long citizenId;
+  @NonNull @Column(nullable = true) private Long citizenId;
 
-    @NonNull
-    @Column(nullable = true)
-    private Boolean status;
+  @NonNull @Column(nullable = true) private Boolean status;
 
-    @NonNull
-    @Column(nullable = true)
-    private Integer amount;
+  @NonNull @Column(nullable = true) private Integer amount;
 
-    private Long taxId;
+  private Long taxId;
 }

@@ -10,7 +10,6 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class IdInfo {
-    private Long citizenId;
-    private Long serviceId;
-
+  private Long citizenId;
+  private Long serviceId;
 }
