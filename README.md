@@ -1,15 +1,17 @@
 # UNC_2020_MS_TLT
 
 ## [Читать документацю][doc_link]
-[doc_link]: https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing
 
+[doc_link]:
+  https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing
 
-### Вы можете посмотреть сервисы на платформе Heroku: ###
-+ [Discovery Service][heroku_discovery]
-+ [Config Service][heroku_config]
-+ [Tax Service][heroku_tax]
-+ [Bank Service][heroku_bank]
-+ [Communal Service][heroku_communal]
+### Вы можете посмотреть сервисы на платформе Heroku:
+
+- [Discovery Service][heroku_discovery]
+- [Config Service][heroku_config]
+- [Tax Service][heroku_tax]
+- [Bank Service][heroku_bank]
+- [Communal Service][heroku_communal]
 
 [heroku_discovery]: https://nc-edu-2020-discovery.herokuapp.com/
 [heroku_config]: https://nc-edu-2020-config.herokuapp.com/
@@ -18,8 +20,11 @@
 [heroku_communal]: https://nc-edu-2020-communal.herokuapp.com/
 
 ---
+
 ##Локально:
-#### По порядку запустить *main()* методы в:
+
+#### По порядку запустить _main()_ методы в:
+
 1. DiscoveryApplication
 2. ConfigApplication
 3. BankApplication
@@ -28,6 +33,7 @@
 6. CommunalApplication
 
 ---
+
 ##~~Удалённо:~~
 
 ---
