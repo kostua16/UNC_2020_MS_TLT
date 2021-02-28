@@ -4,10 +4,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 
 @Data
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Builder
 public class Tax {
 
     private Long taxId;
@@ -18,11 +26,15 @@ public class Tax {
     @NonNull
     private Boolean status;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(
+        shape = JsonFormat.Shape.STRING,
+        pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date creationDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(
+        shape = JsonFormat.Shape.STRING,
+        pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date taxPaymentDate;
 

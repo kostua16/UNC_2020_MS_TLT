@@ -71,7 +71,7 @@ public class BankService {
     ) {
         PaymentRequest paymentRequest = new PaymentRequest();
 
-        paymentRequest.setAmount(amount + taxAmount);
+        paymentRequest.setAmount(amount); // оплата только суммы
         paymentRequest.setServiceId(serviceId);
         paymentRequest.setCitizenId(citizenId);
         paymentRequest.setStatus(false);

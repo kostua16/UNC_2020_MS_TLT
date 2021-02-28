@@ -3,16 +3,14 @@ package nc.unc.cs.services.bank.controllers;
 import java.util.List;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Example;
-import nc.unc.cs.services.bank.controllers.payloads.requests.PaymentPayload;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.services.BankService;
+import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,13 +56,15 @@ public class BankController {
         dataTypeClass = PaymentPayload.class,
         paramType = "body"
     )
-    public ResponseEntity<Long> requestPayment(@RequestBody final PaymentPayload paymentPayload) {
+    public ResponseEntity<Long> requestPayment(
+        @RequestBody final PaymentPayload paymentPayload
+    ) {
         return this.bankService.requestPayment(
-                paymentPayload.getServiceId(),
-                paymentPayload.getCitizenId(),
-                paymentPayload.getAmount(),
-                paymentPayload.getTaxAmount()
-            );
+            paymentPayload.getServiceId(),
+            paymentPayload.getCitizenId(),
+            paymentPayload.getAmount(),
+            paymentPayload.getTaxAmount()
+        );
     }
 
     @ApiOperation(

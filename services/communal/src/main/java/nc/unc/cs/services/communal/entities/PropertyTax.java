@@ -10,14 +10,20 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Builder(toBuilder = true)
 public class PropertyTax {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
