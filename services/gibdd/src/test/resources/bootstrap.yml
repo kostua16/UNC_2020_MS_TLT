@@ -1,8 +1,9 @@
 server:
-  port: ${PORT:8083}
+  port: ${PORT:8088}
 spring:
   application:
-    name: COMMUNAL
+    name: GIBDD
   cloud:
     config:
       enabled: false
+

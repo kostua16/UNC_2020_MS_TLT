@@ -1,0 +1,15 @@
+language: java
+jdk:
+  - openjdk8
+
+sudo: required
+
+notifications:
+  email:
+    recipients:
+      - kostua16@gmail.com
+    on_success: never
+    on_failure: always
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
