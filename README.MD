@@ -8,6 +8,7 @@
 [![][snyk img]][snyk]
 [![][dependabot img]][dependabot]
 [![][travisci img]][travisci]
+[![][sonar img]][sonar]
 
 ## Rules
 
@@ -27,8 +28,9 @@
 [dependabot img]:https://api.dependabot.com/badges/status?host=github&repo=kostua16/UNC_2020_MS_TLT
 [travisci]:https://travis-ci.com/kostua16/UNC_2020_MS_TLT
 [travisci img]:https://travis-ci.com/kostua16/UNC_2020_MS_TLT.svg?branch=develop
+[sonar]:https://sonarcloud.io/dashboard?id=kostua16_UNC_2020_MS_TLT
+[sonar img]:https://sonarcloud.io/api/project_badges/measure?project=kostua16_UNC_2020_MS_TLT&metric=alert_status
 
---- 
 
 ## [Читать документацю][doc_link]
 [doc_link]: https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing
@@ -56,8 +58,3 @@
 4. TaxApplication
 5. PassportApp
 6. CommunalApplication
-
----
-##~~Удалённо:~~
-
----
