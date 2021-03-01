@@ -1,16 +1,24 @@
 package nc.unc.cs.services.communal.controllers.payloads;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 public class UtilitiesPayload {
-    @NonNull
+    @NotNull(message = "Incorrect property ID")
+    @Min(1L)
     private Long propertyId;
-    @NonNull
+
+    @NotNull(message = "Incorrect data")
+    @Min(1)
     private Integer coldWater;
-    @NonNull
+
+    @NotNull(message = "Incorrect data")
+    @Min(1)
     private Integer hotWater;
-    @NonNull
+
+    @NotNull(message = "Incorrect data")
+    @Min(1)
     private Integer electricity;
 }

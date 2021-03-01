@@ -2,6 +2,8 @@ package nc.unc.cs.services.common.clients.tax;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -18,29 +20,36 @@ import lombok.ToString;
 @Builder
 public class Tax {
 
+    @NotNull(message = "Incorrect tax ID")
+    @Min(1L)
     private Long taxId;
 
-    @NonNull
+    @NotNull(message = "Incorrect tax amount")
+    @Min(1)
     private Integer taxAmount;
 
-    @NonNull
+    @NotNull
     private Boolean status;
 
+    @NotNull
     @JsonFormat(
         shape = JsonFormat.Shape.STRING,
         pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    @NotNull
     @JsonFormat(
         shape = JsonFormat.Shape.STRING,
         pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date taxPaymentDate;
 
-    @NonNull
+    @NotNull(message = "Incorrect citizen ID")
+    @Min(1L)
     private Long citizenId;
 
-    @NonNull
+    @NotNull(message = "Incorrect service ID")
+    @Min(1L)
     private Long serviceId;
 }
