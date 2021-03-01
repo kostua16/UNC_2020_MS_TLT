@@ -5,12 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.ToString;
 
 @Entity
@@ -25,51 +28,57 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long registrationId;
 
-    @NonNull
+    @NotBlank(message = "Incorrect region name")
+    @Size(min = 2, max = 40, message = "Incorrect region name")
     @Column(nullable = false, length = 40)
     private String region;
 
-    @NonNull
+    @NotBlank(message = "Incorrect city name")
+    @Size(min = 2, max = 40, message = "Incorrect city name")
     @Column(nullable = false, length = 40)
     private String city;
 
-    @NonNull
+    @NotBlank(message = "Incorrect street name")
+    @Size(min = 2, max = 40, message = "Incorrect street name")
     @Column(nullable = false, length = 40)
     private String street;
 
-    @NonNull
+    @NotBlank(message = "Incorrect house name")
+    @Size(min = 2, max = 40, message = "Incorrect house name")
     @Column(nullable = false, length = 10)
     private String house;
 
-    @NonNull
+    @NotBlank(message = "Incorrect apartment name")
+    @Size(min = 2, max = 40, message = "Incorrect apartment name")
     @Column(nullable = false, length = 10)
     private String apartment;
 
-    @NonNull
+    @NotNull
     @Column(nullable = false)
     private Boolean isActive;
 
-    @NonNull
+    @NotNull(message = "Incorrect citizen ID")
+    @Min(1L)
     @Column(nullable = false)
     private Long citizenId;
 
-    public void setRegion(String region) {
+    public void setRegion(final String region) {
         this.region = region.trim().toUpperCase();
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city.trim().toUpperCase();
     }
 
-    public void setStreet(String street) {
+    public void setStreet(final String street) {
         this.street = street.trim().toUpperCase();
     }
 
-    public void setHouse(String house) {
+    public void setHouse(final String house) {
         this.house = house.trim().toUpperCase();
     }
 
-    public void setApartment(String apartment) {
+    public void setApartment(final String apartment) {
         this.apartment = apartment.trim().toUpperCase();
     }
 }

@@ -6,6 +6,7 @@ import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "property/add", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Property> addCitizensProperty(@RequestBody final Property property) {
+    public ResponseEntity<Property> addCitizensProperty(@Validated @RequestBody final Property property) {
         return this.registrationService.addCitizensProperty(property);
     }
 
