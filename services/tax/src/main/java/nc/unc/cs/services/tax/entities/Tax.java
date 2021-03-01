@@ -1,12 +1,14 @@
 package nc.unc.cs.services.tax.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -14,7 +16,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.ToString;
 
 @Entity
@@ -30,13 +31,15 @@ public class Tax {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // стороний класс для генерации id
     private Long taxId;
 
-    @NonNull
+    @NotNull(message = "Incorrect tax amount ID")
+    @Min(1)
     private Integer taxAmount;
 
-    @NonNull
+    @NotNull
     private Boolean status;
 
-    //    @Column(updatable = false)
+    @NotNull
+    @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -45,23 +48,11 @@ public class Tax {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date taxPaymentDate;
 
-    @NonNull
+    @NotNull(message = "Incorrect citizen ID")
+    @Min(1L)
     private Long citizenId;
 
-    @NonNull
+    @NotNull(message = "Incorrect service ID")
+    @Min(1L)
     private Long serviceId;
-
-    public Tax(
-        final Integer taxAmount,
-        final Long citizenId,
-        final Long serviceId
-    ) {
-        this.taxAmount = taxAmount;
-        this.status = false;
-        this.creationDate = new Date(); // заглушка
-        this.taxPaymentDate = null;
-        this.citizenId = citizenId;
-        this.serviceId = serviceId;
-    }
-
 }

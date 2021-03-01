@@ -1,7 +1,8 @@
 package nc.unc.cs.services.tax.services;
 
+import java.util.Date;
 import java.util.List;
-import nc.unc.cs.services.tax.controllers.payloads.responses.TaxPayment;
+import nc.unc.cs.services.common.clients.tax.TaxPayment;
 import nc.unc.cs.services.tax.entities.Tax;
 import nc.unc.cs.services.tax.exceptions.TaxNotFoundException;
 import nc.unc.cs.services.tax.repositories.TaxRepository;
@@ -15,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Tax service
- * @since 0.1.8
+ * Tax service.
+ * @since 0.1.9
  */
 @Service
 public class TaxService {
@@ -58,7 +59,17 @@ public class TaxService {
         final Long citizenId,
         final Integer taxAmount
     ) {
-        return this.taxRepository.save(new Tax(taxAmount, citizenId, serviceId)).getTaxId();
+        final Tax tax = Tax
+            .builder()
+            .taxAmount(taxAmount)
+            .status(false)
+            .creationDate(new Date())
+            .taxPaymentDate(null)
+            .citizenId(citizenId)
+            .serviceId(serviceId)
+            .build();
+        this.taxRepository.save(tax);
+        return tax.getTaxId();
     }
 
     /**

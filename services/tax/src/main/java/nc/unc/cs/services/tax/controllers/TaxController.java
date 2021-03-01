@@ -8,13 +8,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import nc.unc.cs.services.tax.controllers.payloads.requests.CreationTax;
-import nc.unc.cs.services.tax.controllers.payloads.requests.IdInfo;
-import nc.unc.cs.services.tax.controllers.payloads.responses.TaxPayment;
+import nc.unc.cs.services.common.clients.tax.CreationTax;
+import nc.unc.cs.services.common.clients.tax.IdInfo;
+import nc.unc.cs.services.common.clients.tax.TaxPayment;
 import nc.unc.cs.services.tax.entities.Tax;
 import nc.unc.cs.services.tax.services.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +66,7 @@ public class TaxController {
         dataTypeClass = CreationTax.class
 //        paramType = "body"
     )
-    public Long createTax(@RequestBody final CreationTax createTax) {
+    public Long createTax(@Validated @RequestBody final CreationTax createTax) {
         return this.taxService.createTax(
             createTax.getServiceId(), createTax.getCitizenId(), createTax.getTaxAmount());
     }
@@ -89,7 +90,7 @@ public class TaxController {
         dataTypeClass = TaxPayment.class,
         paramType = "body"
     )
-    public ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment) {
+    public ResponseEntity<Long> payTax(@Validated @RequestBody final TaxPayment taxPayment) {
         return this.taxService.payTax(taxPayment);
     }
 
@@ -109,7 +110,7 @@ public class TaxController {
         dataTypeClass = IdInfo.class,
         paramType = "body"
     )
-    public Boolean isNotDebtor(@RequestBody final IdInfo idInfo) {
+    public Boolean isNotDebtor(@Validated @RequestBody final IdInfo idInfo) {
         return this.taxService.isNotDebtor(idInfo.getServiceId(), idInfo.getCitizenId());
     }
 
