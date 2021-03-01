@@ -38,4 +38,75 @@ public class CreateTax extends TaxWebTest {
             .andExpect(status().isOk())
             .andExpect(content().string(containsString(this.objectMapper.writeValueAsString(1L))));
     }
+
+    @Test
+    public void addCitizensPropertyTestServiceIdSmallerSize() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setServiceId(null);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addCitizensPropertyTestServiceIdNull() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setServiceId(0L);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addCitizensPropertyTestCitizenIdNull() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setCitizenId(null);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void addCitizensPropertyTestCitizenIdSmallerSize() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setCitizenId(0L);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addCitizensPropertyTestTaxAmountNull() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setTaxAmount(null);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addCitizensPropertyTestTaxAmountSmallerSize() throws Exception {
+        CreationTax creationTax = this.getCreationTax();
+        creationTax.setTaxAmount(0);
+
+        this.mockMvc.perform(post(TAX_CONTROLLER_MAPPING + "/create")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(creationTax)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+    }
 }
