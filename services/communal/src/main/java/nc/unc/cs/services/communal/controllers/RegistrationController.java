@@ -26,7 +26,7 @@ public class RegistrationController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Registration> addRegistration(
-        @Validated @RequestBody Registration registration
+        @Validated @RequestBody final Registration registration
     ) {
         return this.registrationService.addRegistration(registration);
     }

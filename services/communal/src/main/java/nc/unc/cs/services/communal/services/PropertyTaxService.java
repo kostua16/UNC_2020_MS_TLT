@@ -232,10 +232,9 @@ public class PropertyTaxService {
         final PropertyTax propertyTax = this.getPropertyTaxById(propertyTaxId);
 
         try {
-            if (
-                this.bankIntegrationService
-                    .checkPaymentStatus(propertyTax.getPaymentRequestId())
-            ) {
+            final Boolean isPaid = this.bankIntegrationService
+                .checkPaymentStatus(propertyTax.getPaymentRequestId());
+            if (Boolean.TRUE.equals(isPaid)) {
                 propertyTax.setIsPaid(true);
                 this.propertyTaxRepository.save(propertyTax);
                 logger.info("PropertyTax with ID = {} has been paid", propertyTaxId);
