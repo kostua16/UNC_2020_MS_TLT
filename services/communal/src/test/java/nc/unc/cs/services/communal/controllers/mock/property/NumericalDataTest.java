@@ -1,16 +1,16 @@
 package nc.unc.cs.services.communal.controllers.mock.property;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
 import nc.unc.cs.services.communal.entities.Property;
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class NumericalData extends PropertyAndRegistrationParentWebTest {
+class NumericalDataTest extends PropertyAndRegistrationParentWeb {
 
     @Test
-    public void smallestApartmentSize() throws Exception {
+    void smallestApartmentSize() throws Exception {
         Property property = this.createProperty();
         property.setApartmentSize(9);
 
@@ -22,7 +22,7 @@ public class NumericalData extends PropertyAndRegistrationParentWebTest {
     }
 
     @Test
-    public void nullApartmentSize() throws Exception {
+    void nullApartmentSize() throws Exception {
         Property property =
             new Property(
                 1L, "ss", "ss",
@@ -38,7 +38,7 @@ public class NumericalData extends PropertyAndRegistrationParentWebTest {
     }
 
     @Test
-    public void smallestCitizenId() throws Exception {
+    void smallestCitizenId() throws Exception {
         Property property = this.createProperty();
         property.setApartmentSize(9);
 
@@ -50,7 +50,7 @@ public class NumericalData extends PropertyAndRegistrationParentWebTest {
     }
 
     @Test
-    public void nullCitizenId() throws Exception {
+    void nullCitizenId() throws Exception {
         Property property =
             new Property(
                 1L, "ss", "ss",

@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers.mock.property;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
 import nc.unc.cs.services.communal.entities.Property;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,12 +13,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AddPropertyWebTest extends PropertyAndRegistrationParentWebTest {
+class AddPropertyWebTest extends PropertyAndRegistrationParentWeb {
 
     private static final Logger logger = LoggerFactory.getLogger(AddPropertyWebTest.class);
 
     @Test
-    public void addCitizensPropertyTest() throws Exception {
+    void addCitizensPropertyTest() throws Exception {
         final Property property = this.createProperty();
         logger.debug("Property Object: \n {} \n", property);
 

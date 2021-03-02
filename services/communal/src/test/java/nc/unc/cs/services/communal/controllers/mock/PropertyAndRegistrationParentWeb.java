@@ -8,12 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = {RegistrationController.class})
-public class PropertyAndRegistrationParentWebTest extends ParentWebTest {
+public class PropertyAndRegistrationParentWeb extends ParentWeb {
     protected static final String REGISTRATION_CONTROLLER_MAPPING = "http://localhost:8083/communal/housing";
     @MockBean
     protected RegistrationService registrationService;
 
-    public final Property createProperty() {
+    protected final Property createProperty() {
         return Property.builder()
             .propertyId(1L)
             .region("Samara")
@@ -26,7 +26,7 @@ public class PropertyAndRegistrationParentWebTest extends ParentWebTest {
             .build();
     }
 
-    public final Registration createRegistration() {
+    protected final Registration createRegistration() {
         return Registration.builder()
             .registrationId(1L)
             .region("Samara")

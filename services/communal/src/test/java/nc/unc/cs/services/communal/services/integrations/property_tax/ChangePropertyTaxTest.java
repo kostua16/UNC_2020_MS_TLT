@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-public class ChangePropertyTax {
+class ChangePropertyTaxTest {
 
     @Mock
     private PropertyTaxRepository propertyTaxRepository;
@@ -27,7 +27,7 @@ public class ChangePropertyTax {
     private PropertyTaxService propertyTaxService;
 
     @Test
-    public void changePropertyTaxStatusTest() {
+    void changePropertyTaxStatusTest() {
         final PropertyTax propertyTax = new PropertyTax();
         propertyTax.setPropertyTaxId(1L);
         propertyTax.setPropertyId(1L);

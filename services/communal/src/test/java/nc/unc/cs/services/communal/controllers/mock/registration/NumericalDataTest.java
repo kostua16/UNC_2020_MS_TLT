@@ -1,26 +1,17 @@
 package nc.unc.cs.services.communal.controllers.mock.registration;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
 import nc.unc.cs.services.communal.entities.Registration;
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class NumericalData extends PropertyAndRegistrationParentWebTest {
+class NumericalDataTest extends PropertyAndRegistrationParentWeb {
     @Test
-    public void smallestCitizenId() throws Exception {
-        Registration registration = Registration
-            .builder()
-            .registrationId(1L)
-            .region("samara ")
-            .city("samara")
-            .street("main")
-            .house("1b")
-            .apartment("12a")
-            .isActive(false)
-            .citizenId(0L)
-            .build();
+    void smallestCitizenId() throws Exception {
+        Registration registration = this.createRegistration();
+        registration.setCitizenId(0L);
 
         this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
             .contentType("application/json")
@@ -30,7 +21,7 @@ public class NumericalData extends PropertyAndRegistrationParentWebTest {
     }
 
     @Test
-    public void nullCitizenId() throws Exception {
+    void nullCitizenId() throws Exception {
         Registration registration = Registration
             .builder()
             .registrationId(1L)
