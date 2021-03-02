@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(SpringExtension.class)
-public class PropertyTaxValueTestTest {
+class PropertyTaxValueTestTest {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
 
@@ -34,7 +34,7 @@ public class PropertyTaxValueTestTest {
     private PropertyTaxService propertyTaxService;
 
     @Test
-    public void addPropertyTaxValueTestNullCadastralValue() {
+    void addPropertyTaxValueTestNullCadastralValue() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("samara");
         propertyTaxValue.setPricePerSquareMeter(100000);
@@ -43,7 +43,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestZeroCadastralValue() {
+    void addPropertyTaxValueTestZeroCadastralValue() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion(" samara");
         propertyTaxValue.setCadastralValue(0);
@@ -53,7 +53,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestNullPrice() {
+    void addPropertyTaxValueTestNullPrice() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("samara  ");
         propertyTaxValue.setCadastralValue(10);
@@ -62,7 +62,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestZeroPrice() {
+    void addPropertyTaxValueTestZeroPrice() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("samara  ");
         propertyTaxValue.setCadastralValue(10);
@@ -72,7 +72,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestNullRegion() {
+    void addPropertyTaxValueTestNullRegion() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setCadastralValue(10);
         propertyTaxValue.setPricePerSquareMeter(100000);
@@ -87,7 +87,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestSpaceOrEmptyRegion() {
+    void addPropertyTaxValueTestSpaceOrEmptyRegion() {
         PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("         ");
         propertyTaxValue.setCadastralValue(10);
@@ -100,13 +100,13 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void getTax() {
+    void getTax() {
         Integer res = propertyTaxService.calculatePropertyTaxAmount(100.0, 1000.0, 15.0);
         Assertions.assertEquals(150, res);
     }
 
     @Test
-    public void addPropertyTaxValueTestCreate() {
+    void addPropertyTaxValueTestCreate() {
         final PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("samara");
         propertyTaxValue.setCadastralValue(10);
@@ -127,7 +127,7 @@ public class PropertyTaxValueTestTest {
     }
 
     @Test
-    public void addPropertyTaxValueTestUpdate() {
+    void addPropertyTaxValueTestUpdate() {
         final PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
         propertyTaxValue.setRegion("samara");
         propertyTaxValue.setCadastralValue(10);

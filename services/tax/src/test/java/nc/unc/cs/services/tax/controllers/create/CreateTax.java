@@ -1,7 +1,6 @@
 package nc.unc.cs.services.tax.controllers.create;
 
 import nc.unc.cs.services.common.clients.tax.CreationTax;
-import nc.unc.cs.services.tax.controllers.TaxWebTest;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
@@ -10,9 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateTax extends TaxWebTest {
+class CreateTax extends TaxWeb {
 
-    public CreationTax getCreationTax() {
+    private CreationTax getCreationTax() {
         return CreationTax.builder()
             .serviceId(20L)
             .citizenId(111L)
@@ -21,7 +20,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTest() throws Exception {
+    void addCitizensPropertyTest() throws Exception {
         CreationTax creationTax = this.getCreationTax();
 
         when(
@@ -40,7 +39,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTestServiceIdSmallerSize() throws Exception {
+    void addCitizensPropertyTestServiceIdSmallerSize() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setServiceId(null);
 
@@ -52,7 +51,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTestServiceIdNull() throws Exception {
+    void addCitizensPropertyTestServiceIdNull() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setServiceId(0L);
 
@@ -64,7 +63,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTestCitizenIdNull() throws Exception {
+    void addCitizensPropertyTestCitizenIdNull() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setCitizenId(null);
 
@@ -75,7 +74,7 @@ public class CreateTax extends TaxWebTest {
             .andExpect(status().isBadRequest());
     }
     @Test
-    public void addCitizensPropertyTestCitizenIdSmallerSize() throws Exception {
+    void addCitizensPropertyTestCitizenIdSmallerSize() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setCitizenId(0L);
 
@@ -87,7 +86,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTestTaxAmountNull() throws Exception {
+    void addCitizensPropertyTestTaxAmountNull() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setTaxAmount(null);
 
@@ -99,7 +98,7 @@ public class CreateTax extends TaxWebTest {
     }
 
     @Test
-    public void addCitizensPropertyTestTaxAmountSmallerSize() throws Exception {
+    void addCitizensPropertyTestTaxAmountSmallerSize() throws Exception {
         CreationTax creationTax = this.getCreationTax();
         creationTax.setTaxAmount(0);
 

@@ -1,4 +1,4 @@
-package nc.unc.cs.services.tax.controllers;
+package nc.unc.cs.services.tax.controllers.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,12 +13,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {TaxController.class})
 @Import(ObjectMapper.class)
-public class TaxWebTest {
-    protected static final String TAX_CONTROLLER_MAPPING = "http://localhost:8082/tax";
+class TaxWeb {
+    static final String TAX_CONTROLLER_MAPPING = "http://localhost:8082/tax";
     @Autowired
-    protected MockMvc mockMvc;
+    MockMvc mockMvc;
     @Autowired
-    protected ObjectMapper objectMapper;
+    ObjectMapper objectMapper;
     @MockBean
-    protected TaxService taxService;
+    TaxService taxService;
 }

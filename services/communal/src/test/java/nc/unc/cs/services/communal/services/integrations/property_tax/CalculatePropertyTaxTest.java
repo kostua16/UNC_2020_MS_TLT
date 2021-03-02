@@ -22,16 +22,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-public class CalculatePropertyTax {
-    private static final Logger logger = LoggerFactory.getLogger(CalculatePropertyTax.class);
+class CalculatePropertyTaxTest {
+    private static final Logger logger = LoggerFactory.getLogger(CalculatePropertyTaxTest.class);
 
 
     /** Налоговый процент от стоимости платежа. */
-    public static final Integer TAX_PERCENT = PropertyTaxService.TAX_PERCENT;
+    static final Integer TAX_PERCENT = PropertyTaxService.TAX_PERCENT;
     /** Номер сервиса. */
-    public static final Long SERVICE_ID = PropertyTaxService.SERVICE_ID;
+    static final Long SERVICE_ID = PropertyTaxService.SERVICE_ID;
     /** Процентный делитель. */
-    public static final Double PERCENT_DIVISOR = PropertyTaxService.PERCENT_DIVISOR;
+    static final Double PERCENT_DIVISOR = PropertyTaxService.PERCENT_DIVISOR;
 
     @Mock
     private PropertyRepository propertyRepository;
@@ -46,7 +46,7 @@ public class CalculatePropertyTax {
     private PropertyTaxService propertyTaxService;
 
 
-    public Property getProperty() {
+    Property getProperty() {
         Property property = new Property();
 
         property.setPropertyId(1L);
@@ -61,7 +61,7 @@ public class CalculatePropertyTax {
         return property;
     }
 
-    public PropertyTaxValue getPropertyTaxValue() {
+    PropertyTaxValue getPropertyTaxValue() {
         PropertyTaxValue ptv = new PropertyTaxValue();
         ptv.setPropertyTaxValueId(1L);
         ptv.setRegion("samara  ");
@@ -72,7 +72,7 @@ public class CalculatePropertyTax {
     }
 
     @Test
-    public void calculatePropertyTaxTest() {
+    void calculatePropertyTaxTest() {
         final Property property = this.getProperty();
         PropertyTaxValue propertyTaxValue = getPropertyTaxValue();
 

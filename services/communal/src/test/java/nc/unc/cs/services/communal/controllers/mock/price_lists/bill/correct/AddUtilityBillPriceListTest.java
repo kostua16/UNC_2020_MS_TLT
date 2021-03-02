@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers.mock.price_lists.bill.correct;
 
-import nc.unc.cs.services.communal.controllers.mock.price_lists.bill.UtilityBillPriceListParentTest;
+import nc.unc.cs.services.communal.controllers.mock.price_lists.bill.UtilityBillPriceListParent;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AddUtilityBillPriceList extends UtilityBillPriceListParentTest {
+class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
     @Test
-    public void addPropertyTaxValue() throws Exception {
+    void addPropertyTaxValue() throws Exception {
         final UtilitiesPriceList priceList = this.createUtilitiesPriceList();
 
         when(this.communalService.addUtilitiesPriceList(priceList))

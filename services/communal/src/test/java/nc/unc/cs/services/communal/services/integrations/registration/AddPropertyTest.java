@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-public class AddPropertyTest {
+class AddPropertyTest {
     private static final Logger logger = LoggerFactory.getLogger(AddPropertyTest.class);
 
     /** Налоговый процент от стоимости платежа. */
@@ -50,7 +50,7 @@ public class AddPropertyTest {
     }
 
     @Test
-    public void addNewPropertyTest() {
+    void addNewPropertyTest() {
         Property property = this.createProperty();
 
         given(this.registrationService.getPropertyByAddress(property)).willReturn(null);
@@ -70,7 +70,7 @@ public class AddPropertyTest {
     }
 
     @Test
-    public void updatePropertyOwner() {
+    void updatePropertyOwner() {
         Property property = this.createProperty();
 
         given(this.registrationService.getPropertyByAddress(property)).willReturn(property);

@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers.mock.registration;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
 import nc.unc.cs.services.communal.entities.Registration;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AddRegistrationWebTest extends PropertyAndRegistrationParentWebTest {
+class AddRegistrationWebTest extends PropertyAndRegistrationParentWeb {
 
     @Test
     public void addRegistrationTest() throws Exception {

@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers.mock.price_lists.tax.correct;
 
-import nc.unc.cs.services.communal.controllers.mock.price_lists.tax.PropertyTaxValueParentTest;
+import nc.unc.cs.services.communal.controllers.mock.price_lists.tax.PropertyTaxValueParent;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AddPropertyTaxValue extends PropertyTaxValueParentTest {
+class AddPropertyTaxValueTest extends PropertyTaxValueParent {
 
     @Test
-    public void addPropertyTaxValue() throws Exception{
+    void addPropertyTaxValue() throws Exception{
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
 
         when(propertyTaxService.addPropertyTaxValue(propertyTaxValue))
