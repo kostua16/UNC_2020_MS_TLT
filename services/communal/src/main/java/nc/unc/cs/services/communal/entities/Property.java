@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +17,9 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +37,6 @@ public class Property {
 
     @NotBlank(message = "Incorrect street name")
     @Size(min = 2, max = 40, message = "Incorrect street name")
-    @NotBlank(message = "street not specified")
     @Column(nullable = false, updatable = false, length = 40)
     private String street;
 
@@ -63,6 +59,27 @@ public class Property {
     @Min(1L)
     @Column(nullable = false)
     private Long citizenId;
+
+    @Builder
+    public Property(
+        final Long propertyId,
+        final String region,
+        final String city,
+        final String street,
+        final String house,
+        final String apartment,
+        final Integer apartmentSize,
+        final Long citizenId
+    ) {
+        this.propertyId = propertyId;
+        this.region = region.trim().toUpperCase();
+        this.city = city.trim().toUpperCase();
+        this.street = street.trim().toUpperCase();
+        this.house = house.trim().toUpperCase();
+        this.apartment = apartment.trim().toUpperCase();
+        this.apartmentSize = apartmentSize;
+        this.citizenId = citizenId;
+    }
 
     public void setRegion(final String region) {
         this.region = region.trim().toUpperCase();

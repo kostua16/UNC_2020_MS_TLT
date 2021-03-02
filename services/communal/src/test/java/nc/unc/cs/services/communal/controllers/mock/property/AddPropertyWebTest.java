@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers.mock.property;
 
-import nc.unc.cs.services.communal.controllers.mock.RegistrationServiceTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
 import nc.unc.cs.services.communal.entities.Property;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,22 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AddPropertyTest extends RegistrationServiceTest {
+public class AddPropertyWebTest extends PropertyAndRegistrationParentWebTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(AddPropertyTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddPropertyWebTest.class);
 
     @Test
     public void addCitizensPropertyTest() throws Exception {
-        Property property = new Property();
-        property.setRegion("  samara ");
-        property.setCity("samara");
-        property.setStreet("main");
-        property.setHouse("15A");
-        property.setApartment("144");
-        property.setApartmentSize(200);
-        property.setCitizenId(111L);
-
-        property.setPropertyId(1L);
+        final Property property = this.createProperty();
+        logger.debug("Property Object: \n {} \n", property);
 
         when(registrationService.addCitizensProperty(property)).thenReturn(ResponseEntity.ok(property));
 

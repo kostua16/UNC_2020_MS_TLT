@@ -1,13 +1,13 @@
 package nc.unc.cs.services.communal.controllers.mock.property;
 
-import nc.unc.cs.services.communal.controllers.mock.RegistrationServiceTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
 import nc.unc.cs.services.communal.entities.Property;
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class NumericalData extends RegistrationServiceTest {
+public class NumericalData extends PropertyAndRegistrationParentWebTest {
 
     @Test
     public void smallestApartmentSize() throws Exception {

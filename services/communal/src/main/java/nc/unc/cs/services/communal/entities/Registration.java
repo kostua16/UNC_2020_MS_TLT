@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +17,9 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class Registration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +58,27 @@ public class Registration {
     @Min(1L)
     @Column(nullable = false)
     private Long citizenId;
+
+    @Builder
+    public Registration(
+        final Long registrationId,
+        final String region,
+        final String city,
+        final String street,
+        final String house,
+        final String apartment,
+        final Boolean isActive,
+        final Long citizenId
+    ) {
+        this.registrationId = registrationId;
+        this.region = region.trim().toUpperCase();
+        this.city = city.trim().toUpperCase();
+        this.street = street.trim().toUpperCase();
+        this.house = house.trim().toUpperCase();
+        this.apartment = apartment.trim().toUpperCase();
+        this.isActive = isActive;
+        this.citizenId = citizenId;
+    }
 
     public void setRegion(final String region) {
         this.region = region.trim().toUpperCase();

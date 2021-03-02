@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +17,9 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class PropertyTaxValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +39,19 @@ public class PropertyTaxValue {
     @Min(value = 10, message = "Apartment cadastral value is incorrect")
     @Column(nullable = false)
     private Integer cadastralValue;
+
+    @Builder
+    public PropertyTaxValue(
+        final Long propertyTaxValueId,
+        final String region,
+        final Integer pricePerSquareMeter,
+        final Integer cadastralValue
+    ) {
+        this.propertyTaxValueId = propertyTaxValueId;
+        this.region = region.trim().toUpperCase();
+        this.pricePerSquareMeter = pricePerSquareMeter;
+        this.cadastralValue = cadastralValue;
+    }
 
     public void setRegion(final String region) {
         this.region = region.trim().toUpperCase();

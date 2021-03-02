@@ -18,11 +18,9 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class UtilitiesPriceList {
 
     @Id
@@ -48,6 +46,21 @@ public class UtilitiesPriceList {
     @Min(value = 1, message = "Apartment cold water price is incorrect")
     @Column(nullable = false)
     private Integer electricityPrice;
+
+    @Builder
+    public UtilitiesPriceList(
+        final Long utilitiesPriceListId,
+        final String region,
+        final Integer coldWaterPrice,
+        final Integer hotWaterPrice,
+        final Integer electricityPrice
+    ) {
+        this.utilitiesPriceListId = utilitiesPriceListId;
+        this.region = region.trim().toUpperCase();
+        this.coldWaterPrice = coldWaterPrice;
+        this.hotWaterPrice = hotWaterPrice;
+        this.electricityPrice = electricityPrice;
+    }
 
     public void setRegion(final String region) {
         this.region = region.trim().toUpperCase();

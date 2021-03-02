@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.controllers.mock.property;
 
 import nc.unc.cs.services.communal.controllers.mock.IncorrectDataTests;
-import nc.unc.cs.services.communal.controllers.mock.RegistrationServiceTest;
+import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWebTest;
 import nc.unc.cs.services.communal.entities.Property;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class IncorrectStreet extends RegistrationServiceTest implements IncorrectDataTests {
+public class IncorrectStreet extends PropertyAndRegistrationParentWebTest implements IncorrectDataTests {
 
     private static final Logger logger = LoggerFactory.getLogger(IncorrectStreet.class);
 
