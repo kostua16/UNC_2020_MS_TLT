@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.services.CommunalService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,7 @@ public class UtilitiesPriceListController {
         paramType = "body"
     )
     public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
-        @RequestBody final UtilitiesPriceList utilitiesPriceList
+        @Validated @RequestBody final UtilitiesPriceList utilitiesPriceList
     ) {
         return this.communalService.addUtilitiesPriceList(utilitiesPriceList);
     }

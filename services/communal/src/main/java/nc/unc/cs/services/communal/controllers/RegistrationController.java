@@ -25,39 +25,43 @@ public class RegistrationController {
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Registration> addRegistration(@Validated @RequestBody Registration registration) {
+    public ResponseEntity<Registration> addRegistration(
+        @Validated @RequestBody Registration registration
+    ) {
         return this.registrationService.addRegistration(registration);
     }
 
     @GetMapping(value = "registrations/active/citizen/{citizenId}", produces = "application/json")
     public Registration getRegistrationByCitizenId(
-        @Validated @PathVariable("citizenId") final Long citizenId
+        @PathVariable("citizenId") final Long citizenId
     ) {
         return this.registrationService.getActiveRegistrationByCitizenId(citizenId);
     }
 
     @GetMapping(value = "registrations/all/{citizenId}", produces = "application/json")
     public List<Registration> getAllRegistrations(
-        @Validated @PathVariable("citizenId") final Long citizenId
+        @PathVariable("citizenId") final Long citizenId
     ) {
         return this.registrationService.getAllRegistrations(citizenId);
     }
 
     @GetMapping(value = "registrations/{registrationId}", produces = "application/json")
     public Registration getRegistrationByRegistrationId(
-        @Validated @PathVariable("registrationId") final Long registrationId
+        @PathVariable("registrationId") final Long registrationId
     ) {
         return this.registrationService.getRegistrationByRegistrationId(registrationId);
     }
 
     @PostMapping(value = "property/add", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Property> addCitizensProperty(@Validated @RequestBody final Property property) {
+    public ResponseEntity<Property> addCitizensProperty(
+        @Validated @RequestBody final Property property
+    ) {
         return this.registrationService.addCitizensProperty(property);
     }
 
     @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
     public List<Property> getPropertiesByCitizenId(
-        @Validated @PathVariable("citizenId") final Long citizenId
+        @PathVariable("citizenId") final Long citizenId
     ) {
         return this.registrationService.getPropertiesByCitizenId(citizenId);
     }

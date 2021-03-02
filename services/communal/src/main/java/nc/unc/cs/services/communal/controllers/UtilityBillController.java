@@ -7,6 +7,7 @@ import nc.unc.cs.services.communal.entities.UtilityBill;
 import nc.unc.cs.services.communal.services.CommunalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class UtilityBillController {
     }
 
     @PostMapping(value = "create", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<UtilityBill> createUtilityBill(@RequestBody final UtilitiesPayload utilitiesPayload) {
+    public ResponseEntity<UtilityBill> createUtilityBill(@Validated @RequestBody final UtilitiesPayload utilitiesPayload) {
         return this.communalService.calculateUtilityBill(utilitiesPayload);
     }
 

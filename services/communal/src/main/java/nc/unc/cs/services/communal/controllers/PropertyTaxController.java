@@ -12,6 +12,7 @@ import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +55,9 @@ public class PropertyTaxController {
         dataTypeClass = IdRequest.class,
         paramType = "body"
     )
-    public ResponseEntity<PropertyTax> calculatePropertyTax(@RequestBody final IdRequest idRequest) {
+    public ResponseEntity<PropertyTax> calculatePropertyTax(
+        @Validated @RequestBody final IdRequest idRequest
+    ) {
         return this.propertyTaxService.calculatePropertyTax(idRequest.getPropertyId());
     }
 
