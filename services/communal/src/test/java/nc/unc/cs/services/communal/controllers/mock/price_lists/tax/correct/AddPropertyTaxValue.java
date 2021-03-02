@@ -20,7 +20,7 @@ public class AddPropertyTaxValue extends PropertyTaxValueParentTest {
         when(propertyTaxService.addPropertyTaxValue(propertyTaxValue))
             .thenReturn(ResponseEntity.ok(propertyTaxValue));
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())

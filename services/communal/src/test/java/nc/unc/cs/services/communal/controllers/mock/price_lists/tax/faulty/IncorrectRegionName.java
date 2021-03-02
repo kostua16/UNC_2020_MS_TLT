@@ -15,7 +15,7 @@ public class IncorrectRegionName extends PropertyTaxValueParentTest implements I
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setRegion("  ");
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())
@@ -28,7 +28,7 @@ public class IncorrectRegionName extends PropertyTaxValueParentTest implements I
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setRegion(" 1 ");
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())
@@ -41,7 +41,7 @@ public class IncorrectRegionName extends PropertyTaxValueParentTest implements I
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setRegion("asdsdsdgqsr1rvxzxgadgasfasfasdasdasdasdasdasdasdasdasdasd");
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())

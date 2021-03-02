@@ -14,7 +14,7 @@ public class NumericalTest extends PropertyTaxValueParentTest {
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setPricePerSquareMeter(-1);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())
@@ -26,7 +26,7 @@ public class NumericalTest extends PropertyTaxValueParentTest {
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setCadastralValue(-1);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())
@@ -38,7 +38,7 @@ public class NumericalTest extends PropertyTaxValueParentTest {
         final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
         propertyTaxValue.setCadastralValue(101);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
+        this.mockMvc.perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(propertyTaxValue)))
             .andDo(print())

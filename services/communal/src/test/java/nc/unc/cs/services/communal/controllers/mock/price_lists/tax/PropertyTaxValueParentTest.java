@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = {PropertyTaxValueController.class})
 public class PropertyTaxValueParentTest extends ParentWebTest {
-    protected static final String REGISTRATION_CONTROLLER_MAPPING = "http://localhost:8083/communal/tax/price";
+    protected static final String PROPERTY_TAX_VALUE_CONTROLLER_MAPPING = "http://localhost:8083/communal/tax/price";
     @MockBean
     protected PropertyTaxService propertyTaxService;
 
