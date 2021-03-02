@@ -39,6 +39,17 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -T 2C -B clean install -Psonar --file pom.xml
+    - name: Run Junit report generator
+      uses: check-run-reporter/action@v2.0.0
+      if: ${{ always() }}
+      with:
+          # This label is more complex than you probably want. Since we're
+          # running this workflow for both push and pull_request events to test
+          # the action itself, we're effectively running the workflwo twice for
+          # each PR Commit and we need to differentiate in the UI.
+          label: 'Unit Tests (${{ github.event_name }})'
+          report: '**/surefire-reports/*.xml'
+          token: ${{ secrets.CHECK_RUN_REPORTER_TOKEN }}
     # - name: Upload artifacts
     #   uses: actions/upload-artifact@v2
     #   with:
