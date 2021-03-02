@@ -1,14 +1,17 @@
 ﻿---
 enabled: true
+auto: false
 exclude:
   - "**/*.patch"
   - "**/node_modules/**/*"
   - "**/vendor/**/*"
   - ".github/workflows/**/*"
   - "**/target/**"
+  - ".github/*"
+  - "homework/*"
 commit_template: Restyled by ${restyler.name}
 pull_requests: true
-comments: true
+comments: false
 statuses:
   differences: true # Red when style differences are found
   no_differences: true # Green when no differences are found
@@ -16,7 +19,7 @@ statuses:
 request_review: author
 restylers_version: stable
 restylers:
-  - "jdt"
+  - "clang-format"
   - "google-java-format"
   - "prettier-json"
   - "prettier-markdown"
