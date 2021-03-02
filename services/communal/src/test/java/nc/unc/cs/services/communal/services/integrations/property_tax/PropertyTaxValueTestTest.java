@@ -19,9 +19,9 @@ import static org.mockito.BDDMockito.given;
 
 
 @ExtendWith(SpringExtension.class)
-public class PropertyTaxValueTest {
+public class PropertyTaxValueTestTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
 
     @Mock
     private PropertyTaxRepository propertyTaxRepository;

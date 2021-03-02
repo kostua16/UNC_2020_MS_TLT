@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,7 +37,8 @@ public class PropertyTaxValue {
     private Integer pricePerSquareMeter;
 
     @NotNull(message = "Incorrect cadastral value size")
-    @Min(value = 10, message = "Apartment cadastral value is incorrect")
+    @Min(value = 1, message = "Apartment cadastral value is incorrect")
+    @Max(value = 100, message = "Apartment cadastral value is incorrect")
     @Column(nullable = false)
     private Integer cadastralValue;
 

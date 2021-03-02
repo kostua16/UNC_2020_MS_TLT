@@ -1,17 +1,14 @@
 package nc.unc.cs.services.communal.controllers.mock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import nc.unc.cs.services.communal.controllers.RegistrationController;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 
 @WebMvcTest(controllers = {RegistrationController.class})
-@Import(ObjectMapper.class)
-public class PropertyAndRegistrationParentWebTest extends PatentTest {
+public class PropertyAndRegistrationParentWebTest extends ParentWebTest {
     protected static final String REGISTRATION_CONTROLLER_MAPPING = "http://localhost:8083/communal/housing";
     @MockBean
     protected RegistrationService registrationService;
