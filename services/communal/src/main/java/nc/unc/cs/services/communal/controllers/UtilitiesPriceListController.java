@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.services.CommunalService;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +50,9 @@ public class UtilitiesPriceListController {
         paramType = "body"
     )
     public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
-        @Validated @RequestBody final UtilitiesPriceList utilitiesPriceList
-    ) {
-        return this.communalService.addUtilitiesPriceList(utilitiesPriceList);
+        @Validated @RequestBody final CreationUtilitiesPriceList newUtilitiesPriceList
+        ) {
+        return this.communalService.addUtilitiesPriceList(newUtilitiesPriceList);
     }
 
     @GetMapping(produces = "application/json")

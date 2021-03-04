@@ -1,6 +1,7 @@
 package nc.unc.cs.services.communal.controllers.mock.price_lists.bill.correct;
 
 import nc.unc.cs.services.communal.controllers.mock.price_lists.bill.UtilityBillPriceListParent;
+import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
     @Test
     void addPropertyTaxValue() throws Exception {
+        final CreationUtilitiesPriceList newPriceList = this.createCreationUtilitiesPriceList();
         final UtilitiesPriceList priceList = this.createUtilitiesPriceList();
 
-        when(this.communalService.addUtilitiesPriceList(priceList))
+        when(this.communalService.addUtilitiesPriceList(newPriceList))
             .thenReturn(ResponseEntity.ok(priceList));
 
         this.mockMvc.perform(post(UTILITY_BILL_PRICE_LIST_MAPPING)
             .contentType("application/json")
-            .content(objectMapper.writeValueAsString(priceList)))
+            .content(objectMapper.writeValueAsString(newPriceList)))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(containsString(this.objectMapper.writeValueAsString(priceList))));

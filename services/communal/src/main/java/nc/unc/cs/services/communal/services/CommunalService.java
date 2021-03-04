@@ -4,13 +4,14 @@ import java.util.Date;
 import java.util.List;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.controllers.payloads.UtilitiesPayload;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilityBill;
+import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.UtilitiesPriceListRepository;
 import nc.unc.cs.services.communal.repositories.UtilityBillRepository;
-import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,38 +42,36 @@ public class CommunalService {
     }
 
     // стоит ли добавлять и обнавлять прейскурант в одной функции???
-    public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(UtilitiesPriceList utilitiesPriceList) {
-        if (
-            utilitiesPriceList.getRegion() != null
-            && utilitiesPriceList.getElectricityPrice() != null
-            && utilitiesPriceList.getColdWaterPrice() != null
-            && utilitiesPriceList.getHotWaterPrice() != null
-            && !utilitiesPriceList.getRegion().trim().isEmpty()
-            && utilitiesPriceList.getElectricityPrice() > 0
-            && utilitiesPriceList.getColdWaterPrice() > 0
-            && utilitiesPriceList.getHotWaterPrice() > 0
-        ) {
-            UtilitiesPriceList newPriceList
-                = this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(utilitiesPriceList.getRegion());
-            if (newPriceList == null) {
-                this.utilitiesPriceListRepository.save(utilitiesPriceList);
-                logger.info("UtilitiesPriceList has been created!");
+    public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
+        final CreationUtilitiesPriceList newPriceList
+    ) {
+        final ResponseEntity<UtilitiesPriceList> response;
+        final UtilitiesPriceList utilitiesPriceList = UtilitiesPriceList
+            .builder()
+            .region(newPriceList.getRegion())
+            .coldWaterPrice(newPriceList.getColdWaterPrice())
+            .hotWaterPrice(newPriceList.getHotWaterPrice())
+            .electricityPrice(newPriceList.getElectricityPrice())
+            .build();
+        final UtilitiesPriceList lastPriceList =
+            this.utilitiesPriceListRepository
+                .findUtilitiesPriceListByRegion(newPriceList.getRegion());
+        if (lastPriceList == null) {
+            this.utilitiesPriceListRepository.save(utilitiesPriceList);
+            logger.info("UtilitiesPriceList has been created!");
 
-                return ResponseEntity.ok(utilitiesPriceList);
-            } else {
-                newPriceList.setElectricityPrice(utilitiesPriceList.getElectricityPrice());
-                newPriceList.setColdWaterPrice(utilitiesPriceList.getColdWaterPrice());
-                newPriceList.setHotWaterPrice(utilitiesPriceList.getHotWaterPrice());
-
-                this.utilitiesPriceListRepository.save(newPriceList);
-                logger.info("UtilitiesPriceList has been updated!");
-
-                return ResponseEntity.ok(newPriceList);
-            }
+            response = ResponseEntity.ok(utilitiesPriceList);
         } else {
-            logger.error("Invalid input data!");
-            return ResponseEntity.status(400).body(utilitiesPriceList);
+            lastPriceList.setElectricityPrice(newPriceList.getElectricityPrice());
+            lastPriceList.setColdWaterPrice(newPriceList.getColdWaterPrice());
+            lastPriceList.setHotWaterPrice(newPriceList.getHotWaterPrice());
+
+            this.utilitiesPriceListRepository.save(lastPriceList);
+            logger.info("UtilitiesPriceList has been updated!");
+
+            response = ResponseEntity.ok(lastPriceList);
         }
+        return response;
     }
 
     public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
@@ -113,8 +112,8 @@ public class CommunalService {
         utilityBill.setElectricityAmount(utilitiesPayload.getElectricity() * utilitiesPriceList.getElectricityPrice());
         utilityBill.setUtilityAmount(
             utilityBill.getColdWaterAmount()
-            + utilityBill.getHotWaterAmount()
-            + utilityBill.getElectricityAmount()
+                + utilityBill.getHotWaterAmount()
+                + utilityBill.getElectricityAmount()
         );
 
         try {

@@ -28,7 +28,9 @@ public class UtilityBillController {
     }
 
     @PostMapping(value = "create", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<UtilityBill> createUtilityBill(@Validated @RequestBody final UtilitiesPayload utilitiesPayload) {
+    public ResponseEntity<UtilityBill> createUtilityBill(
+        @Validated @RequestBody final UtilitiesPayload utilitiesPayload
+    ) {
         return this.communalService.calculateUtilityBill(utilitiesPayload);
     }
 
