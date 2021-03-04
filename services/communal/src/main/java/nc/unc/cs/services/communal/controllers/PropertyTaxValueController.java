@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +93,8 @@ public class PropertyTaxValueController {
         paramType = "body"
     )
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(
-        @Validated @RequestBody final PropertyTaxValue propertyTaxValue
+        @Validated @RequestBody final CreationPropertyTaxValue newPropertyTaxValue
     ) {
-        return this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
+        return this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
     }
 }

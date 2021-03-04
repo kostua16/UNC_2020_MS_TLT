@@ -1,9 +1,8 @@
 package nc.unc.cs.services.communal.services.integrations.property_tax;
 
+import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
-import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
-import nc.unc.cs.services.communal.services.BankIntegrationService;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,79 +23,18 @@ class PropertyTaxValueTestTest {
     private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
 
     @Mock
-    private PropertyTaxRepository propertyTaxRepository;
-    @Mock
     private PropertyTaxValueRepository propertyTaxValueRepository;
-    @Mock
-    private BankIntegrationService bankIntegrationService;
 
     @InjectMocks
     private PropertyTaxService propertyTaxService;
 
-    @Test
-    void addPropertyTaxValueTestNullCadastralValue() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("samara");
-        propertyTaxValue.setPricePerSquareMeter(100000);
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    void addPropertyTaxValueTestZeroCadastralValue() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion(" samara");
-        propertyTaxValue.setCadastralValue(0);
-        propertyTaxValue.setPricePerSquareMeter(100000);
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    void addPropertyTaxValueTestNullPrice() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("samara  ");
-        propertyTaxValue.setCadastralValue(10);
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    void addPropertyTaxValueTestZeroPrice() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("samara  ");
-        propertyTaxValue.setCadastralValue(10);
-        propertyTaxValue.setPricePerSquareMeter(0);
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-    @Test
-    void addPropertyTaxValueTestNullRegion() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setCadastralValue(10);
-        propertyTaxValue.setPricePerSquareMeter(100000);
-
-        given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
-
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertAll(
-            () -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
-            () -> Assertions.assertNull(response.getBody().getPropertyTaxValueId())
-        );
-    }
-
-    @Test
-    void addPropertyTaxValueTestSpaceOrEmptyRegion() {
-        PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("         ");
-        propertyTaxValue.setCadastralValue(10);
-        propertyTaxValue.setPricePerSquareMeter(100000);
-
-        given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
-
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    private CreationPropertyTaxValue createCreationPropertyTaxValue() {
+        return CreationPropertyTaxValue
+            .builder()
+            .region("samara")
+            .pricePerSquareMeter(100000)
+            .cadastralValue(10)
+            .build();
     }
 
     @Test
@@ -107,45 +45,54 @@ class PropertyTaxValueTestTest {
 
     @Test
     void addPropertyTaxValueTestCreate() {
-        final PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("samara");
-        propertyTaxValue.setCadastralValue(10);
-        propertyTaxValue.setPricePerSquareMeter(100000);
-        propertyTaxValue.setPropertyTaxValueId(1L);
+        final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+        final PropertyTaxValue propertyTaxValue = PropertyTaxValue
+            .builder()
+            .region(newPropertyTaxValue.getRegion())
+            .pricePerSquareMeter(newPropertyTaxValue.getPricePerSquareMeter())
+            .cadastralValue(newPropertyTaxValue.getCadastralValue())
+            .build();
 
         given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(propertyTaxValue.getRegion()))
             .willReturn(null);
         given(this.propertyTaxValueRepository.save(propertyTaxValue))
             .willReturn(propertyTaxValue);
 
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(propertyTaxValue);
+        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-            () -> Assertions.assertNotNull(response.getBody().getPropertyTaxValueId())
+            () -> Assertions.assertEquals(propertyTaxValue, response.getBody())
         );
     }
 
     @Test
     void addPropertyTaxValueTestUpdate() {
-        final PropertyTaxValue propertyTaxValue = new PropertyTaxValue();
-        propertyTaxValue.setRegion("samara");
-        propertyTaxValue.setCadastralValue(10);
-        propertyTaxValue.setPricePerSquareMeter(100000);
-        propertyTaxValue.setPropertyTaxValueId(1L);
+        final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+        final PropertyTaxValue propertyTaxValue = PropertyTaxValue
+            .builder()
+            .propertyTaxValueId(1L)
+            .region(newPropertyTaxValue.getRegion())
+            .pricePerSquareMeter(newPropertyTaxValue.getPricePerSquareMeter())
+            .cadastralValue(newPropertyTaxValue.getCadastralValue())
+            .build();
 
-        final PropertyTaxValue newPropertyTaxValue = new PropertyTaxValue();
-        newPropertyTaxValue.setRegion("samara");
-        newPropertyTaxValue.setCadastralValue(15);
-        newPropertyTaxValue.setPricePerSquareMeter(80000);
+        final PropertyTaxValue lastPropertyTaxValue = PropertyTaxValue
+            .builder()
+            .region(newPropertyTaxValue.getRegion())
+            .pricePerSquareMeter(80000)
+            .cadastralValue(20)
+            .build();
 
-        given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(newPropertyTaxValue.getRegion()))
+        given(this.propertyTaxValueRepository
+            .findPropertyTaxValueByRegion(lastPropertyTaxValue.getRegion()))
             .willReturn(propertyTaxValue);
-        given(this.propertyTaxValueRepository.save(newPropertyTaxValue))
-            .willReturn(newPropertyTaxValue);
+        given(this.propertyTaxValueRepository.save(propertyTaxValue))
+            .willReturn(propertyTaxValue);
 
 
-        ResponseEntity<PropertyTaxValue> response = this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
+        final ResponseEntity<PropertyTaxValue> response = this.propertyTaxService
+            .addPropertyTaxValue(newPropertyTaxValue);
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),

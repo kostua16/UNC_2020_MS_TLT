@@ -3,6 +3,7 @@ package nc.unc.cs.services.communal.services;
 import java.util.Date;
 import java.util.List;
 import feign.FeignException;
+import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
@@ -60,53 +61,41 @@ public class PropertyTaxService {
     /**
      * Добавляет или изменяет прейскурант.
      *
-     * @param propertyTaxValue новый прейскурант
+     * @param newPropertyTaxValue новый прейскурант
      * @return http-ответ, в теле которого находится созданный прейскурант
-     * @throws NullPointerException если пропущеныны какие-либо поля
      */
     public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(
-        final PropertyTaxValue propertyTaxValue
+        final CreationPropertyTaxValue newPropertyTaxValue
     ) {
-        ResponseEntity<PropertyTaxValue> response;
-        if (
-            propertyTaxValue.getCadastralValue() != null
-                && propertyTaxValue.getPricePerSquareMeter() != null
-                && propertyTaxValue.getRegion() != null
-                && propertyTaxValue.getCadastralValue() > 0
-                && propertyTaxValue.getPricePerSquareMeter() > 0
-                && !propertyTaxValue.getRegion().trim().isEmpty()
-        ) {
-            try {
-                final PropertyTaxValue lastPropertyTaxValue =
-                    this.propertyTaxValueRepository
-                        .findPropertyTaxValueByRegion(
-                            propertyTaxValue.getRegion());
-                if (lastPropertyTaxValue == null) {
-                    this.propertyTaxValueRepository.save(propertyTaxValue);
-                    logger.info("Property Tax Value has been created.");
-                    response = ResponseEntity.ok(propertyTaxValue);
-                } else {
-                    lastPropertyTaxValue
-                        .setCadastralValue(propertyTaxValue
-                            .getCadastralValue());
-                    lastPropertyTaxValue
-                        .setPricePerSquareMeter(propertyTaxValue
-                            .getPricePerSquareMeter());
-                    this.propertyTaxValueRepository.save(lastPropertyTaxValue);
-                    logger.info("PropertyTaxValue has been updated.");
-                    response = ResponseEntity.ok(lastPropertyTaxValue);
-                }
-            } catch (NullPointerException npe) {
-                logger.error("Data not found!", npe);
-                response = ResponseEntity
-                    .status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(propertyTaxValue);
-            }
+        final PropertyTaxValue propertyTaxValue = PropertyTaxValue
+            .builder()
+            .region(newPropertyTaxValue.getRegion())
+            .pricePerSquareMeter(newPropertyTaxValue.getPricePerSquareMeter())
+            .cadastralValue(newPropertyTaxValue.getCadastralValue())
+            .build();
+
+        System.out.println(newPropertyTaxValue);
+        System.out.println(propertyTaxValue);
+
+        final ResponseEntity<PropertyTaxValue> response;
+        final PropertyTaxValue lastPropertyTaxValue =
+            this.propertyTaxValueRepository
+                .findPropertyTaxValueByRegion(
+                    propertyTaxValue.getRegion());
+        if (lastPropertyTaxValue == null) {
+            this.propertyTaxValueRepository.save(propertyTaxValue);
+            logger.info("Property Tax Value has been created.");
+            response = ResponseEntity.ok(propertyTaxValue);
         } else {
-            logger.error("Invalid input data!");
-            response = ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(propertyTaxValue);
+            lastPropertyTaxValue
+                .setCadastralValue(propertyTaxValue
+                    .getCadastralValue());
+            lastPropertyTaxValue
+                .setPricePerSquareMeter(propertyTaxValue
+                    .getPricePerSquareMeter());
+            this.propertyTaxValueRepository.save(lastPropertyTaxValue);
+            logger.info("PropertyTaxValue has been updated.");
+            response = ResponseEntity.ok(lastPropertyTaxValue);
         }
         return response;
     }
