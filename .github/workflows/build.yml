@@ -115,11 +115,21 @@ jobs:
       # Create new issue if any step failed #
       #######################################
       - name: Create issue if build fails
+        uses: actions/github-script@v3
         if: ${{ failure() }}
-        uses: nashmaniac/create-issue-action@v1.1
         with:
-          title: 'Build Failed for commit ${{github.sha}}'
-          token: ${{secrets.GH_TKN}}
-          assignees: ${{github.actor}}
-          labels: worflow-failed
-          body: Workflow failed for commit ${{github.sha}}
+          github-token: ${{secrets.GH_TKN}}
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_fails.js`)
+            await script({github, context})
+      ##############################################
+      # Add 'build_passed' label if build success  #
+      ##############################################
+      - name: Add 'build_passed' label if build success
+        uses: actions/github-script@v3
+        if: ${{ success() }}
+        with:
+          github-token: ${{secrets.GH_TKN}}
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_success.js`)
+            await script({github, context})

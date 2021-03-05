@@ -29,6 +29,8 @@ java:
 
 js:
   - any: ['**/*.js']
+  - all: ['!.github/**/*.js']
+  - all: ['!.github/*.js']
 
 vue:
   - any: ['**/*.vue']
