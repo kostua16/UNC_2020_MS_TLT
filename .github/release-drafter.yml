@@ -1,5 +1,5 @@
-name-template: 'v$NEXT_PATCH_VERSION'
-tag-template: 'v$NEXT_PATCH_VERSION'
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Backend'
     labels:
@@ -34,3 +34,25 @@ template: |
   ## What’s Changed
 
   $CHANGES
+
+  ## Contributers
+
+  $CONTRIBUTORS
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'release'
+      - 'version'
+      - 'bundle'
+  minor:
+    labels:
+      - 'minor'
+      - 'fix'
+      - 'feature'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+exclude-labels:
+  - 'skip-changelog'
