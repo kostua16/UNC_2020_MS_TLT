@@ -11,8 +11,8 @@ module.exports = async ({ github, context }) => {
                     issue_number: pull.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    labels: ['build_passed']
-                })
+                    labels: ["build_passed"],
+                });
             } catch (except) {
                 console.log(except);
             }
@@ -21,8 +21,8 @@ module.exports = async ({ github, context }) => {
                     issue_number: pull.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    name: 'build_failed'
-                })
+                    name: "build_failed",
+                });
             } catch (except) {
                 console.log(except);
             }

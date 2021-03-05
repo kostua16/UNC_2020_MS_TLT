@@ -13,9 +13,9 @@ module.exports = async ({ github, context }) => {
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: `[Build Failed] on [${pull.title}](${pull.number}) for commit ${context.sha}`,
-            assignees: pull.assignees.map(user => user.login),
-            body: `Workflow failed for commit ${context.sha}. Fails: #${context.issue.number}`
-        })
+            assignees: pull.assignees.map((user) => user.login),
+            body: `Workflow failed for commit ${context.sha}. Fails: #${context.issue.number}`,
+        });
         if (issue && issue.number) {
             await github.issues.createComment({
                 issue_number: pull.number,
@@ -29,8 +29,8 @@ module.exports = async ({ github, context }) => {
                 issue_number: pull.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                labels: ['build_failed']
-            })
+                labels: ["build_failed"],
+            });
         } catch (except) {
             console.log(except);
         }
@@ -39,12 +39,11 @@ module.exports = async ({ github, context }) => {
                 issue_number: pull.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                name: 'build_passed'
-            })
+                name: "build_passed",
+            });
         } catch (except) {
             console.log(except);
         }
-
     } else {
         await github.issues.create({
             owner: context.repo.owner,
