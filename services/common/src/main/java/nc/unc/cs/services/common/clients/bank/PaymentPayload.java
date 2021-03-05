@@ -15,18 +15,18 @@ import lombok.ToString;
 @Builder
 public class PaymentPayload {
     @NotNull(message = "Incorrect service ID")
-    @Min(1L)
+    @Min(value = 1L, message = "Incorrect service ID")
     private Long serviceId;
 
     @NotNull(message = "Incorrect citizen ID")
-    @Min(1L)
+    @Min(value = 1L, message = "Incorrect citizen ID")
     private Long citizenId;
 
     @NotNull(message = "Incorrect amount")
-    @Min(1)
+    @Min(value = 1, message = "Incorrect amount")
     private Integer amount;
 
     @NotNull(message = "Incorrect taxAmount")
-    @Min(1)
+    @Min(value = 1L, message = "Incorrect tax ID")
     private Integer taxAmount;
 }
