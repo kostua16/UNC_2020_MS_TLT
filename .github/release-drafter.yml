@@ -30,4 +30,7 @@ categories:
       - 'ci'
       - 'git'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-template: $CHANGES
+template: |
+  ## What’s Changed
+
+  $CHANGES
