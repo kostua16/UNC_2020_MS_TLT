@@ -1,10 +1,10 @@
-module.exports = async ({github, context}) => {
+module.exports = async ({ github, context }) => {
     if (context.issue.number) {
-        const {data: pull} = await github.pulls.get({
+        const { data: pull } = await github.pulls.get({
             pull_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-        })
+        });
         if (pull && pull.number) {
             try {
                 await github.issues.addLabels({
@@ -30,11 +30,10 @@ module.exports = async ({github, context}) => {
                 issue_number: pull.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `Build successfully completed for commit ${context.sha}`
-            })
+                body: `Build successfully completed for commit ${context.sha}`,
+            });
         }
     }
 
-
     return null;
-}
+};

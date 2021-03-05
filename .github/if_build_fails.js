@@ -1,15 +1,15 @@
-module.exports = async ({github, context}) => {
+module.exports = async ({ github, context }) => {
     var pull = null;
     if (context.issue.number) {
-        const {data: result} = await github.pulls.get({
+        const { data: result } = await github.pulls.get({
             pull_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-        })
+        });
         pull = result;
     }
     if (pull && pull.number) {
-        const {data: issue} = await github.issues.create({
+        const { data: issue } = await github.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: `[Build Failed] on [${pull.title}](${pull.number}) for commit ${context.sha}`,
@@ -21,8 +21,8 @@ module.exports = async ({github, context}) => {
                 issue_number: pull.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `Depends on #${issue.number} due to build failure for commit ${context.sha}`
-            })
+                body: `Depends on #${issue.number} due to build failure for commit ${context.sha}`,
+            });
         }
         try {
             await github.issues.addLabels({
@@ -51,9 +51,9 @@ module.exports = async ({github, context}) => {
             repo: context.repo.repo,
             title: `[Build Failed] for commit ${context.sha}`,
             assignees: `${context.actor}`,
-            body: `Workflow failed for commit ${context.sha}.`
-        })
+            body: `Workflow failed for commit ${context.sha}.`,
+        });
     }
 
     return null;
-}
+};
