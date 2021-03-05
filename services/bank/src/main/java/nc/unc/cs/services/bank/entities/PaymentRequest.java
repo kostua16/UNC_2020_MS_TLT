@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 public class PaymentRequest {
 
     @Id
@@ -36,7 +38,7 @@ public class PaymentRequest {
     private Long citizenId;
 
     @NotNull
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private Boolean status;
 
     @NotNull(message = "Incorrect amount")

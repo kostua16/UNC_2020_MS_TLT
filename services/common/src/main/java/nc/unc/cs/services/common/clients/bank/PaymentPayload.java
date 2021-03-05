@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Data
 @ToString
 @EqualsAndHashCode
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class PaymentPayload {
     @NotNull(message = "Incorrect service ID")
@@ -27,6 +29,6 @@ public class PaymentPayload {
     private Integer amount;
 
     @NotNull(message = "Incorrect taxAmount")
-    @Min(value = 1L, message = "Incorrect tax ID")
+    @Min(value = 1, message = "Incorrect tax ID")
     private Integer taxAmount;
 }

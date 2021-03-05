@@ -1,18 +1,18 @@
 package nc.unc.cs.services.bank.controllers;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.services.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,13 +38,8 @@ public class BankController {
         httpMethod = "POST",
         value = "Registration of provided services",
         notes = "Registers taxes and creates an invoice for payment (PaymentRequest)",
-//        response = ResponseEntity.class,
         nickname = "requestPayment"
     )
-    @ApiResponses({
-        @ApiResponse(code = 500, message = "PaymentRequest with ID = null", response = PaymentRequest.class),
-        @ApiResponse(code = 503, message = "PaymentRequest with ID = null", response = PaymentRequest.class)
-    })
     @ApiImplicitParam(
         name = "paymentPayload",
         value = "Data for registration of the service provided to the user",
@@ -55,14 +50,9 @@ public class BankController {
         paramType = "body"
     )
     public ResponseEntity<Long> requestPayment(
-        @RequestBody final PaymentPayload paymentPayload
+        @Validated @RequestBody final PaymentPayload paymentPayload
     ) {
-        return this.bankService.requestPayment(
-            paymentPayload.getServiceId(),
-            paymentPayload.getCitizenId(),
-            paymentPayload.getAmount(),
-            paymentPayload.getTaxAmount()
-        );
+        return this.bankService.requestPayment(paymentPayload);
     }
 
     @ApiOperation(
@@ -72,15 +62,10 @@ public class BankController {
         response = Transaction.class,
         nickname = "pay"
     )
-    @ApiResponses({
-        @ApiResponse(code = 400, message = "Uncreated transaction", response = Transaction.class),
-        @ApiResponse(code = 500, message = "Uncreated transaction", response = Transaction.class),
-        @ApiResponse(code = 503, message = "Uncreated transaction", response = Transaction.class)
-    })
     @PutMapping(value = "payment/{paymentId}", produces = "application/json")
     public ResponseEntity<Transaction> pay(
         @ApiParam(name = "paymentId", type = "long", value = "PaymentPayload ID", required = true)
-        @PathVariable("paymentId") final Long paymentId
+        @Min(value = 1L) @PathVariable("paymentId") final Long paymentId
     ) {
         return this.bankService.payment(paymentId);
     }
