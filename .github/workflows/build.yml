@@ -103,7 +103,7 @@ jobs:
       # Runt static analysis and save results: Checkstyle #
       #####################################################
       - name: Run CheckStyle
-        uses: nikitasavinov/checkstyle-action@master
+        uses: dbelyaev/action-checkstyle@master
         if: ${{ always() }}
         with:
           github_token: ${{ secrets.GH_TKN }}
