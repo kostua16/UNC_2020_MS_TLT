@@ -19,6 +19,6 @@ public class Pension {
     private Long pensionId;
     private Integer amountOfPension;
     private Long citizenId;
-    private Long domesticId;
+    private Integer pensionExperience;
 
 }

@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PensionRepository extends JpaRepository<Pension, Pension> {
-
+public interface PensionRepository extends JpaRepository<Pension, Long> {
     List<Pension> findPensionCardByCitizenId(Long citizenId);
-    List<Pension> findPensionCardByDomesticId(Long domesticId);
 }
 
