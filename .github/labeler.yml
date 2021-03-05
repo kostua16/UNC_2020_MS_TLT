@@ -1,0 +1,47 @@
+git:
+  - ".gitignore"
+
+heroku:
+  - "Procfile"
+  - "system.properties"
+
+ci:
+  - ".github/**"
+  - ".circleci/**"
+  - ".travis.yml"
+  - ".restyled.yml"
+  - ".whitesource"
+  - ".bettercodehub.yml"
+  - ".deepsource.toml"
+
+build:
+  - any: ["**/pom.xml"]
+  - "pom.xml"
+
+code:
+  - any: ['*/src/main/*']
+
+tests:
+  - any: ['*/src/test/*']
+
+java:
+  - any: ['**/*.java']
+
+js:
+  - any: ['**/*.js']
+
+props:
+  - any: ['**/*.properties']
+  - any: ['**/*.yml']
+
+documentation:
+  - any: ['**/*.md']
+  - '*.md'
+
+TRASH:
+  - '.idea/**'
+  - 'target/**'
+
+ROOT:
+  - './*'
+

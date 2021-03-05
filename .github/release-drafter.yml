@@ -1,0 +1,25 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: '🚀 New Features'
+    labels:
+      - 'type:features'
+  # в эту категорию собираем все PR с меткой type:features
+
+  - title: '🐞 Bugs Fixes'
+    labels:
+      - 'type:fix'
+  # аналогично для метки type:fix и т.д.
+
+  - title: '📚 Documentation'
+    labels:
+      - 'type:documentation'
+
+  - title: '🛠 Configuration'
+    labels:
+      - 'type:config'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+template: |
+  ## Changes
+  $CHANGES
