@@ -1,6 +1,11 @@
 app:
   local-url: localhost:${server.port}
   public-url: ${APP_URL:${app.local-url}}
+  bank-url: ${BANK_URL:localhost:8084}
+  tax-url: ${TAX_URL:localhost:8082}
+  logging-url: ${LOGGING_URL:localhost:8089}
+  passport-url: ${PASSPORT_URL:localhost:8095}
+  account-url: ${ACCOUNT_URL:localhost:8085}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020pass}
   user: ${EUREKA_UID:unc2020}

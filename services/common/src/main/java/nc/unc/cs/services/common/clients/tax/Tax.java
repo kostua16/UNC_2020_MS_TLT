@@ -1,34 +1,49 @@
 package nc.unc.cs.services.common.clients.tax;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Builder
 public class Tax {
 
-    private Long taxId;
+  @NotNull(message = "Incorrect tax ID")
+  @Min(1L)
+  private Long taxId;
 
-    @NonNull
-    private Integer taxAmount;
+  @NotNull(message = "Incorrect tax amount")
+  @Min(1)
+  private Integer taxAmount;
 
-    @NonNull
-    private Boolean status;
+  @NotNull private Boolean status;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date creationDate;
+  @NotNull
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date creationDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date taxPaymentDate;
+  @NotNull
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date taxPaymentDate;
 
-    @NonNull
-    private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  private Long citizenId;
 
-    @NonNull
-    private Long serviceId;
+  @NotNull(message = "Incorrect service ID")
+  @Min(1L)
+  private Long serviceId;
 }

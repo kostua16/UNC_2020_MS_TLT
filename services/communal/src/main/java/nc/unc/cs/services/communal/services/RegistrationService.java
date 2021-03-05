@@ -1,8 +1,8 @@
 package nc.unc.cs.services.communal.services;
 
 import java.util.List;
-import nc.unc.cs.services.common.clients.bank.BankService;
-import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
+import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
@@ -15,108 +15,155 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationService {
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+  /** Логгер. */
+  private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+  /** Налоговый процент от стоимости платежа. */
+  public static final Integer TAX_PERCENT = 50;
+  /** Номер сервиса. */
+  public static final Long SERVICE_ID = 19L;
+  /** Стоимость предоставляемой услуги */
+  public static final Integer SERVICE_COST = 2000;
 
-    private final PropertyRepository propertyRepository;
-    private final RegistrationRepository registrationRepository;
-    private final BankService bankService;
+  private final PropertyRepository propertyRepository;
+  private final RegistrationRepository registrationRepository;
+  private final BankIntegrationService bankIntegrationService;
 
-    @Autowired
-    public RegistrationService(
-        final PropertyRepository propertyRepository,
-        final RegistrationRepository registrationRepository,
-        final BankService bankService
-    ) {
-        this.propertyRepository = propertyRepository;
-        this.registrationRepository = registrationRepository;
-        this.bankService = bankService;
+  @Autowired
+  public RegistrationService(
+      final PropertyRepository propertyRepository,
+      final RegistrationRepository registrationRepository,
+      final BankIntegrationService bankIntegrationService) {
+    this.propertyRepository = propertyRepository;
+    this.registrationRepository = registrationRepository;
+    this.bankIntegrationService = bankIntegrationService;
+  }
+
+  /**
+   * Возвращает активную регистрацю пользователя.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return активная регистрация гражданина
+   */
+  public Registration getActiveRegistrationByCitizenId(final Long citizenId) {
+    return this.registrationRepository.findRegistrationByCitizenIdAndIsActive(citizenId, true);
+  }
+
+  /**
+   * Добавляет / Изменяет прописку гражданина.
+   *
+   * @param creationRegistration новое место регистрации
+   * @return http-ответ, в теле которого находится данные о прописке
+   */
+  public ResponseEntity<Registration> addRegistration(
+      final CreationRegistration creationRegistration) {
+    final ResponseEntity<Registration> response;
+    final Registration registration =
+        Registration.builder()
+            .region(creationRegistration.getRegion())
+            .city(creationRegistration.getCity())
+            .street(creationRegistration.getStreet())
+            .house(creationRegistration.getHouse())
+            .apartment(creationRegistration.getApartment())
+            .isActive(true)
+            .citizenId(creationRegistration.getCitizenId())
+            .build();
+    final Registration lastRegistration =
+        this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
+
+    this.bankIntegrationService.bankRequest(
+        SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+    if (lastRegistration != null) {
+      lastRegistration.setIsActive(false);
+      this.registrationRepository.save(lastRegistration);
     }
 
-    public Registration getActiveRegistrationByCitizenId(final Long citizenId) {
-        return this.registrationRepository.findRegistrationByCitizenIdAndIsActive(citizenId, true);
+    this.registrationRepository.save(registration);
+    logger.info(
+        "Registration has been added to the citizen with ID = {}", registration.getCitizenId());
+    response = ResponseEntity.ok(registration);
+
+    return response;
+  }
+
+  /**
+   * Возвращает регистрацию по идентификатору.
+   *
+   * @param registrationId регистрационный идентификатор
+   * @return регистрация
+   */
+  public Registration getRegistrationByRegistrationId(final Long registrationId) {
+    return this.registrationRepository.findRegistrationByRegistrationId(registrationId);
+  }
+
+  /**
+   * Возвращает список регистраций гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return список регистраций
+   */
+  public List<Registration> getAllRegistrations(final Long citizenId) {
+    return this.registrationRepository.findRegistrationsByCitizenId(citizenId);
+  }
+
+  /**
+   * Ищет недвижимость по адресу.
+   *
+   * @param property данные о недвижимости
+   * @return недвижимость
+   */
+  public Property getPropertyByAddress(final CreationProperty property) {
+    return this.propertyRepository.findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
+        property.getRegion(),
+        property.getCity(),
+        property.getStreet(),
+        property.getHouse(),
+        property.getApartment());
+  }
+
+  /**
+   * Добавляет недвижимость. Если недвижимость уже существует, то обнавляется владелец.
+   *
+   * @param newProperty данные о недвижимсоти
+   * @return http-ответ, в теле которого находится данные о недвижимости
+   */
+  public ResponseEntity<Property> addCitizensProperty(final CreationProperty newProperty) {
+    final ResponseEntity<Property> response;
+    final Property property;
+    final Property lastProperty = this.getPropertyByAddress(newProperty);
+
+    if (lastProperty == null) {
+      property =
+          Property.builder()
+              .region(newProperty.getRegion())
+              .city(newProperty.getCity())
+              .street(newProperty.getStreet())
+              .house(newProperty.getHouse())
+              .apartment(newProperty.getApartment())
+              .apartmentSize(newProperty.getApartmentSize())
+              .citizenId(newProperty.getCitizenId())
+              .build();
+      logger.info("New property added");
+    } else {
+      lastProperty.setCitizenId(newProperty.getCitizenId());
+      property = lastProperty;
+      logger.info("Property owner updated");
     }
+    this.bankIntegrationService.bankRequest(
+        SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+    this.propertyRepository.save(property);
+    logger.info("Added property for user with ID = {}", property.getCitizenId());
+    response = ResponseEntity.ok(property);
 
-    /**
-     * Method of adding / updating the registration of a citizen.
-     * When updating the registration, the previous one becomes inactive.
-     *
-     * @param registration Place of registration
-     * @return ResponseEntity status with input data
-     */
-    public ResponseEntity<Registration> addRegistration(final Registration registration) {
-        // возможно стоит добавить расчёт стоимости услуги и налога на неё
-        registration.setIsActive(true);
-        registration.setCitizenId(111L);
-        try {
-            this.bankService.requestPayment(
-                new PaymentPayload(13L, registration.getCitizenId(), 1000, 1000)
-            );
-            Registration lastRegistration = this.getActiveRegistrationByCitizenId(registration.getCitizenId());
+    return response;
+  }
 
-            if (lastRegistration != null) {
-                lastRegistration.setIsActive(false);
-                this.registrationRepository.save(lastRegistration);
-            }
-
-            this.registrationRepository.save(registration);
-            logger.info("Registration has been added to the citizen with ID = {}", registration.getCitizenId());
-
-            return ResponseEntity.ok(registration);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Error! Failed to add registration.");
-            return ResponseEntity.status(503).body(registration);
-        }
-    }
-
-    public Registration getRegistrationByCitizenId(final Long citizenId) {
-        return this.getActiveRegistrationByCitizenId(citizenId);
-    }
-
-    public Registration getRegistrationByRegistrationId(final Long registrationId) {
-        return this.registrationRepository.findRegistrationByRegistrationId(registrationId);
-    }
-
-    public List<Registration> getAllRegistrations(final Long citizenId) {
-        return this.registrationRepository.findRegistrationsByCitizenId(citizenId);
-    }
-
-    public ResponseEntity<Property> addCitizensProperty(final Property property) {
-        try {
-            this.bankService.requestPayment(
-                new PaymentPayload(14L, property.getCitizenId(), 10000, 1000) // hard code
-            );
-            Property lastProperty = this.propertyRepository
-                .findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
-                    property.getRegion(),
-                    property.getCity(),
-                    property.getStreet(),
-                    property.getHouse(),
-                    property.getApartment()
-                );
-
-            if (lastProperty == null) {
-
-                this.propertyRepository.save(property);
-                logger.info("New property added");
-            } else {
-                lastProperty.setCitizenId(property.getCitizenId());
-                property.setPropertyId(lastProperty.getPropertyId());
-                this.propertyRepository.save(lastProperty);
-
-                logger.info("Property owner updated");
-            }
-
-            return ResponseEntity.ok(property);
-        } catch (Exception e) {
-            logger.error("Failed to privatize property!");
-            e.printStackTrace();
-            return ResponseEntity.status(503).body(property);
-        }
-    }
-
-    public List<Property> getPropertiesByCitizenId(final Long citizenId) {
-        return this.propertyRepository.findPropertyByCitizenId(citizenId);
-    }
-
+  /**
+   * Возвращает список недвижимостей гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return список недвижимостей
+   */
+  public List<Property> getPropertiesByCitizenId(final Long citizenId) {
+    return this.propertyRepository.findPropertyByCitizenId(citizenId);
+  }
 }
