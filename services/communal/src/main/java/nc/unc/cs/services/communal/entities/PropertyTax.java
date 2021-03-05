@@ -1,5 +1,7 @@
 package nc.unc.cs.services.communal.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +11,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,37 +26,35 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 public class PropertyTax {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long propertyTaxId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long propertyTaxId;
 
-    @NotNull(message = "Incorrect tax amount")
-    @Min(1)
-    @Column(updatable = false, nullable = false)
-    private Integer taxAmount;
+  @NotNull(message = "Incorrect tax amount")
+  @Min(1)
+  @Column(updatable = false, nullable = false)
+  private Integer taxAmount;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean isPaid;
+  @NotNull @Column(nullable = false) private Boolean isPaid;
 
-    @NotNull
-    @Column(updatable = false, nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
+  @NotNull
+  @Column(updatable = false, nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date date;
 
-    @NotNull(message = "Incorrect property ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long propertyId;
+  @NotNull(message = "Incorrect property ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long propertyId;
 
-    @NotNull(message = "Incorrect payment request ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long paymentRequestId;
+  @NotNull(message = "Incorrect payment request ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long paymentRequestId;
 
-    @NotNull(message = "Incorrect citizen ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long citizenId;
 }

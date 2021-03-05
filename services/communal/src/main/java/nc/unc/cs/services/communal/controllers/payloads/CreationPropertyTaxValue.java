@@ -16,31 +16,29 @@ import lombok.ToString;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class CreationPropertyTaxValue {
-    @NotBlank(message = "Incorrect region name")
-    @Size(min = 2, max = 40, message = "Incorrect region name")
-    private String region;
+  @NotBlank(message = "Incorrect region name")
+  @Size(min = 2, max = 40, message = "Incorrect region name")
+  private String region;
 
-    @NotNull(message = "Incorrect price per square meter size")
-    @Min(value = 1, message = "Apartment price per square meter is incorrect")
-    private Integer pricePerSquareMeter;
+  @NotNull(message = "Incorrect price per square meter size")
+  @Min(value = 1, message = "Apartment price per square meter is incorrect")
+  private Integer pricePerSquareMeter;
 
-    @NotNull(message = "Incorrect cadastral value size")
-    @Min(value = 1, message = "Apartment cadastral value is incorrect")
-    @Max(value = 100, message = "Apartment cadastral value is incorrect")
-    private Integer cadastralValue;
+  @NotNull(message = "Incorrect cadastral value size")
+  @Min(value = 1, message = "Apartment cadastral value is incorrect")
+  @Max(value = 100, message = "Apartment cadastral value is incorrect")
+  private Integer cadastralValue;
 
-    @Builder
-    public CreationPropertyTaxValue(
-        final String region,
-        final Integer pricePerSquareMeter,
-        final Integer cadastralValue
-    ) {
-        this.region = region.trim().toUpperCase();
-        this.pricePerSquareMeter = pricePerSquareMeter;
-        this.cadastralValue = cadastralValue;
-    }
+  @Builder
+  public CreationPropertyTaxValue(final String region,
+                                  final Integer pricePerSquareMeter,
+                                  final Integer cadastralValue) {
+    this.region = region.trim().toUpperCase();
+    this.pricePerSquareMeter = pricePerSquareMeter;
+    this.cadastralValue = cadastralValue;
+  }
 
-    public void setRegion(final String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(final String region) {
+    this.region = region.trim().toUpperCase();
+  }
 }

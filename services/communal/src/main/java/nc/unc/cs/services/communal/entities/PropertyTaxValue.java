@@ -22,40 +22,37 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class PropertyTaxValue {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long propertyTaxValueId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long propertyTaxValueId;
 
-    @NotBlank(message = "Incorrect region name")
-    @Size(min = 2, max = 40, message = "Incorrect region name")
-    @Column(nullable = false, unique = true, updatable = false, length = 40)
-    private String region;
+  @NotBlank(message = "Incorrect region name")
+  @Size(min = 2, max = 40, message = "Incorrect region name")
+  @Column(nullable = false, unique = true, updatable = false, length = 40)
+  private String region;
 
-    @NotNull(message = "Incorrect price per square meter size")
-    @Min(value = 1, message = "Apartment price per square meter is incorrect")
-    @Column(nullable = false)
-    private Integer pricePerSquareMeter;
+  @NotNull(message = "Incorrect price per square meter size")
+  @Min(value = 1, message = "Apartment price per square meter is incorrect")
+  @Column(nullable = false)
+  private Integer pricePerSquareMeter;
 
-    @NotNull(message = "Incorrect cadastral value size")
-    @Min(value = 1, message = "Apartment cadastral value is incorrect")
-    @Max(value = 100, message = "Apartment cadastral value is incorrect")
-    @Column(nullable = false)
-    private Integer cadastralValue;
+  @NotNull(message = "Incorrect cadastral value size")
+  @Min(value = 1, message = "Apartment cadastral value is incorrect")
+  @Max(value = 100, message = "Apartment cadastral value is incorrect")
+  @Column(nullable = false)
+  private Integer cadastralValue;
 
-    @Builder
-    public PropertyTaxValue(
-        final Long propertyTaxValueId,
-        final String region,
-        final Integer pricePerSquareMeter,
-        final Integer cadastralValue
-    ) {
-        this.propertyTaxValueId = propertyTaxValueId;
-        this.region = region.trim().toUpperCase();
-        this.pricePerSquareMeter = pricePerSquareMeter;
-        this.cadastralValue = cadastralValue;
-    }
+  @Builder
+  public PropertyTaxValue(final Long propertyTaxValueId, final String region,
+                          final Integer pricePerSquareMeter,
+                          final Integer cadastralValue) {
+    this.propertyTaxValueId = propertyTaxValueId;
+    this.region = region.trim().toUpperCase();
+    this.pricePerSquareMeter = pricePerSquareMeter;
+    this.cadastralValue = cadastralValue;
+  }
 
-    public void setRegion(final String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(final String region) {
+    this.region = region.trim().toUpperCase();
+  }
 }
