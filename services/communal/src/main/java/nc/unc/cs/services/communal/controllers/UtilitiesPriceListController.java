@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "communal/utilities/price")
+@RequestMapping(value = "communal/utilities/price-list")
 @CrossOrigin
 @Api(value = "Utilities Price List API")
 public class UtilitiesPriceListController {

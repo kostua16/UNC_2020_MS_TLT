@@ -3,11 +3,16 @@ package nc.unc.cs.services.communal.services;
 import feign.FeignException;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BankIntegrationService {
+    /** Лоррер. */
+    private static Logger logger = LoggerFactory.getLogger(BankIntegrationService.class);
+
     /** Банковский сервис. */
     private final BankService bankService;
 
@@ -36,6 +41,7 @@ public class BankIntegrationService {
         final Integer amount,
         final Integer percent
     ) throws FeignException {
+//        try {
         final PaymentPayload paymentPayload = new PaymentPayload(
             serviceId,
             citizenId,
@@ -44,6 +50,14 @@ public class BankIntegrationService {
         );
         return this.bankService
             .requestPayment(paymentPayload).getBody();
+//        } catch (FeignException fe) {
+//            logger.error(
+//                "Failed to privatize property!"
+//                    + " Failed to send a request to the BankService.",
+//                fe
+//            );
+//            throw new BankRequestException(fe.getMessage());
+//        }
     }
 
     /**

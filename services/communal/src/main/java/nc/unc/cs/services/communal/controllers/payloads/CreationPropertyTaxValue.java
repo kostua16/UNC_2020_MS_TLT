@@ -1,6 +1,5 @@
 package nc.unc.cs.services.communal.controllers.payloads;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

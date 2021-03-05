@@ -74,9 +74,6 @@ public class PropertyTaxService {
             .cadastralValue(newPropertyTaxValue.getCadastralValue())
             .build();
 
-        System.out.println(newPropertyTaxValue);
-        System.out.println(propertyTaxValue);
-
         final ResponseEntity<PropertyTaxValue> response;
         final PropertyTaxValue lastPropertyTaxValue =
             this.propertyTaxValueRepository

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "communal/tax/price")
+@RequestMapping(value = "communal/tax/price-list")
 @CrossOrigin
 @Api(value = "Property Tax Value API", description = "API create price list for calculate property tax")
 public class PropertyTaxValueController {

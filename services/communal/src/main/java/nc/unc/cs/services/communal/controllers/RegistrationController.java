@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.controllers;
 
 import java.util.List;
-import nc.unc.cs.services.communal.entities.Property;
+import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("communal/housing")
+@RequestMapping("communal/registration")
 public class RegistrationController {
     private final RegistrationService registrationService;
 
     @Autowired
-    public RegistrationController(final RegistrationService registrationService) {
+    public RegistrationController(
+        final RegistrationService registrationService
+    ) {
         this.registrationService = registrationService;
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Registration> addRegistration(
-        @Validated @RequestBody final Registration registration
+        @Validated @RequestBody final CreationRegistration creationRegistration
     ) {
-        return this.registrationService.addRegistration(registration);
+        return this.registrationService.addRegistration(creationRegistration);
     }
 
     @GetMapping(value = "registrations/active/citizen/{citizenId}", produces = "application/json")
@@ -50,19 +52,5 @@ public class RegistrationController {
         @PathVariable("registrationId") final Long registrationId
     ) {
         return this.registrationService.getRegistrationByRegistrationId(registrationId);
-    }
-
-    @PostMapping(value = "property/add", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Property> addCitizensProperty(
-        @Validated @RequestBody final Property property
-    ) {
-        return this.registrationService.addCitizensProperty(property);
-    }
-
-    @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
-    public List<Property> getPropertiesByCitizenId(
-        @PathVariable("citizenId") final Long citizenId
-    ) {
-        return this.registrationService.getPropertiesByCitizenId(citizenId);
     }
 }
