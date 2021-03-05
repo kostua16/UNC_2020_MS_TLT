@@ -1,0 +1,135 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Build project
+
+on:
+  push:
+    # branches to consider in the event; optional, defaults to all
+    branches:
+      - develop
+      - master
+      - support
+  # pull_request event is required only for autolabeler
+  pull_request:
+    # Only following types are handled by the action, but one can default to all as well
+    types: [ opened, edited, reopened, synchronize ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      ##########################
+      # Checkout the code base #
+      ##########################
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TKN }}
+          fetch-depth: 0
+      ################################
+      # Remove workflow configs      #
+      ################################
+      - name: Remove workflow configs
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: ./.github/workflows
+      ################################
+      # Remove .restyled.yaml config #
+      ################################
+      - name: Remove .restyled.yaml config
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: ./.restyled.yaml
+      #########################################
+      # Cache Sonar-related data between runs #
+      #########################################
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      #################################
+      # Cache Maven-repo between runs #
+      #################################
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      ###############
+      # Install JDK #
+      ###############
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      #################
+      # Build project #
+      #################
+      - name: Build with Maven
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TKN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -T 2C -B clean install -Psonar --file pom.xml
+      #########################################
+      # Compute and save tests coverage data #
+      #########################################
+      - name: Test Coverage
+        if: ${{ always() }}
+        uses: codecov/codecov-action@v1.2.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+          verbose: true
+      ##################################
+      # Compute and save JUnit reports #
+      ##################################
+      - name: Run Junit report generator
+        uses: check-run-reporter/action@v2.0.0
+        if: ${{ always() }}
+        with:
+          # This label is more complex than you probably want. Since we're
+          # running this workflow for both push and pull_request events to test
+          # the action itself, we're effectively running the workflwo twice for
+          # each PR Commit and we need to differentiate in the UI.
+          label: 'Unit Tests (${{ github.event_name }})'
+          report: '**/surefire-reports/*.xml'
+          token: ${{ secrets.CHECK_RUN_REPORTER_TOKEN }}
+      #####################################################
+      # Runt static analysis and save results: Checkstyle #
+      #####################################################
+      - name: Run CheckStyle
+        uses: dbelyaev/action-checkstyle@master
+        if: ${{ always() }}
+        with:
+          github_token: ${{ secrets.GH_TKN }}
+          reporter: 'github-pr-check'
+#          tool_name: 'testtool'
+          checkstyle_version: '8.41'
+          checkstyle_config: 'checkstyle.xml'
+      #######################################
+      # Create new issue if any step failed #
+      #######################################
+      - name: Create issue if build fails
+        uses: actions/github-script@v3
+        if: ${{ failure() }}
+        with:
+          github-token: ${{secrets.GH_TKN}}
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_fails.js`)
+            await script({github, context})
+      ##############################################
+      # Add 'build_passed' label if build success  #
+      ##############################################
+      - name: Add 'build_passed' label if build success
+        uses: actions/github-script@v3
+        if: ${{ success() }}
+        with:
+          github-token: ${{secrets.GH_TKN}}
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_success.js`)
+            await script({github, context})

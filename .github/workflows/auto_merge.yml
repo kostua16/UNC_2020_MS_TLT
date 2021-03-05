@@ -1,0 +1,38 @@
+name: 'Auto merge of approved pull requests with passed checks'
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Automerge PR'
+        uses: "pascalgn/automerge-action@v0.13.1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GH_TKN }}"
+#          MERGE_METHOD: 'squash'
+          MERGE_LABELS: "approved,!work in progress,!wip,!WIP"
+          MERGE_REMOVE_LABELS: "approved"
+          MERGE_COMMIT_MESSAGE: "pull-request-description"
+          MERGE_RETRIES: "6"
+          MERGE_RETRY_SLEEP: "30000"
+          UPDATE_LABELS: ""
+#          UPDATE_METHOD: "rebase"
+          MERGE_DELETE_BRANCH: false

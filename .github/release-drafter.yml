@@ -1,0 +1,36 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: '🚀 Backend'
+    labels:
+      - 'code'
+      - 'props'
+
+  - title: '🚀 Frontend'
+    labels:
+      - 'js'
+      - 'html'
+      - 'vue'
+
+  - title: '🐞 Tests'
+    labels:
+      - 'tests'
+
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+
+  - title: '🛠 Configuration'
+    labels:
+      - 'build'
+      - 'heroku'
+
+  - title: '🛠 CI/CD'
+    labels:
+      - 'ci'
+      - 'git'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+template: |
+  ## What’s Changed
+
+  $CHANGES
