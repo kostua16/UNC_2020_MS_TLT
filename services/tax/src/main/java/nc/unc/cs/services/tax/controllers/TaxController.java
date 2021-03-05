@@ -16,7 +16,6 @@ import nc.unc.cs.services.tax.services.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("tax")
-@CrossOrigin
 @Api(value = "Tax Api")
 public class TaxController {
 
@@ -35,6 +33,11 @@ public class TaxController {
     @Autowired
     public TaxController(final TaxService taxService) {
         this.taxService = taxService;
+    }
+
+    @GetMapping(produces = "application/json")
+    public List<Tax> getAllTaxes() {
+        return this.taxService.getAllTaxes();
     }
 
     @GetMapping(value = "{taxId}", produces = "application/json")

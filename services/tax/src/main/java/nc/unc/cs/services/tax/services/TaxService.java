@@ -122,4 +122,8 @@ public class TaxService {
             .getContent();
 
     }
+
+    public List<Tax> getAllTaxes() {
+        return this.taxRepository.findAll();
+    }
 }
