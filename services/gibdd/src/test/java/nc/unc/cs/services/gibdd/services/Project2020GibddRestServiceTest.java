@@ -18,8 +18,8 @@
 // import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 // import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 //
-//@WebMvcTest(RestGibddService.class)
-//@Import(ObjectMapper.class)
+// @WebMvcTest(RestGibddService.class)
+// @Import(ObjectMapper.class)
 // class Project2020GibddRestServiceTest {
 //
 //    @Autowired
@@ -91,4 +91,4 @@
 //        );
 //    }
 //
-//}
+// }

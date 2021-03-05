@@ -3,7 +3,6 @@ package nc.unc.cs.services.communal.controllers.mock.registration;
 import nc.unc.cs.services.communal.controllers.RegistrationController;
 import nc.unc.cs.services.communal.controllers.mock.ParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
-import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.Registration;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,8 +26,7 @@ public class RegistrationParentWeb extends ParentWeb {
   }
 
   protected final Registration createRegistration() {
-    final CreationRegistration creationRegistration =
-        this.createCreationRegistration();
+    final CreationRegistration creationRegistration = this.createCreationRegistration();
     return Registration.builder()
         .region(creationRegistration.getRegion())
         .city(creationRegistration.getCity())

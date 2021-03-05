@@ -21,8 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommunalService {
 
-  private static final Logger logger =
-      LoggerFactory.getLogger(CommunalService.class);
+  private static final Logger logger = LoggerFactory.getLogger(CommunalService.class);
 
   private final PropertyRepository propertyRepository;
   private final UtilityBillRepository utilityBillRepository;
@@ -30,11 +29,11 @@ public class CommunalService {
   private final BankService bankService;
 
   @Autowired
-  public CommunalService(final PropertyRepository propertyRepository,
-                         final UtilityBillRepository utilityBillRepository,
-                         final UtilitiesPriceListRepository
-                             utilitiesPriceListRepository,
-                         final BankService bankService) {
+  public CommunalService(
+      final PropertyRepository propertyRepository,
+      final UtilityBillRepository utilityBillRepository,
+      final UtilitiesPriceListRepository utilitiesPriceListRepository,
+      final BankService bankService) {
     this.propertyRepository = propertyRepository;
     this.utilityBillRepository = utilityBillRepository;
     this.utilitiesPriceListRepository = utilitiesPriceListRepository;
@@ -42,8 +41,8 @@ public class CommunalService {
   }
 
   // стоит ли добавлять и обнавлять прейскурант в одной функции???
-  public ResponseEntity<UtilitiesPriceList>
-  addUtilitiesPriceList(final CreationUtilitiesPriceList newPriceList) {
+  public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
+      final CreationUtilitiesPriceList newPriceList) {
     final ResponseEntity<UtilitiesPriceList> response;
     final UtilitiesPriceList utilitiesPriceList =
         UtilitiesPriceList.builder()
@@ -53,8 +52,7 @@ public class CommunalService {
             .electricityPrice(newPriceList.getElectricityPrice())
             .build();
     final UtilitiesPriceList lastPriceList =
-        this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(
-            newPriceList.getRegion());
+        this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(newPriceList.getRegion());
     if (lastPriceList == null) {
       this.utilitiesPriceListRepository.save(utilitiesPriceList);
       logger.info("UtilitiesPriceList has been created!");
@@ -80,30 +78,25 @@ public class CommunalService {
   /**
    * Создание квитанции на затраченные коммунальные услуги
    *
-   * @param utilitiesPayload входные данные с идентификатором имущества, и
-   *     кол-вом затраченных коммунальных услуг
+   * @param utilitiesPayload входные данные с идентификатором имущества, и кол-вом затраченных
+   *     коммунальных услуг
    * @return Ответ со статусм 200 и созданная квитанция
    */
-  public ResponseEntity<UtilityBill>
-  calculateUtilityBill(UtilitiesPayload utilitiesPayload) {
+  public ResponseEntity<UtilityBill> calculateUtilityBill(UtilitiesPayload utilitiesPayload) {
     UtilityBill utilityBill = new UtilityBill();
 
-    Property property = this.propertyRepository.findPropertyByPropertyId(
-        utilitiesPayload.getPropertyId());
+    Property property =
+        this.propertyRepository.findPropertyByPropertyId(utilitiesPayload.getPropertyId());
     if (property == null) {
-      logger.error("Property with ID = {} not found",
-                   utilitiesPayload.getPropertyId());
+      logger.error("Property with ID = {} not found", utilitiesPayload.getPropertyId());
       return ResponseEntity.status(400).body(utilityBill);
     }
 
     UtilitiesPriceList utilitiesPriceList =
-        this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(
-            property.getRegion());
-    if (utilitiesPriceList ==
-        null) { // сделать в скрипте общий прайс-лист и юзать его, если не
-                // находится региональный
-      logger.error("UtilitiesPriceList with region {} not found",
-                   property.getRegion());
+        this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(property.getRegion());
+    if (utilitiesPriceList == null) { // сделать в скрипте общий прайс-лист и юзать его, если не
+      // находится региональный
+      logger.error("UtilitiesPriceList with region {} not found", property.getRegion());
       return ResponseEntity.status(503).body(utilityBill);
     }
 
@@ -114,23 +107,27 @@ public class CommunalService {
     utilityBill.setHotWater(utilitiesPayload.getHotWater());
     utilityBill.setElectricity(utilitiesPayload.getElectricity());
     utilityBill.setIsPaid(false);
-    utilityBill.setColdWaterAmount(utilitiesPayload.getColdWater() *
-                                   utilitiesPriceList.getHotWaterPrice());
-    utilityBill.setHotWaterAmount(utilitiesPayload.getHotWater() *
-                                  utilitiesPriceList.getHotWaterPrice());
-    utilityBill.setElectricityAmount(utilitiesPayload.getElectricity() *
-                                     utilitiesPriceList.getElectricityPrice());
-    utilityBill.setUtilityAmount(utilityBill.getColdWaterAmount() +
-                                 utilityBill.getHotWaterAmount() +
-                                 utilityBill.getElectricityAmount());
+    utilityBill.setColdWaterAmount(
+        utilitiesPayload.getColdWater() * utilitiesPriceList.getHotWaterPrice());
+    utilityBill.setHotWaterAmount(
+        utilitiesPayload.getHotWater() * utilitiesPriceList.getHotWaterPrice());
+    utilityBill.setElectricityAmount(
+        utilitiesPayload.getElectricity() * utilitiesPriceList.getElectricityPrice());
+    utilityBill.setUtilityAmount(
+        utilityBill.getColdWaterAmount()
+            + utilityBill.getHotWaterAmount()
+            + utilityBill.getElectricityAmount());
 
     try {
-      Long paymentRequestId = this.bankService
-                                  .requestPayment(new PaymentPayload(
-                                      21L, utilityBill.getCitizenId(),
-                                      utilityBill.getUtilityAmount(),
-                                      utilityBill.getUtilityAmount() / 10))
-                                  .getBody();
+      Long paymentRequestId =
+          this.bankService
+              .requestPayment(
+                  new PaymentPayload(
+                      21L,
+                      utilityBill.getCitizenId(),
+                      utilityBill.getUtilityAmount(),
+                      utilityBill.getUtilityAmount() / 10))
+              .getBody();
       utilityBill.setPaymentRequestId(paymentRequestId);
       this.utilityBillRepository.save(utilityBill);
 

@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 
 /**
  * Tax service.
+ *
  * @since 0.1.9
  */
 @Service
 public class TaxService {
-  private static final Logger logger =
-      LoggerFactory.getLogger(TaxService.class);
+  private static final Logger logger = LoggerFactory.getLogger(TaxService.class);
 
   private final TaxRepository taxRepository;
 
@@ -34,12 +34,12 @@ public class TaxService {
   /**
    * Checking tax status.
    *
-   * @param taxId The ID of the tax by which the tax is searched in the
-   *     database;
+   * @param taxId The ID of the tax by which the tax is searched in the database;
    * @return Tax status;
    */
   public Boolean isPaid(final Long taxId) {
-    return this.taxRepository.findById(taxId)
+    return this.taxRepository
+        .findById(taxId)
         .orElseThrow(() -> new TaxNotFoundException(taxId))
         .getStatus();
   }
@@ -50,19 +50,18 @@ public class TaxService {
    * @param serviceId The ID of the service that provided the service;
    * @param citizenId The Id of the citizen (account);
    * @param taxAmount Service tax;
-   *
    * @return tax id
    */
-  public Long createTax(final Long serviceId, final Long citizenId,
-                        final Integer taxAmount) {
-    final Tax tax = Tax.builder()
-                        .taxAmount(taxAmount)
-                        .status(false)
-                        .creationDate(new Date())
-                        .taxPaymentDate(null)
-                        .citizenId(citizenId)
-                        .serviceId(serviceId)
-                        .build();
+  public Long createTax(final Long serviceId, final Long citizenId, final Integer taxAmount) {
+    final Tax tax =
+        Tax.builder()
+            .taxAmount(taxAmount)
+            .status(false)
+            .creationDate(new Date())
+            .taxPaymentDate(null)
+            .citizenId(citizenId)
+            .serviceId(serviceId)
+            .build();
     this.taxRepository.save(tax);
     return tax.getTaxId();
   }
@@ -75,7 +74,8 @@ public class TaxService {
    */
   public ResponseEntity<Long> payTax(final TaxPayment taxPayment) {
     Tax changeTax =
-        this.taxRepository.findById(taxPayment.getTaxId())
+        this.taxRepository
+            .findById(taxPayment.getTaxId())
             .orElseThrow(() -> new TaxNotFoundException(taxPayment.getTaxId()));
 
     if (changeTax.getStatus()) {
@@ -104,14 +104,14 @@ public class TaxService {
         .isEmpty();
   }
 
-  public List<Tax> getPage(final Integer pageNumber, final Integer size,
-                           final Boolean status, final String column) {
-    Pageable firstPageWithTwoElements =
-        PageRequest.of(pageNumber, size, Sort.by(column));
+  public List<Tax> getPage(
+      final Integer pageNumber, final Integer size, final Boolean status, final String column) {
+    Pageable firstPageWithTwoElements = PageRequest.of(pageNumber, size, Sort.by(column));
 
-    return this.taxRepository.findAllByStatus(status, firstPageWithTwoElements)
-        .getContent();
+    return this.taxRepository.findAllByStatus(status, firstPageWithTwoElements).getContent();
   }
 
-  public List<Tax> getAllTaxes() { return this.taxRepository.findAll(); }
+  public List<Tax> getAllTaxes() {
+    return this.taxRepository.findAll();
+  }
 }

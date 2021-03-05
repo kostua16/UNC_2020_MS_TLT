@@ -12,17 +12,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 class IncorrectCityTest extends PropertyParentWeb {
 
   @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ",
-                          "sssssssssssssssssssssssssssssssssssssssss"})
-  void
-  checkCityNameTest(final String word) throws Exception {
+  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+  void checkCityNameTest(final String word) throws Exception {
     final CreationProperty property = this.createCreationProperty();
     property.setCity(word);
 
     this.mockMvc
-        .perform(post(PROPERTY_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(property)))
+        .perform(
+            post(PROPERTY_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(property)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }

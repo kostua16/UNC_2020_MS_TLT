@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
-import nc.unc.cs.services.communal.entities.Registration;
 import org.junit.jupiter.api.Test;
 
 class NumericalDataTest extends RegistrationParentWeb {
@@ -16,9 +15,10 @@ class NumericalDataTest extends RegistrationParentWeb {
     registration.setCitizenId(0L);
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(registration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(registration)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -29,9 +29,10 @@ class NumericalDataTest extends RegistrationParentWeb {
     registration.setCitizenId(null);
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(registration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(registration)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }

@@ -6,24 +6,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
-import nc.unc.cs.services.communal.entities.Registration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class IncorrectRegionTest extends RegistrationParentWeb {
 
   @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ",
-                          "sssssssssssssssssssssssssssssssssssssssss"})
-  void
-  checkRegionNameTest(final String word) throws Exception {
+  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+  void checkRegionNameTest(final String word) throws Exception {
     final CreationRegistration registration = this.createCreationRegistration();
     registration.setRegion(word);
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(registration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(registration)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
