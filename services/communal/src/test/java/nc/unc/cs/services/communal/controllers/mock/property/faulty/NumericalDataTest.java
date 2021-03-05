@@ -1,20 +1,20 @@
-package nc.unc.cs.services.communal.controllers.mock.property;
+package nc.unc.cs.services.communal.controllers.mock.property.faulty;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
-import nc.unc.cs.services.communal.entities.Property;
+import nc.unc.cs.services.communal.controllers.mock.property.PropertyParentWeb;
+import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class NumericalDataTest extends PropertyAndRegistrationParentWeb {
+class NumericalDataTest extends PropertyParentWeb {
 
     @Test
     void smallestApartmentSize() throws Exception {
-        Property property = this.createProperty();
+        final CreationProperty property = this.createCreationProperty();
         property.setApartmentSize(9);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING + "/property/add")
+        this.mockMvc.perform(post(PROPERTY_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(property)))
             .andDo(print())
@@ -23,14 +23,10 @@ class NumericalDataTest extends PropertyAndRegistrationParentWeb {
 
     @Test
     void nullApartmentSize() throws Exception {
-        Property property =
-            new Property(
-                1L, "ss", "ss",
-                "ss", "ss", "22",
-                1000, 0L
-            );
+        final CreationProperty property = this.createCreationProperty();
+        property.setApartmentSize(null);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING + "/property/add")
+        this.mockMvc.perform(post(PROPERTY_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(property)))
             .andDo(print())
@@ -39,10 +35,10 @@ class NumericalDataTest extends PropertyAndRegistrationParentWeb {
 
     @Test
     void smallestCitizenId() throws Exception {
-        Property property = this.createProperty();
+        final CreationProperty property = this.createCreationProperty();
         property.setApartmentSize(9);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING + "/property/add")
+        this.mockMvc.perform(post(PROPERTY_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(property)))
             .andDo(print())
@@ -51,14 +47,10 @@ class NumericalDataTest extends PropertyAndRegistrationParentWeb {
 
     @Test
     void nullCitizenId() throws Exception {
-        Property property =
-            new Property(
-                1L, "ss", "ss",
-                "ss", "ss", "22",
-                10000, null
-            );
+        final CreationProperty property = this.createCreationProperty();
+        property.setCitizenId(null);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING + "/property/add")
+        this.mockMvc.perform(post(PROPERTY_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(property)))
             .andDo(print())

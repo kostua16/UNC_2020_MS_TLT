@@ -1,6 +1,7 @@
-package nc.unc.cs.services.communal.controllers.mock.registration;
+package nc.unc.cs.services.communal.controllers.mock.registration.faulty;
 
-import nc.unc.cs.services.communal.controllers.mock.PropertyAndRegistrationParentWeb;
+import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
+import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Registration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class IncorrectStreetTest extends PropertyAndRegistrationParentWeb {
+class IncorrectRegionTest extends RegistrationParentWeb {
 
     @ParameterizedTest
     @ValueSource(
@@ -19,10 +20,10 @@ class IncorrectStreetTest extends PropertyAndRegistrationParentWeb {
         }
     )
     void checkRegionNameTest(final String word) throws Exception {
-        Registration registration = this.createRegistration();
-        registration.setStreet(word);
+        final CreationRegistration registration = this.createCreationRegistration();
+        registration.setRegion(word);
 
-        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING + "/property/add")
+        this.mockMvc.perform(post(REGISTRATION_CONTROLLER_MAPPING)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(registration)))
             .andDo(print())

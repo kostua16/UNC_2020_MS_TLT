@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = {UtilitiesPriceListController.class})
 public class UtilityBillPriceListParent extends ParentWeb {
-    protected static final String UTILITY_BILL_PRICE_LIST_MAPPING = "http://localhost:8083/communal/utilities/price";
+    protected static final String UTILITY_BILL_PRICE_LIST_MAPPING = "http://localhost:8083/communal/utilities/price-list";
     @MockBean
     protected CommunalService communalService;
 

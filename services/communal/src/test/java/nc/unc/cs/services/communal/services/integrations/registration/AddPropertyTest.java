@@ -1,5 +1,6 @@
 package nc.unc.cs.services.communal.services.integrations.registration;
 
+import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.services.BankIntegrationService;
@@ -35,25 +36,38 @@ class AddPropertyTest {
     @InjectMocks
     private RegistrationService registrationService;
 
-    private Property createProperty() {
-        return Property
+    protected final CreationProperty createCreationProperty() {
+        return CreationProperty
             .builder()
-            .propertyId(1L)
-            .region("  samara   ")
-            .city("samara")
+            .region("Samara")
+            .city("Samara")
             .street("main")
-            .house("11")
-            .apartment("11")
+            .house("111")
+            .apartment("1b")
             .apartmentSize(1000)
             .citizenId(111L)
             .build();
     }
 
+    protected final Property createProperty() {
+        final CreationProperty property = this.createCreationProperty();
+        return Property.builder()
+            .region(property.getRegion())
+            .city(property.getCity())
+            .street(property.getStreet())
+            .house(property.getHouse())
+            .apartment(property.getApartment())
+            .apartmentSize(property.getApartmentSize())
+            .citizenId(property.getCitizenId())
+            .build();
+    }
+
     @Test
     void addNewPropertyTest() {
-        Property property = this.createProperty();
+        final CreationProperty creationProperty = this.createCreationProperty();
+        final Property property = this.createProperty();
 
-        given(this.registrationService.getPropertyByAddress(property)).willReturn(null);
+        given(this.registrationService.getPropertyByAddress(creationProperty)).willReturn(null);
 
             given(this.bankIntegrationService.bankRequest(
                 SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT
@@ -61,7 +75,7 @@ class AddPropertyTest {
 
         given(this.propertyRepository.save(property)).willReturn(property);
 
-        ResponseEntity<Property> response = this.registrationService.addCitizensProperty(property);
+        ResponseEntity<Property> response = this.registrationService.addCitizensProperty(creationProperty);
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
@@ -71,9 +85,12 @@ class AddPropertyTest {
 
     @Test
     void updatePropertyOwner() {
-        Property property = this.createProperty();
+        final CreationProperty creationProperty = this.createCreationProperty();
+        final Property property = this.createProperty();
+        final Property lastProperty = this.createProperty();
+        lastProperty.setCitizenId(555L);
 
-        given(this.registrationService.getPropertyByAddress(property)).willReturn(property);
+        given(this.registrationService.getPropertyByAddress(creationProperty)).willReturn(lastProperty);
 
         given(this.bankIntegrationService.bankRequest(
             SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT
@@ -81,7 +98,7 @@ class AddPropertyTest {
 
         given(this.propertyRepository.save(property)).willReturn(property);
 
-        ResponseEntity<Property> response = this.registrationService.addCitizensProperty(property);
+        ResponseEntity<Property> response = this.registrationService.addCitizensProperty(creationProperty);
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),

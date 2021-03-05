@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class CreateTax extends TaxWeb {
+class CreateTaxTest extends TaxWeb {
 
     private CreationTax getCreationTax() {
         return CreationTax.builder()
