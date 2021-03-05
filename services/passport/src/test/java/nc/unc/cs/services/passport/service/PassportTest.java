@@ -2,20 +2,15 @@ package nc.unc.cs.services.passport.service;
 
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
-import nc.unc.cs.services.common.clients.bank.PaymentRequest;
 import nc.unc.cs.services.passport.PassportApp;
-import nc.unc.cs.services.passport.model.Citizen;
+import nc.unc.cs.services.common.account.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import nc.unc.cs.services.passport.repository.DomesticRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,11 +18,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ContextConfiguration(classes = PassportApp.class)
 public class PassportTest {
 
 
@@ -37,6 +31,15 @@ public class PassportTest {
     @Mock
     private BankService bankService;
 
+    @Mock
+    private DomesticRepository domesticRepository;
+
+//    private Domestic createDomestic() {
+//        return Domestic
+//                .builder()
+//
+//                .build();
+//    }
 
     @Test
     public void getPassport() {
@@ -47,10 +50,19 @@ public class PassportTest {
         citizen.setRegistration("Samara");
         citizen.setDateOfBirth(new Date(1234L));
 
-        when(bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200)))
+//        final Domestic domestic = Domestic
+//                .builder()
+//                .name(citizen.getName())
+//                .surname(citizen.getSurname())
+//                .registration(citizen.getRegistration())
+//                .dateOfBirth(citizen.getDateOfBirth())
+//                .citizenId(citizen.getCitizenId())
+
+        when(bankService.requestPayment(anyObject()))
                 .thenReturn(ResponseEntity.ok(213L));
 
-        Domestic domestic = passportTable.registerDomesticPassport(citizen).getBody();
+        when(domesticRepository.save(anyObject())).thenReturn("domestic");
+        Domestic domestic = passportTable.registerDomesticPassport(citizen).getBody().
 
         assertAll(
                 () -> assertEquals(domestic.getDateOfBirth(), citizen.getDateOfBirth()),

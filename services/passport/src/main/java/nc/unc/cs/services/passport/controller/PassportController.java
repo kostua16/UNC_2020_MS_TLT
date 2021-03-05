@@ -1,7 +1,7 @@
 package nc.unc.cs.services.passport.controller;
 
 
-import nc.unc.cs.services.passport.model.Citizen;
+import nc.unc.cs.services.common.account.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.service.PassportTable;

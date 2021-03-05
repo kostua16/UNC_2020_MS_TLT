@@ -1,4 +1,4 @@
-package nc.unc.cs.services.passport.model;
+package nc.unc.cs.services.common.account;
 
 import lombok.Data;
 

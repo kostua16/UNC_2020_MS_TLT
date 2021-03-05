@@ -1,8 +1,7 @@
 package nc.unc.cs.services.passport.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +13,9 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Builder
 public class Domestic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

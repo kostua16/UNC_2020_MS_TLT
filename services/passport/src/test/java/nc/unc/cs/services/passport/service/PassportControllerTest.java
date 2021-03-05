@@ -1,13 +1,10 @@
 package nc.unc.cs.services.passport.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Application;
-import javafx.stage.Stage;
 import nc.unc.cs.services.passport.controller.PassportController;
-import nc.unc.cs.services.passport.model.Citizen;
+import nc.unc.cs.services.common.account.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +12,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-
-
 import java.util.Date;
-
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PassportController.class)
@@ -62,6 +54,7 @@ public class PassportControllerTest {
 
 
         when(passportTable.registerDomesticPassport(citizen)).thenReturn(ResponseEntity.ok(domestic));
+
 
         mockMvc.perform(post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
                 .contentType("application/json")
