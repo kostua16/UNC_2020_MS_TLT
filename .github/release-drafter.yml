@@ -1,25 +1,33 @@
 name-template: 'v$NEXT_PATCH_VERSION'
 tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
-  - title: '🚀 New Features'
+  - title: '🚀 Backend'
     labels:
-      - 'type:features'
-  # в эту категорию собираем все PR с меткой type:features
+      - 'code'
+      - 'props'
 
-  - title: '🐞 Bugs Fixes'
+  - title: '🚀 Frontend'
     labels:
-      - 'type:fix'
-  # аналогично для метки type:fix и т.д.
+      - 'js'
+      - 'html'
+      - 'vue'
+
+  - title: '🐞 Tests'
+    labels:
+      - 'tests'
 
   - title: '📚 Documentation'
     labels:
-      - 'type:documentation'
+      - 'documentation'
 
   - title: '🛠 Configuration'
     labels:
-      - 'type:config'
+      - 'build'
+      - 'heroku'
 
+  - title: '🛠 CI/CD'
+    labels:
+      - 'ci'
+      - 'git'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-template: |
-  ## Changes
-  $CHANGES
+template: $CHANGES

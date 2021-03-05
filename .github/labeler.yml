@@ -30,6 +30,13 @@ java:
 js:
   - any: ['**/*.js']
 
+vue:
+  - any: ['**/*.vue']
+  - any: ['**/*.vuex']
+
+html:
+  - any: ['**/*.html']
+
 props:
   - any: ['**/*.properties']
   - any: ['**/*.yml']
