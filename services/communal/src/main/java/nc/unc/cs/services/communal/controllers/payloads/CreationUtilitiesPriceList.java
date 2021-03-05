@@ -15,36 +15,35 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class CreationUtilitiesPriceList {
-    @NotBlank(message = "Incorrect region name")
-    @Size(min = 2, max = 40, message = "Incorrect region name")
-    private String region;
+  @NotBlank(message = "Incorrect region name")
+  @Size(min = 2, max = 40, message = "Incorrect region name")
+  private String region;
 
-    @NotNull(message = "Incorrect cold water price size")
-    @Min(value = 1, message = "Apartment cold water price is incorrect")
-    private Integer coldWaterPrice;
+  @NotNull(message = "Incorrect cold water price size")
+  @Min(value = 1, message = "Apartment cold water price is incorrect")
+  private Integer coldWaterPrice;
 
-    @NotNull(message = "Incorrect hot water pricer size")
-    @Min(value = 1, message = "Apartment hot water price is incorrect")
-    private Integer hotWaterPrice;
+  @NotNull(message = "Incorrect hot water pricer size")
+  @Min(value = 1, message = "Apartment hot water price is incorrect")
+  private Integer hotWaterPrice;
 
-    @NotNull(message = "Incorrect electricity price size")
-    @Min(value = 1, message = "Apartment cold water price is incorrect")
-    private Integer electricityPrice;
+  @NotNull(message = "Incorrect electricity price size")
+  @Min(value = 1, message = "Apartment cold water price is incorrect")
+  private Integer electricityPrice;
 
-    @Builder
-    public CreationUtilitiesPriceList(
-        final String region,
-        final Integer coldWaterPrice,
-        final Integer hotWaterPrice,
-        final Integer electricityPrice
-    ) {
-        this.region = region.trim().toUpperCase();
-        this.coldWaterPrice = coldWaterPrice;
-        this.hotWaterPrice = hotWaterPrice;
-        this.electricityPrice = electricityPrice;
-    }
+  @Builder
+  public CreationUtilitiesPriceList(
+      final String region,
+      final Integer coldWaterPrice,
+      final Integer hotWaterPrice,
+      final Integer electricityPrice) {
+    this.region = region.trim().toUpperCase();
+    this.coldWaterPrice = coldWaterPrice;
+    this.hotWaterPrice = hotWaterPrice;
+    this.electricityPrice = electricityPrice;
+  }
 
-    public void setRegion(final String region) {
-        this.region = region.trim().toUpperCase();
-    }
+  public void setRegion(final String region) {
+    this.region = region.trim().toUpperCase();
+  }
 }

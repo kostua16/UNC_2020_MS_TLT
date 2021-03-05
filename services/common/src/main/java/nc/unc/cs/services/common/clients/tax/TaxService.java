@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @ConditionalOnMissingClass("nc.unc.cs.services.tax.controllers.TaxController")
 public interface TaxService {
 
-    @PostMapping(value = "create", produces = "application/json", consumes = "application/json")
-    Long createTax(@RequestBody final CreationTax creationTax);
+  @PostMapping(value = "create", produces = "application/json", consumes = "application/json")
+  Long createTax(@RequestBody final CreationTax creationTax);
 
-    @PostMapping(value = "pay-tax", produces = "application/json", consumes = "application/json")
-    ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment);
+  @PostMapping(value = "pay-tax", produces = "application/json", consumes = "application/json")
+  ResponseEntity<Long> payTax(@RequestBody final TaxPayment taxPayment);
 
-    @PostMapping(value = "debt", produces = "application/json", consumes = "application/json")
-    Boolean getListUnpaidTaxes(@RequestBody final IdInfo idInfo);
+  @PostMapping(value = "debt", produces = "application/json", consumes = "application/json")
+  Boolean getListUnpaidTaxes(@RequestBody final IdInfo idInfo);
 }
