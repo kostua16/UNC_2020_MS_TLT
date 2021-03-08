@@ -3,7 +3,7 @@ management:
     enabled-by-default: true
     web:
       exposure:
-        include: '*'
+        include: "*"
 spring:
   main:
     banner-mode: off
