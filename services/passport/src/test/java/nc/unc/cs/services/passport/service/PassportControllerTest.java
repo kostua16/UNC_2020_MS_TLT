@@ -1,26 +1,29 @@
-//package nc.unc.cs.services.passport.service;
+// package nc.unc.cs.services.passport.service;
 //
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import nc.unc.cs.services.passport.controller.PassportController;
-//import nc.unc.cs.services.common.account.Citizen;
-//import nc.unc.cs.services.passport.model.Domestic;
-//import org.junit.jupiter.api.Test;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.test.web.servlet.MockMvc;
-//import java.util.Date;
-//import static org.mockito.Mockito.when;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+// import com.fasterxml.jackson.databind.ObjectMapper;
+// import nc.unc.cs.services.passport.controller.PassportController;
+// import nc.unc.cs.services.common.account.Citizen;
+// import nc.unc.cs.services.passport.model.Domestic;
+// import org.junit.jupiter.api.Test;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+// import org.springframework.boot.test.mock.mockito.MockBean;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.test.web.servlet.MockMvc;
+// import java.util.Date;
+// import static org.mockito.Mockito.when;
+// import static
+// org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+// import static
+// org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
 //@WebMvcTest(controllers = PassportController.class)
-//public class PassportControllerTest {
-//    private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
-//    private static final Logger logger = LoggerFactory.getLogger(PassportControllerTest.class);
+// public class PassportControllerTest {
+//    private static final String PASSPORT_CONTROLLER_MAPPING =
+//    "http://localhost:8095"; private static final Logger logger =
+//    LoggerFactory.getLogger(PassportControllerTest.class);
 //
 //    @Autowired
 //    private MockMvc mockMvc;
@@ -56,7 +59,8 @@
 //        when(passportTable.registerDomesticPassport(citizen)).thenReturn(ResponseEntity.ok(domestic));
 //
 //
-//        mockMvc.perform(post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
+//        mockMvc.perform(post(PASSPORT_CONTROLLER_MAPPING +
+//        "/passport/registerDomestic")
 //                .contentType("application/json")
 //                .content(objectMapper.writeValueAsString(domestic)))
 //                .andExpect(status().isOk());

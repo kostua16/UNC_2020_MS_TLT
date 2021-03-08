@@ -1,5 +1,6 @@
 package nc.unc.cs.services.pension.controller;
 
+import java.util.Date;
 import nc.unc.cs.services.common.account.Citizen;
 import nc.unc.cs.services.pension.model.Pension;
 import nc.unc.cs.services.pension.service.PensionService;
@@ -12,22 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping("pension")
 public class PensionController {
-    private final PensionService pensionService;
+  private final PensionService pensionService;
 
-    @Autowired
-    public PensionController(final PensionService pensionService) {this.pensionService = pensionService;}
+  @Autowired
+  public PensionController(final PensionService pensionService) {
+    this.pensionService = pensionService;
+  }
 
-    @PostMapping(value = "/createPension", produces = "application/json")
-    public ResponseEntity<Pension> createPension(@RequestBody final Citizen citizen) {
-        try {
-            return this.pensionService.createPension(citizen);
-        } catch (Exception ex) { // тут надо ловить свои ошибки или делать через controlleradvice
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create pension!");
-        }
+  @PostMapping(value = "/createPension", produces = "application/json")
+  public ResponseEntity<Pension>
+  createPension(@RequestBody final Citizen citizen) {
+    try {
+      return this.pensionService.createPension(citizen);
+    } catch (Exception ex) { // тут надо ловить свои ошибки или делать через
+                             // controlleradvice
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                        "Failed to create pension!");
     }
+  }
 }

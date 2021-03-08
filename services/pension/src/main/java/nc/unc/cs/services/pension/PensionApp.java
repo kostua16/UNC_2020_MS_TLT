@@ -9,8 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class PensionApp {
-    public static void main(String[] args) {
-        SpringApplication.run(PensionApp.class);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(PensionApp.class);
+  }
 }
-
