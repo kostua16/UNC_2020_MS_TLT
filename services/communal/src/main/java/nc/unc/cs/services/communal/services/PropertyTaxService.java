@@ -42,8 +42,9 @@ public class PropertyTaxService {
 
     /**
      * Конструктор.
+     *
      * @param propertyRepository репозиторий недвижимости
-     * @param  propertyTaxRepository репозиторий налогов на недвижимость
+     * @param propertyTaxRepository репозиторий налогов на недвижимость
      * @param propertyTaxValueRepository репозиторий прейскурантов
      * @param bankIntegrationService класс с интеграциями с банковским сервисом.
      */

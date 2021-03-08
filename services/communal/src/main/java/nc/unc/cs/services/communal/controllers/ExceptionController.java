@@ -4,6 +4,7 @@ import feign.FeignException;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxValueNotFoundException;
+import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionController {
-  /** Логгер. */
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
-  /** Стандартное сообщение для фронта. */
-  private static final String SERVICE_UNAVAILABLE_MESSAGE = "Operation failed!";
+    /** Логгер. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
+    /** Стандартное сообщение для фронта. */
+    private static final String SERVICE_UNAVAILABLE_MESSAGE = "Operation failed!";
 
     @ExceptionHandler(value = {FeignException.class})
     public ResponseEntity<Object> serviceUnavailableException(
@@ -48,5 +49,13 @@ public class ExceptionController {
     ) {
         LOGGER.error("Property Tax Value Not Found!", ptv);
         return new ResponseEntity<>(ptv.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {UtilitiesPriceListNotFoundException.class})
+    public ResponseEntity<Object> propertyTaxValueNotFoundException(
+        final UtilitiesPriceListNotFoundException upe
+    ) {
+        LOGGER.error("Utilities Price List Not Found!", upe);
+        return new ResponseEntity<>(upe.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
