@@ -21,6 +21,23 @@
      1.   Описание API
 Domestic – Класс модель использующийся в запросах registrDomesticPassport, updateDomesticPassport. 
 
+
+
+###Domestic 
+####Domestic - класс модель использующийся в запросах registrDomesticPAssport, updateDomesticPassport
 Поля:
 
-![img_4.png](img_4.png)  
+
+| Переменная  | Тип  | Значение |
+|:------------- |:---------------:| :-------------|
+| domesticId    | Long      |     ижентификатор отечественного паспорта  |
+| registration  | String    | Место прописки   |
+| name | String | Имя |
+| surname| String | Фамилия |
+| dataOfBirth | Data | Дата рождения |
+| series | String | Серия паспорта |
+| number | Boolean | Номер паспорта |
+| isActive | Long | статутс рагистрации(true - налог на паспорт оплачен,false -не оплачен  |
+| citizenId | Boolean | идентификатор аккаунта гражданина |
+
+
