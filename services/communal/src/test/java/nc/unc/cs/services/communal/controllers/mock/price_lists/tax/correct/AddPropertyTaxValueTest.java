@@ -17,8 +17,7 @@ class AddPropertyTaxValueTest extends PropertyTaxValueParent {
 
   @Test
   void addPropertyTaxValue() throws Exception {
-    final CreationPropertyTaxValue creationPropertyTaxValue =
-        this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue creationPropertyTaxValue = this.createCreationPropertyTaxValue();
     final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
 
     System.out.println(creationPropertyTaxValue);
@@ -27,13 +26,14 @@ class AddPropertyTaxValueTest extends PropertyTaxValueParent {
         .thenReturn(ResponseEntity.ok(propertyTaxValue));
 
     this.mockMvc
-        .perform(post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(
-                         creationPropertyTaxValue)))
+        .perform(
+            post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(creationPropertyTaxValue)))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString(
-            this.objectMapper.writeValueAsString(propertyTaxValue))));
+        .andExpect(
+            content()
+                .string(containsString(this.objectMapper.writeValueAsString(propertyTaxValue))));
   }
 }

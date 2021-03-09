@@ -20,8 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 class AddPropertyTest {
-  private static final Logger logger =
-      LoggerFactory.getLogger(AddPropertyTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(AddPropertyTest.class);
 
   /** Налоговый процент от стоимости платежа. */
   public static final Integer TAX_PERCENT = RegistrationService.TAX_PERCENT;
@@ -65,11 +64,11 @@ class AddPropertyTest {
     final CreationProperty creationProperty = this.createCreationProperty();
     final Property property = this.createProperty();
 
-    given(this.registrationService.getPropertyByAddress(creationProperty))
-        .willReturn(null);
+    given(this.registrationService.getPropertyByAddress(creationProperty)).willReturn(null);
 
-    given(this.bankIntegrationService.bankRequest(
-              SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
+    given(
+            this.bankIntegrationService.bankRequest(
+                SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
         .willReturn(15L);
 
     given(this.propertyRepository.save(property)).willReturn(property);
@@ -78,11 +77,8 @@ class AddPropertyTest {
         this.registrationService.addCitizensProperty(creationProperty);
 
     Assertions.assertAll(
-        ()
-            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        ()
-            -> Assertions.assertEquals(property.getRegion(),
-                                       response.getBody().getRegion()));
+        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        () -> Assertions.assertEquals(property.getRegion(), response.getBody().getRegion()));
   }
 
   @Test
@@ -92,11 +88,11 @@ class AddPropertyTest {
     final Property lastProperty = this.createProperty();
     lastProperty.setCitizenId(555L);
 
-    given(this.registrationService.getPropertyByAddress(creationProperty))
-        .willReturn(lastProperty);
+    given(this.registrationService.getPropertyByAddress(creationProperty)).willReturn(lastProperty);
 
-    given(this.bankIntegrationService.bankRequest(
-              SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
+    given(
+            this.bankIntegrationService.bankRequest(
+                SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
         .willReturn(15L);
 
     given(this.propertyRepository.save(property)).willReturn(property);
@@ -105,10 +101,7 @@ class AddPropertyTest {
         this.registrationService.addCitizensProperty(creationProperty);
 
     Assertions.assertAll(
-        ()
-            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        ()
-            -> Assertions.assertEquals(property.getRegion(),
-                                       response.getBody().getRegion()));
+        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        () -> Assertions.assertEquals(property.getRegion(), response.getBody().getRegion()));
   }
 }

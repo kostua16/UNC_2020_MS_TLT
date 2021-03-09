@@ -13,37 +13,30 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class HttpClientLogger
-    implements LoadBalancerLifecycle<RequestDataContext, ResponseData,
-                                     ServiceInstance> {
+    implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
 
   @Override
   public void onStart(Request<RequestDataContext> request) {}
 
   @Override
-  public void onStartRequest(Request<RequestDataContext> request,
-                             Response<ServiceInstance> lbResponse) {
-    log.warn("Request STARTED: {}",
-             request.getContext().getClientRequest().getUrl());
+  public void onStartRequest(
+      Request<RequestDataContext> request, Response<ServiceInstance> lbResponse) {
+    log.warn("Request STARTED: {}", request.getContext().getClientRequest().getUrl());
   }
 
   @Override
-  public void
-  onComplete(CompletionContext<ResponseData, ServiceInstance,
-                               RequestDataContext> completionContext) {
+  public void onComplete(
+      CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
     if (completionContext.status().equals(CompletionContext.Status.FAILED)) {
-      log.error("Request FAILED({}): {}",
-                completionContext.getClientResponse().getHttpStatus(),
-                completionContext.getLoadBalancerRequest()
-                    .getContext()
-                    .getClientRequest()
-                    .getUrl());
+      log.error(
+          "Request FAILED({}): {}",
+          completionContext.getClientResponse().getHttpStatus(),
+          completionContext.getLoadBalancerRequest().getContext().getClientRequest().getUrl());
     } else {
-      log.warn("Request SUCCESS({}): {}",
-               completionContext.getClientResponse().getHttpStatus(),
-               completionContext.getLoadBalancerRequest()
-                   .getContext()
-                   .getClientRequest()
-                   .getUrl());
+      log.warn(
+          "Request SUCCESS({}): {}",
+          completionContext.getClientResponse().getHttpStatus(),
+          completionContext.getLoadBalancerRequest().getContext().getClientRequest().getUrl());
     }
   }
 }
