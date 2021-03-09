@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarsRepo extends CrudRepository<Car, String> {
 
-    List<Car> findCarsByOwner(String owner);
+  List<Car> findCarsByOwner(String owner);
 
-    @Query("select owner, number from Car where owner = :owner")
-    List<Car> findMyTestMethod(String owner);
+  @Query("select owner, number from Car where owner = :owner")
+  List<Car> findMyTestMethod(String owner);
 }
