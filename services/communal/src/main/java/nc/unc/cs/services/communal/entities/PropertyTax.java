@@ -35,9 +35,7 @@ public class PropertyTax {
   @Column(updatable = false, nullable = false)
   private Integer taxAmount;
 
-  @NotNull
-  @Column(nullable = false)
-  private Boolean isPaid;
+  @NotNull @Column(nullable = false) private Boolean isPaid;
 
   @NotNull
   @Column(updatable = false, nullable = false)

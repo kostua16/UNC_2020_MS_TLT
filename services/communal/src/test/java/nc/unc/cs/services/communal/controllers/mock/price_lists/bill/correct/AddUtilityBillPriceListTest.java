@@ -16,20 +16,20 @@ import org.springframework.http.ResponseEntity;
 class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
   @Test
   void addPropertyTaxValue() throws Exception {
-    final CreationUtilitiesPriceList newPriceList = this.createCreationUtilitiesPriceList();
+    final CreationUtilitiesPriceList newPriceList =
+        this.createCreationUtilitiesPriceList();
     final UtilitiesPriceList priceList = this.createUtilitiesPriceList();
 
     when(this.communalService.addUtilitiesPriceList(newPriceList))
         .thenReturn(ResponseEntity.ok(priceList));
 
     this.mockMvc
-        .perform(
-            post(UTILITY_BILL_PRICE_LIST_MAPPING)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(newPriceList)))
+        .perform(post(UTILITY_BILL_PRICE_LIST_MAPPING)
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(newPriceList)))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(
-            content().string(containsString(this.objectMapper.writeValueAsString(priceList))));
+        .andExpect(content().string(
+            containsString(this.objectMapper.writeValueAsString(priceList))));
   }
 }

@@ -12,11 +12,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class IdInfo {
-  @NotNull(message = "Incorrect citizen ID")
-  @Min(1L)
-  private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID") @Min(1L) private Long citizenId;
 
-  @NotNull(message = "Incorrect service ID")
-  @Min(1L)
-  private Long serviceId;
+  @NotNull(message = "Incorrect service ID") @Min(1L) private Long serviceId;
 }

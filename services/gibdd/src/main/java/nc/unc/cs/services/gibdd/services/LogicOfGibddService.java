@@ -1,9 +1,9 @@
 package nc.unc.cs.services.gibdd.services;
 
 import java.util.Date;
-import nc.unc.cs.services.gibdd.entities.Car;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
+import nc.unc.cs.services.gibdd.entities.Car;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,19 +20,19 @@ public class LogicOfGibddService {
 
   private final LoggingService loggingService;
 
-  private final Logger logger = LoggerFactory.getLogger(LogicOfGibddService.class);
+  private final Logger logger =
+      LoggerFactory.getLogger(LogicOfGibddService.class);
 
   private CarsRepo carsRepo;
 
   @Autowired
-  public LogicOfGibddService(final CarsRepo carsRepo, final LoggingService loggingService) {
+  public LogicOfGibddService(final CarsRepo carsRepo,
+                             final LoggingService loggingService) {
     this.carsRepo = carsRepo;
     this.loggingService = loggingService;
   }
 
-  public Iterable<Car> getCars() {
-    return this.carsRepo.findAll();
-  }
+  public Iterable<Car> getCars() { return this.carsRepo.findAll(); }
 
   public Car addCar(Car car) {
     this.logger.debug("before adding car: {}", car);

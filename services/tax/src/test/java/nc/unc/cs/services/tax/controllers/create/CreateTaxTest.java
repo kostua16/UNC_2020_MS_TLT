@@ -13,25 +13,30 @@ import org.junit.jupiter.api.Test;
 class CreateTaxTest extends TaxWeb {
 
   private CreationTax getCreationTax() {
-    return CreationTax.builder().serviceId(20L).citizenId(111L).taxAmount(1000).build();
+    return CreationTax.builder()
+        .serviceId(20L)
+        .citizenId(111L)
+        .taxAmount(1000)
+        .build();
   }
 
   @Test
   void addCitizensPropertyTest() throws Exception {
     CreationTax creationTax = this.getCreationTax();
 
-    when(this.taxService.createTax(
-            creationTax.getServiceId(), creationTax.getCitizenId(), creationTax.getTaxAmount()))
+    when(this.taxService.createTax(creationTax.getServiceId(),
+                                   creationTax.getCitizenId(),
+                                   creationTax.getTaxAmount()))
         .thenReturn(1L);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString(this.objectMapper.writeValueAsString(1L))));
+        .andExpect(content().string(
+            containsString(this.objectMapper.writeValueAsString(1L))));
   }
 
   @Test
@@ -40,10 +45,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setServiceId(null);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -54,10 +58,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setServiceId(0L);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -68,10 +71,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setCitizenId(null);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -82,10 +84,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setCitizenId(0L);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -96,10 +97,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setTaxAmount(null);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -110,10 +110,9 @@ class CreateTaxTest extends TaxWeb {
     creationTax.setTaxAmount(0);
 
     this.mockMvc
-        .perform(
-            post(TAX_CONTROLLER_MAPPING + "/create")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationTax)))
+        .perform(post(TAX_CONTROLLER_MAPPING + "/create")
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(creationTax)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }

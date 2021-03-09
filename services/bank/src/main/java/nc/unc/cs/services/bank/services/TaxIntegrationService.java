@@ -27,14 +27,13 @@ public class TaxIntegrationService {
    * @return идентификатор созданного налога;
    * @throws FeignException если не удасться обратиться к Банковскому сервису
    */
-  public Long createTax(final Long serviceId, final Long citizenId, final Integer taxAmount)
-      throws FeignException {
-    final CreationTax creationTax =
-        CreationTax.builder()
-            .serviceId(serviceId)
-            .citizenId(citizenId)
-            .taxAmount(taxAmount)
-            .build();
+  public Long createTax(final Long serviceId, final Long citizenId,
+                        final Integer taxAmount) throws FeignException {
+    final CreationTax creationTax = CreationTax.builder()
+                                        .serviceId(serviceId)
+                                        .citizenId(citizenId)
+                                        .taxAmount(taxAmount)
+                                        .build();
 
     return this.taxService.createTax(creationTax);
   }
@@ -44,10 +43,12 @@ public class TaxIntegrationService {
    *
    * @param taxId идентификатор налога
    * @param date дата оплаты выставленного счёта
-   * @return http-ответ, в теле которого находится идентификатор оплаченного налога
+   * @return http-ответ, в теле которого находится идентификатор оплаченного
+   *     налога
    * @throws FeignException если не удасться обратиться к Банковскому сервису
    */
-  public ResponseEntity<Long> payTax(final Long taxId, final Date date) throws FeignException {
+  public ResponseEntity<Long> payTax(final Long taxId, final Date date)
+      throws FeignException {
     final TaxPayment taxPayment = new TaxPayment(taxId, date);
     return this.taxService.payTax(taxPayment);
   }

@@ -32,11 +32,10 @@ public class CreationUtilitiesPriceList {
   private Integer electricityPrice;
 
   @Builder
-  public CreationUtilitiesPriceList(
-      final String region,
-      final Integer coldWaterPrice,
-      final Integer hotWaterPrice,
-      final Integer electricityPrice) {
+  public CreationUtilitiesPriceList(final String region,
+                                    final Integer coldWaterPrice,
+                                    final Integer hotWaterPrice,
+                                    final Integer electricityPrice) {
     this.region = region.trim().toUpperCase();
     this.coldWaterPrice = coldWaterPrice;
     this.hotWaterPrice = hotWaterPrice;

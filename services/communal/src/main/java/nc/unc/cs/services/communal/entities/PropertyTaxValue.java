@@ -43,11 +43,9 @@ public class PropertyTaxValue {
   private Integer cadastralValue;
 
   @Builder
-  public PropertyTaxValue(
-      final Long propertyTaxValueId,
-      final String region,
-      final Integer pricePerSquareMeter,
-      final Integer cadastralValue) {
+  public PropertyTaxValue(final Long propertyTaxValueId, final String region,
+                          final Integer pricePerSquareMeter,
+                          final Integer cadastralValue) {
     this.propertyTaxValueId = propertyTaxValueId;
     this.region = region.trim().toUpperCase();
     this.pricePerSquareMeter = pricePerSquareMeter;

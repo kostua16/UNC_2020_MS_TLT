@@ -12,7 +12,8 @@ class NumericalTest extends PropertyTaxValueParent {
 
   @Test
   void smallerPricePerSquareMeter() throws Exception {
-    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
     newPropertyTaxValue.setPricePerSquareMeter(-1);
 
     this.mockMvc
@@ -26,7 +27,8 @@ class NumericalTest extends PropertyTaxValueParent {
 
   @Test
   void smallerCadastralValue() throws Exception {
-    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
     newPropertyTaxValue.setCadastralValue(-1);
 
     this.mockMvc
@@ -40,7 +42,8 @@ class NumericalTest extends PropertyTaxValueParent {
 
   @Test
   void overSizeCadastralValue() throws Exception {
-    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
     newPropertyTaxValue.setCadastralValue(101);
 
     this.mockMvc

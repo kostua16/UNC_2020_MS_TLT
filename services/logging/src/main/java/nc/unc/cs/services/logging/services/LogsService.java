@@ -33,7 +33,8 @@ public class LogsService {
   @GetMapping(path = "/", produces = "application/json")
   public List<LogEntry> viewLastLogs() {
     return this.repository
-        .findAll(PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
+        .findAll(PageRequest.of(0, 15,
+                                Sort.by(Sort.Direction.DESC, "created", "id")))
         .getContent();
   }
 
@@ -41,12 +42,15 @@ public class LogsService {
   public List<LogEntry> viewLogs(@PathVariable final String service) {
     return this.repository
         .findLogEntriesByService(
-            service, PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
+            service, PageRequest.of(
+                         0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
         .getContent();
   }
 
-  @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
-  public LogEntry addLog(@RequestBody final LogEntry log) {
+  @PostMapping(value = "/", produces = "application/json",
+               consumes = "application/json")
+  public LogEntry
+  addLog(@RequestBody final LogEntry log) {
     this.logger.debug("before adding log: {}", log);
     final LogEntry saved = this.repository.save(log);
     this.logger.debug("after adding log: {}", saved);

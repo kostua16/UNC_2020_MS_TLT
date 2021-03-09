@@ -35,18 +35,22 @@ class ChangePropertyTaxTest {
     propertyTax.setCitizenId(111L);
     propertyTax.setPaymentRequestId(15L);
 
-    given(this.propertyTaxService.getPropertyTaxById(propertyTax.getPropertyTaxId()))
+    given(this.propertyTaxService.getPropertyTaxById(
+              propertyTax.getPropertyTaxId()))
         .willReturn(propertyTax);
 
-    given(this.bankIntegrationService.checkPaymentStatus(propertyTax.getPaymentRequestId()))
+    given(this.bankIntegrationService.checkPaymentStatus(
+              propertyTax.getPaymentRequestId()))
         .willReturn(true);
     given(this.propertyTaxRepository.save(propertyTax)).willReturn(propertyTax);
 
-    ResponseEntity<PropertyTax> response = this.propertyTaxService.changePropertyTaxStatus(1L);
+    ResponseEntity<PropertyTax> response =
+        this.propertyTaxService.changePropertyTaxStatus(1L);
     System.out.println(propertyTax.getIsPaid());
 
     Assertions.assertAll(
-        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        ()
+            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
         () -> Assertions.assertTrue(response.getBody().getIsPaid()));
   }
 }

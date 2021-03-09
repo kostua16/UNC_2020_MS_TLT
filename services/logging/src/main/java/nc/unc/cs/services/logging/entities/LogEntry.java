@@ -14,15 +14,11 @@ import lombok.Data;
 @Data
 public class LogEntry {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  @Id @GeneratedValue(strategy = GenerationType.AUTO) private long id;
 
   private Date created;
 
-  @Size(min = 1, max = 10)
-  private String service;
+  @Size(min = 1, max = 10) private String service;
 
-  @Size(min = 1, max = 4000)
-  private String message;
+  @Size(min = 1, max = 4000) private String message;
 }

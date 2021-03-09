@@ -20,7 +20,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 class PropertyTaxValueTestTest {
 
-  private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
 
   @Mock private PropertyTaxValueRepository propertyTaxValueRepository;
 
@@ -36,13 +37,15 @@ class PropertyTaxValueTestTest {
 
   @Test
   void getTax() {
-    Integer res = propertyTaxService.calculatePropertyTaxAmount(100.0, 1000.0, 15.0);
+    Integer res =
+        propertyTaxService.calculatePropertyTaxAmount(100.0, 1000.0, 15.0);
     Assertions.assertEquals(150, res);
   }
 
   @Test
   void addPropertyTaxValueTestCreate() {
-    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
     final PropertyTaxValue propertyTaxValue =
         PropertyTaxValue.builder()
             .region(newPropertyTaxValue.getRegion())
@@ -50,23 +53,25 @@ class PropertyTaxValueTestTest {
             .cadastralValue(newPropertyTaxValue.getCadastralValue())
             .build();
 
-    given(
-            this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
-                propertyTaxValue.getRegion()))
+    given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
+              propertyTaxValue.getRegion()))
         .willReturn(null);
-    given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
+    given(this.propertyTaxValueRepository.save(propertyTaxValue))
+        .willReturn(propertyTaxValue);
 
     ResponseEntity<PropertyTaxValue> response =
         this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
 
     Assertions.assertAll(
-        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        ()
+            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
         () -> Assertions.assertEquals(propertyTaxValue, response.getBody()));
   }
 
   @Test
   void addPropertyTaxValueTestUpdate() {
-    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
     final PropertyTaxValue propertyTaxValue =
         PropertyTaxValue.builder()
             .propertyTaxValueId(1L)
@@ -82,26 +87,27 @@ class PropertyTaxValueTestTest {
             .cadastralValue(20)
             .build();
 
-    given(
-            this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
-                lastPropertyTaxValue.getRegion()))
+    given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
+              lastPropertyTaxValue.getRegion()))
         .willReturn(propertyTaxValue);
-    given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
+    given(this.propertyTaxValueRepository.save(propertyTaxValue))
+        .willReturn(propertyTaxValue);
 
     final ResponseEntity<PropertyTaxValue> response =
         this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
 
     Assertions.assertAll(
-        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        () ->
-            Assertions.assertEquals(
+        ()
+            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        ()
+            -> Assertions.assertEquals(
                 newPropertyTaxValue.getPricePerSquareMeter(),
                 response.getBody().getPricePerSquareMeter()),
-        () ->
-            Assertions.assertEquals(
-                newPropertyTaxValue.getCadastralValue(), response.getBody().getCadastralValue()),
-        () ->
-            Assertions.assertEquals(
+        ()
+            -> Assertions.assertEquals(newPropertyTaxValue.getCadastralValue(),
+                                       response.getBody().getCadastralValue()),
+        ()
+            -> Assertions.assertEquals(
                 propertyTaxValue.getPropertyTaxValueId(),
                 response.getBody().getPropertyTaxValueId()));
   }

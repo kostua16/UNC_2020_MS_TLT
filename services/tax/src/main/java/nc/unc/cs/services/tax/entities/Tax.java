@@ -48,11 +48,7 @@ public class Tax {
   @Temporal(value = TemporalType.TIMESTAMP)
   private Date taxPaymentDate;
 
-  @NotNull(message = "Incorrect citizen ID")
-  @Min(1L)
-  private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID") @Min(1L) private Long citizenId;
 
-  @NotNull(message = "Incorrect service ID")
-  @Min(1L)
-  private Long serviceId;
+  @NotNull(message = "Incorrect service ID") @Min(1L) private Long serviceId;
 }

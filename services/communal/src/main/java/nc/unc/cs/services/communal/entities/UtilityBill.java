@@ -36,9 +36,7 @@ public class UtilityBill {
   @Temporal(value = TemporalType.TIMESTAMP)
   private Date date;
 
-  @NotNull
-  @Column(nullable = false)
-  private Boolean isPaid;
+  @NotNull @Column(nullable = false) private Boolean isPaid;
 
   @NotNull(message = "Incorrect data")
   @Min(value = 1, message = "Incorrect data size")

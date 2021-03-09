@@ -17,7 +17,8 @@ import org.springframework.http.ResponseEntity;
 
 class AddPropertyWebTest extends PropertyParentWeb {
 
-  private static final Logger logger = LoggerFactory.getLogger(AddPropertyWebTest.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(AddPropertyWebTest.class);
 
   @Test
   void addCitizensPropertyTest() throws Exception {
@@ -35,7 +36,7 @@ class AddPropertyWebTest extends PropertyParentWeb {
                 .content(objectMapper.writeValueAsString(creationProperty)))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(
-            content().string(containsString(this.objectMapper.writeValueAsString(property))));
+        .andExpect(content().string(
+            containsString(this.objectMapper.writeValueAsString(property))));
   }
 }

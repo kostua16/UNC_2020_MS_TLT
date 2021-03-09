@@ -30,8 +30,9 @@ public class CreationPropertyTaxValue {
   private Integer cadastralValue;
 
   @Builder
-  public CreationPropertyTaxValue(
-      final String region, final Integer pricePerSquareMeter, final Integer cadastralValue) {
+  public CreationPropertyTaxValue(final String region,
+                                  final Integer pricePerSquareMeter,
+                                  final Integer cadastralValue) {
     this.region = region.trim().toUpperCase();
     this.pricePerSquareMeter = pricePerSquareMeter;
     this.cadastralValue = cadastralValue;

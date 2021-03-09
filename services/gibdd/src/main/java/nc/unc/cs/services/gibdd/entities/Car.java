@@ -28,13 +28,9 @@ public class Car {
     this.owner = "test";
   }
 
-  public String getNumber() {
-    return number;
-  }
+  public String getNumber() { return number; }
 
-  public String getOwner() {
-    return owner;
-  }
+  public String getOwner() { return owner; }
 
   @Override
   public String toString() {

@@ -13,18 +13,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
   /** Логгер. */
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(ExceptionController.class);
   /** Стандартное сообщение для фронта. */
-  private static final String TAX_SERVICE_UNAVAILABLE_MESSAGE = "Tax service unavailable!";
+  private static final String TAX_SERVICE_UNAVAILABLE_MESSAGE =
+      "Tax service unavailable!";
 
   @ExceptionHandler(value = {FeignException.class})
-  public ResponseEntity<Object> serviceUnavailableException(final FeignException fe) {
+  public ResponseEntity<Object>
+  serviceUnavailableException(final FeignException fe) {
     LOGGER.error(TAX_SERVICE_UNAVAILABLE_MESSAGE, fe);
-    return new ResponseEntity<>(TAX_SERVICE_UNAVAILABLE_MESSAGE, HttpStatus.SERVICE_UNAVAILABLE);
+    return new ResponseEntity<>(TAX_SERVICE_UNAVAILABLE_MESSAGE,
+                                HttpStatus.SERVICE_UNAVAILABLE);
   }
 
   @ExceptionHandler(value = {PaymentRequestNotFoundException.class})
-  public ResponseEntity<Object> paymentRequestNotFound(final PaymentRequestNotFoundException pe) {
+  public ResponseEntity<Object>
+  paymentRequestNotFound(final PaymentRequestNotFoundException pe) {
     LOGGER.error("Search failed!", pe);
     return new ResponseEntity<>(pe.getMessage(), HttpStatus.BAD_REQUEST);
   }

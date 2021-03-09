@@ -24,7 +24,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 class CalculatePropertyTaxTest {
-  private static final Logger logger = LoggerFactory.getLogger(CalculatePropertyTaxTest.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(CalculatePropertyTaxTest.class);
 
   /** Налоговый процент от стоимости платежа. */
   static final Integer TAX_PERCENT = PropertyTaxService.TAX_PERCENT;
@@ -70,8 +71,10 @@ class CalculatePropertyTaxTest {
     final Property property = this.getProperty();
     PropertyTaxValue propertyTaxValue = getPropertyTaxValue();
 
-    given(this.propertyRepository.findPropertyByPropertyId(1L)).willReturn(property);
-    given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion()))
+    given(this.propertyRepository.findPropertyByPropertyId(1L))
+        .willReturn(property);
+    given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
+              property.getRegion()))
         .willReturn(propertyTaxValue);
 
     PropertyTax propertyTax = new PropertyTax();
@@ -79,29 +82,34 @@ class CalculatePropertyTaxTest {
     propertyTax.setIsPaid(false);
     propertyTax.setDate(new Date());
     propertyTax.setCitizenId(111L);
-    propertyTax.setTaxAmount(
-        this.propertyTaxService.calculatePropertyTaxAmount(
-            Double.valueOf(property.getApartmentSize()),
-            Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-            Double.valueOf(propertyTaxValue.getCadastralValue())));
+    propertyTax.setTaxAmount(this.propertyTaxService.calculatePropertyTaxAmount(
+        Double.valueOf(property.getApartmentSize()),
+        Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+        Double.valueOf(propertyTaxValue.getCadastralValue())));
 
     System.out.println(propertyTax.toString());
 
-    given(
-            this.bankIntegrationService.bankRequest(
-                SERVICE_ID, property.getCitizenId(), propertyTax.getTaxAmount(), TAX_PERCENT))
+    given(this.bankIntegrationService.bankRequest(
+              SERVICE_ID, property.getCitizenId(), propertyTax.getTaxAmount(),
+              TAX_PERCENT))
         .willReturn(15L);
 
     propertyTax.setPaymentRequestId(1L);
     propertyTax.setPropertyTaxId(1L);
     given(this.propertyTaxRepository.save(propertyTax)).willReturn(propertyTax);
 
-    ResponseEntity<PropertyTax> response = this.propertyTaxService.calculatePropertyTax(1L);
+    ResponseEntity<PropertyTax> response =
+        this.propertyTaxService.calculatePropertyTax(1L);
 
     Assertions.assertAll(
-        () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        () -> Assertions.assertNotNull(response.getBody().getTaxAmount()),
-        () -> Assertions.assertFalse(response.getBody().getIsPaid()),
-        () -> Assertions.assertEquals(15L, response.getBody().getPaymentRequestId()));
+        ()
+            -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
+        ()
+            -> Assertions.assertNotNull(response.getBody().getTaxAmount()),
+        ()
+            -> Assertions.assertFalse(response.getBody().getIsPaid()),
+        ()
+            -> Assertions.assertEquals(
+                15L, response.getBody().getPaymentRequestId()));
   }
 }

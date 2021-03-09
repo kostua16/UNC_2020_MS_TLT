@@ -37,9 +37,7 @@ public class PaymentRequest {
   @Column(nullable = false, updatable = false)
   private Long citizenId;
 
-  @NotNull
-  @Column(nullable = false)
-  private Boolean status;
+  @NotNull @Column(nullable = false) private Boolean status;
 
   @NotNull(message = "Incorrect amount")
   @Min(value = 1, message = "Incorrect amount")

@@ -5,7 +5,5 @@ public class TaxNotFoundException extends RuntimeException {
     super("Tax with ID: " + serviceId + " was not found!");
   }
 
-  public TaxNotFoundException() {
-    super("The citizen has no tax debts.");
-  }
+  public TaxNotFoundException() { super("The citizen has no tax debts."); }
 }

@@ -17,6 +17,8 @@ public interface LoggingService {
   @GetMapping(path = "/{service}", produces = "application/json")
   public List<LogEntry> viewLogs(@PathVariable final String service);
 
-  @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
-  public LogEntry addLog(@RequestBody final LogEntry log);
+  @PostMapping(value = "/", produces = "application/json",
+               consumes = "application/json")
+  public LogEntry
+  addLog(@RequestBody final LogEntry log);
 }

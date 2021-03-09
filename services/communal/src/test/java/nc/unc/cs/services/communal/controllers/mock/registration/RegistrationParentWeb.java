@@ -26,7 +26,8 @@ public class RegistrationParentWeb extends ParentWeb {
   }
 
   protected final Registration createRegistration() {
-    final CreationRegistration creationRegistration = this.createCreationRegistration();
+    final CreationRegistration creationRegistration =
+        this.createCreationRegistration();
     return Registration.builder()
         .region(creationRegistration.getRegion())
         .city(creationRegistration.getCity())

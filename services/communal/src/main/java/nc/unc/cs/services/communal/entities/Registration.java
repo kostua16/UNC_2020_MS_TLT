@@ -50,9 +50,7 @@ public class Registration {
   @Column(nullable = false, length = 10)
   private String apartment;
 
-  @NotNull
-  @Column(nullable = false)
-  private Boolean isActive;
+  @NotNull @Column(nullable = false) private Boolean isActive;
 
   @NotNull(message = "Incorrect citizen ID")
   @Min(1L)
@@ -60,15 +58,10 @@ public class Registration {
   private Long citizenId;
 
   @Builder
-  public Registration(
-      final Long registrationId,
-      final String region,
-      final String city,
-      final String street,
-      final String house,
-      final String apartment,
-      final Boolean isActive,
-      final Long citizenId) {
+  public Registration(final Long registrationId, final String region,
+                      final String city, final String street,
+                      final String house, final String apartment,
+                      final Boolean isActive, final Long citizenId) {
     this.registrationId = registrationId;
     this.region = region.trim().toUpperCase();
     this.city = city.trim().toUpperCase();
