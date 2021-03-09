@@ -133,7 +133,7 @@ jobs:
         if: ${{ success() }}
         with:
           personal_token: ${{ secrets.GH_TKN }}
-          publish_dir: ./apidocs
+          publish_dir: ./documentation
           enable_jekyll: true
           commit_message: Updated docs for - ${{ github.event.head_commit.message }}
 
