@@ -17,25 +17,28 @@ import org.springframework.http.ResponseEntity;
 
 class AddPropertyWebTest extends PropertyParentWeb {
 
-  private static final Logger logger = LoggerFactory.getLogger(AddPropertyWebTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddPropertyWebTest.class);
 
-  @Test
-  void addCitizensPropertyTest() throws Exception {
-    final CreationProperty creationProperty = this.createCreationProperty();
-    final Property property = this.createProperty();
-    logger.debug("Property Object: \n {} \n", property);
+    @Test
+    void addCitizensPropertyTest() throws Exception {
+        final CreationProperty creationProperty = this.createCreationProperty();
+        final Property property = this.createProperty();
+        logger.debug("Property Object: \n {} \n", property);
 
-    when(registrationService.addCitizensProperty(creationProperty))
-        .thenReturn(ResponseEntity.ok(property));
+        when(registrationService.addCitizensProperty(creationProperty))
+                .thenReturn(ResponseEntity.ok(property));
 
-    this.mockMvc
-        .perform(
-            post(PROPERTY_CONTROLLER_MAPPING)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(creationProperty)))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(
-            content().string(containsString(this.objectMapper.writeValueAsString(property))));
-  }
+        this.mockMvc
+                .perform(
+                        post(PROPERTY_CONTROLLER_MAPPING)
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(creationProperty)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(
+                        content()
+                                .string(
+                                        containsString(
+                                                this.objectMapper.writeValueAsString(property))));
+    }
 }

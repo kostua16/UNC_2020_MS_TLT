@@ -5,6 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigServer
-public class ConfigManagerConfiguration {
-
-}
+public class ConfigManagerConfiguration {}

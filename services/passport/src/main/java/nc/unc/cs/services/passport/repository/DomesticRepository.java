@@ -5,7 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DomesticRepository extends CrudRepository<Domestic, Long> {
-
-}
-
+public interface DomesticRepository extends CrudRepository<Domestic, Long> {}

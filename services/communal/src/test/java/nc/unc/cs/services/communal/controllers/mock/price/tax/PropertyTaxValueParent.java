@@ -10,25 +10,26 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = {PropertyTaxValueController.class})
 public class PropertyTaxValueParent extends ParentWeb {
-  protected static final String PROPERTY_TAX_VALUE_CONTROLLER_MAPPING =
-      "http://localhost:8083/communal/tax/price-list";
-  @MockBean protected PropertyTaxService propertyTaxService;
+    protected static final String PROPERTY_TAX_VALUE_CONTROLLER_MAPPING =
+            "http://localhost:8083/communal/tax/price-list";
+    @MockBean protected PropertyTaxService propertyTaxService;
 
-  protected final PropertyTaxValue createPropertyTaxValue() {
-    final CreationPropertyTaxValue creationPropertyTaxValue = this.createCreationPropertyTaxValue();
-    return PropertyTaxValue.builder()
-        .propertyTaxValueId(1L)
-        .region(creationPropertyTaxValue.getRegion())
-        .pricePerSquareMeter(creationPropertyTaxValue.getPricePerSquareMeter())
-        .cadastralValue(creationPropertyTaxValue.getCadastralValue())
-        .build();
-  }
+    protected final PropertyTaxValue createPropertyTaxValue() {
+        final CreationPropertyTaxValue creationPropertyTaxValue =
+                this.createCreationPropertyTaxValue();
+        return PropertyTaxValue.builder()
+                .propertyTaxValueId(1L)
+                .region(creationPropertyTaxValue.getRegion())
+                .pricePerSquareMeter(creationPropertyTaxValue.getPricePerSquareMeter())
+                .cadastralValue(creationPropertyTaxValue.getCadastralValue())
+                .build();
+    }
 
-  protected CreationPropertyTaxValue createCreationPropertyTaxValue() {
-    return CreationPropertyTaxValue.builder()
-        .region("samara ")
-        .pricePerSquareMeter(100000)
-        .cadastralValue(20)
-        .build();
-  }
+    protected CreationPropertyTaxValue createCreationPropertyTaxValue() {
+        return CreationPropertyTaxValue.builder()
+                .region("samara ")
+                .pricePerSquareMeter(100000)
+                .cadastralValue(20)
+                .build();
+    }
 }

@@ -1,0 +1,79 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Backend'
+    labels:
+      - 'code'
+      - 'props'
+
+  - title: '🚀 Frontend'
+    labels:
+      - 'js'
+      - 'html'
+      - 'vue'
+
+  - title: '🐞 Tests'
+    labels:
+      - 'tests'
+
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+
+  - title: '🛠 Configuration'
+    labels:
+      - 'build'
+      - 'heroku'
+
+  - title: '🛠 CI/CD'
+    labels:
+      - 'ci'
+      - 'git'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+category-template: '### $TITLE'
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  ## Contributers
+
+  $CONTRIBUTORS
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'release'
+      - 'version'
+      - 'bundle'
+  minor:
+    labels:
+      - 'minor'
+      - 'fix'
+      - 'feature'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+exclude-labels:
+  - 'skip_changelog'
+autolabeler:
+  - label: 'docs'
+    branch:
+      - '/docs\/.+/'
+  - label: 'fix'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - 'fix\:.*/i'
+  - label: 'feature'
+    branch:
+      - '/feature\/.+/'
+    title:
+      - 'feature\:.*/i'
+      - 'feat\:.*/i'
+  - label: 'ci'
+    branch:
+      - '/ci\/.+/'
+    title:
+      - 'ci\:.*/i'

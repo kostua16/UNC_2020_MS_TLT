@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "BANK", path = "bank", url = "${app.bank-url}")
 @ConditionalOnMissingClass("nc.unc.cs.services.bank.controllers.BankController")
 public interface BankService {
-  @PostMapping(
-      value = "request-payment",
-      consumes = "application/json",
-      produces = "application/json")
-  ResponseEntity<Long> requestPayment(@RequestBody final PaymentPayload paymentPayload);
+    @PostMapping(
+            value = "request-payment",
+            consumes = "application/json",
+            produces = "application/json")
+    ResponseEntity<Long> requestPayment(@RequestBody final PaymentPayload paymentPayload);
 
-  @GetMapping(value = "{paymentId}", produces = "application/json")
-  Boolean checkPaymentStatus(@PathVariable("paymentId") final Long paymentId);
+    @GetMapping(value = "{paymentId}", produces = "application/json")
+    Boolean checkPaymentStatus(@PathVariable("paymentId") final Long paymentId);
 }
