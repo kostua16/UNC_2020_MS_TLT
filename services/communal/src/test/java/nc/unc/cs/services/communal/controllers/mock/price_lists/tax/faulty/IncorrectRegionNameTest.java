@@ -10,18 +10,21 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class IncorrectRegionNameTest extends PropertyTaxValueParent {
-    @ParameterizedTest
-    @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
-    void checkRegionNameTest(final String word) throws Exception {
-        final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
-        newPropertyTaxValue.setRegion(word);
+  @ParameterizedTest
+  @ValueSource(strings = {"   ", " 1 ",
+                          "sssssssssssssssssssssssssssssssssssssssss"})
+  void
+  checkRegionNameTest(final String word) throws Exception {
+    final CreationPropertyTaxValue newPropertyTaxValue =
+        this.createCreationPropertyTaxValue();
+    newPropertyTaxValue.setRegion(word);
 
-        this.mockMvc
-                .perform(
-                        post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
-                                .contentType("application/json")
-                                .content(objectMapper.writeValueAsString(newPropertyTaxValue)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
+    this.mockMvc
+        .perform(
+            post(PROPERTY_TAX_VALUE_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(newPropertyTaxValue)))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
 }
