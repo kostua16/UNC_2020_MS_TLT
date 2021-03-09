@@ -34,7 +34,7 @@ public class UtilitiesPriceListController {
             value = "Creating and adding price lists",
             notes =
                     "Creation and addition of price lists for calculating the amount of spent"
-                        + " utilities.",
+                            + " utilities.",
             nickname = "addUtilitiesPriceList")
     @ApiResponses({
         @ApiResponse(

@@ -84,7 +84,7 @@ public class BankService {
                         .message(
                                 String.format(
                                         "Tax with ID = %d has been created for serviceId = %d,"
-                                            + " citizenId = %d",
+                                                + " citizenId = %d",
                                         taxId,
                                         paymentPayload.getServiceId(),
                                         paymentPayload.getCitizenId()))
