@@ -1,9 +1,9 @@
 package nc.unc.cs.services.gibdd.services;
 
 import java.util.Date;
-import nc.unc.cs.services.gibdd.entities.Car;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
+import nc.unc.cs.services.gibdd.entities.Car;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
