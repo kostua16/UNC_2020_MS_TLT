@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class IdRequest {
-  @NotNull(message = "Incorrect property ID")
-  @Min(1L)
-  private Long propertyId;
+    @NotNull(message = "Incorrect property ID")
+    @Min(1L)
+    private Long propertyId;
 }
