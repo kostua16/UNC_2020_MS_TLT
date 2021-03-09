@@ -1,0 +1,29 @@
+# Example workflow
+name: Format
+
+on:
+  # pull_request event is required only for autolabeler
+  pull_request:
+    # Only following types are handled by the action, but one can default to all as well
+    types: [ opened, edited, reopened, synchronize ]
+
+jobs:
+
+  formatting:
+    name: Format with Google-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3.4.0
+        with:
+          args: "--skip-sorting-imports --aosp --replace"
+          githubToken: ${{ secrets.GH_TKN }}
+          version: 1.9
+          skipCommit: true
+      - id: cpr
+        name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.4.0
+        with:
+          branch: "fix/gf-${GITHUB_HEAD_REF##*/}-${{ github.event.number}}"
+          title: "Auto-fix by Google-format"
+          commit-message: "Auto-fixed by Google-format"
