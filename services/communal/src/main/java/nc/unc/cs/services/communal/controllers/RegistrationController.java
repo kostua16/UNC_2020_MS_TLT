@@ -30,26 +30,19 @@ public class RegistrationController {
     return this.registrationService.addRegistration(creationRegistration);
   }
 
-  @GetMapping(value = "registrations/active/citizen/{citizenId}",
-              produces = "application/json")
-  public Registration
-  getRegistrationByCitizenId(@PathVariable("citizenId") final Long citizenId) {
+  @GetMapping(value = "registrations/active/citizen/{citizenId}", produces = "application/json")
+  public Registration getRegistrationByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getActiveRegistrationByCitizenId(citizenId);
   }
 
-  @GetMapping(value = "registrations/all/{citizenId}",
-              produces = "application/json")
-  public List<Registration>
-  getAllRegistrations(@PathVariable("citizenId") final Long citizenId) {
+  @GetMapping(value = "registrations/all/{citizenId}", produces = "application/json")
+  public List<Registration> getAllRegistrations(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getAllRegistrations(citizenId);
   }
 
-  @GetMapping(value = "registrations/{registrationId}",
-              produces = "application/json")
-  public Registration
-  getRegistrationByRegistrationId(@PathVariable("registrationId")
-                                  final Long registrationId) {
-    return this.registrationService.getRegistrationByRegistrationId(
-        registrationId);
+  @GetMapping(value = "registrations/{registrationId}", produces = "application/json")
+  public Registration getRegistrationByRegistrationId(
+      @PathVariable("registrationId") final Long registrationId) {
+    return this.registrationService.getRegistrationByRegistrationId(registrationId);
   }
 }
