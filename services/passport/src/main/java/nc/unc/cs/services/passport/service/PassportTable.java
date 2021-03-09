@@ -20,8 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PassportTable {
-  private static final Logger logger =
-      LoggerFactory.getLogger(PassportTable.class);
+  private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
   private final Random random = new Random();
@@ -29,9 +28,11 @@ public class PassportTable {
   private final TaxService taxService;
 
   @Autowired
-  public PassportTable(InternationalRepository internationalRepository,
-                       DomesticRepository domesticRepository,
-                       BankService bankService, TaxService taxService) {
+  public PassportTable(
+      InternationalRepository internationalRepository,
+      DomesticRepository domesticRepository,
+      BankService bankService,
+      TaxService taxService) {
     this.internationalRepository = internationalRepository;
     this.domesticRepository = domesticRepository;
     this.bankService = bankService;
@@ -67,8 +68,7 @@ public class PassportTable {
     //        Сохранять в базу, только после успешной регистрации в банке и как
     //        это сделать?
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
+      this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
       this.domesticRepository.save(domestic);
       return ResponseEntity.ok(domestic);
     } catch (Exception e) {
@@ -78,8 +78,7 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<International>
-  registerInternationalPassport(Citizen citizen) {
+  public ResponseEntity<International> registerInternationalPassport(Citizen citizen) {
     International international = new International();
     international.setName(citizen.getName());
     international.setSurname(citizen.getSurname());
@@ -87,17 +86,16 @@ public class PassportTable {
     international.setIsActive(false);
     international.setCitizenId(citizen.getCitizenId());
     try {
-      international.setLocked(this.taxService.getListUnpaidTaxes(
-          new IdInfo(citizen.getCitizenId(),
-                     2L))); // 2 - номер моего сервиса, добавть сшешяутШd
+      international.setLocked(
+          this.taxService.getListUnpaidTaxes(
+              new IdInfo(
+                  citizen.getCitizenId(), 2L))); // 2 - номер моего сервиса, добавть сшешяутШd
     } catch (Exception e) {
       logger.error("Не удалось проверить налоги");
     }
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
-      return ResponseEntity.ok(
-          this.internationalRepository.save(international));
+      this.bankService.requestPayment(new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
+      return ResponseEntity.ok(this.internationalRepository.save(international));
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
       return ResponseEntity.status(503).body(international);
@@ -105,8 +103,10 @@ public class PassportTable {
   }
 
   public ResponseEntity<Domestic> updateDomestic(Long id, Domestic domestic) {
-    Domestic updateDomestic = domesticRepository.findById(id).orElseThrow(
-        () -> new DomesticPassportNotFoundException(id));
+    Domestic updateDomestic =
+        domesticRepository
+            .findById(id)
+            .orElseThrow(() -> new DomesticPassportNotFoundException(id));
     updateDomestic.setRegistration(domestic.getRegistration());
     updateDomestic.setName(domestic.getName());
     updateDomestic.setSurname(domestic.getSurname());
@@ -125,19 +125,19 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<International>
-  updateInternational(Long id, International international) {
+  public ResponseEntity<International> updateInternational(Long id, International international) {
     International updateInternational =
-        internationalRepository.findById(id).orElseThrow(
-            () -> new InternationalPassportNotFoundException(id));
+        internationalRepository
+            .findById(id)
+            .orElseThrow(() -> new InternationalPassportNotFoundException(id));
     updateInternational.setInternationalId(international.getInternationalId());
     updateInternational.setName(international.getName());
     updateInternational.setSurname(international.getSurname());
     updateInternational.setDateOfBirth(international.getDateOfBirth());
     updateInternational.setIsActive(international.getIsActive());
     try {
-      this.bankService.requestPayment(new PaymentPayload(
-          2L, updateInternational.getCitizenId(), 3500, 350));
+      this.bankService.requestPayment(
+          new PaymentPayload(2L, updateInternational.getCitizenId(), 3500, 350));
       this.internationalRepository.save(updateInternational);
       return ResponseEntity.ok(updateInternational);
     } catch (Exception e) {
@@ -156,8 +156,7 @@ public class PassportTable {
   }
 
   public International activateInternational(Long id) throws Exception {
-    International updateInternational =
-        internationalRepository.findById(id).orElse(null);
+    International updateInternational = internationalRepository.findById(id).orElse(null);
     if (updateInternational == null) {
       throw new Exception("Cannot find domestic with id:" + id);
     }

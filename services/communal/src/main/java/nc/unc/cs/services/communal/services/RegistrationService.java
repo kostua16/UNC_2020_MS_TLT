@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationService {
   /** Логгер. */
-  private static final Logger logger =
-      LoggerFactory.getLogger(RegistrationService.class);
+  private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
   /** Налоговый процент от стоимости платежа. */
   public static final Integer TAX_PERCENT = 50;
   /** Номер сервиса. */
@@ -46,8 +45,7 @@ public class RegistrationService {
    * @return активная регистрация гражданина
    */
   public Registration getActiveRegistrationByCitizenId(final Long citizenId) {
-    return this.registrationRepository.findRegistrationByCitizenIdAndIsActive(
-        citizenId, true);
+    return this.registrationRepository.findRegistrationByCitizenIdAndIsActive(citizenId, true);
   }
 
   /**
@@ -56,8 +54,8 @@ public class RegistrationService {
    * @param creationRegistration новое место регистрации
    * @return http-ответ, в теле которого находится данные о прописке
    */
-  public ResponseEntity<Registration>
-  addRegistration(final CreationRegistration creationRegistration) {
+  public ResponseEntity<Registration> addRegistration(
+      final CreationRegistration creationRegistration) {
     final ResponseEntity<Registration> response;
     final Registration registration =
         Registration.builder()
@@ -69,8 +67,8 @@ public class RegistrationService {
             .isActive(true)
             .citizenId(creationRegistration.getCitizenId())
             .build();
-    final Registration lastRegistration = this.getActiveRegistrationByCitizenId(
-        creationRegistration.getCitizenId());
+    final Registration lastRegistration =
+        this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
 
     this.bankIntegrationService.bankRequest(
         SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
@@ -80,8 +78,8 @@ public class RegistrationService {
     }
 
     this.registrationRepository.save(registration);
-    logger.info("Registration has been added to the citizen with ID = {}",
-                registration.getCitizenId());
+    logger.info(
+        "Registration has been added to the citizen with ID = {}", registration.getCitizenId());
     response = ResponseEntity.ok(registration);
 
     return response;
@@ -93,10 +91,8 @@ public class RegistrationService {
    * @param registrationId регистрационный идентификатор
    * @return регистрация
    */
-  public Registration
-  getRegistrationByRegistrationId(final Long registrationId) {
-    return this.registrationRepository.findRegistrationByRegistrationId(
-        registrationId);
+  public Registration getRegistrationByRegistrationId(final Long registrationId) {
+    return this.registrationRepository.findRegistrationByRegistrationId(registrationId);
   }
 
   /**
@@ -116,46 +112,46 @@ public class RegistrationService {
    * @return недвижимость
    */
   public Property getPropertyByAddress(final CreationProperty property) {
-    return this.propertyRepository
-        .findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
-            property.getRegion(), property.getCity(), property.getStreet(),
-            property.getHouse(), property.getApartment());
+    return this.propertyRepository.findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
+        property.getRegion(),
+        property.getCity(),
+        property.getStreet(),
+        property.getHouse(),
+        property.getApartment());
   }
 
   /**
-   * Добавляет недвижимость. Если недвижимость уже существует, то обнавляется
-   * владелец.
+   * Добавляет недвижимость. Если недвижимость уже существует, то обнавляется владелец.
    *
    * @param newProperty данные о недвижимсоти
    * @return http-ответ, в теле которого находится данные о недвижимости
    */
-  public ResponseEntity<Property>
-  addCitizensProperty(final CreationProperty newProperty) {
+  public ResponseEntity<Property> addCitizensProperty(final CreationProperty newProperty) {
     final ResponseEntity<Property> response;
     final Property property;
     final Property lastProperty = this.getPropertyByAddress(newProperty);
 
     if (lastProperty == null) {
-      property = Property.builder()
-                     .region(newProperty.getRegion())
-                     .city(newProperty.getCity())
-                     .street(newProperty.getStreet())
-                     .house(newProperty.getHouse())
-                     .apartment(newProperty.getApartment())
-                     .apartmentSize(newProperty.getApartmentSize())
-                     .citizenId(newProperty.getCitizenId())
-                     .build();
+      property =
+          Property.builder()
+              .region(newProperty.getRegion())
+              .city(newProperty.getCity())
+              .street(newProperty.getStreet())
+              .house(newProperty.getHouse())
+              .apartment(newProperty.getApartment())
+              .apartmentSize(newProperty.getApartmentSize())
+              .citizenId(newProperty.getCitizenId())
+              .build();
       logger.info("New property added");
     } else {
       lastProperty.setCitizenId(newProperty.getCitizenId());
       property = lastProperty;
       logger.info("Property owner updated");
     }
-    this.bankIntegrationService.bankRequest(SERVICE_ID, property.getCitizenId(),
-                                            SERVICE_COST, TAX_PERCENT);
+    this.bankIntegrationService.bankRequest(
+        SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT);
     this.propertyRepository.save(property);
-    logger.info("Added property for user with ID = {}",
-                property.getCitizenId());
+    logger.info("Added property for user with ID = {}", property.getCitizenId());
     response = ResponseEntity.ok(property);
 
     return response;
