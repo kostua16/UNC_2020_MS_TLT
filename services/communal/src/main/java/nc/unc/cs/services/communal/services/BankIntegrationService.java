@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BankIntegrationService {
   /** Лоррер. */
-  private static Logger logger =
-      LoggerFactory.getLogger(BankIntegrationService.class);
+  private static Logger logger = LoggerFactory.getLogger(BankIntegrationService.class);
 
   /** Банковский сервис. */
   private final BankService bankService;
@@ -37,8 +36,8 @@ public class BankIntegrationService {
    * @return идентификатор сформированного счёта
    * @throws FeignException если не удасться обратиться к Банковскому сервису
    */
-  public Long bankRequest(final Long serviceId, final Long citizenId,
-                          final Integer amount, final Integer percent)
+  public Long bankRequest(
+      final Long serviceId, final Long citizenId, final Integer amount, final Integer percent)
       throws FeignException {
     //        try {
     final PaymentPayload paymentPayload =
@@ -61,8 +60,7 @@ public class BankIntegrationService {
    * @return статус оплаты
    * @throws FeignException если не удасться обратиться к Банковскому сервису
    */
-  public Boolean checkPaymentStatus(final Long paymentRequestId)
-      throws FeignException {
+  public Boolean checkPaymentStatus(final Long paymentRequestId) throws FeignException {
     return this.bankService.checkPaymentStatus(paymentRequestId);
   }
 }

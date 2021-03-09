@@ -16,9 +16,10 @@ class NumericalDataTest extends PropertyParentWeb {
     property.setApartmentSize(9);
 
     this.mockMvc
-        .perform(post(PROPERTY_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(property)))
+        .perform(
+            post(PROPERTY_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(property)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -29,9 +30,10 @@ class NumericalDataTest extends PropertyParentWeb {
     property.setApartmentSize(null);
 
     this.mockMvc
-        .perform(post(PROPERTY_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(property)))
+        .perform(
+            post(PROPERTY_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(property)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -42,9 +44,10 @@ class NumericalDataTest extends PropertyParentWeb {
     property.setApartmentSize(9);
 
     this.mockMvc
-        .perform(post(PROPERTY_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(property)))
+        .perform(
+            post(PROPERTY_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(property)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -55,9 +58,10 @@ class NumericalDataTest extends PropertyParentWeb {
     property.setCitizenId(null);
 
     this.mockMvc
-        .perform(post(PROPERTY_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(property)))
+        .perform(
+            post(PROPERTY_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(property)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
