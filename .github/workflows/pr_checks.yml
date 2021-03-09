@@ -4,12 +4,6 @@
 name: PR Checks
 
 on:
-  push:
-    # branches to consider in the event; optional, defaults to all
-    branches:
-      - develop
-      - master
-      - support
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action, but one can default to all as well
@@ -164,20 +158,29 @@ jobs:
       ###############
       - uses: axel-op/googlejavaformat-action@v3.4.0
         with:
-          args: "--skip-sorting-imports --aosp --replace"
+          args: "--skip-sorting-imports --aosp --replace --set-exit-if-changed"
           githubToken: ${{ secrets.GH_TKN }}
           version: 1.9
           skipCommit: true
-#      #######################
-#      # Create pull request #
-#      #######################
-#      - id: cpr
-#        name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v3.4.0
-#        with:
-#          branch: "fix/gf-${GITHUB_HEAD_REF##*/}-${{ github.event.number}}"
-#          title: "Auto-fix by Google-format"
-#          commit-message: "Auto-fixed by Google-format"
+      #######################
+      # Create pull request #
+      #######################
+      - id: cpr
+        if: ${{ failure() }}
+        name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.4.0
+        with:
+          branch: "fix/gf-${GITHUB_HEAD_REF##*/}-${{github.event.number}}"
+          title: "Auto-fix by Google-format"
+          commit-message: "Auto-fixed by Google-format"
+      - name: Create comment for PR
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1.4.4
+        with:
+          issue-number: ${{github.event.number}}
+          body: |
+            Depends on #${{steps.cpr.outputs.pull-request-number}} due to fixes made by 'Google-format'
+          reactions: '+1'
 
   update_release_draft:
     name: Release Drafter
