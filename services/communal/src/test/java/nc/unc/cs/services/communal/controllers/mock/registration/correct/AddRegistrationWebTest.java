@@ -17,20 +17,20 @@ class AddRegistrationWebTest extends RegistrationParentWeb {
 
   @Test
   public void addRegistrationTest() throws Exception {
-    final CreationRegistration newRegistration =
-        this.createCreationRegistration();
+    final CreationRegistration newRegistration = this.createCreationRegistration();
     final Registration registration = this.createRegistration();
 
     when(this.registrationService.addRegistration(newRegistration))
         .thenReturn(ResponseEntity.ok(registration));
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(newRegistration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(newRegistration)))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString(
-            this.objectMapper.writeValueAsString(registration))));
+        .andExpect(
+            content().string(containsString(this.objectMapper.writeValueAsString(registration))));
   }
 }

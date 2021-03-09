@@ -36,12 +36,18 @@ public class CreationRegistration {
   @Size(min = 2, max = 40, message = "Incorrect apartment name")
   private String apartment;
 
-  @NotNull(message = "Incorrect citizen ID") @Min(1L) private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  private Long citizenId;
 
   @Builder
-  public CreationRegistration(final String region, final String city,
-                              final String street, final String house,
-                              final String apartment, final Long citizenId) {
+  public CreationRegistration(
+      final String region,
+      final String city,
+      final String street,
+      final String house,
+      final String apartment,
+      final Long citizenId) {
     this.region = region.trim().toUpperCase();
     this.city = city.trim().toUpperCase();
     this.street = street.trim().toUpperCase();
