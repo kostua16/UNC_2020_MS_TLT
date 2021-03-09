@@ -158,7 +158,7 @@ jobs:
       ###############
       - uses: axel-op/googlejavaformat-action@v3.4.0
         with:
-          args: "--skip-sorting-imports --aosp --replace --set-exit-if-changed"
+          args: "--skip-sorting-imports --replace --set-exit-if-changed"
           githubToken: ${{ secrets.GH_TKN }}
           version: 1.9
           skipCommit: true
