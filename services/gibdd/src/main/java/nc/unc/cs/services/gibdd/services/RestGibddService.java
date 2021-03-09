@@ -13,28 +13,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("gibdd")
 public class RestGibddService {
 
-    private final LogicOfGibddService logic;
+  private final LogicOfGibddService logic;
 
-    @Value("${gibdd.test:default}")
-    private String testName;
+  @Value("${gibdd.test:default}") private String testName;
 
-    @Autowired
-    public RestGibddService(LogicOfGibddService logic) {
-        this.logic = logic;
-    }
+  @Autowired
+  public RestGibddService(LogicOfGibddService logic) {
+    this.logic = logic;
+  }
 
-    @GetMapping(value = "/", produces = "application/json")
-    public Iterable<Car> indexCars() {
-        return this.logic.getCars();
-    }
+  @GetMapping(value = "/", produces = "application/json")
+  public Iterable<Car> indexCars() {
+    return this.logic.getCars();
+  }
 
-    @PostMapping(value = "/", consumes = "application/json", produces = "application/json")
-    public Car addCar(@RequestBody final Car car) {
-        return this.logic.addCar(car);
-    }
+  @PostMapping(value = "/", consumes = "application/json",
+               produces = "application/json")
+  public Car
+  addCar(@RequestBody final Car car) {
+    return this.logic.addCar(car);
+  }
 
-    @GetMapping(value = "/test", produces = "text/plain")
-    public String getTestName() {
-        return this.testName;
-    }
+  @GetMapping(value = "/test", produces = "text/plain")
+  public String getTestName() {
+    return this.testName;
+  }
 }

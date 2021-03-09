@@ -14,30 +14,26 @@ import lombok.Value;
 @Entity
 @Value
 public class Car {
-    @Id private String number;
+  @Id private String number;
 
-    public String owner;
+  public String owner;
 
-    public Car(String number, String owner) {
-        this.number = number;
-        this.owner = owner;
-    }
+  public Car(String number, String owner) {
+    this.number = number;
+    this.owner = owner;
+  }
 
-    public Car() {
-        this.number = "0";
-        this.owner = "test";
-    }
+  public Car() {
+    this.number = "0";
+    this.owner = "test";
+  }
 
-    public String getNumber() {
-        return number;
-    }
+  public String getNumber() { return number; }
 
-    public String getOwner() {
-        return owner;
-    }
+  public String getOwner() { return owner; }
 
-    @Override
-    public String toString() {
-        return String.format("Car{number='%s', owner='%s'}", number, owner);
-    }
+  @Override
+  public String toString() {
+    return String.format("Car{number='%s', owner='%s'}", number, owner);
+  }
 }

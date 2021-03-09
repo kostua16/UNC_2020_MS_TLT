@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = {TaxController.class})
 @Import(ObjectMapper.class)
 class TaxWeb {
-    static final String TAX_CONTROLLER_MAPPING = "http://localhost:8082/tax";
-    @Autowired MockMvc mockMvc;
-    @Autowired ObjectMapper objectMapper;
-    @MockBean TaxService taxService;
+  static final String TAX_CONTROLLER_MAPPING = "http://localhost:8082/tax";
+  @Autowired MockMvc mockMvc;
+  @Autowired ObjectMapper objectMapper;
+  @MockBean TaxService taxService;
 }

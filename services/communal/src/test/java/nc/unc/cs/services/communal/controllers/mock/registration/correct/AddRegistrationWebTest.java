@@ -15,26 +15,22 @@ import org.springframework.http.ResponseEntity;
 
 class AddRegistrationWebTest extends RegistrationParentWeb {
 
-    @Test
-    public void addRegistrationTest() throws Exception {
-        final CreationRegistration newRegistration = this.createCreationRegistration();
-        final Registration registration = this.createRegistration();
+  @Test
+  public void addRegistrationTest() throws Exception {
+    final CreationRegistration newRegistration =
+        this.createCreationRegistration();
+    final Registration registration = this.createRegistration();
 
-        when(this.registrationService.addRegistration(newRegistration))
-                .thenReturn(ResponseEntity.ok(registration));
+    when(this.registrationService.addRegistration(newRegistration))
+        .thenReturn(ResponseEntity.ok(registration));
 
-        this.mockMvc
-                .perform(
-                        post(REGISTRATION_CONTROLLER_MAPPING)
-                                .contentType("application/json")
-                                .content(objectMapper.writeValueAsString(newRegistration)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(
-                        content()
-                                .string(
-                                        containsString(
-                                                this.objectMapper.writeValueAsString(
-                                                        registration))));
-    }
+    this.mockMvc
+        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
+                     .contentType("application/json")
+                     .content(objectMapper.writeValueAsString(newRegistration)))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString(
+            this.objectMapper.writeValueAsString(registration))));
+  }
 }
