@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HttpClientConfiguration {
 
-    @Bean
-    public okhttp3.OkHttpClient okHttpClient() {
-        return new Builder().connectTimeout(2, TimeUnit.SECONDS).build();
-    }
+  @Bean
+  public okhttp3.OkHttpClient okHttpClient() {
+    return new Builder().connectTimeout(2, TimeUnit.SECONDS).build();
+  }
 
-    @Bean
-    @Autowired
-    public OkHttpClient client(okhttp3.OkHttpClient okHttpClient) {
-        return new OkHttpClient(okHttpClient);
-    }
+  @Bean
+  @Autowired
+  public OkHttpClient client(okhttp3.OkHttpClient okHttpClient) {
+    return new OkHttpClient(okHttpClient);
+  }
 }

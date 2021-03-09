@@ -23,31 +23,31 @@ import lombok.ToString;
 @Builder
 public class PaymentRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentRequestId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long paymentRequestId;
 
-    @NotNull(message = "Incorrect service ID")
-    @Min(value = 1L, message = "Incorrect service ID")
-    @Column(nullable = false, updatable = false)
-    private Long serviceId;
+  @NotNull(message = "Incorrect service ID")
+  @Min(value = 1L, message = "Incorrect service ID")
+  @Column(nullable = false, updatable = false)
+  private Long serviceId;
 
-    @NotNull(message = "Incorrect citizen ID")
-    @Min(value = 1L, message = "Incorrect citizen ID")
-    @Column(nullable = false, updatable = false)
-    private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(value = 1L, message = "Incorrect citizen ID")
+  @Column(nullable = false, updatable = false)
+  private Long citizenId;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean status;
+  @NotNull
+  @Column(nullable = false)
+  private Boolean status;
 
-    @NotNull(message = "Incorrect amount")
-    @Min(value = 1, message = "Incorrect amount")
-    @Column(nullable = false)
-    private Integer amount;
+  @NotNull(message = "Incorrect amount")
+  @Min(value = 1, message = "Incorrect amount")
+  @Column(nullable = false)
+  private Integer amount;
 
-    @NotNull(message = "Incorrect tax ID")
-    @Min(value = 1L, message = "Incorrect tax ID")
-    @Column(nullable = false, updatable = false, unique = true)
-    private Long taxId;
+  @NotNull(message = "Incorrect tax ID")
+  @Min(value = 1L, message = "Incorrect tax ID")
+  @Column(nullable = false, updatable = false, unique = true)
+  private Long taxId;
 }

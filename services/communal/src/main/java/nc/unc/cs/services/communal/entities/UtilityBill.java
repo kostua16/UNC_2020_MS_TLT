@@ -26,67 +26,67 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class UtilityBill {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long utilityBillId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long utilityBillId;
 
-    @NotNull(message = "Date is null")
-    @Column(nullable = false, updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
+  @NotNull(message = "Date is null")
+  @Column(nullable = false, updatable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date date;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean isPaid;
+  @NotNull
+  @Column(nullable = false)
+  private Boolean isPaid;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer coldWater;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer coldWater;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer hotWater;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer hotWater;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer electricity;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer electricity;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer coldWaterAmount;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer coldWaterAmount;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer hotWaterAmount;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer hotWaterAmount;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer electricityAmount;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer electricityAmount;
 
-    @NotNull(message = "Incorrect data")
-    @Min(value = 1, message = "Incorrect data size")
-    @Column(nullable = false, updatable = false)
-    private Integer utilityAmount;
+  @NotNull(message = "Incorrect data")
+  @Min(value = 1, message = "Incorrect data size")
+  @Column(nullable = false, updatable = false)
+  private Integer utilityAmount;
 
-    @NotNull(message = "Incorrect payment request ID")
-    @Min(1L)
-    @Column(nullable = false, updatable = false)
-    private Long paymentRequestId;
+  @NotNull(message = "Incorrect payment request ID")
+  @Min(1L)
+  @Column(nullable = false, updatable = false)
+  private Long paymentRequestId;
 
-    @NotNull(message = "Incorrect property ID")
-    @Min(1L)
-    @Column(nullable = false, updatable = false)
-    private Long propertyId;
+  @NotNull(message = "Incorrect property ID")
+  @Min(1L)
+  @Column(nullable = false, updatable = false)
+  private Long propertyId;
 
-    @NotNull(message = "Incorrect citizen ID")
-    @Min(1L)
-    @Column(nullable = false, updatable = false)
-    private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  @Column(nullable = false, updatable = false)
+  private Long citizenId;
 }

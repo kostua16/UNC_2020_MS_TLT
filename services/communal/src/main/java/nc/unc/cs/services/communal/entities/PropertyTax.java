@@ -26,37 +26,37 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 public class PropertyTax {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long propertyTaxId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long propertyTaxId;
 
-    @NotNull(message = "Incorrect tax amount")
-    @Min(1)
-    @Column(updatable = false, nullable = false)
-    private Integer taxAmount;
+  @NotNull(message = "Incorrect tax amount")
+  @Min(1)
+  @Column(updatable = false, nullable = false)
+  private Integer taxAmount;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean isPaid;
+  @NotNull
+  @Column(nullable = false)
+  private Boolean isPaid;
 
-    @NotNull
-    @Column(updatable = false, nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
+  @NotNull
+  @Column(updatable = false, nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date date;
 
-    @NotNull(message = "Incorrect property ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long propertyId;
+  @NotNull(message = "Incorrect property ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long propertyId;
 
-    @NotNull(message = "Incorrect payment request ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long paymentRequestId;
+  @NotNull(message = "Incorrect payment request ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long paymentRequestId;
 
-    @NotNull(message = "Incorrect citizen ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long citizenId;
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long citizenId;
 }
