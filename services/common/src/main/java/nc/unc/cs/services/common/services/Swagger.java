@@ -13,14 +13,12 @@ public class Swagger {
   @Bean
   public Docket api() {
     return new Docket(DocumentationType.SWAGGER_2)
-             .select()
-             .apis(
-               RequestHandlerSelectors.basePackage("nc.unc.cs.services")
-                 .and(
-                   RequestHandlerSelectors.basePackage(
-                     "nc.unc.cs.services.common.clients")
-                     .negate()))
-             .paths(PathSelectors.any())
-             .build();
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("nc.unc.cs.services")
+                  .and(RequestHandlerSelectors
+                           .basePackage("nc.unc.cs.services.common.clients")
+                           .negate()))
+        .paths(PathSelectors.any())
+        .build();
   }
 }
