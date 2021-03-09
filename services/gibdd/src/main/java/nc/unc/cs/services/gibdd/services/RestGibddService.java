@@ -15,7 +15,8 @@ public class RestGibddService {
 
   private final LogicOfGibddService logic;
 
-  @Value("${gibdd.test:default}") private String testName;
+  @Value("${gibdd.test:default}")
+  private String testName;
 
   @Autowired
   public RestGibddService(LogicOfGibddService logic) {
@@ -27,10 +28,8 @@ public class RestGibddService {
     return this.logic.getCars();
   }
 
-  @PostMapping(value = "/", consumes = "application/json",
-               produces = "application/json")
-  public Car
-  addCar(@RequestBody final Car car) {
+  @PostMapping(value = "/", consumes = "application/json", produces = "application/json")
+  public Car addCar(@RequestBody final Car car) {
     return this.logic.addCar(car);
   }
 

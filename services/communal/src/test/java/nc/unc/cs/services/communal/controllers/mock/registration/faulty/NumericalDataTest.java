@@ -15,9 +15,10 @@ class NumericalDataTest extends RegistrationParentWeb {
     registration.setCitizenId(0L);
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(registration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(registration)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
@@ -28,9 +29,10 @@ class NumericalDataTest extends RegistrationParentWeb {
     registration.setCitizenId(null);
 
     this.mockMvc
-        .perform(post(REGISTRATION_CONTROLLER_MAPPING)
-                     .contentType("application/json")
-                     .content(objectMapper.writeValueAsString(registration)))
+        .perform(
+            post(REGISTRATION_CONTROLLER_MAPPING)
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(registration)))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }

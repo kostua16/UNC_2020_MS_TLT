@@ -15,8 +15,7 @@ public class UtilityBillPriceListParent extends ParentWeb {
   @MockBean protected CommunalService communalService;
 
   protected final UtilitiesPriceList createUtilitiesPriceList() {
-    CreationUtilitiesPriceList creationUtilitiesPriceList =
-        this.createCreationUtilitiesPriceList();
+    CreationUtilitiesPriceList creationUtilitiesPriceList = this.createCreationUtilitiesPriceList();
     return UtilitiesPriceList.builder()
         .utilitiesPriceListId(1L)
         .region(creationUtilitiesPriceList.getRegion())
@@ -26,8 +25,7 @@ public class UtilityBillPriceListParent extends ParentWeb {
         .build();
   }
 
-  protected final CreationUtilitiesPriceList
-  createCreationUtilitiesPriceList() {
+  protected final CreationUtilitiesPriceList createCreationUtilitiesPriceList() {
     return CreationUtilitiesPriceList.builder()
         .region(" samara ")
         .coldWaterPrice(3)
