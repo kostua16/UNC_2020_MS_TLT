@@ -32,10 +32,7 @@ public class DiscoveryServices {
     private final List<Integer> correctCodes = Arrays.asList(200, 401, 403);
 
     @Autowired
-    public DiscoveryServices(
-        final EurekaClient client,
-        final OkHttpClient httpClient
-    ){
+    public DiscoveryServices(final EurekaClient client, final OkHttpClient httpClient) {
         this.client = client;
         this.httpClient = httpClient;
     }
@@ -48,43 +45,39 @@ public class DiscoveryServices {
     @ReadOperation
     public List<String> serviceInfo(@Selector String name) throws IOException {
         List<String> result = new ArrayList<>();
-        final Optional<Application> service = this
-                                                  .client
-                                                  .getApplications()
-                                                  .getRegisteredApplications()
-                                                  .stream()
-                                                  .filter(app -> name.equals(app.getName()))
-                                                  .findFirst();
+        final Optional<Application> service =
+                this.client.getApplications().getRegisteredApplications().stream()
+                        .filter(app -> name.equals(app.getName()))
+                        .findFirst();
 
         if (service.isPresent()) {
             String current = "";
             final Application application = service.get();
             for (InstanceInfo instance : application.getInstances()) {
-                log.error(String.format("Testing %s - %s...", application.getName(), instance.getId()));
+                log.error(
+                        String.format(
+                                "Testing %s - %s...", application.getName(), instance.getId()));
                 try {
-                    final Call call = this.httpClient.newCall(
-                        new Request.Builder()
-                            .get()
-                            .url(new URL(instance.getHealthCheckUrl()))
-                            .build()
-                    );
+                    final Call call =
+                            this.httpClient.newCall(
+                                    new Request.Builder()
+                                            .get()
+                                            .url(new URL(instance.getHealthCheckUrl()))
+                                            .build());
                     final Response response = call.execute();
-                    current = String.format(
-                        "[%s = %s, Code: %d, Success: %b]",
-                        instance.getId(),
-                        instance.getHostName(),
-                        response.code(),
-                        response.isSuccessful()
-                    );
+                    current =
+                            String.format(
+                                    "[%s = %s, Code: %d, Success: %b]",
+                                    instance.getId(),
+                                    instance.getHostName(),
+                                    response.code(),
+                                    response.isSuccessful());
 
                 } catch (IOException exception) {
                     log.error("Test failed", exception);
                     String.format(
-                        "[%s = %s, Fail: %s]",
-                        instance.getId(),
-                        instance.getHostName(),
-                        exception.getMessage()
-                    );
+                            "[%s = %s, Fail: %s]",
+                            instance.getId(), instance.getHostName(), exception.getMessage());
                 }
                 result.add(current);
                 log.error(current);
@@ -92,5 +85,4 @@ public class DiscoveryServices {
         }
         return result;
     }
-
 }

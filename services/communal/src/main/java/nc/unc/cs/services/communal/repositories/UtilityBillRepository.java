@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UtilityBillRepository extends JpaRepository<UtilityBill, Long> {
     UtilityBill findUtilityBillIdByUtilityBillId(Long utilityBillId);
+
     List<UtilityBill> findUtilityBillsByCitizenId(Long citizenId);
+
     List<UtilityBill> findUtilityBillsByCitizenIdAndIsPaid(Long citizenId, Boolean isPaid);
-    List<UtilityBill> findUtilityBillsByCitizenIdAndDateBetween(Long citizenId, Date start, Date end);
+
+    List<UtilityBill> findUtilityBillsByCitizenIdAndDateBetween(
+            Long citizenId, Date start, Date end);
 }

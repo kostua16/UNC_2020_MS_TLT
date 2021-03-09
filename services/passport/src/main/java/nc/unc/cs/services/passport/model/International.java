@@ -17,6 +17,7 @@ public class International {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long internationalId;
+
     private Boolean locked;
     private String name;
     private String surname;

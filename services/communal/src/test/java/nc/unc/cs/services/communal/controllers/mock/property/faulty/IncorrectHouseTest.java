@@ -11,18 +11,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class IncorrectHouseTest extends PropertyParentWeb {
 
-  @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
-  void checkHouseNameTest(final String word) throws Exception {
-    final CreationProperty property = this.createCreationProperty();
-    property.setHouse(word);
+    @ParameterizedTest
+    @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+    void checkHouseNameTest(final String word) throws Exception {
+        final CreationProperty property = this.createCreationProperty();
+        property.setHouse(word);
 
-    this.mockMvc
-        .perform(
-            post(PROPERTY_CONTROLLER_MAPPING)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(property)))
-        .andDo(print())
-        .andExpect(status().isBadRequest());
-  }
+        this.mockMvc
+                .perform(
+                        post(PROPERTY_CONTROLLER_MAPPING)
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(property)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 }

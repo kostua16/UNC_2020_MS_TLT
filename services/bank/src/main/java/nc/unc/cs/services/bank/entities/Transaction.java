@@ -27,23 +27,23 @@ import lombok.ToString;
 @Builder
 public class Transaction {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long transactionId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long transactionId;
 
-  @Column(updatable = false)
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(value = TemporalType.TIMESTAMP)
-  @NotNull
-  private Date creationDate;
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @NotNull
+    private Date creationDate;
 
-  @NotNull
-  @Min(value = 1, message = "Incorrect payment amount")
-  @Column(nullable = false)
-  private Integer amount;
+    @NotNull
+    @Min(value = 1, message = "Incorrect payment amount")
+    @Column(nullable = false)
+    private Integer amount;
 
-  @NotNull
-  @Min(value = 1L, message = "Incorrect payment request ID")
-  @Column(nullable = false)
-  private Long paymentRequestId;
+    @NotNull
+    @Min(value = 1L, message = "Incorrect payment request ID")
+    @Column(nullable = false)
+    private Long paymentRequestId;
 }
