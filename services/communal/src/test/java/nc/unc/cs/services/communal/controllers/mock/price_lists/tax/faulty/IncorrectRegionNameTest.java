@@ -11,12 +11,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class IncorrectRegionNameTest extends PropertyTaxValueParent {
   @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ",
-                          "sssssssssssssssssssssssssssssssssssssssss"})
-  void
-  checkRegionNameTest(final String word) throws Exception {
-    final CreationPropertyTaxValue newPropertyTaxValue =
-        this.createCreationPropertyTaxValue();
+  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+  void checkRegionNameTest(final String word) throws Exception {
+    final CreationPropertyTaxValue newPropertyTaxValue = this.createCreationPropertyTaxValue();
     newPropertyTaxValue.setRegion(word);
 
     this.mockMvc
