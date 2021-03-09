@@ -170,7 +170,7 @@ jobs:
         name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.4.0
         with:
-          branch: "fix/gf-${GITHUB_HEAD_REF##*/}-${{github.event.number}}"
+          branch: "fix/gf-${{github.event.number}}"
           base: ${{ github.head_ref }}
           title: "Auto-fix by Google-format"
           commit-message: "Auto-fixed by Google-format"
