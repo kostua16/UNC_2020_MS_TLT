@@ -19,31 +19,31 @@ import lombok.ToString;
 @Builder
 public class Tax {
 
-  @NotNull(message = "Incorrect tax ID")
-  @Min(1L)
-  private Long taxId;
+    @NotNull(message = "Incorrect tax ID")
+    @Min(1L)
+    private Long taxId;
 
-  @NotNull(message = "Incorrect tax amount")
-  @Min(1)
-  private Integer taxAmount;
+    @NotNull(message = "Incorrect tax amount")
+    @Min(1)
+    private Integer taxAmount;
 
-  @NotNull private Boolean status;
+    @NotNull private Boolean status;
 
-  @NotNull
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(value = TemporalType.TIMESTAMP)
-  private Date creationDate;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date creationDate;
 
-  @NotNull
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(value = TemporalType.TIMESTAMP)
-  private Date taxPaymentDate;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date taxPaymentDate;
 
-  @NotNull(message = "Incorrect citizen ID")
-  @Min(1L)
-  private Long citizenId;
+    @NotNull(message = "Incorrect citizen ID")
+    @Min(1L)
+    private Long citizenId;
 
-  @NotNull(message = "Incorrect service ID")
-  @Min(1L)
-  private Long serviceId;
+    @NotNull(message = "Incorrect service ID")
+    @Min(1L)
+    private Long serviceId;
 }
