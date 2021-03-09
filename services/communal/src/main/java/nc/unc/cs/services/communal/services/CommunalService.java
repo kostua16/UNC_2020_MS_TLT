@@ -84,6 +84,7 @@ public class CommunalService {
 
     /**
      * Возвращает все прейскуранты из БД.
+     *
      * @return список прейскурантов
      */
     public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
@@ -191,6 +192,7 @@ public class CommunalService {
 
     /**
      * Возвращает все коммунальные квитанции.
+     *
      * @return список коммунальных квитанций
      */
     public List<UtilityBill> getAllUtilityBills() {

@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-public class CreateUtilitiesPriceList {
+class CreateUtilitiesPriceListTest {
 
     @Mock
     private UtilitiesPriceListRepository utilitiesPriceListRepository;
