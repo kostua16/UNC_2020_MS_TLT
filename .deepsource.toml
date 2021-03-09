@@ -11,4 +11,4 @@ runtime_version = "8"
 
 [[transformers]]
 name = "prettier"
-enabled = true
+enabled = false
