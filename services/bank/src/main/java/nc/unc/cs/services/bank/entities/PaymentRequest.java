@@ -20,8 +20,23 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class PaymentRequest {
+
+  @Builder
+  public PaymentRequest(
+      final Long paymentRequestId,
+      final Long serviceId,
+      final Integer amount,
+      final Long citizenId,
+      final Long taxId
+  ) {
+    this.paymentRequestId = paymentRequestId;
+    this.serviceId = serviceId;
+    this.citizenId = citizenId;
+    this.status = false;
+    this.amount = amount;
+    this.taxId = taxId;
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
