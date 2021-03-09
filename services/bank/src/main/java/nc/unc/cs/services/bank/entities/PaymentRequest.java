@@ -22,22 +22,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class PaymentRequest {
 
-    @Builder
-    public PaymentRequest(
-        final Long paymentRequestId,
-        final Long serviceId,
-        final Integer amount,
-        final Long citizenId,
-        final Long taxId
-    ) {
-        this.paymentRequestId = paymentRequestId;
-        this.serviceId = serviceId;
-        this.citizenId = citizenId;
-        this.status = false;
-        this.amount = amount;
-        this.taxId = taxId;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentRequestId;
@@ -65,4 +49,20 @@ public class PaymentRequest {
     @Min(value = 1L, message = "Incorrect tax ID")
     @Column(nullable = false, updatable = false, unique = true)
     private Long taxId;
+
+    @Builder
+    public PaymentRequest(
+        final Long paymentRequestId,
+        final Long serviceId,
+        final Integer amount,
+        final Long citizenId,
+        final Long taxId
+    ) {
+      this.paymentRequestId = paymentRequestId;
+      this.serviceId = serviceId;
+      this.citizenId = citizenId;
+      this.status = false;
+      this.amount = amount;
+      this.taxId = taxId;
+    }
 }

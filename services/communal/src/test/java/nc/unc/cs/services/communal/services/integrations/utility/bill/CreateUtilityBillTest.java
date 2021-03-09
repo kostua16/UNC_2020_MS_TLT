@@ -129,7 +129,6 @@ class CreateUtilityBillTest {
     @Test
     void calculateUtilityCostsPropertyNotFoundTest() {
         final UtilitiesPayload utilitiesPayload = this.createUtilitiesPayload();
-        final Property property = this.createProperty();
 
         given(this.propertyRepository.findPropertyByPropertyId(utilitiesPayload.getPropertyId()))
             .willReturn(null);

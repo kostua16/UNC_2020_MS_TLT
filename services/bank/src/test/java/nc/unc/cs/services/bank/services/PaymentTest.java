@@ -31,7 +31,7 @@ public class PaymentTest {
     @InjectMocks
     private BankService bankService;
 
-    PaymentRequest createPaymentRequest() {
+    private PaymentRequest createPaymentRequest() {
         return PaymentRequest
             .builder()
             .paymentRequestId(1L)
@@ -56,10 +56,12 @@ public class PaymentTest {
             ))
             .willReturn(ResponseEntity.ok(1L));
 
-        given(this.logging.addLog(any())).willAnswer(invocation -> invocation.getArgument(0));
-        ;
-        given(this.transactionRepository.save(any())).willAnswer(invocation -> invocation.getArgument(0));
-        given(this.paymentRequestRepository.save(any())).willAnswer(invocation -> invocation.getArgument(0));
+        given(this.logging.addLog(any()))
+            .willAnswer(invocation -> invocation.getArgument(0));
+        given(this.transactionRepository.save(any()))
+            .willAnswer(invocation -> invocation.getArgument(0));
+        given(this.paymentRequestRepository.save(any()))
+            .willAnswer(invocation -> invocation.getArgument(0));
 
         final ResponseEntity<Transaction> response =
             this.bankService.payment(paymentRequest.getPaymentRequestId());
@@ -67,7 +69,10 @@ public class PaymentTest {
         Assertions.assertAll(
             () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
             () -> Assertions.assertEquals(paymentRequest.getAmount(), response.getBody().getAmount()),
-            () -> Assertions.assertEquals(paymentRequest.getPaymentRequestId(), response.getBody().getPaymentRequestId()),
+            () -> Assertions.assertEquals(
+                paymentRequest.getPaymentRequestId(),
+                response.getBody().getPaymentRequestId()
+            ),
             () -> Assertions.assertEquals(paymentRequest.getCitizenId(), response.getBody().getCitizenId()),
             () -> Assertions.assertTrue(paymentRequest.getStatus())
         );

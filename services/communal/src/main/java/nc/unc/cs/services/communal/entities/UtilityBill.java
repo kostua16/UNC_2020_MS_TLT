@@ -26,27 +26,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class UtilityBill {
 
-    @Builder
-    public UtilityBill(
-        final Integer coldWater,
-        final Integer hotWater,
-        final Integer electricity,
-        final Integer coldWaterAmount,
-        final Integer hotWaterAmount,
-        final Integer electricityAmount,
-        final Long propertyId
-    ) {
-        this.date = new Date();
-        this.isPaid = false;
-        this.coldWater = coldWater;
-        this.hotWater = hotWater;
-        this.electricity = electricity;
-        this.coldWaterAmount = coldWaterAmount;
-        this.hotWaterAmount = hotWaterAmount;
-        this.electricityAmount = electricityAmount;
-        this.propertyId = propertyId;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long utilityBillId;
@@ -110,4 +89,25 @@ public class UtilityBill {
     @Min(1L)
     @Column(nullable = false, updatable = false)
     private Long citizenId;
+
+  @Builder
+  public UtilityBill(
+      final Integer coldWater,
+      final Integer hotWater,
+      final Integer electricity,
+      final Integer coldWaterAmount,
+      final Integer hotWaterAmount,
+      final Integer electricityAmount,
+      final Long propertyId
+  ) {
+    this.date = new Date();
+    this.isPaid = false;
+    this.coldWater = coldWater;
+    this.hotWater = hotWater;
+    this.electricity = electricity;
+    this.coldWaterAmount = coldWaterAmount;
+    this.hotWaterAmount = hotWaterAmount;
+    this.electricityAmount = electricityAmount;
+    this.propertyId = propertyId;
+  }
 }

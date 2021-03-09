@@ -24,26 +24,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class PropertyTax {
 
-    @Builder
-    public PropertyTax(
-        final Integer taxAmount,
-        final Long propertyId,
-        final Long paymentRequestId,
-        final Long citizenId
-    ) {
-        this.taxAmount = taxAmount;
-        this.isPaid = false;
-        this.date = new Date();
-        this.propertyId = propertyId;
-        this.paymentRequestId = paymentRequestId;
-        this.citizenId = citizenId;
-    }
-
-    public PropertyTax() {
-        this.isPaid = false;
-        this.date = new Date();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyTaxId;
@@ -77,4 +57,24 @@ public class PropertyTax {
     @Min(1L)
     @Column(updatable = false, nullable = false)
     private Long citizenId;
+
+    @Builder
+    public PropertyTax(
+        final Integer taxAmount,
+        final Long propertyId,
+        final Long paymentRequestId,
+        final Long citizenId
+    ) {
+      this.taxAmount = taxAmount;
+      this.isPaid = false;
+      this.date = new Date();
+      this.propertyId = propertyId;
+      this.paymentRequestId = paymentRequestId;
+      this.citizenId = citizenId;
+    }
+
+    public PropertyTax() {
+      this.isPaid = false;
+      this.date = new Date();
+    }
 }

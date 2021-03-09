@@ -26,20 +26,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Transaction {
 
-    @Builder
-    public Transaction(
-        final Long transactionId,
-        final Integer amount,
-        final Long paymentRequestId,
-        final Long citizenId
-    ) {
-        this.transactionId = transactionId;
-        this.creationDate = new Date();
-        this.amount = amount;
-        this.paymentRequestId = paymentRequestId;
-        this.citizenId = citizenId;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
@@ -64,4 +50,18 @@ public class Transaction {
     @Min(value = 1L, message = "Incorrect citizen ID")
     @Column(nullable = false, updatable = false)
     private Long citizenId;
+
+  @Builder
+  public Transaction(
+      final Long transactionId,
+      final Integer amount,
+      final Long paymentRequestId,
+      final Long citizenId
+  ) {
+    this.transactionId = transactionId;
+    this.creationDate = new Date();
+    this.amount = amount;
+    this.paymentRequestId = paymentRequestId;
+    this.citizenId = citizenId;
+  }
 }

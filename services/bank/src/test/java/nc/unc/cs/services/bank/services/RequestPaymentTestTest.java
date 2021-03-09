@@ -1,7 +1,6 @@
 package nc.unc.cs.services.bank.services;
 
 import nc.unc.cs.services.bank.repositories.PaymentRequestRepository;
-import nc.unc.cs.services.bank.repositories.TransactionRepository;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import org.junit.jupiter.api.Assertions;
@@ -20,8 +19,6 @@ class RequestPaymentTestTest {
     @Mock
     private PaymentRequestRepository paymentRequestRepository;
     @Mock
-    private TransactionRepository transactionRepository;
-    @Mock
     private LoggingService logging;
     @Mock
     private TaxIntegrationService taxIntegrationService;
@@ -39,7 +36,6 @@ class RequestPaymentTestTest {
     }
 
     @Test
-        // Не возвращается ID - тк он генерится только при инсёрте
     void requestPaymentCorrectTest() {
         final Long testTaxId = 1L;
         final PaymentPayload paymentPayload = this.createPaymentPayload();
@@ -52,9 +48,10 @@ class RequestPaymentTestTest {
             ))
             .willReturn(testTaxId);
 
-        given(this.logging.addLog(any())).willAnswer(invocation -> invocation.getArgument(0));
-        ;
-        given(this.paymentRequestRepository.save(any())).willAnswer(invocation -> invocation.getArgument(0));
+        given(this.logging.addLog(any()))
+            .willAnswer(invocation -> invocation.getArgument(0));
+        given(this.paymentRequestRepository.save(any()))
+            .willAnswer(invocation -> invocation.getArgument(0));
 
         ResponseEntity<Long> response = this.bankService.requestPayment(paymentPayload);
         System.out.println(response);
