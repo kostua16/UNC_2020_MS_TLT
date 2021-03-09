@@ -17,12 +17,13 @@
 #### Basic:
 
 + `fix: {message}` - For fixes.
-+ `bug: {message}` - For fixes.
-+ `feature: {message}` - For new features.
 + `feat: {message}` - For new features.
-+ `doc: {message}` - For documentation updates.
-+ `documentation: {message}` - For documentation updates.
++ `refactor: {message}` - For refactorings of the existing code.
++ `test: {message}` - For test implementation.
++ `docs: {message}` - For documentation updates.
++ `style: {message}` - For code style updates.
 + `ci: {message}` - For CI/CD changes.
++ `build: {message}` - For build changes.
 
 #### Checks:
 
