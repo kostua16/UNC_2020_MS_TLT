@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Domestic {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long domesticId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long domesticId;
 
-  private String registration;
-  private String name;
-  private String surname;
-  private Date dateOfBirth;
-  private Boolean isActive;
-  private Integer series;
-  private Integer number;
-  private Long citizenId;
+    private String registration;
+    private String name;
+    private String surname;
+    private Date dateOfBirth;
+    private Boolean isActive;
+    private Integer series;
+    private Integer number;
+    private Long citizenId;
 }
