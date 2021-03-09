@@ -172,7 +172,7 @@ jobs:
         with:
           branch: "fix/gf-${{github.event.number}}"
           base: ${{ github.head_ref }}
-          title: "Auto-fix by Google-format"
+          title: "Auto-fix by Google-format for PR: ${{github.event.number}}"
           commit-message: "Auto-fixed by Google-format"
       - name: Create comment for PR
         if: ${{ failure() }}
