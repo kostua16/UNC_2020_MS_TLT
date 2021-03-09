@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
     Registration findRegistrationByRegistrationId(Long registrationId);
+
     List<Registration> findRegistrationsByCitizenId(Long citizenId);
+
     Registration findRegistrationByCitizenIdAndIsActive(Long citizenId, Boolean isActive);
 }
