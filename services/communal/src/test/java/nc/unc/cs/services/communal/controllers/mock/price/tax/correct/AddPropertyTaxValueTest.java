@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.controllers.mock.price_lists.tax.correct;
+package nc.unc.cs.services.communal.controllers.mock.price.tax.correct;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import nc.unc.cs.services.communal.controllers.mock.price_lists.tax.PropertyTaxValueParent;
+import nc.unc.cs.services.communal.controllers.mock.price.tax.PropertyTaxValueParent;
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import org.junit.jupiter.api.Test;

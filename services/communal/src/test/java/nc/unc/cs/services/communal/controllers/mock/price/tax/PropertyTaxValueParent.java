@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.controllers.mock.price_lists.tax;
+package nc.unc.cs.services.communal.controllers.mock.price.tax;
 
 import nc.unc.cs.services.communal.controllers.PropertyTaxValueController;
 import nc.unc.cs.services.communal.controllers.mock.ParentWeb;

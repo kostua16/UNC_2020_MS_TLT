@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.controllers.mock.price_lists.bill;
+package nc.unc.cs.services.communal.controllers.mock.price.bill;
 
 import nc.unc.cs.services.communal.controllers.UtilitiesPriceListController;
 import nc.unc.cs.services.communal.controllers.mock.ParentWeb;

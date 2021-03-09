@@ -1,10 +1,10 @@
-package nc.unc.cs.services.communal.controllers.mock.price_lists.tax.faulty;
+package nc.unc.cs.services.communal.controllers.mock.price.tax.faulty;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import nc.unc.cs.services.communal.controllers.mock.price_lists.tax.PropertyTaxValueParent;
+import nc.unc.cs.services.communal.controllers.mock.price.tax.PropertyTaxValueParent;
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
