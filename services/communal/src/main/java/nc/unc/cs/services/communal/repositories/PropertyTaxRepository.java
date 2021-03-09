@@ -6,13 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PropertyTaxRepository extends JpaRepository<PropertyTax, Long> {
+public interface PropertyTaxRepository
+    extends JpaRepository<PropertyTax, Long> {
 
-    PropertyTax findPropertyTaxByPropertyTaxId(Long propertyTaxId);
+  PropertyTax findPropertyTaxByPropertyTaxId(Long propertyTaxId);
 
-    List<PropertyTax> findPropertyTaxByCitizenId(Long citizenId);
+  List<PropertyTax> findPropertyTaxByCitizenId(Long citizenId);
 
-    List<PropertyTax> findPropertyTaxByCitizenIdAndIsPaid(Long citizenId, Boolean isPaid);
+  List<PropertyTax> findPropertyTaxByCitizenIdAndIsPaid(Long citizenId,
+                                                        Boolean isPaid);
 
-    List<PropertyTax> findPropertyTaxesByPropertyIdAndIsPaid(Long propertyId, Boolean isPaid);
+  List<PropertyTax> findPropertyTaxesByPropertyIdAndIsPaid(Long propertyId,
+                                                           Boolean isPaid);
 }

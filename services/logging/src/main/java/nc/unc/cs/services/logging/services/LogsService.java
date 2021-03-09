@@ -21,36 +21,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class LogsService {
 
-    private final LogsRepository repository;
+  private final LogsRepository repository;
 
-    private final Logger logger = LoggerFactory.getLogger(LogsService.class);
+  private final Logger logger = LoggerFactory.getLogger(LogsService.class);
 
-    @Autowired
-    public LogsService(final LogsRepository repository) {
-        this.repository = repository;
-    }
+  @Autowired
+  public LogsService(final LogsRepository repository) {
+    this.repository = repository;
+  }
 
-    @GetMapping(path = "/", produces = "application/json")
-    public List<LogEntry> viewLastLogs() {
-        return this.repository
-                .findAll(PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
-                .getContent();
-    }
+  @GetMapping(path = "/", produces = "application/json")
+  public List<LogEntry> viewLastLogs() {
+    return this.repository
+        .findAll(PageRequest.of(0, 15,
+                                Sort.by(Sort.Direction.DESC, "created", "id")))
+        .getContent();
+  }
 
-    @GetMapping(path = "/{service}", produces = "application/json")
-    public List<LogEntry> viewLogs(@PathVariable final String service) {
-        return this.repository
-                .findLogEntriesByService(
-                        service,
-                        PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
-                .getContent();
-    }
+  @GetMapping(path = "/{service}", produces = "application/json")
+  public List<LogEntry> viewLogs(@PathVariable final String service) {
+    return this.repository
+        .findLogEntriesByService(
+            service, PageRequest.of(
+                         0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
+        .getContent();
+  }
 
-    @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
-    public LogEntry addLog(@RequestBody final LogEntry log) {
-        this.logger.debug("before adding log: {}", log);
-        final LogEntry saved = this.repository.save(log);
-        this.logger.debug("after adding log: {}", saved);
-        return saved;
-    }
+  @PostMapping(value = "/", produces = "application/json",
+               consumes = "application/json")
+  public LogEntry
+  addLog(@RequestBody final LogEntry log) {
+    this.logger.debug("before adding log: {}", log);
+    final LogEntry saved = this.repository.save(log);
+    this.logger.debug("after adding log: {}", saved);
+    return saved;
+  }
 }
