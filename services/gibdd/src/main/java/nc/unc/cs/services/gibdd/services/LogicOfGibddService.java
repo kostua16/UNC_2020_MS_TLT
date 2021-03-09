@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service representing GIBDD social services.
+ *
  * @since 0.1.0
  */
 @Service
@@ -24,10 +25,7 @@ public class LogicOfGibddService {
     private CarsRepo carsRepo;
 
     @Autowired
-    public LogicOfGibddService(
-        final CarsRepo carsRepo,
-        final LoggingService loggingService
-        ) {
+    public LogicOfGibddService(final CarsRepo carsRepo, final LoggingService loggingService) {
         this.carsRepo = carsRepo;
         this.loggingService = loggingService;
     }
@@ -40,16 +38,15 @@ public class LogicOfGibddService {
         this.logger.debug("before adding car: {}", car);
         final Car saved = this.carsRepo.save(car);
         this.logger.debug("after adding car: {}", saved);
-        final LogEntry lgm = LogEntry
-                                 .builder()
-                                 .service("gibdd")
-                                 .created(new Date())
-                                 .message(String.format("Added new car: %s", saved.toString()))
-                                 .build();
+        final LogEntry lgm =
+                LogEntry.builder()
+                        .service("gibdd")
+                        .created(new Date())
+                        .message(String.format("Added new car: %s", saved.toString()))
+                        .build();
         try {
             this.logger.debug("before sending log: {}", lgm);
-            final LogEntry storedLogEntry =
-                this.loggingService.addLog(lgm);
+            final LogEntry storedLogEntry = this.loggingService.addLog(lgm);
             this.logger.debug("after sending log: {}", storedLogEntry);
         } catch (Exception exception) {
             this.logger.error("Failed to send log", exception);

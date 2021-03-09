@@ -1,6 +1,5 @@
 package nc.unc.cs.services.common.services;
 
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -15,15 +14,14 @@ public class Swagger {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                   .select()
-                   .apis(
-                           RequestHandlerSelectors.basePackage("nc.unc.cs.services")
-                                   .and(
-                                           RequestHandlerSelectors.basePackage("nc.unc.cs.services.common.clients")
-                                                   .negate()
-                                   )
-                   )
-                   .paths(PathSelectors.any())
-                   .build();
+                .select()
+                .apis(
+                        RequestHandlerSelectors.basePackage("nc.unc.cs.services")
+                                .and(
+                                        RequestHandlerSelectors.basePackage(
+                                                        "nc.unc.cs.services.common.clients")
+                                                .negate()))
+                .paths(PathSelectors.any())
+                .build();
     }
 }
