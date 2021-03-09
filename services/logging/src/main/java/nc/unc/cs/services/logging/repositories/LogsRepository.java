@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LogsRepository extends JpaRepository<LogEntry, Long> {
 
-  Page<LogEntry> findLogEntriesByService(String service, Pageable pageable);
+    Page<LogEntry> findLogEntriesByService(String service, Pageable pageable);
 }
