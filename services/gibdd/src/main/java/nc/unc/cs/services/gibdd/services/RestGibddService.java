@@ -37,5 +37,4 @@ public class RestGibddService {
     public String getTestName() {
         return this.testName;
     }
-
 }

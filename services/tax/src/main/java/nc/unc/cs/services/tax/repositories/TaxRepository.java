@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaxRepository extends JpaRepository<Tax, Long> {
 
-    List<Tax> findTaxesByServiceIdAndCitizenIdAndStatus(Long serviceId, Long citizenId, Boolean status);
+    List<Tax> findTaxesByServiceIdAndCitizenIdAndStatus(
+            Long serviceId, Long citizenId, Boolean status);
 
     Page<Tax> findAllByStatus(Boolean status, Pageable pageable);
 }
