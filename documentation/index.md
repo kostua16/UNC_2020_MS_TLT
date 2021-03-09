@@ -1,3 +1,9 @@
+---
+layout: page
+title: "Documentation"
+permalink: /
+---
+
 ## Documentation
 
 + [javadoc][gh_docs]
