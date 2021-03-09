@@ -18,21 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "communal/utilities")
 @Api(value = "API for creating utility bill")
 public class UtilityBillController {
-    private final CommunalService communalService;
+  private final CommunalService communalService;
 
-    @Autowired
-    public UtilityBillController(final CommunalService communalService) {
-        this.communalService = communalService;
-    }
+  @Autowired
+  public UtilityBillController(final CommunalService communalService) {
+    this.communalService = communalService;
+  }
 
-    @PostMapping(value = "create", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<UtilityBill> createUtilityBill(
-            @Validated @RequestBody final UtilitiesPayload utilitiesPayload) {
-        return this.communalService.calculateUtilityBill(utilitiesPayload);
-    }
+  @PostMapping(value = "create", consumes = "application/json",
+               produces = "application/json")
+  public ResponseEntity<UtilityBill>
+  createUtilityBill(@Validated
+                    @RequestBody final UtilitiesPayload utilitiesPayload) {
+    return this.communalService.calculateUtilityBill(utilitiesPayload);
+  }
 
-    @GetMapping(value = "all", produces = "application/json")
-    public List<UtilityBill> getAllUtilityBills() {
-        return this.communalService.getAllUtilityBills();
-    }
+  @GetMapping(value = "all", produces = "application/json")
+  public List<UtilityBill> getAllUtilityBills() {
+    return this.communalService.getAllUtilityBills();
+  }
 }
