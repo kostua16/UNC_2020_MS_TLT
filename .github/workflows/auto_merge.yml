@@ -28,7 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TKN }}"
 #          MERGE_METHOD: 'squash'
-          MERGE_LABELS: "approved,!work in progress,!wip,!WIP"
+          MERGE_LABELS: "approved,build_passed,!work in progress,!wip,!WIP,!build_failed"
           MERGE_REMOVE_LABELS: "approved"
           MERGE_COMMIT_MESSAGE: "pull-request-description"
           MERGE_RETRIES: "6"
