@@ -15,8 +15,7 @@ public class PropertyTaxValueParent extends ParentWeb {
   @MockBean protected PropertyTaxService propertyTaxService;
 
   protected final PropertyTaxValue createPropertyTaxValue() {
-    final CreationPropertyTaxValue creationPropertyTaxValue =
-        this.createCreationPropertyTaxValue();
+    final CreationPropertyTaxValue creationPropertyTaxValue = this.createCreationPropertyTaxValue();
     return PropertyTaxValue.builder()
         .propertyTaxValueId(1L)
         .region(creationPropertyTaxValue.getRegion())

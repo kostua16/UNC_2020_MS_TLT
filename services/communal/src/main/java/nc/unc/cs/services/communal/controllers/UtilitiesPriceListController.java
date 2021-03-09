@@ -30,32 +30,37 @@ public class UtilitiesPriceListController {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   @ApiOperation(
-      httpMethod = "POST", value = "Creating and adding price lists",
+      httpMethod = "POST",
+      value = "Creating and adding price lists",
       notes =
           "Creation and addition of price lists for calculating the amount of spent"
-          + " utilities.",
+              + " utilities.",
       nickname = "addUtilitiesPriceList")
   @ApiResponses({
-    @ApiResponse(code = 400, message = "UtilitiesPriceList with ID = null",
-                 response = UtilitiesPriceList.class)
+    @ApiResponse(
+        code = 400,
+        message = "UtilitiesPriceList with ID = null",
+        response = UtilitiesPriceList.class)
   })
-  @ApiImplicitParam(name = "utilitiesPriceList",
-                    value = "Data for registration of the price list",
-                    required = true, type = "UtilitiesPriceList",
-                    dataType = "UtilitiesPriceList",
-                    dataTypeClass = UtilitiesPriceList.class,
-                    paramType = "body")
-  public ResponseEntity<UtilitiesPriceList>
-  addUtilitiesPriceList(@Validated @RequestBody final CreationUtilitiesPriceList
-                            newUtilitiesPriceList) {
+  @ApiImplicitParam(
+      name = "utilitiesPriceList",
+      value = "Data for registration of the price list",
+      required = true,
+      type = "UtilitiesPriceList",
+      dataType = "UtilitiesPriceList",
+      dataTypeClass = UtilitiesPriceList.class,
+      paramType = "body")
+  public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
+      @Validated @RequestBody final CreationUtilitiesPriceList newUtilitiesPriceList) {
     return this.communalService.addUtilitiesPriceList(newUtilitiesPriceList);
   }
 
   @GetMapping(produces = "application/json")
-  @ApiOperation(httpMethod = "GET", value = "List of UtilitiesPriceList",
-                nickname = "getAllUtilitiesPriceList")
-  public List<UtilitiesPriceList>
-  getAllUtilitiesPriceList() {
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "List of UtilitiesPriceList",
+      nickname = "getAllUtilitiesPriceList")
+  public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
     return this.communalService.getAllUtilitiesPriceList();
   }
 }
