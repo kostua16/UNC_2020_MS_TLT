@@ -62,14 +62,15 @@ public class Property {
 
     @Builder
     public Property(
-            final Long propertyId,
-            final String region,
-            final String city,
-            final String street,
-            final String house,
-            final String apartment,
-            final Integer apartmentSize,
-            final Long citizenId) {
+        final Long propertyId,
+        final String region,
+        final String city,
+        final String street,
+        final String house,
+        final String apartment,
+        final Integer apartmentSize,
+        final Long citizenId
+    ) {
         this.propertyId = propertyId;
         this.region = region.trim().toUpperCase();
         this.city = city.trim().toUpperCase();

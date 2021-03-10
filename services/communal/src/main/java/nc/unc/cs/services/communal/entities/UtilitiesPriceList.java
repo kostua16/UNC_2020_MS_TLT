@@ -48,11 +48,12 @@ public class UtilitiesPriceList {
 
     @Builder
     public UtilitiesPriceList(
-            final Long utilitiesPriceListId,
-            final String region,
-            final Integer coldWaterPrice,
-            final Integer hotWaterPrice,
-            final Integer electricityPrice) {
+        final Long utilitiesPriceListId,
+        final String region,
+        final Integer coldWaterPrice,
+        final Integer hotWaterPrice,
+        final Integer electricityPrice
+    ) {
         this.utilitiesPriceListId = utilitiesPriceListId;
         this.region = region.trim().toUpperCase();
         this.coldWaterPrice = coldWaterPrice;

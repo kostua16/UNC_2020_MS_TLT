@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.services.integrations.utility.price_list;
+package nc.unc.cs.services.communal.services.integrations.utility.price;
 
 import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
