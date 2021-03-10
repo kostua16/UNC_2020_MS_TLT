@@ -1,22 +1,12 @@
 package nc.unc.cs.services.communal.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
@@ -90,24 +80,24 @@ public class UtilityBill {
     @Column(nullable = false, updatable = false)
     private Long citizenId;
 
-  @Builder
-  public UtilityBill(
-      final Integer coldWater,
-      final Integer hotWater,
-      final Integer electricity,
-      final Integer coldWaterAmount,
-      final Integer hotWaterAmount,
-      final Integer electricityAmount,
-      final Long propertyId
-  ) {
-    this.date = new Date();
-    this.isPaid = false;
-    this.coldWater = coldWater;
-    this.hotWater = hotWater;
-    this.electricity = electricity;
-    this.coldWaterAmount = coldWaterAmount;
-    this.hotWaterAmount = hotWaterAmount;
-    this.electricityAmount = electricityAmount;
-    this.propertyId = propertyId;
-  }
+    @Builder
+    public UtilityBill(
+        final Integer coldWater,
+        final Integer hotWater,
+        final Integer electricity,
+        final Integer coldWaterAmount,
+        final Integer hotWaterAmount,
+        final Integer electricityAmount,
+        final Long propertyId
+    ) {
+        this.date = new Date();
+        this.isPaid = false;
+        this.coldWater = coldWater;
+        this.hotWater = hotWater;
+        this.electricity = electricity;
+        this.coldWaterAmount = coldWaterAmount;
+        this.hotWaterAmount = hotWaterAmount;
+        this.electricityAmount = electricityAmount;
+        this.propertyId = propertyId;
+    }
 }

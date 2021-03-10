@@ -1,18 +1,10 @@
 package nc.unc.cs.services.bank.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
@@ -58,11 +50,11 @@ public class PaymentRequest {
         final Long citizenId,
         final Long taxId
     ) {
-      this.paymentRequestId = paymentRequestId;
-      this.serviceId = serviceId;
-      this.citizenId = citizenId;
-      this.status = false;
-      this.amount = amount;
-      this.taxId = taxId;
+        this.paymentRequestId = paymentRequestId;
+        this.serviceId = serviceId;
+        this.citizenId = citizenId;
+        this.status = false;
+        this.amount = amount;
+        this.taxId = taxId;
     }
 }

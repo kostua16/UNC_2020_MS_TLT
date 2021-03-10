@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,17 +52,17 @@ public class Transaction {
     @Column(nullable = false, updatable = false)
     private Long citizenId;
 
-  @Builder
-  public Transaction(
-      final Long transactionId,
-      final Integer amount,
-      final Long paymentRequestId,
-      final Long citizenId
-  ) {
-    this.transactionId = transactionId;
-    this.creationDate = new Date();
-    this.amount = amount;
-    this.paymentRequestId = paymentRequestId;
-    this.citizenId = citizenId;
-  }
+    @Builder
+    public Transaction(
+        final Long transactionId,
+        final Integer amount,
+        final Long paymentRequestId,
+        final Long citizenId
+    ) {
+        this.transactionId = transactionId;
+        this.creationDate = new Date();
+        this.amount = amount;
+        this.paymentRequestId = paymentRequestId;
+        this.citizenId = citizenId;
+    }
 }

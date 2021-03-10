@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -65,16 +66,16 @@ public class PropertyTax {
         final Long paymentRequestId,
         final Long citizenId
     ) {
-      this.taxAmount = taxAmount;
-      this.isPaid = false;
-      this.date = new Date();
-      this.propertyId = propertyId;
-      this.paymentRequestId = paymentRequestId;
-      this.citizenId = citizenId;
+        this.taxAmount = taxAmount;
+        this.isPaid = false;
+        this.date = new Date();
+        this.propertyId = propertyId;
+        this.paymentRequestId = paymentRequestId;
+        this.citizenId = citizenId;
     }
 
     public PropertyTax() {
-      this.isPaid = false;
-      this.date = new Date();
+        this.isPaid = false;
+        this.date = new Date();
     }
 }
