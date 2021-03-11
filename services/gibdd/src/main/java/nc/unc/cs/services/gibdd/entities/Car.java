@@ -8,11 +8,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Value;
 import org.hibernate.annotations.NaturalId;
 
 /**
- * DTO for Car entity.
+ * Car entity.
+ * Used to be used in this service as main entity.
+ * Stored in database.
+ *
  *
  * @since 0.1.0
  */
@@ -25,12 +27,21 @@ import org.hibernate.annotations.NaturalId;
 @NoArgsConstructor
 public class Car {
 
+  /**
+   * ID for database record.
+   */
   @Id
   private long id = Integer.MIN_VALUE;
 
+  /**
+   * Number of the car.
+   */
   @NaturalId
   private String number = null;
 
+  /**
+   * Owner of the car. (Document reference)
+   */
   private String owner = null;
 
 

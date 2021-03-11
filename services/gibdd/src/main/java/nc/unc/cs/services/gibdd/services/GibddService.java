@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.gibdd.entities.Car;
-import nc.unc.cs.services.gibdd.entities.CarDto;
+import nc.unc.cs.services.common.clients.gibdd.CarDto;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -77,7 +76,7 @@ public class GibddService {
         log.error("Failed to sent logs", exception);
       }
     } else {
-      response = ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(dto);
+      response = ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
     }
     return response;
   }
