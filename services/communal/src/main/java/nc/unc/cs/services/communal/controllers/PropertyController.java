@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.controllers;
 
-import java.util.List;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.services.RegistrationService;
@@ -33,9 +33,10 @@ public class PropertyController {
     return this.registrationService.addCitizensProperty(newProperty);
   }
 
-  @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
-  public List<Property> getPropertiesByCitizenId(
-      @PathVariable("citizenId") final Long citizenId) {
+  @GetMapping(value = "property/citizen/{citizenId}",
+              produces = "application/json")
+  public List<Property>
+  getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getPropertiesByCitizenId(citizenId);
   }
 }

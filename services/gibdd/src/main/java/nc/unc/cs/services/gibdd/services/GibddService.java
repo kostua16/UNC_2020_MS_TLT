@@ -1,14 +1,14 @@
 package nc.unc.cs.services.gibdd.services;
 
-import java.util.Date;
-import javax.validation.constraints.NotNull;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
+import java.util.Date;
+import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import nc.unc.cs.services.common.clients.gibdd.CarDto;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.gibdd.entities.Car;
-import nc.unc.cs.services.common.clients.gibdd.CarDto;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +35,16 @@ public class GibddService {
   private final ModelMapper mapper;
 
   @Autowired
-  public GibddService(final CarsRepo repo, final LoggingService loggingService, ModelMapper mapper) {
+  public GibddService(final CarsRepo repo, final LoggingService loggingService,
+                      ModelMapper mapper) {
     this.mapper = mapper;
     this.repo = repo;
     this.loggingService = loggingService;
   }
 
   @GetMapping(value = "owned/{owner}", produces = "application/json")
-  public Iterable<CarDto> ownedCars(@PathVariable("owner") @Validated @NotNull String owner) {
+  public Iterable<CarDto>
+  ownedCars(@PathVariable("owner") @Validated @NotNull String owner) {
     final ImmutableList.Builder<CarDto> builder = ImmutableList.builder();
     for (final Car car : this.repo.findCarsByOwner(owner)) {
       builder.add(this.mapper.map(car, CarDto.class));
@@ -51,7 +53,8 @@ public class GibddService {
   }
 
   @GetMapping(value = "cars/{number}", produces = "application/json")
-  public ResponseEntity<CarDto> findCar(@PathVariable("number") @Validated @NotNull String number) {
+  public ResponseEntity<CarDto>
+  findCar(@PathVariable("number") @Validated @NotNull String number) {
     return this.repo.findCarsByNumber(number)
         .stream()
         .findFirst()
@@ -59,8 +62,10 @@ public class GibddService {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @PutMapping(value = "cars", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<CarDto> addCar(@RequestBody @Validated @NotNull final CarDto dto) {
+  @PutMapping(value = "cars", consumes = "application/json",
+              produces = "application/json")
+  public ResponseEntity<CarDto>
+  addCar(@RequestBody @Validated @NotNull final CarDto dto) {
     final ResponseEntity<CarDto> response;
     if (this.repo.findCarsByNumber(dto.getNumber()).isEmpty()) {
       final Car car = this.mapper.map(dto, Car.class);
@@ -69,9 +74,11 @@ public class GibddService {
       response = ResponseEntity.status(HttpStatus.CREATED).body(result);
       try {
         this.loggingService.addLog(
-            LogEntry.builder().service("gibdd").created(new Date())
-                .message(String.format("Added new car: %s", updated.toString())).build()
-        );
+            LogEntry.builder()
+                .service("gibdd")
+                .created(new Date())
+                .message(String.format("Added new car: %s", updated.toString()))
+                .build());
       } catch (final FeignException exception) {
         log.error("Failed to sent logs", exception);
       }
@@ -81,8 +88,10 @@ public class GibddService {
     return response;
   }
 
-  @PostMapping(value = "cars", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<CarDto> updateCar(@RequestBody @Validated final CarDto dto) {
+  @PostMapping(value = "cars", consumes = "application/json",
+               produces = "application/json")
+  public ResponseEntity<CarDto>
+  updateCar(@RequestBody @Validated final CarDto dto) {
     final ResponseEntity<CarDto> response;
     if (!this.repo.findCarsByNumber(dto.getNumber()).isEmpty()) {
       final Car updates = this.mapper.map(dto, Car.class);
@@ -91,9 +100,11 @@ public class GibddService {
       response = ResponseEntity.status(HttpStatus.OK).body(result);
       try {
         this.loggingService.addLog(
-            LogEntry.builder().service("gibdd").created(new Date())
-                .message(String.format("Updated car: %s", updated.toString())).build()
-        );
+            LogEntry.builder()
+                .service("gibdd")
+                .created(new Date())
+                .message(String.format("Updated car: %s", updated.toString()))
+                .build());
       } catch (FeignException exception) {
         log.error("Failed to sent logs", exception);
       }

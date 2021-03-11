@@ -30,19 +30,15 @@ public class Car {
   /**
    * ID for database record.
    */
-  @Id
-  private long id = Integer.MIN_VALUE;
+  @Id private long id = Integer.MIN_VALUE;
 
   /**
    * Number of the car.
    */
-  @NaturalId
-  private String number = null;
+  @NaturalId private String number = null;
 
   /**
    * Owner of the car. (Document reference)
    */
   private String owner = null;
-
-
 }
