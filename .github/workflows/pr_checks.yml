@@ -128,8 +128,11 @@ jobs:
           script: |
             const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_success.js`)
             await script({github, context})
+      ##############################################
+      # Publish documentation  #
+      ##############################################
       - name: Publish Javadocs
-        uses: peaceiris/actions-gh-pages@v3
+        uses: speaceiris/actions-gh-page@v3
         if: ${{ success() }}
         with:
           personal_token: ${{ secrets.GH_TKN }}

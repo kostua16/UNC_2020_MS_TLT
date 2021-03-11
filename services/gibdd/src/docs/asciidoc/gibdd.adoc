@@ -1,0 +1,46 @@
+= GIBDD API Guide
+Konstantin Leontiev;
+
+[[javadocs]]
+== Javadocs
+|===
+| Entity | link
+
+| Gibdd service specification
+| link:/javadocs/nc/unc/cs/services/gibdd/services/GibddService.html[Gibdd Service]
+
+| Car specification
+| link:/javadocs/nc/unc/cs/services/gibdd/entities/Car.html[Car]
+
+| Car DTO specification
+| link:/javadocs/nc/unc/cs/services/gibdd/entities/CarDto.html[Car Dto]
+|===
+
+[[agenda]]
+== Agenda
+|===
+| Ref | Details
+
+| HTTP Verbs
+| link:/http_verbs.html[HTTP Verbs]
+
+| HTTP Codes
+| link:/http_codes.html[HTTP Codes]
+|===
+
+[[ownderCars]]
+== List owned cars by person
+operation::ownedCars[snippets='curl-request,http-request,http-response,response-body']
+
+[[findCar]]
+== Find car by number
+operation::findCar[snippets='curl-request,http-request,http-response,response-body']
+
+[[addCar]]
+== Register new car
+operation::addCar[snippets='curl-request,http-request,http-response,response-body']
+
+[[updateCar]]
+== Update car information
+operation::updateCar[snippets='curl-request,http-request,http-response,response-body']
+

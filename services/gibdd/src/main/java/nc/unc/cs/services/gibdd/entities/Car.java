@@ -3,7 +3,13 @@ package nc.unc.cs.services.gibdd.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Value;
+import org.hibernate.annotations.NaturalId;
 
 /**
  * DTO for Car entity.
@@ -12,32 +18,20 @@ import lombok.Value;
  */
 @Table(name = "cars")
 @Entity
-@Value
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
-    @Id private String number;
 
-    public String owner;
+  @Id
+  private long id = Integer.MIN_VALUE;
 
-    public Car(String number, String owner) {
-        this.number = number;
-        this.owner = owner;
-    }
+  @NaturalId
+  private String number = null;
 
-    public Car() {
-        this.number = "0";
-        this.owner = "test";
-    }
+  private String owner = null;
 
-    public String getNumber() {
-        return number;
-    }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Car{number='%s', owner='%s'}", number, owner);
-    }
 }
