@@ -35,7 +35,7 @@ public class GibddService {
   private final ModelMapper mapper;
 
   @Autowired
-  public GibddService(final CarsRepo repo, final LoggingService loggingService, ModelMapper mapper) {
+  public GibddService(final CarsRepo repo, final LoggingService loggingService, final ModelMapper mapper) {
     this.mapper = mapper;
     this.repo = repo;
     this.loggingService = loggingService;
@@ -51,7 +51,7 @@ public class GibddService {
   }
 
   @GetMapping(value = "cars/{number}", produces = "application/json")
-  public ResponseEntity<CarDto> findCar(@PathVariable("number") @Validated @NotNull String number) {
+  public ResponseEntity<CarDto> findCar(@PathVariable("number") @Validated @NotNull final String number) {
     return this.repo.findCarsByNumber(number)
         .stream()
         .findFirst()
