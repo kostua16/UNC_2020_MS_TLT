@@ -35,16 +35,15 @@ public class GibddService {
   private final ModelMapper mapper;
 
   @Autowired
-  public GibddService(final CarsRepo repo, final LoggingService loggingService,
-                      ModelMapper mapper) {
+  public GibddService(
+      final CarsRepo repo, final LoggingService loggingService, ModelMapper mapper) {
     this.mapper = mapper;
     this.repo = repo;
     this.loggingService = loggingService;
   }
 
   @GetMapping(value = "owned/{owner}", produces = "application/json")
-  public Iterable<CarDto>
-  ownedCars(@PathVariable("owner") @Validated @NotNull String owner) {
+  public Iterable<CarDto> ownedCars(@PathVariable("owner") @Validated @NotNull String owner) {
     final ImmutableList.Builder<CarDto> builder = ImmutableList.builder();
     for (final Car car : this.repo.findCarsByOwner(owner)) {
       builder.add(this.mapper.map(car, CarDto.class));
@@ -53,19 +52,15 @@ public class GibddService {
   }
 
   @GetMapping(value = "cars/{number}", produces = "application/json")
-  public ResponseEntity<CarDto>
-  findCar(@PathVariable("number") @Validated @NotNull String number) {
-    return this.repo.findCarsByNumber(number)
-        .stream()
+  public ResponseEntity<CarDto> findCar(@PathVariable("number") @Validated @NotNull String number) {
+    return this.repo.findCarsByNumber(number).stream()
         .findFirst()
         .map(value -> ResponseEntity.ok(this.mapper.map(value, CarDto.class)))
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @PutMapping(value = "cars", consumes = "application/json",
-              produces = "application/json")
-  public ResponseEntity<CarDto>
-  addCar(@RequestBody @Validated @NotNull final CarDto dto) {
+  @PutMapping(value = "cars", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<CarDto> addCar(@RequestBody @Validated @NotNull final CarDto dto) {
     final ResponseEntity<CarDto> response;
     if (this.repo.findCarsByNumber(dto.getNumber()).isEmpty()) {
       final Car car = this.mapper.map(dto, Car.class);
@@ -88,10 +83,8 @@ public class GibddService {
     return response;
   }
 
-  @PostMapping(value = "cars", consumes = "application/json",
-               produces = "application/json")
-  public ResponseEntity<CarDto>
-  updateCar(@RequestBody @Validated final CarDto dto) {
+  @PostMapping(value = "cars", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<CarDto> updateCar(@RequestBody @Validated final CarDto dto) {
     final ResponseEntity<CarDto> response;
     if (!this.repo.findCarsByNumber(dto.getNumber()).isEmpty()) {
       final Car updates = this.mapper.map(dto, Car.class);

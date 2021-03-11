@@ -33,10 +33,8 @@ public class PropertyController {
     return this.registrationService.addCitizensProperty(newProperty);
   }
 
-  @GetMapping(value = "property/citizen/{citizenId}",
-              produces = "application/json")
-  public List<Property>
-  getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
+  @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
+  public List<Property> getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getPropertiesByCitizenId(citizenId);
   }
 }

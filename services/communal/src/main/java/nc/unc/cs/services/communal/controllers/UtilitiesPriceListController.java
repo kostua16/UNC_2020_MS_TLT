@@ -32,22 +32,23 @@ public class UtilitiesPriceListController {
       description =
           "Creation and addition of price lists for calculating the amount of spent utilities.",
       method = "POST")
-  @ApiResponse(responseCode = "400",
-               description = "UtilitiesPriceList with ID = null")
-  public ResponseEntity<UtilitiesPriceList>
-  addUtilitiesPriceList(
-      @Validated @RequestBody @io.swagger.v3.oas.annotations.parameters.
-      RequestBody(required = true,
-                  description = "Data for registration of the price list")
-      final CreationUtilitiesPriceList newUtilitiesPriceList) {
+  @ApiResponse(responseCode = "400", description = "UtilitiesPriceList with ID = null")
+  public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
+      @Validated
+          @RequestBody
+          @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              required = true,
+              description = "Data for registration of the price list")
+          final CreationUtilitiesPriceList newUtilitiesPriceList) {
     return this.communalService.addUtilitiesPriceList(newUtilitiesPriceList);
   }
 
   @GetMapping(produces = "application/json")
-  @Operation(summary = "getAllUtilitiesPriceList",
-             description = "List of UtilitiesPriceList", method = "GET")
-  public List<UtilitiesPriceList>
-  getAllUtilitiesPriceList() {
+  @Operation(
+      summary = "getAllUtilitiesPriceList",
+      description = "List of UtilitiesPriceList",
+      method = "GET")
+  public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
     return this.communalService.getAllUtilitiesPriceList();
   }
 }
