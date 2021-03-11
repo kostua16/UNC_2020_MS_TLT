@@ -1,0 +1,53 @@
+= GIBDD API Guide
+Konstantin Leontiev;
+
+[[javadocs]]
+== Javadocs
+|===
+| Entity | Client API | Service Impl
+
+| Gibdd service
+| link:/javadocs/nc/unc/cs/services/common/clients/gibdd/GibddService.html[Gibdd client]
+| link:/javadocs/nc/unc/cs/services/gibdd/services/GibddService.html[Gibdd service]
+
+
+| Car specification
+| link:/javadocs/nc/unc/cs/services/common/clients/gibdd/CarDto.html[Car DTO]
+| link:/javadocs/nc/unc/cs/services/gibdd/entities/Car.html[Car]
+
+|===
+
+[[agenda]]
+== Agenda
+|===
+| Ref | Details
+
+| HTTP Verbs
+| link:/http_verbs.html[HTTP Verbs]
+
+| HTTP Codes
+| link:/http_codes.html[HTTP Codes]
+|===
+
+[[ownderCars]]
+== List owned cars by person
+operation::ownedCars[snippets='curl-request,http-request,http-response,response-body']
+
+[[findCar]]
+== Find car by number
+operation::findCar[snippets='curl-request,http-request,http-response,response-body']
+=== Exceptions: `Car not found`
+operation::findCarNotFound[snippets='http-response']
+
+[[addCar]]
+== Register new car
+operation::addCar[snippets='curl-request,http-request,http-response,response-body']
+
+=== Exceptions: `Car already present`
+operation::addCarDuplicated[snippets='http-response']
+
+[[updateCar]]
+== Update car information
+operation::updateCar[snippets='curl-request,http-request,http-response,response-body']
+=== Exceptions: `Car not found`
+operation::updateCarNotFound[snippets='http-response']
