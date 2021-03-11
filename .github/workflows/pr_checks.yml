@@ -132,7 +132,7 @@ jobs:
       # Publish documentation  #
       ##############################################
       - name: Publish Javadocs
-        uses: speaceiris/actions-gh-page@v3
+        uses: peaceiris/actions-gh-pages@v3
         if: ${{ success() }}
         with:
           personal_token: ${{ secrets.GH_TKN }}
