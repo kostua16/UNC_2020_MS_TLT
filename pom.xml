@@ -23,6 +23,10 @@
     <zipkin.version>2.12.9</zipkin.version>
     <sonar.version>3.8.0.2131</sonar.version>
     <jacoco.version>0.8.6</jacoco.version>
+    <modelmapper.version>2.3.9</modelmapper.version>
+    <minidev.version>1.0.2</minidev.version>
+    <springdoc.version>1.5.5</springdoc.version>
+    <xstream.version>1.4.15</xstream.version>
     <!--suppress UnresolvedMavenProperty -->
     <mpr.root>${maven.multiModuleProjectDirectory}</mpr.root>
 <!--    <spring.run.port>8080</spring.run.port>-->
@@ -39,6 +43,36 @@
     -->
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>net.minidev</groupId>
+        <artifactId>asm</artifactId>
+        <version>${minidev.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.thoughtworks.xstream</groupId>
+        <artifactId>xstream</artifactId>
+        <version>${xstream.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-webmvc-core</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-data-rest</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-security</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-config-dependencies</artifactId>
@@ -109,22 +143,18 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
-      <version>1.5.5</version>
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-webmvc-core</artifactId>
-      <version>1.5.5</version>
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-data-rest</artifactId>
-      <version>1.5.5</version>
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-security</artifactId>
-      <version>1.5.5</version>
     </dependency>
 
     <!-- Автогенерация кода через простановку аннотаций	-->
@@ -152,7 +182,6 @@
     <dependency>
       <groupId>net.minidev</groupId>
       <artifactId>asm</artifactId>
-      <version>1.0.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -173,7 +202,7 @@
     <dependency>
       <groupId>org.modelmapper</groupId>
       <artifactId>modelmapper</artifactId>
-      <version>2.3.9</version>
+      <version>${modelmapper.version}</version>
     </dependency>
 
   </dependencies>
@@ -311,7 +340,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <reportOutputDirectory>documentation/javadocs</reportOutputDirectory>
+          <reportOutputDirectory>documentation/apidocs</reportOutputDirectory>
         </configuration>
       </plugin>
     </plugins>
