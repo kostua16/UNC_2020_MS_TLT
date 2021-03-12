@@ -1,11 +1,11 @@
 package nc.unc.cs.services.communal.controllers;
 
-import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "communal/tax/price-list")
 @CrossOrigin
-@Tag(name = "Property Tax Value API", description = "API create price list for calculate property tax")
+@Tag(
+    name = "Property Tax Value API",
+    description = "API create price list for calculate property tax")
 public class PropertyTaxValueController {
 
   private final PropertyTaxService propertyTaxService;
@@ -38,16 +40,15 @@ public class PropertyTaxValueController {
   @Operation(
       summary = "getPropertyTaxValueById",
       description = "Receiving PropertyTaxValue by ID",
-      method = "GET"
-  )
+      method = "GET")
   public PropertyTaxValue getPropertyTaxValueById(
       @Parameter(
-          name = "propertyTaxValueId",
-          description = "Property Tax Value ID",
-          required = true,
-          schema = @Schema(type = "long")
-      )
-      @PathVariable("propertyTaxValueId") final Long propertyTaxValueId) {
+              name = "propertyTaxValueId",
+              description = "Property Tax Value ID",
+              required = true,
+              schema = @Schema(type = "long"))
+          @PathVariable("propertyTaxValueId")
+          final Long propertyTaxValueId) {
     return this.propertyTaxService.getPropertyTaxValueById(propertyTaxValueId);
   }
 
@@ -55,16 +56,15 @@ public class PropertyTaxValueController {
   @Operation(
       summary = "getPropertyTaxValueByRegion",
       description = "Receiving PropertyTaxValue by region of the location",
-      method = "GET"
-  )
+      method = "GET")
   public PropertyTaxValue getPropertyTaxValueByRegion(
       @Parameter(
-          name = "region",
-          description = "Region to search for PropertyTaxValue",
-          required = true,
-          schema = @Schema(type = "string")
-      )
-      @RequestParam("region") final String region) {
+              name = "region",
+              description = "Region to search for PropertyTaxValue",
+              required = true,
+              schema = @Schema(type = "string"))
+          @RequestParam("region")
+          final String region) {
     return this.propertyTaxService.getPropertyTaxValueByRegion(region);
   }
 
@@ -72,8 +72,7 @@ public class PropertyTaxValueController {
   @Operation(
       summary = "getListPropertyTaxValue",
       description = "Receiving all PropertyTaxValue",
-      method = "GET"
-  )
+      method = "GET")
   public List<PropertyTaxValue> getListPropertyTaxValue() {
     return this.propertyTaxService.getListPropertyTaxValue();
   }
@@ -82,16 +81,15 @@ public class PropertyTaxValueController {
   @Operation(
       summary = "addPropertyTaxValue",
       description = "Registration price list for calculate property tax",
-      method = "POST"
-  )
+      method = "POST")
   @ApiResponse(responseCode = "400", description = "PropertyTaxService with ID = null")
   public ResponseEntity<PropertyTaxValue> addPropertyTaxValue(
       @Validated
-      @RequestBody
-      @io.swagger.v3.oas.annotations.parameters.RequestBody(
-          required = true,
-          description = "Data for registration of the price list"
-      ) final CreationPropertyTaxValue newPropertyTaxValue) {
+          @RequestBody
+          @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              required = true,
+              description = "Data for registration of the price list")
+          final CreationPropertyTaxValue newPropertyTaxValue) {
     return this.propertyTaxService.addPropertyTaxValue(newPropertyTaxValue);
   }
 }
