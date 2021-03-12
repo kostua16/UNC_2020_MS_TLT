@@ -44,6 +44,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>30.1-jre</version>
+      </dependency>
+      <dependency>
         <groupId>net.minidev</groupId>
         <artifactId>asm</artifactId>
         <version>${minidev.version}</version>
