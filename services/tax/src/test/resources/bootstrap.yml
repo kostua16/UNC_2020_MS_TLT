@@ -1,8 +1,0 @@
-server:
-  port: ${PORT:8082}
-spring:
-  application:
-    name: TAX
-  cloud:
-    config:
-      enabled: false

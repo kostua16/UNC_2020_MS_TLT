@@ -1,8 +1,0 @@
-server:
-  port: ${PORT:8083}
-spring:
-  application:
-    name: COMMUNAL
-  cloud:
-    config:
-      enabled: false
