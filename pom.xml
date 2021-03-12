@@ -28,6 +28,9 @@
     <springdoc.version>1.5.5</springdoc.version>
     <xstream.version>1.4.15</xstream.version>
     <delombok.version>1.18.18.0</delombok.version>
+    <checkstyle.version>8.41</checkstyle.version>
+    <checkstyle.build.version>3.1.2</checkstyle.build.version>
+    <asciidoc.build.version>2.1.0</asciidoc.build.version>
     <!--suppress UnresolvedMavenProperty -->
     <mpr.root>${maven.multiModuleProjectDirectory}</mpr.root>
 <!--    <spring.run.port>8080</spring.run.port>-->
@@ -53,6 +56,11 @@
         <groupId>net.minidev</groupId>
         <artifactId>asm</artifactId>
         <version>${minidev.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.modelmapper</groupId>
+        <artifactId>modelmapper</artifactId>
+        <version>${modelmapper.version}</version>
       </dependency>
       <dependency>
         <groupId>com.thoughtworks.xstream</groupId>
@@ -208,18 +216,9 @@
     <dependency>
       <groupId>org.modelmapper</groupId>
       <artifactId>modelmapper</artifactId>
-      <version>${modelmapper.version}</version>
     </dependency>
 
   </dependencies>
-
-<!--  <repositories>-->
-<!--    <repository>-->
-<!--      <id>spring-milestones</id>-->
-<!--      <name>Spring Milestones</name>-->
-<!--      <url>https://repo.spring.io/milestone</url>-->
-<!--    </repository>-->
-<!--  </repositories>-->
 
   <build>
     <pluginManagement>
@@ -227,7 +226,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>${checkstyle.build.version}</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
@@ -247,6 +246,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.asciidoctor</groupId>
+          <artifactId>asciidoctor-maven-plugin</artifactId>
+          <version>${asciidoc.build.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -287,7 +291,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.41</version>
+            <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -327,7 +331,6 @@
       <plugin>
         <groupId>org.asciidoctor</groupId>
         <artifactId>asciidoctor-maven-plugin</artifactId>
-        <version>2.1.0</version>
         <executions>
           <execution>
             <id>generate-docs</id>
