@@ -297,6 +297,7 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <executions>
           <execution>
+            <inherited>true</inherited>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
@@ -305,8 +306,17 @@
           <execution>
             <id>report</id>
             <phase>test</phase>
+            <inherited>true</inherited>
             <goals>
               <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-aggregate</id>
+            <phase>prepare-package</phase>
+            <inherited>false</inherited>
+            <goals>
+              <goal>report-aggregate</goal>
             </goals>
           </execution>
         </executions>
