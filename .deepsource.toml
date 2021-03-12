@@ -16,7 +16,7 @@ exclude_patterns = [
 
 [[analyzers]]
 name = "java"
-enabled = true
+enabled = false
 
 [analyzers.meta]
 runtime_version = "8"
