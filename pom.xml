@@ -31,6 +31,7 @@
     <checkstyle.version>8.41</checkstyle.version>
     <checkstyle.build.version>3.1.2</checkstyle.build.version>
     <asciidoc.build.version>2.1.0</asciidoc.build.version>
+    <javadoc.build.version>3.2.0</javadoc.build.version>
     <!--suppress UnresolvedMavenProperty -->
     <mpr.root>${maven.multiModuleProjectDirectory}</mpr.root>
 <!--    <spring.run.port>8080</spring.run.port>-->
@@ -236,16 +237,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>${javadoc.build.version}</version>
         </plugin>
         <plugin>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok-maven-plugin</artifactId>
           <version>${delombok.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
         </plugin>
         <plugin>
           <groupId>org.asciidoctor</groupId>
