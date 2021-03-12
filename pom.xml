@@ -27,6 +27,7 @@
     <minidev.version>1.0.2</minidev.version>
     <springdoc.version>1.5.5</springdoc.version>
     <xstream.version>1.4.15</xstream.version>
+    <delombok.version>1.18.18.0</delombok.version>
     <!--suppress UnresolvedMavenProperty -->
     <mpr.root>${maven.multiModuleProjectDirectory}</mpr.root>
 <!--    <spring.run.port>8080</spring.run.port>-->
@@ -245,9 +246,26 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.2.0</version>
         </plugin>
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>${delombok.version}</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
