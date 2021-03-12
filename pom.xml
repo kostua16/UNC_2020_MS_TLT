@@ -283,6 +283,8 @@
               <backend>html5</backend>
               <doctype>book</doctype>
               <attributes>
+                <root>UNC_2020_MS_TLT</root>
+                <jdocs>UNC_2020_MS_TLT/javadocs</jdocs>
                 <templates>${mpr.root}/docs/templates</templates>
                 <snippets>${project.build.directory}/generated-snippets</snippets>
                 <icons>font</icons>
