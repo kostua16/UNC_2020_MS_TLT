@@ -1,14 +1,26 @@
 package nc.unc.cs.services.gibdd.services;
 
-import java.util.Collections;
-import java.util.List;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import java.util.Collections;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import nc.unc.cs.services.common.clients.gibdd.CarDto;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.common.services.ModelMapperConfiguration;
 import nc.unc.cs.services.gibdd.entities.Car;
-import nc.unc.cs.services.common.clients.gibdd.CarDto;
 import nc.unc.cs.services.gibdd.repositories.CarsRepo;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -23,22 +35,10 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 /**
- * Tests for Gibdd service
- * Documented automatically using RestDoc.
- *   https://docs.spring.io/spring-restdocs/docs/current-SNAPSHOT/reference/html5/
+ * Tests for Gibdd service Documented automatically using RestDoc.
+ * https://docs.spring.io/spring-restdocs/docs/current-SNAPSHOT/reference/html5/
  */
 @Slf4j
 @WebMvcTest({GibddService.class, ObjectMapper.class, ModelMapperConfiguration.class})
@@ -61,20 +61,15 @@ class GibddServiceTest {
 
   private static final RequestFieldsSnippet CAR_REQ = requestFields(GibddServiceTest.CAR_DESCR);
 
-  @MockBean
-  private CarsRepo repo;
+  @MockBean private CarsRepo repo;
 
-  @MockBean
-  private LoggingService logs;
+  @MockBean private LoggingService logs;
 
-  @Autowired
-  private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-  @Autowired
-  private ObjectMapper omp;
+  @Autowired private ObjectMapper omp;
 
-  @Autowired
-  private ModelMapper mmp;
+  @Autowired private ModelMapper mmp;
 
   @Test
   void ownedCars() throws Exception {
@@ -114,10 +109,11 @@ class GibddServiceTest {
     when(repo.findCarsByNumber(car.getNumber())).thenReturn(Collections.emptyList());
     when(logs.addLog(any())).thenReturn(null);
     mvc.perform(
-        put("/gibdd/cars").content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-    ).andDo(document("addCar", GibddServiceTest.CAR_RESP))
+            put("/gibdd/cars")
+                .content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andDo(document("addCar", GibddServiceTest.CAR_RESP))
         .andExpect(jsonPath("$.owner", Matchers.is(car.getOwner())))
         .andExpect(status().isCreated());
   }
@@ -129,10 +125,11 @@ class GibddServiceTest {
     when(repo.findCarsByNumber(car.getNumber())).thenReturn(Collections.singletonList(car));
     when(logs.addLog(any())).thenReturn(null);
     mvc.perform(
-        put("/gibdd/cars").content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-    ).andDo(document("addCarDuplicated"))
+            put("/gibdd/cars")
+                .content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andDo(document("addCarDuplicated"))
         .andExpect(status().isAlreadyReported());
   }
 
@@ -143,10 +140,11 @@ class GibddServiceTest {
     when(repo.findCarsByNumber(car.getNumber())).thenReturn(Collections.singletonList(car));
     when(logs.addLog(any())).thenReturn(null);
     mvc.perform(
-        post("/gibdd/cars").content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-    ).andDo(document("updateCar", GibddServiceTest.CAR_REQ, GibddServiceTest.CAR_RESP))
+            post("/gibdd/cars")
+                .content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andDo(document("updateCar", GibddServiceTest.CAR_REQ, GibddServiceTest.CAR_RESP))
         .andExpect(jsonPath("$.owner", Matchers.is(car.getOwner())))
         .andExpect(status().isOk());
   }
@@ -158,10 +156,11 @@ class GibddServiceTest {
     when(repo.findCarsByNumber(car.getNumber())).thenReturn(Collections.emptyList());
     when(logs.addLog(any())).thenReturn(null);
     mvc.perform(
-        post("/gibdd/cars").content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-    ).andDo(document("updateCarNotFound"))
+            post("/gibdd/cars")
+                .content(this.omp.writeValueAsString(this.mmp.map(car, CarDto.class)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andDo(document("updateCarNotFound"))
         .andExpect(status().isNotFound());
   }
 }
