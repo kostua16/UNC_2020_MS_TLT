@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import io.swagger.annotations.Api;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.services.RegistrationService;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("communal/property")
-@Api(value = "Property API")
+@Tag(name = "Property Api")
 public class PropertyController {
 
     private final RegistrationService registrationService;
@@ -37,7 +37,6 @@ public class PropertyController {
     public List<Property> getPropertiesByCitizenId(
         @PathVariable("citizenId") final Long citizenId
     ) {
-        System.out.println("WORK!");
         return this.registrationService.getPropertiesByCitizenId(citizenId);
     }
 }

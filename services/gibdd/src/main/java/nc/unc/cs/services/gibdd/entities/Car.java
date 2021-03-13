@@ -3,41 +3,33 @@ package nc.unc.cs.services.gibdd.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 /**
- * DTO for Car entity.
+ * Car entity. Used to be used in this service as main entity. Stored in database.
  *
  * @since 0.1.0
  */
 @Table(name = "cars")
 @Entity
-@Value
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
-    @Id private String number;
 
-    public String owner;
+  /** ID for database record. */
+  @Id private long id = Integer.MIN_VALUE;
 
-    public Car(String number, String owner) {
-        this.number = number;
-        this.owner = owner;
-    }
+  /** Number of the car. */
+  @NaturalId private String number = null;
 
-    public Car() {
-        this.number = "0";
-        this.owner = "test";
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Car{number='%s', owner='%s'}", number, owner);
-    }
+  /** Owner of the car. (Document reference) */
+  private String owner = null;
 }
