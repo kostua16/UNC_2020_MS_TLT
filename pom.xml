@@ -25,7 +25,7 @@
     <jacoco.version>0.8.6</jacoco.version>
     <modelmapper.version>2.3.9</modelmapper.version>
     <minidev.version>1.0.2</minidev.version>
-    <springdoc.version>1.5.5</springdoc.version>
+    <springdoc.version>1.5.6</springdoc.version>
     <xstream.version>1.4.15</xstream.version>
     <delombok.version>1.18.18.0</delombok.version>
     <checkstyle.version>8.41</checkstyle.version>
