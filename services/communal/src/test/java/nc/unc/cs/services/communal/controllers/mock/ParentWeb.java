@@ -7,6 +7,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @Import(ObjectMapper.class)
 public class ParentWeb {
-    @Autowired protected MockMvc mockMvc;
-    @Autowired protected ObjectMapper objectMapper;
+  @Autowired
+  protected MockMvc mockMvc;
+  @Autowired
+  protected ObjectMapper objectMapper;
 }

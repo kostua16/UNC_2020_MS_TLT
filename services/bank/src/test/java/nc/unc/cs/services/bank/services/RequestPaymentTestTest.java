@@ -16,46 +16,46 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class RequestPaymentTestTest {
-    @Mock
-    private PaymentRequestRepository paymentRequestRepository;
-    @Mock
-    private LoggingService logging;
-    @Mock
-    private TaxIntegrationService taxIntegrationService;
-    @InjectMocks
-    private BankService bankService;
+  @Mock
+  private PaymentRequestRepository paymentRequestRepository;
+  @Mock
+  private LoggingService logging;
+  @Mock
+  private TaxIntegrationService taxIntegrationService;
+  @InjectMocks
+  private BankService bankService;
 
-    private PaymentPayload createPaymentPayload() {
-        return PaymentPayload
-            .builder()
-            .serviceId(20L)
-            .citizenId(111L)
-            .amount(10000)
-            .taxAmount(1000)
-            .build();
-    }
+  private PaymentPayload createPaymentPayload() {
+    return PaymentPayload
+        .builder()
+        .serviceId(20L)
+        .citizenId(111L)
+        .amount(10000)
+        .taxAmount(1000)
+        .build();
+  }
 
-    @Test
-    void requestPaymentCorrectTest() {
-        final Long testTaxId = 1L;
-        final PaymentPayload paymentPayload = this.createPaymentPayload();
+  @Test
+  void requestPaymentCorrectTest() {
+    final Long testTaxId = 1L;
+    final PaymentPayload paymentPayload = this.createPaymentPayload();
 
-        given(this.taxIntegrationService
-            .createTax(
-                paymentPayload.getServiceId(),
-                paymentPayload.getCitizenId(),
-                paymentPayload.getTaxAmount()
-            ))
-            .willReturn(testTaxId);
+    given(this.taxIntegrationService
+        .createTax(
+            paymentPayload.getServiceId(),
+            paymentPayload.getCitizenId(),
+            paymentPayload.getTaxAmount()
+        ))
+        .willReturn(testTaxId);
 
-        given(this.logging.addLog(any()))
-            .willAnswer(invocation -> invocation.getArgument(0));
-        given(this.paymentRequestRepository.save(any()))
-            .willAnswer(invocation -> invocation.getArgument(0));
+    given(this.logging.addLog(any()))
+        .willAnswer(invocation -> invocation.getArgument(0));
+    given(this.paymentRequestRepository.save(any()))
+        .willAnswer(invocation -> invocation.getArgument(0));
 
-        ResponseEntity<Long> response = this.bankService.requestPayment(paymentPayload);
-        System.out.println(response);
+    ResponseEntity<Long> response = this.bankService.requestPayment(paymentPayload);
+    System.out.println(response);
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+  }
 }

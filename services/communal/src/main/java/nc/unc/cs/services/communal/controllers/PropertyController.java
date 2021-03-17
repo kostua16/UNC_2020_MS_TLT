@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.controllers;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.services.RegistrationService;
@@ -20,23 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Property Api")
 public class PropertyController {
 
-    private final RegistrationService registrationService;
+  private final RegistrationService registrationService;
 
-    @Autowired
-    public PropertyController(final RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+  @Autowired
+  public PropertyController(final RegistrationService registrationService) {
+    this.registrationService = registrationService;
+  }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Property> addCitizensProperty(
-        @Validated @RequestBody final CreationProperty newProperty) {
-        return this.registrationService.addCitizensProperty(newProperty);
-    }
+  @PostMapping(produces = "application/json", consumes = "application/json")
+  public ResponseEntity<Property> addCitizensProperty(
+      @Validated @RequestBody final CreationProperty newProperty) {
+    return this.registrationService.addCitizensProperty(newProperty);
+  }
 
-    @GetMapping(value = "citizen/{citizenId}", produces = "application/json")
-    public List<Property> getPropertiesByCitizenId(
-        @PathVariable("citizenId") final Long citizenId
-    ) {
-        return this.registrationService.getPropertiesByCitizenId(citizenId);
-    }
+  @GetMapping(value = "citizen/{citizenId}", produces = "application/json")
+  public List<Property> getPropertiesByCitizenId(
+      @PathVariable("citizenId") final Long citizenId
+  ) {
+    return this.registrationService.getPropertiesByCitizenId(citizenId);
+  }
 }

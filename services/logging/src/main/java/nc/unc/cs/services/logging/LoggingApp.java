@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication(scanBasePackages = "nc.unc.cs.services")
 @EnableDiscoveryClient
 public class LoggingApp {
-    public static void main(String[] args) {
-        SpringApplication.run(LoggingApp.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(LoggingApp.class, args);
+  }
 }
