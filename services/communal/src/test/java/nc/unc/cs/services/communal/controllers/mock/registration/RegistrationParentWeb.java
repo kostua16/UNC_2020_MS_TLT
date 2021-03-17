@@ -12,8 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class RegistrationParentWeb extends ParentWeb {
   protected static final String REGISTRATION_CONTROLLER_MAPPING =
       "http://localhost:8083/communal/registration";
-  @MockBean
-  protected RegistrationService registrationService;
+  @MockBean protected RegistrationService registrationService;
 
   protected final CreationRegistration createCreationRegistration() {
     return CreationRegistration.builder()

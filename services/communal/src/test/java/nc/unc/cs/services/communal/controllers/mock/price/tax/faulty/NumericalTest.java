@@ -1,11 +1,12 @@
 package nc.unc.cs.services.communal.controllers.mock.price.tax.faulty;
 
-import nc.unc.cs.services.communal.controllers.mock.price.tax.PropertyTaxValueParent;
-import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
-import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import nc.unc.cs.services.communal.controllers.mock.price.tax.PropertyTaxValueParent;
+import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
+import org.junit.jupiter.api.Test;
 
 class NumericalTest extends PropertyTaxValueParent {
 

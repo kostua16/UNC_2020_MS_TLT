@@ -1,5 +1,7 @@
 package nc.unc.cs.services.communal.services.integrations.property_tax;
 
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
@@ -14,18 +16,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class PropertyTaxValueTestTest {
 
   private static final Logger logger = LoggerFactory.getLogger(PropertyTaxValueTestTest.class);
 
-  @Mock
-  private PropertyTaxValueRepository propertyTaxValueRepository;
+  @Mock private PropertyTaxValueRepository propertyTaxValueRepository;
 
-  @InjectMocks
-  private PropertyTaxService propertyTaxService;
+  @InjectMocks private PropertyTaxService propertyTaxService;
 
   private CreationPropertyTaxValue createCreationPropertyTaxValue() {
     return CreationPropertyTaxValue.builder()
@@ -52,8 +51,8 @@ class PropertyTaxValueTestTest {
             .build();
 
     given(
-        this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
-            propertyTaxValue.getRegion()))
+            this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
+                propertyTaxValue.getRegion()))
         .willReturn(null);
     given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
 
@@ -84,8 +83,8 @@ class PropertyTaxValueTestTest {
             .build();
 
     given(
-        this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
-            lastPropertyTaxValue.getRegion()))
+            this.propertyTaxValueRepository.findPropertyTaxValueByRegion(
+                lastPropertyTaxValue.getRegion()))
         .willReturn(propertyTaxValue);
     given(this.propertyTaxValueRepository.save(propertyTaxValue)).willReturn(propertyTaxValue);
 
@@ -100,8 +99,7 @@ class PropertyTaxValueTestTest {
                 response.getBody().getPricePerSquareMeter()),
         () ->
             Assertions.assertEquals(
-                newPropertyTaxValue.getCadastralValue(),
-                response.getBody().getCadastralValue()),
+                newPropertyTaxValue.getCadastralValue(), response.getBody().getCadastralValue()),
         () ->
             Assertions.assertEquals(
                 propertyTaxValue.getPropertyTaxValueId(),

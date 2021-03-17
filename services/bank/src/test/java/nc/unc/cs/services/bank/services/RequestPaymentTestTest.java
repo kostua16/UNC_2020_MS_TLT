@@ -1,5 +1,8 @@
 package nc.unc.cs.services.bank.services;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.bank.repositories.PaymentRequestRepository;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
@@ -11,23 +14,16 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class RequestPaymentTestTest {
-  @Mock
-  private PaymentRequestRepository paymentRequestRepository;
-  @Mock
-  private LoggingService logging;
-  @Mock
-  private TaxIntegrationService taxIntegrationService;
-  @InjectMocks
-  private BankService bankService;
+  @Mock private PaymentRequestRepository paymentRequestRepository;
+  @Mock private LoggingService logging;
+  @Mock private TaxIntegrationService taxIntegrationService;
+  @InjectMocks private BankService bankService;
 
   private PaymentPayload createPaymentPayload() {
-    return PaymentPayload
-        .builder()
+    return PaymentPayload.builder()
         .serviceId(20L)
         .citizenId(111L)
         .amount(10000)
@@ -40,16 +36,14 @@ class RequestPaymentTestTest {
     final Long testTaxId = 1L;
     final PaymentPayload paymentPayload = this.createPaymentPayload();
 
-    given(this.taxIntegrationService
-        .createTax(
-            paymentPayload.getServiceId(),
-            paymentPayload.getCitizenId(),
-            paymentPayload.getTaxAmount()
-        ))
+    given(
+            this.taxIntegrationService.createTax(
+                paymentPayload.getServiceId(),
+                paymentPayload.getCitizenId(),
+                paymentPayload.getTaxAmount()))
         .willReturn(testTaxId);
 
-    given(this.logging.addLog(any()))
-        .willAnswer(invocation -> invocation.getArgument(0));
+    given(this.logging.addLog(any())).willAnswer(invocation -> invocation.getArgument(0));
     given(this.paymentRequestRepository.save(any()))
         .willAnswer(invocation -> invocation.getArgument(0));
 

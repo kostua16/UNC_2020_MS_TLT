@@ -10,7 +10,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -48,8 +47,7 @@ public class PropertyTaxValue {
       final Long propertyTaxValueId,
       final String region,
       final Integer pricePerSquareMeter,
-      final Integer cadastralValue
-  ) {
+      final Integer cadastralValue) {
     this.propertyTaxValueId = propertyTaxValueId;
     this.region = region.trim().toUpperCase();
     this.pricePerSquareMeter = pricePerSquareMeter;

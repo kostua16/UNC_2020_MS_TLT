@@ -31,8 +31,7 @@ public class RegistrationController {
   }
 
   @GetMapping(value = "registrations/active/citizen/{citizenId}", produces = "application/json")
-  public Registration getRegistrationByCitizenId(
-      @PathVariable("citizenId") final Long citizenId) {
+  public Registration getRegistrationByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getActiveRegistrationByCitizenId(citizenId);
   }
 

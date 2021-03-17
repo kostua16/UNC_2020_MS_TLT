@@ -1,5 +1,7 @@
 package nc.unc.cs.services.communal.services.integrations.utility.bill;
 
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.communal.controllers.payloads.UtilitiesPayload;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
@@ -19,21 +21,15 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class CreateUtilityBillTest {
 
-  @Mock
-  private PropertyRepository propertyRepository;
-  @Mock
-  private UtilityBillRepository utilityBillRepository;
-  @Mock
-  private UtilitiesPriceListRepository utilitiesPriceListRepository;
-  @Mock
-  private BankIntegrationService bankIntegrationService;
-  @InjectMocks
-  private CommunalService communalService;
+  @Mock private PropertyRepository propertyRepository;
+  @Mock private UtilityBillRepository utilityBillRepository;
+  @Mock private UtilitiesPriceListRepository utilitiesPriceListRepository;
+  @Mock private BankIntegrationService bankIntegrationService;
+  @InjectMocks private CommunalService communalService;
 
   /** Идентификатор сервиса, поставляеющего услугу. */
   public static final Long SERVICE_ID = CommunalService.SERVICE_ID;
@@ -41,8 +37,7 @@ class CreateUtilityBillTest {
   public static final Integer TAX_PERCENT = CommunalService.TAX_PERCENT;
 
   private UtilitiesPayload createUtilitiesPayload() {
-    return UtilitiesPayload
-        .builder()
+    return UtilitiesPayload.builder()
         .propertyId(1L)
         .coldWater(200)
         .hotWater(200)
@@ -51,8 +46,7 @@ class CreateUtilityBillTest {
   }
 
   private UtilitiesPriceList createUtilitiesPriceList() {
-    return UtilitiesPriceList
-        .builder()
+    return UtilitiesPriceList.builder()
         .utilitiesPriceListId(1L)
         .region("samara")
         .coldWaterPrice(5)
@@ -63,8 +57,7 @@ class CreateUtilityBillTest {
 
   private UtilityBill createUtilityBill() {
     final UtilitiesPayload utilitiesPayload = this.createUtilitiesPayload();
-    return UtilityBill
-        .builder()
+    return UtilityBill.builder()
         .coldWater(utilitiesPayload.getColdWater())
         .hotWater(utilitiesPayload.getHotWater())
         .electricity(utilitiesPayload.getElectricity())
@@ -94,36 +87,42 @@ class CreateUtilityBillTest {
     utilityBill.setPaymentRequestId(15L);
     utilityBill.setColdWaterAmount(utilitiesPayload.getColdWater() * priceList.getColdWaterPrice());
     utilityBill.setHotWaterAmount(utilitiesPayload.getHotWater() * priceList.getHotWaterPrice());
-    utilityBill.setElectricityAmount(utilitiesPayload.getElectricity() * priceList.getElectricityPrice());
+    utilityBill.setElectricityAmount(
+        utilitiesPayload.getElectricity() * priceList.getElectricityPrice());
     utilityBill.setUtilityAmount(
         utilityBill.getColdWaterAmount()
             + utilityBill.getHotWaterAmount()
-            + utilityBill.getElectricityAmount()
-    );
+            + utilityBill.getElectricityAmount());
     given(this.propertyRepository.findPropertyByPropertyId(utilitiesPayload.getPropertyId()))
         .willReturn(property);
     given(this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(property.getRegion()))
         .willReturn(priceList);
-    given(this.bankIntegrationService.bankRequest(
-        SERVICE_ID,
-        utilityBill.getCitizenId(),
-        utilityBill.getUtilityAmount(),
-        utilityBill.getUtilityAmount() / TAX_PERCENT
-    ))
+    given(
+            this.bankIntegrationService.bankRequest(
+                SERVICE_ID,
+                utilityBill.getCitizenId(),
+                utilityBill.getUtilityAmount(),
+                utilityBill.getUtilityAmount() / TAX_PERCENT))
         .willReturn(15L);
     given(this.utilityBillRepository.save(utilityBill)).willReturn(utilityBill);
 
     System.out.println(utilityBill);
 
-    final ResponseEntity<UtilityBill> response = this.communalService.calculateUtilityBill(utilitiesPayload);
+    final ResponseEntity<UtilityBill> response =
+        this.communalService.calculateUtilityBill(utilitiesPayload);
 
     Assertions.assertAll(
         () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        () -> Assertions.assertEquals(utilityBill.getUtilityAmount(), response.getBody().getUtilityAmount()),
-        () -> Assertions.assertEquals(utilitiesPayload.getHotWater(), response.getBody().getHotWater()),
-        () -> Assertions.assertEquals(utilitiesPayload.getPropertyId(), response.getBody().getPropertyId()),
-        () -> Assertions.assertEquals(property.getCitizenId(), response.getBody().getCitizenId())
-    );
+        () ->
+            Assertions.assertEquals(
+                utilityBill.getUtilityAmount(), response.getBody().getUtilityAmount()),
+        () ->
+            Assertions.assertEquals(
+                utilitiesPayload.getHotWater(), response.getBody().getHotWater()),
+        () ->
+            Assertions.assertEquals(
+                utilitiesPayload.getPropertyId(), response.getBody().getPropertyId()),
+        () -> Assertions.assertEquals(property.getCitizenId(), response.getBody().getCitizenId()));
   }
 
   @Test
@@ -134,8 +133,7 @@ class CreateUtilityBillTest {
         .willReturn(null);
     Assertions.assertThrows(
         PropertyNotFoundException.class,
-        () -> this.communalService.calculateUtilityBill(utilitiesPayload)
-    );
+        () -> this.communalService.calculateUtilityBill(utilitiesPayload));
   }
 
   @Test
@@ -147,7 +145,6 @@ class CreateUtilityBillTest {
         .willReturn(null);
     Assertions.assertThrows(
         UtilitiesPriceListNotFoundException.class,
-        () -> this.communalService.calculateUtilityCosts(property.getRegion(), utilitiesPayload)
-    );
+        () -> this.communalService.calculateUtilityCosts(property.getRegion(), utilitiesPayload));
   }
 }

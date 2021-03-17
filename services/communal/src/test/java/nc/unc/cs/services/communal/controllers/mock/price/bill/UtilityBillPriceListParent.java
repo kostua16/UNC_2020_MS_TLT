@@ -12,12 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class UtilityBillPriceListParent extends ParentWeb {
   protected static final String UTILITY_BILL_PRICE_LIST_MAPPING =
       "http://localhost:8083/communal/utilities/price-list";
-  @MockBean
-  protected CommunalService communalService;
+  @MockBean protected CommunalService communalService;
 
   protected final UtilitiesPriceList createUtilitiesPriceList() {
-    CreationUtilitiesPriceList creationUtilitiesPriceList =
-        this.createCreationUtilitiesPriceList();
+    CreationUtilitiesPriceList creationUtilitiesPriceList = this.createCreationUtilitiesPriceList();
     return UtilitiesPriceList.builder()
         .utilitiesPriceListId(1L)
         .region(creationUtilitiesPriceList.getRegion())

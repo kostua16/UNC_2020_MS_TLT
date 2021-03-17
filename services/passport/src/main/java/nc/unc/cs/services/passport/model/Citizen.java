@@ -1,8 +1,7 @@
 package nc.unc.cs.services.passport.model;
 
-import lombok.Data;
-
 import java.util.Date;
+import lombok.Data;
 
 @Data
 public class Citizen {

@@ -16,8 +16,7 @@ public class HttpClientLogger
     implements LoadBalancerLifecycle<RequestDataContext, ResponseData, ServiceInstance> {
 
   @Override
-  public void onStart(Request<RequestDataContext> request) {
-  }
+  public void onStart(Request<RequestDataContext> request) {}
 
   @Override
   public void onStartRequest(
@@ -27,26 +26,17 @@ public class HttpClientLogger
 
   @Override
   public void onComplete(
-      CompletionContext<ResponseData, ServiceInstance, RequestDataContext>
-          completionContext) {
+      CompletionContext<ResponseData, ServiceInstance, RequestDataContext> completionContext) {
     if (completionContext.status().equals(CompletionContext.Status.FAILED)) {
       log.error(
           "Request FAILED({}): {}",
           completionContext.getClientResponse().getHttpStatus(),
-          completionContext
-              .getLoadBalancerRequest()
-              .getContext()
-              .getClientRequest()
-              .getUrl());
+          completionContext.getLoadBalancerRequest().getContext().getClientRequest().getUrl());
     } else {
       log.warn(
           "Request SUCCESS({}): {}",
           completionContext.getClientResponse().getHttpStatus(),
-          completionContext
-              .getLoadBalancerRequest()
-              .getContext()
-              .getClientRequest()
-              .getUrl());
+          completionContext.getLoadBalancerRequest().getContext().getClientRequest().getUrl());
     }
   }
 }

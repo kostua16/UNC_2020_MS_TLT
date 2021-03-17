@@ -1,6 +1,8 @@
 package nc.unc.cs.services.bank.services;
 
 import feign.FeignException;
+import java.util.Date;
+import java.util.List;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.exceptions.PaymentRequestNotFoundException;
@@ -16,32 +18,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-
 @Service
 public class BankService {
 
-  /**
-   * Логгер.
-   */
+  /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(BankService.class);
 
-  /**
-   * Репозиторий выставленных счетов.
-   */
+  /** Репозиторий выставленных счетов. */
   private final PaymentRequestRepository paymentRequestRepository;
-  /**
-   * Репозиторий с информацией о проведённых операциях.
-   */
+  /** Репозиторий с информацией о проведённых операциях. */
   private final TransactionRepository transactionRepository;
-  /**
-   * Сервис логгирования.
-   */
+  /** Сервис логгирования. */
   private final LoggingService logging;
-  /**
-   * Налоговый сервис.
-   */
+  /** Налоговый сервис. */
   private final TaxIntegrationService taxIntegrationService;
 
   @Autowired
@@ -49,8 +38,7 @@ public class BankService {
       final PaymentRequestRepository paymentRequestRepository,
       final TransactionRepository transactionRepository,
       final TaxIntegrationService taxIntegrationService,
-      final LoggingService logging
-  ) {
+      final LoggingService logging) {
     this.paymentRequestRepository = paymentRequestRepository;
     this.transactionRepository = transactionRepository;
     this.taxIntegrationService = taxIntegrationService;
@@ -64,14 +52,11 @@ public class BankService {
    * @return счёт на оплату
    * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
    */
-  public PaymentRequest findPaymentRequestById(
-      final Long paymentRequestId
-  ) throws PaymentRequestNotFoundException {
+  public PaymentRequest findPaymentRequestById(final Long paymentRequestId)
+      throws PaymentRequestNotFoundException {
     return this.paymentRequestRepository
         .findById(paymentRequestId)
-        .orElseThrow(
-            () -> new PaymentRequestNotFoundException(paymentRequestId)
-        );
+        .orElseThrow(() -> new PaymentRequestNotFoundException(paymentRequestId));
   }
 
   /**
@@ -81,40 +66,32 @@ public class BankService {
    * @return идентификатор выставленного счёта;
    * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
    */
-  public ResponseEntity<Long> requestPayment(
-      final PaymentPayload paymentPayload
-  ) throws FeignException {
-    final PaymentRequest paymentRequest = PaymentRequest
-        .builder()
-        .serviceId(paymentPayload.getServiceId())
-        .citizenId(paymentPayload.getCitizenId())
-        .amount(paymentPayload.getAmount())
-        .build();
+  public ResponseEntity<Long> requestPayment(final PaymentPayload paymentPayload)
+      throws FeignException {
+    final PaymentRequest paymentRequest =
+        PaymentRequest.builder()
+            .serviceId(paymentPayload.getServiceId())
+            .citizenId(paymentPayload.getCitizenId())
+            .amount(paymentPayload.getAmount())
+            .build();
 
-    final Long taxId = this.taxIntegrationService
-        .createTax(
+    final Long taxId =
+        this.taxIntegrationService.createTax(
             paymentPayload.getServiceId(),
             paymentPayload.getCitizenId(),
-            paymentPayload.getTaxAmount()
-        );
+            paymentPayload.getTaxAmount());
     paymentRequest.setTaxId(taxId);
 
     logger.info("Tax with ID = {} has been created", taxId);
     logging.addLog(
-        LogEntry
-            .builder()
+        LogEntry.builder()
             .service("bank")
             .created(new Date())
             .message(
                 String.format(
                     "Tax with ID = %d has been created for serviceId = %d, citizenId = %d",
-                    taxId,
-                    paymentPayload.getServiceId(),
-                    paymentPayload.getCitizenId()
-                )
-            )
-            .build()
-    );
+                    taxId, paymentPayload.getServiceId(), paymentPayload.getCitizenId()))
+            .build());
     this.paymentRequestRepository.save(paymentRequest);
 
     return ResponseEntity.ok(paymentRequest.getPaymentRequestId());
@@ -125,12 +102,11 @@ public class BankService {
    *
    * @param paymentRequestId идентификатор выставленного счёта
    * @return http-ответ, в теле которого находится чек
-   * @throws FeignException                  если не удасться обратиться к Банковскому сервису
+   * @throws FeignException если не удасться обратиться к Банковскому сервису
    * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
    */
-  public ResponseEntity<Transaction> payment(
-      final Long paymentRequestId
-  ) throws FeignException, PaymentRequestNotFoundException {
+  public ResponseEntity<Transaction> payment(final Long paymentRequestId)
+      throws FeignException, PaymentRequestNotFoundException {
 
     final PaymentRequest paymentRequest;
     final ResponseEntity<Transaction> response;
@@ -139,29 +115,22 @@ public class BankService {
     Boolean isPaid = paymentRequest.getStatus();
     if (Boolean.TRUE.equals(isPaid)) {
       logger.error("Payment Request with ID = {} already paid!", paymentRequestId);
-      response = ResponseEntity
-          .status(HttpStatus.BAD_REQUEST)
-          .body(null);
+      response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     } else {
       paymentRequest.setStatus(true);
-      final Transaction transaction = Transaction
-          .builder()
-          .paymentRequestId(paymentRequestId)
-          .amount(paymentRequest.getAmount())
-          .citizenId(paymentRequest.getCitizenId())
-          .build();
-      this.taxIntegrationService.payTax(
-          paymentRequest.getTaxId(),
-          transaction.getCreationDate()
-      );
+      final Transaction transaction =
+          Transaction.builder()
+              .paymentRequestId(paymentRequestId)
+              .amount(paymentRequest.getAmount())
+              .citizenId(paymentRequest.getCitizenId())
+              .build();
+      this.taxIntegrationService.payTax(paymentRequest.getTaxId(), transaction.getCreationDate());
       logging.addLog(
-          LogEntry
-              .builder()
+          LogEntry.builder()
               .service("bank")
               .created(new Date())
               .message(String.format("Tax paid for id = %d", paymentRequestId))
-              .build()
-      );
+              .build());
 
       this.transactionRepository.save(transaction);
       this.paymentRequestRepository.save(paymentRequest);
@@ -187,7 +156,6 @@ public class BankService {
    * @return список выставленных счетов
    */
   public List<PaymentRequest> getDebtPaymentRequests(final Long citizenId) {
-    return this.paymentRequestRepository
-        .findAllByCitizenIdAndStatus(citizenId, false);
+    return this.paymentRequestRepository.findAllByCitizenIdAndStatus(citizenId, false);
   }
 }

@@ -12,8 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class PropertyParentWeb extends ParentWeb {
   protected static final String PROPERTY_CONTROLLER_MAPPING =
       "http://localhost:8083/communal/property";
-  @MockBean
-  protected RegistrationService registrationService;
+  @MockBean protected RegistrationService registrationService;
 
   protected final CreationProperty createCreationProperty() {
     return CreationProperty.builder()
