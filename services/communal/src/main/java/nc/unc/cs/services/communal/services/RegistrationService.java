@@ -79,8 +79,7 @@ public class RegistrationService {
 
     this.registrationRepository.save(registration);
     logger.info(
-        "Registration has been added to the citizen with ID = {}",
-        registration.getCitizenId());
+        "Registration has been added to the citizen with ID = {}", registration.getCitizenId());
     response = ResponseEntity.ok(registration);
 
     return response;

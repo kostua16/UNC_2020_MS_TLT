@@ -1,12 +1,13 @@
 package nc.unc.cs.services.communal.controllers.mock.property.faulty;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import nc.unc.cs.services.communal.controllers.mock.property.PropertyParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class IncorrectRegionTest extends PropertyParentWeb {
 

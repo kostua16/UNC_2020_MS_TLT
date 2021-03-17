@@ -105,10 +105,7 @@ public class TaxService {
   }
 
   public List<Tax> getPage(
-      final Integer pageNumber,
-      final Integer size,
-      final Boolean status,
-      final String column) {
+      final Integer pageNumber, final Integer size, final Boolean status, final String column) {
     Pageable firstPageWithTwoElements = PageRequest.of(pageNumber, size, Sort.by(column));
 
     return this.taxRepository.findAllByStatus(status, firstPageWithTwoElements).getContent();

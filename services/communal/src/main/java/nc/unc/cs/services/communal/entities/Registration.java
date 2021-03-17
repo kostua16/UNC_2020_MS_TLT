@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -69,8 +68,7 @@ public class Registration {
       final String house,
       final String apartment,
       final Boolean isActive,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.registrationId = registrationId;
     this.region = region.trim().toUpperCase();
     this.city = city.trim().toUpperCase();

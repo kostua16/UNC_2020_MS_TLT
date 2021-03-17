@@ -56,8 +56,7 @@ public class PaymentRequest {
       final Long serviceId,
       final Integer amount,
       final Long citizenId,
-      final Long taxId
-  ) {
+      final Long taxId) {
     this.paymentRequestId = paymentRequestId;
     this.serviceId = serviceId;
     this.citizenId = citizenId;

@@ -52,8 +52,7 @@ public class UtilitiesPriceList {
       final String region,
       final Integer coldWaterPrice,
       final Integer hotWaterPrice,
-      final Integer electricityPrice
-  ) {
+      final Integer electricityPrice) {
     this.utilitiesPriceListId = utilitiesPriceListId;
     this.region = region.trim().toUpperCase();
     this.coldWaterPrice = coldWaterPrice;

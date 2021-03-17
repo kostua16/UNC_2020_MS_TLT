@@ -1,5 +1,9 @@
 package nc.unc.cs.services.communal.services.integrations.property_tax;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
@@ -20,9 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class CalculatePropertyTaxTest {
@@ -35,21 +36,15 @@ class CalculatePropertyTaxTest {
   /** Процентный делитель. */
   static final Double PERCENT_DIVISOR = PropertyTaxService.PERCENT_DIVISOR;
 
-  @Mock
-  private PropertyRepository propertyRepository;
-  @Mock
-  private PropertyTaxRepository propertyTaxRepository;
-  @Mock
-  private PropertyTaxValueRepository propertyTaxValueRepository;
-  @Mock
-  private BankIntegrationService bankIntegrationService;
+  @Mock private PropertyRepository propertyRepository;
+  @Mock private PropertyTaxRepository propertyTaxRepository;
+  @Mock private PropertyTaxValueRepository propertyTaxValueRepository;
+  @Mock private BankIntegrationService bankIntegrationService;
 
-  @InjectMocks
-  private PropertyTaxService propertyTaxService;
+  @InjectMocks private PropertyTaxService propertyTaxService;
 
   private Property getProperty() {
-    return Property
-        .builder()
+    return Property.builder()
         .propertyId(1L)
         .region(" samara ")
         .city("samara")
@@ -62,8 +57,7 @@ class CalculatePropertyTaxTest {
   }
 
   PropertyTaxValue getPropertyTaxValue() {
-    return PropertyTaxValue
-        .builder()
+    return PropertyTaxValue.builder()
         .propertyTaxValueId(1L)
         .region(" samara ")
         .pricePerSquareMeter(10000)
@@ -81,13 +75,15 @@ class CalculatePropertyTaxTest {
     given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion()))
         .willReturn(propertyTaxValue);
 
-    final Integer amount = this.propertyTaxService.calculatePropertyTaxAmount(
-        Double.valueOf(property.getApartmentSize()),
-        Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-        Double.valueOf(propertyTaxValue.getCadastralValue()));
+    final Integer amount =
+        this.propertyTaxService.calculatePropertyTaxAmount(
+            Double.valueOf(property.getApartmentSize()),
+            Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+            Double.valueOf(propertyTaxValue.getCadastralValue()));
 
-    given(this.bankIntegrationService.bankRequest(
-        SERVICE_ID, property.getCitizenId(), amount, TAX_PERCENT))
+    given(
+            this.bankIntegrationService.bankRequest(
+                SERVICE_ID, property.getCitizenId(), amount, TAX_PERCENT))
         .willReturn(15L);
 
     given(this.propertyTaxRepository.save(any()))
@@ -107,12 +103,10 @@ class CalculatePropertyTaxTest {
 
   @Test
   void propertyNotFoundCalculateTest() {
-    given(this.propertyRepository.findPropertyByPropertyId(anyLong()))
-        .willReturn(null);
+    given(this.propertyRepository.findPropertyByPropertyId(anyLong())).willReturn(null);
     Assertions.assertThrows(
         PropertyNotFoundException.class,
-        () -> this.propertyTaxService.calculatePropertyTax(anyLong())
-    );
+        () -> this.propertyTaxService.calculatePropertyTax(anyLong()));
   }
 
   @Test
@@ -126,7 +120,6 @@ class CalculatePropertyTaxTest {
 
     Assertions.assertThrows(
         PropertyTaxValueNotFoundException.class,
-        () -> this.propertyTaxService.calculatePropertyTax(property.getPropertyId())
-    );
+        () -> this.propertyTaxService.calculatePropertyTax(property.getPropertyId()));
   }
 }

@@ -14,6 +14,5 @@ public interface UtilityBillRepository extends JpaRepository<UtilityBill, Long> 
 
   List<UtilityBill> findUtilityBillsByCitizenIdAndIsPaid(Long citizenId, Boolean isPaid);
 
-  List<UtilityBill> findUtilityBillsByCitizenIdAndDateBetween(
-      Long citizenId, Date start, Date end);
+  List<UtilityBill> findUtilityBillsByCitizenIdAndDateBetween(Long citizenId, Date start, Date end);
 }

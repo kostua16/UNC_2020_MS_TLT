@@ -1,16 +1,17 @@
 package nc.unc.cs.services.communal.controllers.mock.registration.correct;
 
-import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
-import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
-import nc.unc.cs.services.communal.entities.Registration;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
+import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
+import nc.unc.cs.services.communal.entities.Registration;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 
 class AddRegistrationWebTest extends RegistrationParentWeb {
 
@@ -30,10 +31,6 @@ class AddRegistrationWebTest extends RegistrationParentWeb {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(
-            content()
-                .string(
-                    containsString(
-                        this.objectMapper.writeValueAsString(
-                            registration))));
+            content().string(containsString(this.objectMapper.writeValueAsString(registration))));
   }
 }

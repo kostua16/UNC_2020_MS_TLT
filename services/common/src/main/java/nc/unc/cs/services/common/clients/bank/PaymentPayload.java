@@ -2,7 +2,6 @@ package nc.unc.cs.services.common.clients.bank;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

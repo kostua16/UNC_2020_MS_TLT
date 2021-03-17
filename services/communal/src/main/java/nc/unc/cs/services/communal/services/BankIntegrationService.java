@@ -10,14 +10,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BankIntegrationService {
-  /**
-   * Лоррер.
-   */
+  /** Лоррер. */
   private static Logger logger = LoggerFactory.getLogger(BankIntegrationService.class);
 
-  /**
-   * Банковский сервис.
-   */
+  /** Банковский сервис. */
   private final BankService bankService;
 
   /**
@@ -35,8 +31,8 @@ public class BankIntegrationService {
    *
    * @param serviceId идентификатор услуги
    * @param citizenId идентификатор гражданина
-   * @param amount    сумма к оплате
-   * @param percent   процент налога от стоимости услуги
+   * @param amount сумма к оплате
+   * @param percent процент налога от стоимости услуги
    * @return идентификатор сформированного счёта
    * @throws FeignException если не удасться обратиться к Банковскому сервису
    */

@@ -1,12 +1,11 @@
 package nc.unc.cs.services.common.services;
 
 import feign.okhttp.OkHttpClient;
+import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class HttpClientConfiguration {

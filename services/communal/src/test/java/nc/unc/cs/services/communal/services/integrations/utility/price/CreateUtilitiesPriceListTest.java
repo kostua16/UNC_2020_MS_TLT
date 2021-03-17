@@ -1,5 +1,7 @@
 package nc.unc.cs.services.communal.services.integrations.utility.price;
 
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.repositories.UtilitiesPriceListRepository;
@@ -12,19 +14,15 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class CreateUtilitiesPriceListTest {
 
-  @Mock
-  private UtilitiesPriceListRepository utilitiesPriceListRepository;
-  @InjectMocks
-  private CommunalService communalService;
+  @Mock private UtilitiesPriceListRepository utilitiesPriceListRepository;
+  @InjectMocks private CommunalService communalService;
 
   private CreationUtilitiesPriceList createCreationUtilitiesPriceList() {
-    return CreationUtilitiesPriceList
-        .builder()
+    return CreationUtilitiesPriceList.builder()
         .region("samara")
         .coldWaterPrice(5)
         .hotWaterPrice(20)
@@ -33,10 +31,8 @@ class CreateUtilitiesPriceListTest {
   }
 
   private UtilitiesPriceList createUtilitiesPriceList() {
-    final CreationUtilitiesPriceList newPriceList =
-        this.createCreationUtilitiesPriceList();
-    return UtilitiesPriceList
-        .builder()
+    final CreationUtilitiesPriceList newPriceList = this.createCreationUtilitiesPriceList();
+    return UtilitiesPriceList.builder()
         .region(newPriceList.getRegion())
         .coldWaterPrice(newPriceList.getColdWaterPrice())
         .hotWaterPrice(newPriceList.getHotWaterPrice())
@@ -49,7 +45,9 @@ class CreateUtilitiesPriceListTest {
     final CreationUtilitiesPriceList newPriceList = this.createCreationUtilitiesPriceList();
     final UtilitiesPriceList utilitiesPriceList = this.createUtilitiesPriceList();
 
-    given(this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(newPriceList.getRegion()))
+    given(
+            this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(
+                newPriceList.getRegion()))
         .willReturn(null);
     given(this.utilitiesPriceListRepository.save(utilitiesPriceList))
         .willReturn(utilitiesPriceList);
@@ -59,12 +57,12 @@ class CreateUtilitiesPriceListTest {
 
     Assertions.assertAll(
         () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        () -> Assertions.assertEquals(utilitiesPriceList.getRegion(), response.getBody().getRegion()),
-        () -> Assertions.assertEquals(
-            utilitiesPriceList.getElectricityPrice(),
-            response.getBody().getElectricityPrice()
-        )
-    );
+        () ->
+            Assertions.assertEquals(utilitiesPriceList.getRegion(), response.getBody().getRegion()),
+        () ->
+            Assertions.assertEquals(
+                utilitiesPriceList.getElectricityPrice(),
+                response.getBody().getElectricityPrice()));
   }
 
   @Test
@@ -77,7 +75,9 @@ class CreateUtilitiesPriceListTest {
     lastPriceList.setElectricityPrice(6);
     final Integer electricityPrice = lastPriceList.getElectricityPrice();
 
-    given(this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(newPriceList.getRegion()))
+    given(
+            this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(
+                newPriceList.getRegion()))
         .willReturn(lastPriceList);
     given(this.utilitiesPriceListRepository.save(utilitiesPriceList))
         .willReturn(utilitiesPriceList);
@@ -87,12 +87,9 @@ class CreateUtilitiesPriceListTest {
 
     Assertions.assertAll(
         () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
-        () -> Assertions.assertEquals(utilitiesPriceList.getRegion(), response.getBody().getRegion()),
-        () -> Assertions.assertNotEquals(
-            electricityPrice,
-            response.getBody().getElectricityPrice()
-        )
-    );
+        () ->
+            Assertions.assertEquals(utilitiesPriceList.getRegion(), response.getBody().getRegion()),
+        () ->
+            Assertions.assertNotEquals(electricityPrice, response.getBody().getElectricityPrice()));
   }
-
 }

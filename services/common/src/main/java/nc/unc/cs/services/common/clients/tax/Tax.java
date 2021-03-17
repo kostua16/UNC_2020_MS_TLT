@@ -27,8 +27,7 @@ public class Tax {
   @Min(1)
   private Integer taxAmount;
 
-  @NotNull
-  private Boolean status;
+  @NotNull private Boolean status;
 
   @NotNull
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
