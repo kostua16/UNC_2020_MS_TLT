@@ -200,12 +200,24 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Зависимость для модуля для написания тестов	-->
+<!--    &lt;!&ndash; Зависимость для модуля для написания тестов	&ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>net.minidev</groupId>-->
+<!--      <artifactId>json-smart</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+<!--    <dependency>-->
+<!--      <groupId>net.minidev</groupId>-->
+<!--      <artifactId>accessors-smart</artifactId>-->
+<!--      <version>1.2</version>-->
+<!--    </dependency>-->
+
     <dependency>
-      <groupId>net.minidev</groupId>
-      <artifactId>json-smart</artifactId>
-      <scope>test</scope>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-mockmvc -->
     <dependency>
