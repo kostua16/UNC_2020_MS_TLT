@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class PassportApp {
-    public static void main(String[] args) {
-        SpringApplication.run(PassportApp.class);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(PassportApp.class);
+  }
 }
