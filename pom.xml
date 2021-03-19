@@ -53,6 +53,7 @@
     <module>services</module>
     <module>discovery</module>
     <module>config</module>
+    <module>client-ui</module>
   </modules>
 
   <!-- общие зависимости для всех модулей	-->
