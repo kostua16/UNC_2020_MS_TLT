@@ -207,6 +207,7 @@
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
+    <!-- в ветке develop не использовалось -->
 <!--    <dependency>-->
 <!--      <groupId>net.minidev</groupId>-->
 <!--      <artifactId>accessors-smart</artifactId>-->
@@ -216,6 +217,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
     </dependency>
 
 
@@ -344,7 +351,7 @@
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
-          <argLine>@{spring.runner.args} @{argLine}</argLine>
+          <argLine>${spring.runner.args} ${argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
