@@ -1,19 +1,16 @@
-package nc.unc.cs.services.passport.model;
+package nc.unc.cs.services.passport.controller.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Entity
-@Data
-@NoArgsConstructor
-public class International {
+
+public class InternationalDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long internationalId;
@@ -44,14 +41,14 @@ public class International {
     @Column(nullable = false)
     private Long citizenId;
 
-    public International(
-      final Long internationalId,
-      final Boolean locked,
-      final String name,
-      final String surname,
-      final Date dateOfBirth,
-      final Boolean isActive,
-      final Long citizenId
+    public InternationalDTO(
+        final Long internationalId,
+        final Boolean locked,
+        final String name,
+        final String surname,
+        final Date dateOfBirth,
+        final Boolean isActive,
+        final Long citizenId
     ) {
       this.internationalId = internationalId;
       this.locked = locked;
@@ -62,12 +59,13 @@ public class International {
       this.citizenId = citizenId;
     }
 
-  public void setName(final String name) {
-    this.name = name.trim().toUpperCase();
-  }
 
-  public void setSurname(final String surname) {
-    this.surname = surname.trim().toUpperCase();
-  }
+    public void setName(final String name) {
+      this.name = name.trim().toUpperCase();
+    }
+
+    public void setSurname(final String surname) {
+      this.surname = surname.trim().toUpperCase();
+    }
 
 }
