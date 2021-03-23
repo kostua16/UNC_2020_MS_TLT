@@ -18,7 +18,8 @@
                 <v-btn @click="createPropertyTax">Создать налог</v-btn>
               </td>
               <td>
-                <v-btn @click="createUtilityBill">Создать квитанцию</v-btn>
+<!--                <v-btn @click="createUtilityBill">Создать квитанцию</v-btn>-->
+                <utilities-popup :sendUtilities="sendUtilities"/>
               </td>
             </tr>
             </thead>
@@ -33,6 +34,7 @@
 import UtilitiesPayload from "@/models/communal/requests/utilities-payload";
 import PropertyTaxService from "@/services/communal/property-tax-service";
 import UtilityBillService from "@/services/communal/utility-bill-service";
+import UtilitiesPopup from "@/components/communal/popup/UtilitiesPopup";
 
 const ERROR_MESSAGE = 'Error! Try later.';
 const PROPERTY_TAX_SUC_MESSAGE = 'Property Tax has been created.';
@@ -40,15 +42,14 @@ const UTILITY_BILL_SUC_MESSAGE = 'Utility bill has been created.';
 
 export default {
   name: "UserPropertyItem",
+  components: {UtilitiesPopup},
   props: [
     'property'
   ],
   data() {
     return {
-      dialog: false, // для всплывающего окна
       message: '',
       status: 0,
-      utilitiesPayload: new UtilitiesPayload
     }
   },
 
@@ -63,8 +64,10 @@ export default {
             }
           })
     },
-    createUtilityBill() { // сделать всплывающее окно с вводом информации со счётчиков
-      UtilityBillService.createPropertyTax(this.utilitiesPayload)
+    sendUtilities(utilitiesPayload) {
+      utilitiesPayload.propertyId = this.property.propertyId;
+      console.log(utilitiesPayload);
+      UtilityBillService.createPropertyTax(utilitiesPayload)
           .then(response => {
             if (response.status === 200) {
               this.message = UTILITY_BILL_SUC_MESSAGE;

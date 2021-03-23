@@ -15,6 +15,14 @@ class UtilityBillService {
                 },
                 {}
             )
+            .then(response => {
+                console.log("Utility bill has been created.")
+                return response;
+            })
+            .catch(error => {
+                console.error("Error! Utility bill was not created! \n", error)
+                return error;
+            })
     }
 }
 
