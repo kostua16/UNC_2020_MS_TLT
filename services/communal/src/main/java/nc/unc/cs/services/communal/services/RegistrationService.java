@@ -30,9 +30,9 @@ public class RegistrationService {
 
     @Autowired
     public RegistrationService(
-            final PropertyRepository propertyRepository,
-            final RegistrationRepository registrationRepository,
-            final BankIntegrationService bankIntegrationService) {
+        final PropertyRepository propertyRepository,
+        final RegistrationRepository registrationRepository,
+        final BankIntegrationService bankIntegrationService) {
         this.propertyRepository = propertyRepository;
         this.registrationRepository = registrationRepository;
         this.bankIntegrationService = bankIntegrationService;
@@ -55,23 +55,23 @@ public class RegistrationService {
      * @return http-ответ, в теле которого находится данные о прописке
      */
     public ResponseEntity<Registration> addRegistration(
-            final CreationRegistration creationRegistration) {
+        final CreationRegistration creationRegistration) {
         final ResponseEntity<Registration> response;
         final Registration registration =
-                Registration.builder()
-                        .region(creationRegistration.getRegion())
-                        .city(creationRegistration.getCity())
-                        .street(creationRegistration.getStreet())
-                        .house(creationRegistration.getHouse())
-                        .apartment(creationRegistration.getApartment())
-                        .isActive(true)
-                        .citizenId(creationRegistration.getCitizenId())
-                        .build();
+            Registration.builder()
+                .region(creationRegistration.getRegion())
+                .city(creationRegistration.getCity())
+                .street(creationRegistration.getStreet())
+                .house(creationRegistration.getHouse())
+                .apartment(creationRegistration.getApartment())
+                .isActive(true)
+                .citizenId(creationRegistration.getCitizenId())
+                .build();
         final Registration lastRegistration =
-                this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
+            this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
 
         this.bankIntegrationService.bankRequest(
-                SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+            SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
         if (lastRegistration != null) {
             lastRegistration.setIsActive(false);
             this.registrationRepository.save(lastRegistration);
@@ -79,8 +79,8 @@ public class RegistrationService {
 
         this.registrationRepository.save(registration);
         logger.info(
-                "Registration has been added to the citizen with ID = {}",
-                registration.getCitizenId());
+            "Registration has been added to the citizen with ID = {}",
+            registration.getCitizenId());
         response = ResponseEntity.ok(registration);
 
         return response;
@@ -114,11 +114,11 @@ public class RegistrationService {
      */
     public Property getPropertyByAddress(final CreationProperty property) {
         return this.propertyRepository.findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
-                property.getRegion(),
-                property.getCity(),
-                property.getStreet(),
-                property.getHouse(),
-                property.getApartment());
+            property.getRegion(),
+            property.getCity(),
+            property.getStreet(),
+            property.getHouse(),
+            property.getApartment());
     }
 
     /**
@@ -134,15 +134,15 @@ public class RegistrationService {
 
         if (lastProperty == null) {
             property =
-                    Property.builder()
-                            .region(newProperty.getRegion())
-                            .city(newProperty.getCity())
-                            .street(newProperty.getStreet())
-                            .house(newProperty.getHouse())
-                            .apartment(newProperty.getApartment())
-                            .apartmentSize(newProperty.getApartmentSize())
-                            .citizenId(newProperty.getCitizenId())
-                            .build();
+                Property.builder()
+                    .region(newProperty.getRegion())
+                    .city(newProperty.getCity())
+                    .street(newProperty.getStreet())
+                    .house(newProperty.getHouse())
+                    .apartment(newProperty.getApartment())
+                    .apartmentSize(newProperty.getApartmentSize())
+                    .citizenId(newProperty.getCitizenId())
+                    .build();
             logger.info("New property added");
         } else {
             lastProperty.setCitizenId(newProperty.getCitizenId());
@@ -150,7 +150,7 @@ public class RegistrationService {
             logger.info("Property owner updated");
         }
         this.bankIntegrationService.bankRequest(
-                SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+            SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT);
         this.propertyRepository.save(property);
         logger.info("Added property for user with ID = {}", property.getCitizenId());
         response = ResponseEntity.ok(property);
@@ -166,5 +166,14 @@ public class RegistrationService {
      */
     public List<Property> getPropertiesByCitizenId(final Long citizenId) {
         return this.propertyRepository.findPropertyByCitizenId(citizenId);
+    }
+
+    /**
+     * Возвращает список со всей недвижимостью из БД.
+     *
+     * @return список недвижимости
+     */
+    public List<Property> getAllProperties() {
+        return this.propertyRepository.findAll();
     }
 }
