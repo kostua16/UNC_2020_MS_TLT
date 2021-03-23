@@ -348,7 +348,7 @@
           <reportFormat>plain</reportFormat>
           <forkCount>1C</forkCount>
           <includes>
-            <include>**/*Test*.java</include>
+            <include>**services/*/services/*/**/*Test*.java</include>
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
