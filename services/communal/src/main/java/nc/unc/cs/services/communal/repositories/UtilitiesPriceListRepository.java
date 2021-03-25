@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UtilitiesPriceListRepository extends JpaRepository<UtilitiesPriceList, Long> {
 
     UtilitiesPriceList findUtilitiesPriceListByUtilitiesPriceListId(Long expenseCostId);
+
     UtilitiesPriceList findUtilitiesPriceListByRegion(String region);
 }

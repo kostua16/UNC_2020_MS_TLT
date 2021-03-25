@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("communal/property")
-@Api(value = "Property API")
+@Tag(name = "Property Api")
 public class PropertyController {
 
   private final RegistrationService registrationService;

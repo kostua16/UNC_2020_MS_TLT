@@ -1,6 +1,6 @@
 package nc.unc.cs.services.communal.controllers;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.UtilitiesPayload;
 import nc.unc.cs.services.communal.entities.UtilityBill;
@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "communal/utilities")
-@Api(value = "API for creating utility bill")
+@Tag(name = "Utility Bill Api", description = "API for creating utility bill")
 public class UtilityBillController {
+
   private final CommunalService communalService;
 
   @Autowired

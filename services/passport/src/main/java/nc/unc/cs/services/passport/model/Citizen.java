@@ -11,5 +11,4 @@ public class Citizen {
     private Date dateOfBirth;
     private String registration;
     private Long citizenId;
-
 }

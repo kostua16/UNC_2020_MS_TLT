@@ -12,9 +12,7 @@ public class HttpClientConfiguration {
 
     @Bean
     public okhttp3.OkHttpClient okHttpClient() {
-        return new Builder()
-                   .connectTimeout(2, TimeUnit.SECONDS)
-                   .build();
+        return new Builder().connectTimeout(2, TimeUnit.SECONDS).build();
     }
 
     @Bean

@@ -1,14 +1,26 @@
 version = 1
 
-test_patterns = ["test/**"]
+test_patterns = [
+  "test/**",
+  "**/test/**/*.java"
+]
+
+exclude_patterns = [
+  "*.pom",
+  "**/*.pom",
+  "*.js",
+  "**/*.js",
+  "*.xml",
+  "**/*.xml"
+]
 
 [[analyzers]]
 name = "java"
-enabled = true
+enabled = false
 
 [analyzers.meta]
 runtime_version = "8"
 
 [[transformers]]
 name = "prettier"
-enabled = true
+enabled = false

@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,17 +32,18 @@ public class LogsService {
 
     @GetMapping(path = "/", produces = "application/json")
     public List<LogEntry> viewLastLogs() {
-        return this.repository.findAll(
-            PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id"))
-        ).getContent();
+        return this.repository
+                .findAll(PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
+                .getContent();
     }
 
     @GetMapping(path = "/{service}", produces = "application/json")
     public List<LogEntry> viewLogs(@PathVariable final String service) {
-        return this.repository.findLogEntriesByService(
-            service,
-            PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id"))
-        ).getContent();
+        return this.repository
+                .findLogEntriesByService(
+                        service,
+                        PageRequest.of(0, 15, Sort.by(Sort.Direction.DESC, "created", "id")))
+                .getContent();
     }
 
     @PostMapping(value = "/", produces = "application/json", consumes = "application/json")

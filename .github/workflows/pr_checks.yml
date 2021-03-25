@@ -1,15 +1,9 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Build project
+name: PR Checks
 
 on:
-  push:
-    # branches to consider in the event; optional, defaults to all
-    branches:
-      - develop
-      - master
-      - support
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action, but one can default to all as well
@@ -17,6 +11,7 @@ on:
 
 jobs:
   Build:
+    name: Build project
     runs-on: ubuntu-latest
     steps:
       ##########################
@@ -133,3 +128,81 @@ jobs:
           script: |
             const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_success.js`)
             await script({github, context})
+      ##############################################
+      # Publish documentation  #
+      ##############################################
+      - name: Publish Javadocs
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ success() }}
+        with:
+          personal_token: ${{ secrets.GH_TKN }}
+          publish_dir: ./documentation
+          enable_jekyll: true
+          commit_message: Updated docs for - ${{ github.event.head_commit.message }}
+
+  COMMIT_LINT:
+    name: Lint Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v2
+
+####### The alternative for restyled.io (if not used) ########
+#  Google_Format:
+#    name: Google-Format
+#    runs-on: ubuntu-latest
+#    steps:
+#      ##########################
+#      # Checkout the code base #
+#      ##########################
+#      - uses: actions/checkout@v2 # v2 minimum required
+#      ###############
+#      # Install JDK #
+#      ###############
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11
+#      ###############
+#      # Format code #
+#      ###############
+#      - uses: axel-op/googlejavaformat-action@v3.4.0
+#        with:
+#          args: "--skip-sorting-imports --replace --set-exit-if-changed"
+#          githubToken: ${{ secrets.GH_TKN }}
+#          version: 1.9
+#          skipCommit: true
+#      #######################
+#      # Create pull request #
+#      #######################
+#      - id: cpr
+#        if: ${{ failure() }}
+#        name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v3.4.0
+#        with:
+#          branch: "fix/gf-${{github.event.number}}"
+#          base: ${{ github.head_ref }}
+#          title: "Auto-fix by Google-format for PR: ${{github.event.number}}"
+#          commit-message: "Auto-fixed by Google-format"
+#      ##################################
+#      # Create comments for created PR #
+#      ##################################
+#      - name: Create comment for PR
+#        if: ${{ failure() }}
+#        uses: peter-evans/create-or-update-comment@v1.4.4
+#        with:
+#          issue-number: ${{github.event.number}}
+#          body: |
+#            Depends on #${{steps.cpr.outputs.pull-request-number}} due to fixes made by 'Google-format'
+#          reactions: '+1'
+
+  update_release_draft:
+    name: Release Drafter
+    runs-on: ubuntu-latest
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5.12.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TKN }}
