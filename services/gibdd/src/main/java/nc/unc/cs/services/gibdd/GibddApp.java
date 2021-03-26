@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class GibddApp {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GibddApp.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(GibddApp.class, args);
+  }
 }
