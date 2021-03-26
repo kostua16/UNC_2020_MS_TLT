@@ -7,15 +7,15 @@ import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("communal/property")
 @Tag(name = "Property Api")
 public class PropertyController {
@@ -33,7 +33,7 @@ public class PropertyController {
     return this.registrationService.addCitizensProperty(newProperty);
   }
 
-  @GetMapping(value = "property/citizen/{citizenId}", produces = "application/json")
+  @GetMapping(value = "citizen/{citizenId}", produces = "application/json")
   public List<Property> getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getPropertiesByCitizenId(citizenId);
   }

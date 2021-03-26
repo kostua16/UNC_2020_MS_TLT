@@ -15,48 +15,65 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder(toBuilder = true)
 public class PropertyTax {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long propertyTaxId;
 
-    @NotNull(message = "Incorrect tax amount")
-    @Min(1)
-    @Column(updatable = false, nullable = false)
-    private Integer taxAmount;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long propertyTaxId;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean isPaid;
+  @NotNull(message = "Incorrect tax amount")
+  @Min(1)
+  @Column(updatable = false, nullable = false)
+  private Integer taxAmount;
 
-    @NotNull
-    @Column(updatable = false, nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
+  @NotNull
+  @Column(nullable = false)
+  private Boolean isPaid;
 
-    @NotNull(message = "Incorrect property ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long propertyId;
+  @NotNull
+  @Column(updatable = false, nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  private Date date;
 
-    @NotNull(message = "Incorrect payment request ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long paymentRequestId;
+  @NotNull(message = "Incorrect property ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long propertyId;
 
-    @NotNull(message = "Incorrect citizen ID")
-    @Min(1L)
-    @Column(updatable = false, nullable = false)
-    private Long citizenId;
+  @NotNull(message = "Incorrect payment request ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long paymentRequestId;
+
+  @NotNull(message = "Incorrect citizen ID")
+  @Min(1L)
+  @Column(updatable = false, nullable = false)
+  private Long citizenId;
+
+  @Builder
+  public PropertyTax(
+      final Integer taxAmount,
+      final Long propertyId,
+      final Long paymentRequestId,
+      final Long citizenId) {
+    this.taxAmount = taxAmount;
+    this.isPaid = false;
+    this.date = new Date();
+    this.propertyId = propertyId;
+    this.paymentRequestId = paymentRequestId;
+    this.citizenId = citizenId;
+  }
+
+  public PropertyTax() {
+    this.isPaid = false;
+    this.date = new Date();
+  }
 }
