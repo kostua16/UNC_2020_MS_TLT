@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class TaxApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(TaxApplication.class);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(TaxApplication.class);
+  }
 }
