@@ -23,14 +23,17 @@ nc.unc.cs.services.communal.exceptions
 nc.unc.cs.services.communal.repositories
 nc.unc.cs.services.communal.services
 nc.unc.cs.services.gibdd
+nc.unc.cs.services.gibdd.confogurations
 nc.unc.cs.services.gibdd.entities
 nc.unc.cs.services.gibdd.repositories
 nc.unc.cs.services.gibdd.services
 nc.unc.cs.services.logging
+nc.unc.cs.services.logging.confogurations
 nc.unc.cs.services.logging.entities
 nc.unc.cs.services.logging.repositories
 nc.unc.cs.services.logging.services
 nc.unc.cs.services.passport
+nc.unc.cs.services.passport.confogurations
 nc.unc.cs.services.passport.controller
 nc.unc.cs.services.passport.exceptions
 nc.unc.cs.services.passport.model
