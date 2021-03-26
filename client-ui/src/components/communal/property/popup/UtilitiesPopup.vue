@@ -1,3 +1,6 @@
+<!-- Компонент ввода показаний счётчиков для определённой недвижимости -->
+<!-- Принимает метод отправления показаний на сервер (Всплывающая форма) -->
+
 <template>
   <v-row justify="center">
     <v-dialog
@@ -45,7 +48,7 @@
           <v-btn
               color="green darken-1"
               text
-              @click="send"
+              @click="sendUtilities"
           >
             Отправить
           </v-btn>
@@ -64,21 +67,27 @@
 
 <script>
 import UtilitiesPayload from '@/models/communal/requests/utilities-payload'
+import UtilityBillService from "@/services/communal/utility-bill-service";
 
 export default {
   name: "UtilitiesPopup",
-  props: ['sendUtilities'],
+  props: ['sendUtilitiesStatus', 'propertyId'],
   data() {
     return {
       dialog: false,
-      utilitiesPayload: new UtilitiesPayload(0, 0, 0, 0),
+      utilitiesPayload: new UtilitiesPayload,
     }
   },
   methods: {
-    send() {
+    sendUtilities() {
       this.dialog = false;
-      this.sendUtilities(this.utilitiesPayload);
-    }
+      this.utilitiesPayload.propertyId = this.propertyId;
+      console.log(this.utilitiesPayload);
+      UtilityBillService.createPropertyTax(this.utilitiesPayload)
+          .then(response => {
+            this.sendUtilitiesStatus(response.status);
+          })
+    },
   }
 }
 </script>

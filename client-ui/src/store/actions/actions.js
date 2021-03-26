@@ -7,7 +7,7 @@ export default {
     GET_PROPERTIES_FROM_API({commit}, citizenId) {
         return axios
             .get(
-                PROPERTY_API_URL + 'citizen/' + citizenId,
+                PROPERTY_API_URL + '/citizen/' + citizenId,
                 {},
             )
             .then((properties) => {

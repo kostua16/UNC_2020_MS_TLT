@@ -18,8 +18,10 @@
                 <v-btn @click="createPropertyTax">Создать налог</v-btn>
               </td>
               <td>
-<!--                <v-btn @click="createUtilityBill">Создать квитанцию</v-btn>-->
-                <utilities-popup :sendUtilities="sendUtilities"/>
+                <utilities-popup
+                    :sendUtilitiesStatus="sendUtilitiesStatus"
+                    :propertyId="property.propertyId"
+                />
               </td>
             </tr>
             </thead>
@@ -31,10 +33,8 @@
 </template>
 
 <script>
-import UtilitiesPayload from "@/models/communal/requests/utilities-payload";
 import PropertyTaxService from "@/services/communal/property-tax-service";
-import UtilityBillService from "@/services/communal/utility-bill-service";
-import UtilitiesPopup from "@/components/communal/popup/UtilitiesPopup";
+import UtilitiesPopup from "@/components/communal/property/popup/UtilitiesPopup";
 
 const ERROR_MESSAGE = 'Error! Try later.';
 const PROPERTY_TAX_SUC_MESSAGE = 'Property Tax has been created.';
@@ -54,6 +54,9 @@ export default {
   },
 
   methods: {
+    /**
+     * Вывод сообщени/статуса о проведении операции по созданию имущественного налога.
+     */
     createPropertyTax() {
       PropertyTaxService.createPropertyTax(this.property.propertyId)
           .then(response => {
@@ -64,17 +67,17 @@ export default {
             }
           })
     },
-    sendUtilities(utilitiesPayload) {
-      utilitiesPayload.propertyId = this.property.propertyId;
-      console.log(utilitiesPayload);
-      UtilityBillService.createPropertyTax(utilitiesPayload)
-          .then(response => {
-            if (response.status === 200) {
-              this.message = UTILITY_BILL_SUC_MESSAGE;
-            } else {
-              this.message = ERROR_MESSAGE;
-            }
-          })
+    /**
+     * Вывод сообщени/статуса о проведённой операции по созданию квитанции о затраченных коммунальных услугах.
+     *
+     * @param status статус ответа от бэкенда
+     */
+    sendUtilitiesStatus(status) {
+      if (status === 200) {
+        this.message = UTILITY_BILL_SUC_MESSAGE;
+      } else {
+        this.message = ERROR_MESSAGE;
+      }
     },
   },
   watch() { // отслеживать message, в случае изменения выводить небольшое цветное (злёное/красное) уведомление
