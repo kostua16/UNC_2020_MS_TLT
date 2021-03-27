@@ -1,10 +1,8 @@
 package nc.unc.cs.services.communal.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationUtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
@@ -19,48 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "communal/utilities/price-list")
-@Api(value = "Utilities Price List API")
+@Tag(name = "Utilities Price List API")
 public class UtilitiesPriceListController {
 
-    private final CommunalService communalService;
+  private final CommunalService communalService;
 
-    public UtilitiesPriceListController(final CommunalService communalService) {
-        this.communalService = communalService;
-    }
+  public UtilitiesPriceListController(final CommunalService communalService) {
+    this.communalService = communalService;
+  }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    @ApiOperation(
-            httpMethod = "POST",
-            value = "Creating and adding price lists",
-            notes =
-                    "Creation and addition of price lists for calculating the amount of spent"
-                            + " utilities.",
-            nickname = "addUtilitiesPriceList")
-    @ApiResponses({
-        @ApiResponse(
-                code = 400,
-                message = "UtilitiesPriceList with ID = null",
-                response = UtilitiesPriceList.class)
-    })
-    @ApiImplicitParam(
-            name = "utilitiesPriceList",
-            value = "Data for registration of the price list",
-            required = true,
-            type = "UtilitiesPriceList",
-            dataType = "UtilitiesPriceList",
-            dataTypeClass = UtilitiesPriceList.class,
-            paramType = "body")
-    public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
-            @Validated @RequestBody final CreationUtilitiesPriceList newUtilitiesPriceList) {
-        return this.communalService.addUtilitiesPriceList(newUtilitiesPriceList);
-    }
+  @PostMapping(consumes = "application/json", produces = "application/json")
+  @Operation(
+      summary = "addUtilitiesPriceList",
+      description =
+          "Creation and addition of price lists for calculating the amount of spent utilities.",
+      method = "POST")
+  @ApiResponse(responseCode = "400", description = "UtilitiesPriceList with ID = null")
+  public ResponseEntity<UtilitiesPriceList> addUtilitiesPriceList(
+      @Validated
+          @RequestBody
+          @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              required = true,
+              description = "Data for registration of the price list")
+          final CreationUtilitiesPriceList newUtilitiesPriceList) {
+    return this.communalService.addUtilitiesPriceList(newUtilitiesPriceList);
+  }
 
-    @GetMapping(produces = "application/json")
-    @ApiOperation(
-            httpMethod = "GET",
-            value = "List of UtilitiesPriceList",
-            nickname = "getAllUtilitiesPriceList")
-    public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
-        return this.communalService.getAllUtilitiesPriceList();
-    }
+  @GetMapping(produces = "application/json")
+  @Operation(
+      summary = "getAllUtilitiesPriceList",
+      description = "List of UtilitiesPriceList",
+      method = "GET")
+  public List<UtilitiesPriceList> getAllUtilitiesPriceList() {
+    return this.communalService.getAllUtilitiesPriceList();
+  }
 }

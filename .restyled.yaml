@@ -19,7 +19,7 @@ statuses:
 request_review: author
 restylers_version: stable
 restylers:
-  - "clang-format"
+#  - "clang-format"
   - "google-java-format"
   - "prettier-json"
   - "prettier-markdown"

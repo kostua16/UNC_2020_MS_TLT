@@ -1,0 +1,17 @@
+== Project documentation
+
+[[categories]]
+=== Services
+
+|===
+| Service | Link | Details
+
+| GIBDD Service
+| link:/{root}/gibdd.html[Gibdd]
+| Sample service to manipulate cars informantion
+|===
+
+[[commons]]
+=== Common links
+* link:/{jdocs}/[javadoc]
+* https://drive.google.com/file/d/1TWNZE-uM_BkHLkCsursHb-hK7jyvmy8D/view?usp=sharing[Google Drive]

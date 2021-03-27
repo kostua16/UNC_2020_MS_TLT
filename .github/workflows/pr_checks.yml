@@ -69,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TKN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -T 2C -B clean install javadoc:aggregate -Psonar --file pom.xml
+        run: mvn -T 2C -B clean install -Psonar --file pom.xml
       #########################################
       # Compute and save tests coverage data #
       #########################################
@@ -128,6 +128,9 @@ jobs:
           script: |
             const script = require(`${process.env.GITHUB_WORKSPACE}/.github/if_build_success.js`)
             await script({github, context})
+      ##############################################
+      # Publish documentation  #
+      ##############################################
       - name: Publish Javadocs
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ success() }}
