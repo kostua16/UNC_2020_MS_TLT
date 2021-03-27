@@ -13,7 +13,8 @@ export default new Vuex.Store({
         allProperties: [],
         propertyTaxValue: [],
         utilityBill: [],
-        utilityBillPriceList: []
+        utilityBillPriceList: [],
+        paymentRequests: [],
     },
     mutations,
     actions,
