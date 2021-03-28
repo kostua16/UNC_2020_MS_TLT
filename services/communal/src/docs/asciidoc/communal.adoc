@@ -7,12 +7,9 @@ Konstantin Leontiev;
 | Entity | Client API | Service Impl
 
 | Communal service
-| link:/{jdocs}/nc/unc/cs/services/common/clients/tax/TaxService.html[Gibdd client]
-| link:/{jdocs}/nc/unc/cs/services/communal/services/PropertyTaxService.html[Gibdd service]
+| link:/{jdocs}/nc/unc/cs/services/common/clients/tax/TaxService.html[TaxService]
+| link:/{jdocs}/nc/unc/cs/services/communal/services/PropertyTaxService.html[PropertyTaxService]
 
-
-[[javadocs]]
-== Javadocs
 |===
 |===
 | Entity | Client API | Client API | Service Impl

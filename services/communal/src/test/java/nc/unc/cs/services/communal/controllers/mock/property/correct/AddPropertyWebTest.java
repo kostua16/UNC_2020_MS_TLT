@@ -33,6 +33,7 @@ class AddPropertyWebTest extends PropertyParentWeb {
   private static final FieldDescriptor[] PROPERTY_DESCR =
       new FieldDescriptor[] {AddPropertyWebTest.ADD_REGION_DESCR, AddPropertyWebTest.ADD_CITY_DESCR};
 
+
   private static final ResponseFieldsSnippet PROPERTY_RESP = responseFields(AddPropertyWebTest.PROPERTY_DESCR);
 
 
