@@ -9,6 +9,11 @@
 | GIBDD Service
 | link:/{root}/gibdd.html[Gibdd]
 | Sample service to manipulate cars informantion
+
+| Communal Service
+| link:/{root}/communal.html[Communal]
+| Sample service to manipulate communal services
+
 |===
 
 [[commons]]
