@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PropertyTaxValueRepository extends JpaRepository<PropertyTaxValue, Long> {
 
-    PropertyTaxValue findPropertyTaxValueByPropertyTaxValueId(Long propertyTaxValueId);
+  PropertyTaxValue findPropertyTaxValueByPropertyTaxValueId(Long propertyTaxValueId);
 
-    PropertyTaxValue findPropertyTaxValueByRegion(String region);
+  PropertyTaxValue findPropertyTaxValueByRegion(String region);
 }

@@ -28,9 +28,8 @@ java:
   - any: ['**/*.java']
 
 js:
-  - any: ['**/*.js']
-  - all: ['!.github/**/*.js']
-  - all: ['!.github/*.js']
+  - any: ['frontend/**/*.js']
+  - any: ['services/**/*.js']
 
 vue:
   - any: ['**/*.vue']
