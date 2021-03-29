@@ -1,7 +1,6 @@
 nc.unc.cs.config
 nc.unc.cs.discovery
 nc.unc.cs.services.bank
-nc.unc.cs.services.bank.confogurations
 nc.unc.cs.services.bank.controllers
 nc.unc.cs.services.bank.entities
 nc.unc.cs.services.bank.exceptions
@@ -13,9 +12,9 @@ nc.unc.cs.services.common.clients.bank
 nc.unc.cs.services.common.clients.gibdd
 nc.unc.cs.services.common.clients.logging
 nc.unc.cs.services.common.clients.tax
+nc.unc.cs.services.common.configurations
 nc.unc.cs.services.common.services
 nc.unc.cs.services.communal
-nc.unc.cs.services.communal.confogurations
 nc.unc.cs.services.communal.controllers
 nc.unc.cs.services.communal.controllers.payloads
 nc.unc.cs.services.communal.entities
@@ -38,7 +37,6 @@ nc.unc.cs.services.passport.model
 nc.unc.cs.services.passport.repository
 nc.unc.cs.services.passport.service
 nc.unc.cs.services.tax
-nc.unc.cs.services.tax.confogurations
 nc.unc.cs.services.tax.controllers
 nc.unc.cs.services.tax.entities
 nc.unc.cs.services.tax.exceptions
