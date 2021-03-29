@@ -201,11 +201,11 @@
     </dependency>
 
     <!-- Зависимость для модуля для написания тестов	-->
-    <dependency>
-      <groupId>net.minidev</groupId>
-      <artifactId>json-smart</artifactId>
-      <scope>test</scope>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>net.minidev</groupId>-->
+<!--      <artifactId>json-smart</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
 
     <!-- https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-mockmvc -->
     <dependency>
@@ -332,7 +332,7 @@
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
-          <argLine>@{spring.runner.args} @{argLine}</argLine>
+          <argLine>${spring.runner.args} ${argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>

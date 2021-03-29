@@ -9,5 +9,5 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Repository
 public interface InternationalRepository extends JpaRepository<International, Long> {
 
-    International findInternationalByInternationalId(Long internationalId);
+  International findInternationalByInternationalId(Long internationalId);
 }

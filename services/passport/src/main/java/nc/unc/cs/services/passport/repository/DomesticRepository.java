@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DomesticRepository extends JpaRepository<Domestic, Long> {
 
-    Domestic findDomesticByDomesticId(Long domesticId);
+  Domestic findDomesticByDomesticId(Long domesticId);
 }
