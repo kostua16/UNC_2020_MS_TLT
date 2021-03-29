@@ -34,14 +34,12 @@ public class PropertyController {
   }
 
   @GetMapping(value = "citizen/{citizenId}", produces = "application/json")
-  public List<Property> getPropertiesByCitizenId(
-      @PathVariable("citizenId") final Long citizenId
-  ) {
-      return this.registrationService.getPropertiesByCitizenId(citizenId);
+  public List<Property> getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
+    return this.registrationService.getPropertiesByCitizenId(citizenId);
   }
 
   @GetMapping(value = "all", produces = "application/json")
   public List<Property> getAllProperties() {
-      return this.registrationService.getAllProperties();
+    return this.registrationService.getAllProperties();
   }
 }
