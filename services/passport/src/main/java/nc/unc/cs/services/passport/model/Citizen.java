@@ -1,7 +1,10 @@
 package nc.unc.cs.services.passport.model;
 
-import lombok.*;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.Builder;
 import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
