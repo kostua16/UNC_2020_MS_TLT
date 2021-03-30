@@ -352,7 +352,7 @@
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
-          <argLine>${spring.runner.args} ${argLine}</argLine>
+          <argLine>${spring.runner.args} @{argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
