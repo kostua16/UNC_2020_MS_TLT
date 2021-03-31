@@ -1,4 +1,4 @@
-package nc.unc.cs.services.tax.confogurations;
+package nc.unc.cs.services.common.configurations;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

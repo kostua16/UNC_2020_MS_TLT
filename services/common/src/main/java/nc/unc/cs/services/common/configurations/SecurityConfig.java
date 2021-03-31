@@ -1,4 +1,4 @@
-package nc.unc.cs.services.communal.confogurations;
+package nc.unc.cs.services.common.configurations;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

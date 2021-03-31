@@ -15,7 +15,13 @@ class CommunalService {
             }, {}
         )
             .then(response => {
-                    console.log('RESPONSE REGISTRATION: ', response)
+                    console.log('RESPONSE REGISTRATION: ', response);
+                    return response;
+                }
+            )
+            .catch(error => {
+                    console.error("Failed to add registration.", error);
+                    return error;
                 }
             );
     }
