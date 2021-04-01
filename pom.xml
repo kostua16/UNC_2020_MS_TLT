@@ -23,7 +23,7 @@
     <zipkin.version>2.12.9</zipkin.version>
     <sonar.version>3.8.0.2131</sonar.version>
     <jacoco.version>0.8.6</jacoco.version>
-    <modelmapper.version>2.3.9</modelmapper.version>
+    <modelmapper.version>2.4.0</modelmapper.version>
     <minidev.version>1.0.2</minidev.version>
     <springdoc.version>1.5.6</springdoc.version>
     <xstream.version>1.4.16</xstream.version>
