@@ -1,5 +1,10 @@
 package nc.unc.cs.services.account.controllers;
 
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.services.AuthService;
@@ -12,30 +17,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {AuthController.class})
 @Import(ObjectMapper.class)
 class LoginWebTest {
   private static final String LOGIN_CONTROLLER_MAPPING = "http://localhost:8888/auth/sign-in";
 
-  @Autowired
-  private MockMvc mockMvc;
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private MockMvc mockMvc;
+  @Autowired private ObjectMapper objectMapper;
 
-  @MockBean
-  private AuthService authService;
+  @MockBean private AuthService authService;
 
   private LoginDto createLoginDto() {
-    return LoginDto
-        .builder()
-        .username("username")
-        .password("password")
-        .build();
+    return LoginDto.builder().username("username").password("password").build();
   }
 
   @Test

@@ -1,7 +1,12 @@
 package nc.unc.cs.services.account.controllers;
 
-import java.util.Date;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Date;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.services.AuthService;
 import org.junit.jupiter.api.Test;
@@ -11,28 +16,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.ArgumentMatchers.longThat;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {AuthController.class})
 @Import(ObjectMapper.class)
 class RegistrationWebTest {
   private static final String REGISTER_CONTROLLER_MAPPING = "http://localhost:8888/auth/sign-up";
 
-  @Autowired
-  private MockMvc mockMvc;
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private MockMvc mockMvc;
+  @Autowired private ObjectMapper objectMapper;
 
-  @MockBean
-  private AuthService authService;
+  @MockBean private AuthService authService;
 
   private RegistrationDto createRegistrationDto() {
-    return RegistrationDto
-        .builder()
+    return RegistrationDto.builder()
         .username("username")
         .password("password")
         .name("name")

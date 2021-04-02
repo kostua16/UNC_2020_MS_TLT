@@ -22,10 +22,7 @@ public class LoginDto {
   private String password;
 
   @Builder
-  public LoginDto(
-      final String username,
-      final String password
-  ) {
+  public LoginDto(final String username, final String password) {
     this.username = username.trim();
     this.password = password.trim();
   }
