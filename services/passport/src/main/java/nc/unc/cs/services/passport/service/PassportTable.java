@@ -3,8 +3,10 @@ package nc.unc.cs.services.passport.service;
 import feign.FeignException;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
 import nc.unc.cs.services.passport.controller.dto.DomesticDTO;
+import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
@@ -129,7 +131,7 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<International> updateInternational(final Long id, International international) {
+  public ResponseEntity<International> updateInternational(final Long id, InternationalDTO international) {
     International updateInternational =
         internationalRepository
             .findById(id)
