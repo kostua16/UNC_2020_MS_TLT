@@ -4,6 +4,8 @@ import Registration from '@/components/communal/Registration'
 import Tax from "@/components/tax/Tax";
 import Property from "@/components/communal/property/Property";
 import CitizenProperty from "@/components/communal/property/CitizenProperty";
+import UsersProperties from "@/components/communal/property/admin/UsersProperties";
+import PersonalArea from "@/components/main/PersonalArea";
 // import MainPage from "@/components/main/MainPage";
 
 Vue.use(Router);
@@ -22,15 +24,25 @@ export const router = new Router({
             component: Tax
         },
         {
-            path: '/property/add-property',
+            path: '/communal/property/add-property',
             name: 'add-property',
             component: Property
         },
         {
-            path: '/property/list',
+            path: '/communal/property/list',
             name: 'property-list',
             component: CitizenProperty
-        }
+        },
+        {
+            path: '/communal/admin/properties',
+            name: 'users-properties',
+            component: UsersProperties
+        },
+        {
+            path: '/person-area',
+            name: 'person-area',
+            component: PersonalArea
+        },
         // {
         //     path: '/main',
         //     name: 'main',

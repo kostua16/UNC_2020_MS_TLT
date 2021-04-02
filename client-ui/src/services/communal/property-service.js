@@ -17,12 +17,6 @@ class PropertyService {
         )
             .then(response => {
                     console.log('REGISTRATE PROPERTY: ', response)
-                    return response;
-                }
-            )
-            .catch(error => {
-                    console.error("Failed to add property.", error);
-                    return error;
                 }
             );
     }

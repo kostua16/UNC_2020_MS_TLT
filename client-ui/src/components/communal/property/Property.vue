@@ -30,7 +30,7 @@ export default {
         house: this.creationProperty.house,
         apartment: this.creationProperty.apartment,
         apartmentSize: this.creationProperty.apartmentSize,
-        citizenId: 111
+        citizenId: 111 // идентификатор захардкожен!!!
       }
       console.log(creationProperty);
       PropertyService.addProperty(creationProperty);
