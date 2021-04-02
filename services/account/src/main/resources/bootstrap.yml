@@ -19,7 +19,7 @@ config:
   protocol: ${CFG_PROTOCOL:http}
   url: ${config.protocol}://${config.user}:${config.password}@${config.host}/
 server:
-  port: ${PORT:8085}
+  port: ${PORT:8888}
 spring:
   application:
     name: ACCOUNT

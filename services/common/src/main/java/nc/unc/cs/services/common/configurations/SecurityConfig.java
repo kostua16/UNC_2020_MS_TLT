@@ -14,12 +14,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .cors()
-        .and()
+        .disable()
         .authorizeRequests()
-        .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
-        .permitAll()
-        .and()
-        .httpBasic();
+        .antMatchers("/**")
+        .permitAll();
 
     super.configure(http);
   }
