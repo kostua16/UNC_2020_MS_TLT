@@ -6,6 +6,7 @@ import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
 import nc.unc.cs.services.account.exceptions.AccountNotFoundException;
+import nc.unc.cs.services.account.exceptions.IncorrectPasswordException;
 import nc.unc.cs.services.account.exceptions.RegistrationException;
 import nc.unc.cs.services.account.repositories.AccountRepository;
 import nc.unc.cs.services.common.clients.passport.Citizen;
@@ -13,12 +14,21 @@ import nc.unc.cs.services.common.clients.passport.PassportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
+
+  @Bean
+  public BCryptPasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  private final BCryptPasswordEncoder encoder = encoder();
 
   private final AccountRepository accountRepository;
   private final PassportService passportService;
@@ -56,7 +66,7 @@ public class AuthService {
       final Account newAccount = Account
           .builder()
           .username(registrationDto.getUsername())
-          .password(registrationDto.getPassword())
+          .password(encoder.encode(registrationDto.getPassword()))
           .build();
       this.accountRepository.save(newAccount);
       final Citizen citizen = Citizen
@@ -82,14 +92,19 @@ public class AuthService {
    * @param loginDto логин и пароль гражданина
    * @return http-статус, в теле которого находится идентификатор гражданина
    * @throws AccountNotFoundException если такого аккаунта не существует
+   * @throws IncorrectPasswordException если неверный пароль
    */
   public ResponseEntity<Long> login(final LoginDto loginDto) {
     final Account account = this.accountRepository
-        .findAccountByUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword());
+        .findAccountByUsername(loginDto.getUsername());
+    LOGGER.info("INFO: {}", account);
     if (account == null) {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
+    } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
+      return ResponseEntity.ok(account.getCitizenId());
+    } else {
+      throw new IncorrectPasswordException(loginDto.getUsername());
     }
-    return ResponseEntity.ok(account.getCitizenId());
   }
 
   /**

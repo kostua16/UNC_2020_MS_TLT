@@ -33,7 +33,7 @@ public class Account {
   private String username;
 
   @NotBlank
-  @Size(min = 5, max = 20, message = "Incorrect password size!")
+  @Size(min = 5,  message = "Incorrect password size!")
   @Column(nullable = false)
   private String password;
 

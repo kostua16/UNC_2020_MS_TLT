@@ -2,6 +2,7 @@ package nc.unc.cs.services.account.controllers;
 
 import feign.FeignException;
 import nc.unc.cs.services.account.exceptions.AccountNotFoundException;
+import nc.unc.cs.services.account.exceptions.IncorrectPasswordException;
 import nc.unc.cs.services.account.exceptions.RegistrationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,13 @@ public class ExceptionController {
 
   @ExceptionHandler(value = {RegistrationException.class})
   public ResponseEntity<Object> registrationException(final RegistrationException re) {
-    LOGGER.error("Аккаунт с таким именем уже существует! \n", re);
+    LOGGER.error("An account with the same name already exists! \n", re);
     return new ResponseEntity<>(re.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = {IncorrectPasswordException.class})
+  public ResponseEntity<Object> registrationException(final IncorrectPasswordException ie) {
+    LOGGER.error("Incorrect password! \n", ie);
+    return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }

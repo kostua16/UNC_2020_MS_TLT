@@ -65,9 +65,10 @@ public class ServiceTest {
     final LoginDto loginDto = this.createLoginDto();
     final Account account =
         this.createAccount(loginDto.getUsername(), loginDto.getPassword());
+    account.setPassword(this.authService.encoder().encode(account.getPassword()));
     account.setIsActive(true);
     given(this.accountRepository
-        .findAccountByUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword()))
+        .findAccountByUsername(loginDto.getUsername()))
         .willReturn(account);
 
     final ResponseEntity<Long> response = this.authService.login(loginDto);
