@@ -24,26 +24,43 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class Transaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long transactionId;
 
-    @Column(updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @NotNull
-    private Date creationDate;
+  @Column(nullable = false, updatable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(value = TemporalType.TIMESTAMP)
+  @NotNull
+  private Date creationDate;
 
-    @NotNull
-    @Min(value = 1, message = "Incorrect payment amount")
-    @Column(nullable = false)
-    private Integer amount;
+  @NotNull
+  @Min(value = 1, message = "Incorrect payment amount")
+  @Column(nullable = false, updatable = false)
+  private Integer amount;
 
-    @NotNull
-    @Min(value = 1L, message = "Incorrect payment request ID")
-    @Column(nullable = false)
-    private Long paymentRequestId;
+  @NotNull
+  @Min(value = 1L, message = "Incorrect payment request ID")
+  @Column(nullable = false, updatable = false)
+  private Long paymentRequestId;
+
+  @NotNull
+  @Min(value = 1L, message = "Incorrect citizen ID")
+  @Column(nullable = false, updatable = false)
+  private Long citizenId;
+
+  @Builder
+  public Transaction(
+      final Long transactionId,
+      final Integer amount,
+      final Long paymentRequestId,
+      final Long citizenId) {
+    this.transactionId = transactionId;
+    this.creationDate = new Date();
+    this.amount = amount;
+    this.paymentRequestId = paymentRequestId;
+    this.citizenId = citizenId;
+  }
 }

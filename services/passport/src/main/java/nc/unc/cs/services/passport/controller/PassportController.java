@@ -1,6 +1,7 @@
 package nc.unc.cs.services.passport.controller;
 
 import nc.unc.cs.services.passport.controller.dto.DomesticDTO;
+import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
@@ -66,7 +67,7 @@ public class PassportController {
 
     @PostMapping(value = "/updateInternational/{id}", produces = "application/json")
     public ResponseEntity<International> updateInternationalPassport(
-            @PathVariable("id") Long id, @RequestBody International international) {
+            @PathVariable("id") Long id, @RequestBody InternationalDTO international) {
         return this.passportTable.updateInternational(id, international);
     }
 

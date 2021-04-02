@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class BankApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(BankApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(BankApplication.class, args);
+  }
 }
