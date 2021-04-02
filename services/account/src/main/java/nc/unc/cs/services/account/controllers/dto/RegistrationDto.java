@@ -1,9 +1,9 @@
 package nc.unc.cs.services.account.controllers.dto;
 
+import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,17 +19,21 @@ public class RegistrationDto {
   @NotBlank
   @Size(min = 5, max = 20, message = "Incorrect username size!")
   private String username;
+
   @NotBlank
   @Size(min = 5, max = 20, message = "Incorrect password size!")
   private String password;
+
   @NotBlank
   @Size(min = 2, max = 40)
   private String name;
+
   @NotBlank
   @Size(min = 2, max = 40)
   private String surname;
-  @NotNull
-  private Date dateOfBirth;
+
+  @NotNull private Date dateOfBirth;
+
   @NotBlank
   @Size(min = 2, max = 40)
   private String registration;
@@ -41,8 +45,7 @@ public class RegistrationDto {
       final String name,
       final String surname,
       final Date dateOfBirth,
-      final String registration
-  ) {
+      final String registration) {
     this.username = username.trim();
     this.password = password.trim();
     this.name = name.trim();

@@ -25,25 +25,14 @@ public class AuthController {
     this.authService = authService;
   }
 
-  @PostMapping(
-      value = "sign-up",
-      consumes = "application/json",
-      produces = "application/json"
-  )
+  @PostMapping(value = "sign-up", consumes = "application/json", produces = "application/json")
   public ResponseEntity<String> register(
-      @Validated @RequestBody final RegistrationDto registrationDto
-  ) {
+      @Validated @RequestBody final RegistrationDto registrationDto) {
     return this.authService.register(registrationDto);
   }
 
-  @PostMapping(
-      value = "sign-in",
-      consumes = "application/json",
-      produces = "application/json"
-  )
-  public ResponseEntity<Long> login(
-      @Validated @RequestBody final LoginDto loginDto
-  ) {
+  @PostMapping(value = "sign-in", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Long> login(@Validated @RequestBody final LoginDto loginDto) {
     return this.authService.login(loginDto);
   }
 

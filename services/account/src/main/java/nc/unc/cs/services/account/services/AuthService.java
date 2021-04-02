@@ -1,7 +1,7 @@
 package nc.unc.cs.services.account.services;
 
-import java.util.List;
 import feign.FeignException;
+import java.util.List;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
@@ -35,9 +35,7 @@ public class AuthService {
 
   @Autowired
   public AuthService(
-      final AccountRepository accountRepository,
-      final PassportService passportService
-  ) {
+      final AccountRepository accountRepository, final PassportService passportService) {
     this.accountRepository = accountRepository;
     this.passportService = passportService;
   }
@@ -56,27 +54,27 @@ public class AuthService {
    * Регистрация пользователя.
    *
    * @param registrationDto данные о гражданине
-   * @return http-статус, в теле которого находится логин
-   *      зарегестрированного гражданина
+   * @return http-статус, в теле которого находится логин зарегестрированного гражданина
    * @throws RegistrationException если имя пользователя уже зарегестрировано
    */
   public ResponseEntity<String> register(final RegistrationDto registrationDto) {
-    final Account account = this.accountRepository.findAccountByUsername(registrationDto.getUsername());
+    final Account account =
+        this.accountRepository.findAccountByUsername(registrationDto.getUsername());
     if (account == null) {
-      final Account newAccount = Account
-          .builder()
-          .username(registrationDto.getUsername())
-          .password(encoder.encode(registrationDto.getPassword()))
-          .build();
+      final Account newAccount =
+          Account.builder()
+              .username(registrationDto.getUsername())
+              .password(encoder.encode(registrationDto.getPassword()))
+              .build();
       this.accountRepository.save(newAccount);
-      final Citizen citizen = Citizen
-          .builder()
-          .citizenId(newAccount.getCitizenId())
-          .name(registrationDto.getName())
-          .surname(registrationDto.getSurname())
-          .dateOfBirth(registrationDto.getDateOfBirth())
-          .registration(registrationDto.getRegistration())
-          .build();
+      final Citizen citizen =
+          Citizen.builder()
+              .citizenId(newAccount.getCitizenId())
+              .name(registrationDto.getName())
+              .surname(registrationDto.getSurname())
+              .dateOfBirth(registrationDto.getDateOfBirth())
+              .registration(registrationDto.getRegistration())
+              .build();
       this.createPassport(citizen);
       newAccount.setIsActive(true);
       this.accountRepository.save(newAccount);
@@ -95,8 +93,7 @@ public class AuthService {
    * @throws IncorrectPasswordException если неверный пароль
    */
   public ResponseEntity<Long> login(final LoginDto loginDto) {
-    final Account account = this.accountRepository
-        .findAccountByUsername(loginDto.getUsername());
+    final Account account = this.accountRepository.findAccountByUsername(loginDto.getUsername());
     LOGGER.info("INFO: {}", account);
     if (account == null) {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
@@ -116,5 +113,4 @@ public class AuthService {
   public List<Account> getAllAccounts() {
     return accountRepository.findAll();
   }
-
 }

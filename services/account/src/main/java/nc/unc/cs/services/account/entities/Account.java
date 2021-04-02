@@ -33,7 +33,7 @@ public class Account {
   private String username;
 
   @NotBlank
-  @Size(min = 5,  message = "Incorrect password size!")
+  @Size(min = 5, message = "Incorrect password size!")
   @Column(nullable = false)
   private String password;
 
@@ -46,11 +46,7 @@ public class Account {
   private Roles role;
 
   @Builder
-  public Account(
-      final Long citizenId,
-      final String username,
-      final String password
-  ) {
+  public Account(final Long citizenId, final String username, final String password) {
     this.citizenId = citizenId;
     this.username = username.trim();
     this.password = password.trim();
