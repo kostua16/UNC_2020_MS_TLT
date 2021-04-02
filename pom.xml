@@ -110,6 +110,7 @@
     <module>services</module>
     <module>discovery</module>
     <module>config</module>
+<!--    <module>client-ui</module>-->
   </modules>
 
   <!-- общие зависимости для всех модулей	-->
@@ -200,12 +201,31 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Зависимость для модуля для написания тестов	-->
+<!--    &lt;!&ndash; Зависимость для модуля для написания тестов	&ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>net.minidev</groupId>-->
+<!--      <artifactId>json-smart</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+    <!-- в ветке develop не использовалось -->
+<!--    <dependency>-->
+<!--      <groupId>net.minidev</groupId>-->
+<!--      <artifactId>accessors-smart</artifactId>-->
+<!--      <version>1.2</version>-->
+<!--    </dependency>-->
+
     <dependency>
-      <groupId>net.minidev</groupId>
-      <artifactId>json-smart</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-mockmvc -->
     <dependency>
@@ -328,11 +348,11 @@
           <reportFormat>plain</reportFormat>
           <forkCount>1C</forkCount>
           <includes>
-            <include>**/*Test*.java</include>
+            <include>**services/*/services/*/**/*Test*.java</include>
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
-          <argLine>@{spring.runner.args} @{argLine}</argLine>
+          <argLine>${spring.runner.args} @{argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>

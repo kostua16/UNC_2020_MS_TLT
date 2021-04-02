@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "communal/property-tax")
-@Tag(name = "Property Api", description = "API calculate property tax")
+@Tag(name = "Property Tax Api", description = "API calculate property tax")
 public class PropertyTaxController {
 
   private final PropertyTaxService propertyTaxService;
