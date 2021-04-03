@@ -8,6 +8,8 @@ import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
 import nc.unc.cs.services.account.repositories.AccountRepository;
+import nc.unc.cs.services.common.clients.passport.Citizen;
+import nc.unc.cs.services.common.clients.passport.Domestic;
 import nc.unc.cs.services.common.clients.passport.PassportService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -60,12 +62,33 @@ public class ServiceTest {
   @Test
   void registrationTest() {
     final RegistrationDto registrationDto = this.createRegistrationDto();
+    final Citizen citizen = Citizen
+        .builder().citizenId(1L)
+        .name(registrationDto.getName())
+        .surname(registrationDto.getSurname())
+        .dateOfBirth(registrationDto.getDateOfBirth())
+        .registration(registrationDto.getRegistration())
+        .build();
+    final Domestic domestic = Domestic
+        .builder()
+        .citizenId(citizen.getCitizenId())
+        .dateOfBirth(citizen.getDateOfBirth())
+        .registration(citizen.getRegistration())
+        .name(citizen.getName())
+        .surname(citizen.getSurname())
+        .domesticId(1L)
+        .isActive(false)
+        .series(123123123)
+        .number(123123123)
+        .build();
 
     given(this.accountRepository.findAccountByUsername(registrationDto.getUsername()))
         .willReturn(null);
     given(this.accountRepository.save(any())).willAnswer(mock -> mock.getArgument(0));
-    given(this.passportService.registerDomesticPassport(any()))
-        .willAnswer(mock -> mock.getArgument(0));
+    given(this.passportService.registerDomesticPassport(citizen))
+        .willReturn(ResponseEntity.ok(domestic));
+//        .willAnswer(mock -> mock.getArgument(0));
+    given(this.accountRepository.save(any())).willAnswer(mock -> mock.getArgument(0));
 
     final ResponseEntity<String> response = this.authService.register(registrationDto);
 

@@ -47,7 +47,7 @@ class RegistrationWebTest {
     this.mockMvc
         .perform(
             post(REGISTER_CONTROLLER_MAPPING)
-                .contentType("application/json\"")
+                .contentType("application/json")
                 .content(objectMapper.writeValueAsString(registrationDto)))
         .andDo(print())
         .andExpect(status().isOk());
