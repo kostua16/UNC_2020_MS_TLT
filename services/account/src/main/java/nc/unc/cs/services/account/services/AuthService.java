@@ -99,11 +99,8 @@ public class AuthService {
     if (account == null) {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
     } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
-      final AuthResponse authResponse = AuthResponse
-          .builder()
-          .citizenId(account.getCitizenId())
-          .role(account.getRole())
-          .build();
+      final AuthResponse authResponse =
+          AuthResponse.builder().citizenId(account.getCitizenId()).role(account.getRole()).build();
       return ResponseEntity.ok(authResponse);
     } else {
       throw new IncorrectPasswordException(loginDto.getUsername());

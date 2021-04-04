@@ -37,11 +37,8 @@ class LoginWebTest {
   @Test
   void loginSuccessfulTest() throws Exception {
     final LoginDto loginDto = this.createLoginDto();
-    final AuthResponse authResponse = AuthResponse
-        .builder()
-        .citizenId(1L)
-        .role(Roles.ROLE_USER)
-        .build();
+    final AuthResponse authResponse =
+        AuthResponse.builder().citizenId(1L).role(Roles.ROLE_USER).build();
 
     given(this.authService.login(loginDto)).willReturn(ResponseEntity.ok(authResponse));
 
