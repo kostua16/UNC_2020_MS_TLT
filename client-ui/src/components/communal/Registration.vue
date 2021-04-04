@@ -6,7 +6,6 @@
     <v-text-field type="text" label="Улица" v-model="registration.street" hide-details="auto"/>
     <v-text-field type="text" label="Дом" v-model="registration.house" hide-details="auto"/>
     <v-text-field type="text" label="офис/квартира" v-model="registration.apartment" hide-details="auto"/>
-    <v-text-field type="number" label="citizenId - ЭТОГО ПОЛЯ НЕ БУДЕТ" v-model="registration.citizenId" hide-details="auto"/>
     <v-btn @click="addRegistration" class="mt-5 mb-8" block color="red" dark>Добавить прописку</v-btn>
   </div>
 </template>
@@ -31,7 +30,6 @@ export default {
         street: this.registration.street,
         house: this.registration.house,
         apartment: this.registration.apartment,
-        citizenId: this.registration.citizenId
       }
       console.log(registration);
       CommunalService.addRegistration(registration);
@@ -42,7 +40,6 @@ export default {
       this.registration.house = ''
       this.registration.internet = ''
       this.registration.apartment = ''
-      this.registration.citizenId = ''
     }
   }
 }
