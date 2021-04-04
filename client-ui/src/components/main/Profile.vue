@@ -99,7 +99,7 @@ import PaymentRequest from '@/models/bank/payment-request'
 import PaymentPopup from "@/components/main/popup/PaymentPopup";
 
 export default {
-  name: "PersonalArea",
+  name: "Profile",
   components: {PaymentPopup},
   data() {
     return {
