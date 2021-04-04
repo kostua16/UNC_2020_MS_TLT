@@ -1,6 +1,5 @@
 package nc.unc.cs.services.account.controllers;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
