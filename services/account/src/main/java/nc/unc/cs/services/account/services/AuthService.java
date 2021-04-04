@@ -1,7 +1,7 @@
 package nc.unc.cs.services.account.services;
 
-import java.util.List;
 import feign.FeignException;
+import java.util.List;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
@@ -100,11 +100,8 @@ public class AuthService {
     if (account == null) {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
     } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
-      final AuthResponse authResponse = AuthResponse
-          .builder()
-          .citizenId(account.getCitizenId())
-          .role(account.getRole())
-          .build();
+      final AuthResponse authResponse =
+          AuthResponse.builder().citizenId(account.getCitizenId()).role(account.getRole()).build();
       return ResponseEntity.ok(authResponse);
     } else {
       throw new IncorrectPasswordException(loginDto.getUsername());
@@ -129,11 +126,8 @@ public class AuthService {
     } else {
       account.setRole(Roles.ROLE_ADMIN);
       this.accountRepository.save(account);
-      final AuthResponse authResponse = AuthResponse
-          .builder()
-          .citizenId(account.getCitizenId())
-          .role(account.getRole())
-          .build();
+      final AuthResponse authResponse =
+          AuthResponse.builder().citizenId(account.getCitizenId()).role(account.getRole()).build();
       return ResponseEntity.ok(authResponse);
     }
   }
