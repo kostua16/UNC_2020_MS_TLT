@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Date;
+import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
@@ -54,7 +55,7 @@ public class ServiceTest {
     account.setIsActive(true);
     given(this.accountRepository.findAccountByUsername(loginDto.getUsername())).willReturn(account);
 
-    final ResponseEntity<Long> response = this.authService.login(loginDto);
+    final ResponseEntity<AuthResponse> response = this.authService.login(loginDto);
 
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
   }

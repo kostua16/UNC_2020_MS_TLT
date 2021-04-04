@@ -1,6 +1,7 @@
 package nc.unc.cs.services.account.controllers;
 
 import java.util.List;
+import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
@@ -32,7 +33,7 @@ public class AuthController {
   }
 
   @PostMapping(value = "sign-in", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Long> login(@Validated @RequestBody final LoginDto loginDto) {
+  public ResponseEntity<AuthResponse> login(@Validated @RequestBody final LoginDto loginDto) {
     return this.authService.login(loginDto);
   }
 

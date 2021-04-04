@@ -2,6 +2,7 @@ package nc.unc.cs.services.account.services;
 
 import feign.FeignException;
 import java.util.List;
+import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
@@ -92,13 +93,18 @@ public class AuthService {
    * @throws AccountNotFoundException если такого аккаунта не существует
    * @throws IncorrectPasswordException если неверный пароль
    */
-  public ResponseEntity<Long> login(final LoginDto loginDto) {
+  public ResponseEntity<AuthResponse> login(final LoginDto loginDto) {
     final Account account = this.accountRepository.findAccountByUsername(loginDto.getUsername());
     LOGGER.info("INFO: {}", account);
     if (account == null) {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
     } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
-      return ResponseEntity.ok(account.getCitizenId());
+      final AuthResponse authResponse = AuthResponse
+          .builder()
+          .citizenId(account.getCitizenId())
+          .role(account.getRole())
+          .build();
+      return ResponseEntity.ok(authResponse);
     } else {
       throw new IncorrectPasswordException(loginDto.getUsername());
     }

@@ -6,7 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
+import nc.unc.cs.services.account.entities.Roles;
 import nc.unc.cs.services.account.services.AuthService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,8 +37,13 @@ class LoginWebTest {
   @Test
   void loginSuccessfulTest() throws Exception {
     final LoginDto loginDto = this.createLoginDto();
+    final AuthResponse authResponse = AuthResponse
+        .builder()
+        .citizenId(1L)
+        .role(Roles.ROLE_USER)
+        .build();
 
-    given(this.authService.login(loginDto)).willReturn(ResponseEntity.ok(1L));
+    given(this.authService.login(loginDto)).willReturn(ResponseEntity.ok(authResponse));
 
     this.mockMvc
         .perform(
