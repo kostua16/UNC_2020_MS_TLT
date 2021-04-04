@@ -1,117 +1,193 @@
 <template>
-  <div>
-    <v-form name="form" @submit.prevent="registration">
-
-      <v-container>
-
-        <v-row justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <h3>
-              <div class="error-message">{{ message }}</div>
-            </h3>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-text-field
-                v-model="user.phoneNumber"
-                type="text"
-                label="Phone Number"
-                counter
-                outlined
-                :rules="[rules.required, rules.min]"
-                hint="At least 6 characters"
-                class="input-group--focused"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-text-field
-                v-model="user.username"
-                type="text"
-                label="Логин"
-                counter
-                outlined
-
-                :rules="[rules.required, rules.minData]"
-                hint="At least 4 characters"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" sm="8" md="4"></v-col>
-          <v-col cols="12" sm="8" md="4">
-            <v-text-field
-                v-model="user.password"
-                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show ? 'text' : 'password'"
-                name="password"
-                label="Password"
-                counter
-                outlined
-                :rules="[rules.required, rules.minData]"
-                hint="At least 4 characters"
-                @click:append="show = !show"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-btn
-            width="100px"
-            rounded
-            color="primary"
-            dark
-            @click="registration"
+  <v-main>
+    <v-layout row wrap align-center justify-center>
+      <v-card
+          flat
+          class="mt-10 text-center text-xs-center"
+          width="600"
+          max-height="400"
+      >
+        <v-form
+            justify="center"
+            name="form"
+            class="text-center form_width"
+            @submit.prevent="registration"
         >
-          <span>Login</span>
-        </v-btn>
-        <v-btn @click="clear">clear</v-btn>
-      </v-container>
-    </v-form>
-  </div>
+          <v-container>
+            <v-row justify="center">
+              <v-col sm="9">
+                <h3>
+                  <div class="error-message">{{ message }}</div>
+                </h3>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.username"
+                    type="text"
+                    label="Логин"
+                    counter
+                    outlined
+                    :rules="[rules.required, rules.minAuth]"
+                    required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show ? 'text' : 'password'"
+                    name="password"
+                    label="Пароль"
+                    counter
+                    outlined
+                    :rules="[rules.required, rules.minAuth]"
+                    @click:append="show = !show"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.name"
+                    type="text"
+                    label="Имя"
+                    counter
+                    outlined
+
+                    :rules="[rules.required, rules.minData]"
+                    required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.surname"
+                    type="text"
+                    label="Фамилия"
+                    counter
+                    outlined
+
+                    :rules="[rules.required, rules.minData]"
+                    required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.dateOfBirth"
+                    type="text"
+                    label="Дата рождения"
+                    outlined
+                    :rules="[rules.required]"
+                    required
+                    readonly
+                >
+                  <template v-slot:append>
+                    <v-menu
+                        style="top: -12px"
+                        offset-y
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            color="white"
+                            v-bind="attrs"
+                            v-on="on"
+                            :ripple="false"
+                            class="v-btn--icon v-btn--flat mb-4"
+                        >
+                          <v-icon>event</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-date-picker
+                          v-model="regData.dateOfBirth"
+                      ></v-date-picker>
+                    </v-menu>
+                  </template>
+                </v-text-field>
+
+
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="regData.registration"
+                    type="text"
+                    label="Прописка"
+                    counter
+                    outlined
+                    :rules="[rules.required, rules.minData]"
+                    required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-btn
+                rounded
+                color="primary"
+                dark
+                @click="registration"
+            >
+              <span>Зарегестрироваться</span>
+            </v-btn>
+            <v-btn @click="clear">clear</v-btn>
+          </v-container>
+        </v-form>
+      </v-card>
+    </v-layout>
+  </v-main>
 </template>
 
 <script>
-import User from '@/models/auth/user'
 import AuthService from '@/services/auth/auth-service'
+import RegistrationData from "@/models/auth/registration-data";
 
 export default {
   name: "SignUp",
   data() {
     return {
-      user: new User('', '', ''),
+      regData: new RegistrationData,
       successful: false,
       show: false,
       message: '', // Сообщение в которое возвращается тело ошибки при регистрации
       issFilled: false,
-      rules: {
-        required: value => !!value || 'Required.',
-        min: v => v.length >= 6 || 'Min 6 characters',
-        minData: v => v.length >= 4 || 'Min 4 characters'
+      rules: { // правлиа для поллей ввода информации (+ юзается в html тегах, см выше) ПОЧИНИТЬ!!!
+        required: value => !!value || 'Required!',
+        minAuth: value => value.length > 4 || 'Number of characters 5-25',
+        minData: value => value.length >= 2 || 'Min 2 characters',
       },
       number: 0
     };
   },
   methods: {
     clear() {
-      this.user.phoneNumber = ''
-      this.user.username = ''
-      this.user.password = ''
-      this.$refs.observer.reset()
-    },
-    input() {
+      this.regData.username = ''
+      this.regData.password = ''
+      this.regData.name = ''
+      this.regData.surname = ''
+      this.regData.dateOfBirth = ''
+      this.regData.registration = ''
+      // this.$refs.observer.reset()
+      // this.$refs.form.reset;
     },
     registration() {
-      AuthService.register(this.user)
+      // this.$refs.form.validate();
+      AuthService.register(this.regData)
           .then(response => {
             if (response.status === 200) {
               this.$router.push('/login');
             } else {
-              // Убрать ошибку из консоли
-              this.message = response.data
-              console.log(this.message)
+              this.message = 'Ошибка регистрации!'
             }
           })
     }

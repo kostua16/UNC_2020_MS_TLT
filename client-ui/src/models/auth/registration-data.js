@@ -1,4 +1,4 @@
-export default class Registration {
+export default class RegistrationData {
     constructor(
         username,
         password,

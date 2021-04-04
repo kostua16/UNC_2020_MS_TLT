@@ -92,7 +92,7 @@ export const router = new Router({
         {
             path: '/communal/add-registration',
             name: 'add-registration',
-            component: () => '@/components/communal/Registration',
+            component: () => '@/components/communal/RegistrationData',
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },

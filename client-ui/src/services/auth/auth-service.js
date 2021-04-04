@@ -35,7 +35,7 @@ class AuthService {
                 return response;
             })
             .catch(error => {
-                console.error("Registration failed! \n", error)
+                console.error("RegistrationData failed! \n", error)
                 return error;
             });
     }

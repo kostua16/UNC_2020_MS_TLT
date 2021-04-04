@@ -13,7 +13,7 @@
 
 <script>
 
-import Registration from '@/models/communal/registration'
+import RegistrationData from '@/models/communal/registration'
 import CommunalService from '@/services/communal/communal-service'
 
 export default {

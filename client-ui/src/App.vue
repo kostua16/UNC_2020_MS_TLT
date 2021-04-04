@@ -17,7 +17,7 @@
 
         <v-spacer></v-spacer>
 
-        <router-link to="registration">
+        <router-link to="sign-up">
           <v-btn
               v-if="!GET_USER_IS_ACTIVE"
               icon
