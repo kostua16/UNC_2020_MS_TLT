@@ -1,11 +1,12 @@
 package nc.unc.cs.services.account.services;
 
-import feign.FeignException;
 import java.util.List;
+import feign.FeignException;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.entities.Account;
+import nc.unc.cs.services.account.entities.Roles;
 import nc.unc.cs.services.account.exceptions.AccountNotFoundException;
 import nc.unc.cs.services.account.exceptions.IncorrectPasswordException;
 import nc.unc.cs.services.account.exceptions.RegistrationException;
@@ -118,5 +119,22 @@ public class AuthService {
   @Deprecated
   public List<Account> getAllAccounts() {
     return accountRepository.findAll();
+  }
+
+  @Deprecated
+  public ResponseEntity<AuthResponse> changeRoleToAdmin(final String username) {
+    final Account account = this.accountRepository.findAccountByUsername(username);
+    if (account == null) {
+      throw new AccountNotFoundException(username, "");
+    } else {
+      account.setRole(Roles.ROLE_ADMIN);
+      this.accountRepository.save(account);
+      final AuthResponse authResponse = AuthResponse
+          .builder()
+          .citizenId(account.getCitizenId())
+          .role(account.getRole())
+          .build();
+      return ResponseEntity.ok(authResponse);
+    }
   }
 }
