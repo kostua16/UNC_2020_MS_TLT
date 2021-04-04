@@ -32,7 +32,7 @@ class AuthService {
                 registration: registration.registration
             })
             .then(response => {
-                return response
+                return response;
             })
             .catch(error => {
                 console.error("Registration failed! \n", error)

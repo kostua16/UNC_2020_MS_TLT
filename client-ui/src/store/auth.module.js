@@ -21,12 +21,6 @@ const auth = {
             state.status.loggedIn = false;
             state.user = null;
         },
-        REGISTER_SUCCESS(state) {
-            state.status.loggedIn = false;
-        },
-        REGISTER_FAILURE(state) {
-            state.status.loggedIn = false;
-        }
     },
 
     actions: {
@@ -47,19 +41,6 @@ const auth = {
             AuthService.logout();
             commit('LOGOUT');
         },
-
-        REGISTER({commit}, user) {
-            return AuthService.register(user).then(
-                response => {
-                    commit('REGISTER_SUCCESS');
-                    return Promise.resolve(response.data);
-                },
-                error => {
-                    commit('REGISTER_FAILURE');
-                    return Promise.reject(error);
-                }
-            );
-        }
     },
 };
 

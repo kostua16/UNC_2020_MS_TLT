@@ -9,6 +9,7 @@
       >
 
         <v-app-bar-nav-icon
+            v-if="GET_USER_IS_ACTIVE"
             @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
 
@@ -18,8 +19,9 @@
 
         <router-link to="registration">
           <v-btn
+              v-if="!GET_USER_IS_ACTIVE"
               icon
-              :disabled="$route.path === '/registration'"
+              :disabled="$route.path === '/sign-up'"
           >
             <v-icon>person_add</v-icon>
           </v-btn>
@@ -27,16 +29,22 @@
 
         <router-link to="login">
           <v-btn
+              v-if="!GET_USER_IS_ACTIVE"
               icon
               :disabled="$route.path === '/login'"
           >
             <v-icon>login</v-icon>
           </v-btn>
-
         </router-link>
-        <v-btn icon @click="logOut">
+
+        <v-btn
+            v-if="GET_USER_IS_ACTIVE"
+            icon
+            @click="logout"
+        >
           <v-icon>exit_to_app</v-icon>
         </v-btn>
+
       </v-app-bar>
 
       <v-navigation-drawer
@@ -89,6 +97,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'App',
   data() {
@@ -98,15 +108,19 @@ export default {
     }
   },
   watch: {
-    group () {
+    group() {
       this.drawer = false
     },
   },
+  computed: {
+    ...mapGetters([
+      'GET_USER_IS_ACTIVE'
+    ]),
+  },
   methods: {
-    logOut() {
-      console.log("Test exit")
-      // this.$store.dispatch('auth/LOGOUT');
-      // this.$router.push('/login');
+    logout() {
+      this.$store.dispatch('auth/LOGOUT');
+      this.$router.push('/login');
     },
   }
 }
@@ -116,6 +130,7 @@ export default {
 .font-size {
   font-size: 110%;
 }
+
 .navigate-btn {
   color: #6200ea;
 }

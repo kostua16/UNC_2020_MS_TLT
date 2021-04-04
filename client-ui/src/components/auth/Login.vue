@@ -55,6 +55,7 @@
 
 <script>
 import User from "@/models/auth/user";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "Login",
@@ -66,8 +67,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['GET_USER_IS_ACTIVE']),
     loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
+      return this.GET_USER_IS_ACTIVE;
     }
   },
   created() {
