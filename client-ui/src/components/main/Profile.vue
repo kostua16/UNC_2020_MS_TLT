@@ -7,11 +7,10 @@
       >
         <v-card-title>Name title</v-card-title>
         <v-card
+            flat
             height="400px"
             max-width="600"
             class="pa-3"
-            outlined
-            tile
         >
           <v-list>
             <v-list-item>Что-то</v-list-item>
@@ -30,8 +29,10 @@
           sm="5"
       >
         <v-card-title>Выставленные счета</v-card-title>
+<!--      elevation - делает обводку вокруг карточки  -->
         <v-card
-            elevation="16"
+            flat
+            elevation="1"
             max-width="450"
             class="mx-auto"
         >
@@ -99,7 +100,7 @@ import PaymentRequest from '@/models/bank/payment-request'
 import PaymentPopup from "@/components/main/popup/PaymentPopup";
 
 export default {
-  name: "PersonalArea",
+  name: "Profile",
   components: {PaymentPopup},
   data() {
     return {
@@ -119,7 +120,7 @@ export default {
     },
   },
   created() {
-    this.GET_MY_PAYMENT_REQUESTS_FROM_API(111)
+    this.GET_MY_PAYMENT_REQUESTS_FROM_API()
         .then(response => {
           if (response.data) {
             console.log('Request payments arrived!')

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import ParseLocalStorage from '@/services/auth/parse-local-storage'
 
 const HTTP_PROTOCOL = 'http';
 
@@ -18,10 +19,10 @@ const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 
 export default {
-    GET_PROPERTIES_FROM_API({commit}, citizenId) {
+    GET_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(
-                PROPERTY_API_URL + '/citizen/' + citizenId,
+                PROPERTY_API_URL + '/citizen/' + ParseLocalStorage(),
                 {},
             )
             .then((properties) => {
@@ -50,10 +51,10 @@ export default {
             })
     },
 
-    GET_MY_PAYMENT_REQUESTS_FROM_API({commit}, citizenId) {
+    GET_MY_PAYMENT_REQUESTS_FROM_API({commit}) {
         return axios
             .get(
-                URL_BANK + '/check/' + citizenId,
+                URL_BANK + '/check/' + ParseLocalStorage(),
                 {},
             )
             .then((properties) => {

@@ -47,7 +47,7 @@ export default {
     ]),
   },
   created() {
-    this.GET_PROPERTIES_FROM_API(111)
+    this.GET_PROPERTIES_FROM_API()
         .then(response => {
           if (response.data) {
             console.log('Data arrived!')
