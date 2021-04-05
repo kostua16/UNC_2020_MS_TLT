@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PassportTable {
+  /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
@@ -39,22 +40,46 @@ public class PassportTable {
     this.taxService = taxService;
   }
 
+  /**
+   * Возвращает список заграничных паспортов.
+   */
   public Iterable<International> getInternational() {
     return this.internationalRepository.findAll();
   }
 
+  /**
+   * Возвращает активную регистрацю пользователя.
+   *
+   * @param id идентификатор гражданина
+   * @return заграничный паспорт гражданина
+   */
   public International getInternationalById(Long id) {
     return this.internationalRepository.findById(id).orElseGet(null);
   }
 
+  /**
+   * Возвращает список отечественных паспортов.
+   */
   public Iterable<Domestic> getDomestic() {
     return this.domesticRepository.findAll();
   }
 
+  /**
+   * Возвращает активную регистрацю пользователя.
+   *
+   * @param id идентификатор гражданина
+   * @return отечественный паспорт гражданина
+   */
   public Domestic getDomesticById(Long id) {
     return this.domesticRepository.findById(id).orElseGet(null);
   }
 
+  /**
+   * Создает отечественный паспорт гражданина.
+   *
+   * @param citizen данные о гражданине
+   * @return http-ответ, в теле которого находится данные об отечественном паспорте
+   */
   public ResponseEntity<Domestic> registerDomesticPassport(Citizen citizen) {
     Domestic domestic = new Domestic();
     domestic.setRegistration(citizen.getRegistration());
@@ -77,6 +102,12 @@ public class PassportTable {
     }
   }
 
+  /**
+   * Создает заграничный паспорт гражданина.
+   *
+   * @param citizen данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public ResponseEntity<International> registerInternationalPassport(Citizen citizen) {
     International international = new International();
     international.setName(citizen.getName());
@@ -101,6 +132,13 @@ public class PassportTable {
     }
   }
 
+  /**
+   * Обновление заграничного паспорта гражданина.
+   *
+   * @param id данные о гражданине
+   * @param domestic данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public ResponseEntity<Domestic> updateDomestic(Long id, Domestic domestic) {
     Domestic updateDomestic =
         domesticRepository
@@ -124,6 +162,13 @@ public class PassportTable {
     }
   }
 
+  /**
+   * Обновление отечественного паспорта  гражданина.
+   *
+   * @param id данные о гражданине
+   * @param international данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public ResponseEntity<International> updateInternational(Long id, International international) {
     International updateInternational =
         internationalRepository
@@ -145,6 +190,12 @@ public class PassportTable {
     }
   }
 
+  /**
+   * активация заграничного паспорта  гражданина.
+   *
+   * @param id данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public Domestic activateDomestic(Long id) throws Exception {
     Domestic updateDomestic = domesticRepository.findById(id).orElse(null);
     if (updateDomestic == null) {
@@ -154,6 +205,12 @@ public class PassportTable {
     return domesticRepository.save(updateDomestic);
   }
 
+  /**
+   * активация заграничного паспорта  гражданина.
+   *
+   * @param id данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public International activateInternational(Long id) throws Exception {
     International updateInternational = internationalRepository.findById(id).orElse(null);
     if (updateInternational == null) {

@@ -30,8 +30,22 @@ class AddPropertyWebTest extends PropertyParentWeb {
   private static final FieldDescriptor ADD_CITY_DESCR =
       fieldWithPath("city").type(String.class).description("city where the property is located");
 
+  private static final FieldDescriptor ADD_STREET_DESCR =
+      fieldWithPath("street").type(String.class).description("street where the property is located");
+
+  private static final FieldDescriptor ADD_HOUSE_DESCR =
+      fieldWithPath("house").type(String.class).description("house where the property is located");
+
+  private static final FieldDescriptor ADD_APARTMENT_DESCR =
+      fieldWithPath("apartment").type(String.class).description("apartment where the property is located");
+
   private static final FieldDescriptor[] PROPERTY_DESCR =
-      new FieldDescriptor[] {AddPropertyWebTest.ADD_REGION_DESCR, AddPropertyWebTest.ADD_CITY_DESCR};
+      new FieldDescriptor[] {
+          AddPropertyWebTest.ADD_REGION_DESCR,
+          AddPropertyWebTest.ADD_CITY_DESCR,
+          AddPropertyWebTest.ADD_STREET_DESCR,
+          AddPropertyWebTest.ADD_HOUSE_DESCR,
+          AddPropertyWebTest.ADD_APARTMENT_DESCR};
 
 
   private static final ResponseFieldsSnippet PROPERTY_RESP = responseFields(AddPropertyWebTest.PROPERTY_DESCR);
