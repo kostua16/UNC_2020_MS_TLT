@@ -1,7 +1,7 @@
 package nc.unc.cs.services.account.services;
 
-import java.util.List;
 import feign.FeignException;
+import java.util.List;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
@@ -32,8 +32,7 @@ public class AuthService {
   public AuthService(
       final BCryptPasswordEncoder encoder,
       final AccountRepository accountRepository,
-      final PassportService passportService
-  ) {
+      final PassportService passportService) {
     this.encoder = encoder;
     this.accountRepository = accountRepository;
     this.passportService = passportService;
