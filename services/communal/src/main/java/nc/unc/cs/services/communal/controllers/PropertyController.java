@@ -37,4 +37,9 @@ public class PropertyController {
   public List<Property> getPropertiesByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.registrationService.getPropertiesByCitizenId(citizenId);
   }
+
+  @GetMapping(value = "all", produces = "application/json")
+  public List<Property> getAllProperties() {
+    return this.registrationService.getAllProperties();
+  }
 }

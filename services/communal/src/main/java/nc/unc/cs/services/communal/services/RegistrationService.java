@@ -166,4 +166,13 @@ public class RegistrationService {
   public List<Property> getPropertiesByCitizenId(final Long citizenId) {
     return this.propertyRepository.findPropertyByCitizenId(citizenId);
   }
+
+  /**
+   * Возвращает список со всей недвижимостью из БД.
+   *
+   * @return список недвижимости
+   */
+  public List<Property> getAllProperties() {
+    return this.propertyRepository.findAll();
+  }
 }

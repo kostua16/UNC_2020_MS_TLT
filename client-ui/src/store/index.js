@@ -4,20 +4,23 @@ import Vuex from 'vuex'
 import mutations from './mutations/mutations'
 import actions from './actions/actions'
 import getters from './getters/getters'
+import auth from './auth.module'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
         properties: [],
+        allProperties: [],
         propertyTaxValue: [],
         utilityBill: [],
-        utilityBillPriceList: []
+        utilityBillPriceList: [],
+        paymentRequests: [],
     },
     mutations,
     actions,
     getters,
-    // modules: {
-    //     propertyModule
-    // }
+    modules: {
+        auth
+    }
 })

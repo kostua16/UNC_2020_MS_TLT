@@ -1,36 +1,135 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Registration from '@/components/communal/Registration'
 import Tax from "@/components/tax/Tax";
-import Property from "@/components/communal/property/Property";
 import CitizenProperty from "@/components/communal/property/CitizenProperty";
+import UsersProperties from "@/components/communal/property/admin/UsersProperties";
+import Login from "@/components/auth/Login";
 // import MainPage from "@/components/main/MainPage";
+import store from '@/store/index'
+import SignUp from "@/components/auth/SignUp";
+import Profile from "@/components/main/Profile";
 
 Vue.use(Router);
+
+// проверка авторизации пользователя
+function checkAuth(to, from, next) {
+    if (store.getters.GET_USER_IS_ACTIVE) {
+        next()
+    } else {
+        console.warn('Вам необходимо авторизоваться!')
+        next('login')
+    }
+}
+
+// проверка прав
+function checkPrivilege(to, from, next) {
+    if (store.getters.GET_USER_IS_ACTIVE) {
+        if (store.getters.IS_ADMIN_ROLE) {
+            next()
+        } else {
+            // если недостаточно прав
+            next('/profile')
+        }
+    } else {
+        console.warn('Вам необходимо авторизоваться!')
+        next('login')
+    }
+}
+
+// запрещает посещать страницу, если пользователь авторизован
+function checkNoAuth(to, from, next) {
+    if (store.getters.GET_USER_IS_ACTIVE) {
+        console.warn('Вам необходимо выйти из своего аккаунта!')
+        next('profile')
+    } else {
+        next()
+    }
+}
+
 
 export const router = new Router({
     mode: 'history',
     routes: [
         {
+            // 404
+            path: '*',
+            name: 'NotFound',
+            redirect: 'profile',
+
+            beforeEnter(to, from, next) {
+                if (store.getters.GET_USER_IS_ACTIVE) {
+                    next('profile')
+                } else {
+                    console.warn('Вам необходимо авторизоваться!')
+                    next('login')
+                }
+            },
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+            beforeEnter(to, from, next) {
+                checkNoAuth(to, from, next);
+            }
+        },
+        {
+            path: '/sign-up',
+            name: 'sign-up',
+            component: SignUp,
+            beforeEnter(to, from, next) {
+                checkNoAuth(to, from, next);
+            }
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: Profile,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            }
+        },
+        {
             path: '/communal/add-registration',
             name: 'add-registration',
-            component: Registration
+            component: () => '@/components/communal/RegistrationData',
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
         },
         {
             path: '/tax/get-all',
             name: 'tax-all',
-            component: Tax
+            component: Tax,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
         },
         {
-            path: '/property/add-property',
+            path: '/communal/property/add-property',
             name: 'add-property',
-            component: Property
+            component: () => '@/components/communal/property/Property',
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+
         },
         {
-            path: '/property/list',
+            path: '/communal/property/list',
             name: 'property-list',
-            component: CitizenProperty
-        }
+            component: CitizenProperty,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
+            path: '/communal/admin/properties',
+            name: 'users-properties',
+            component: UsersProperties,
+            beforeEnter(to, from, next) {
+                checkPrivilege(to, from, next);
+            },
+        },
         // {
         //     path: '/main',
         //     name: 'main',

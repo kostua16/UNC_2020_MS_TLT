@@ -30,7 +30,6 @@ export default {
         house: this.creationProperty.house,
         apartment: this.creationProperty.apartment,
         apartmentSize: this.creationProperty.apartmentSize,
-        citizenId: 111
       }
       console.log(creationProperty);
       PropertyService.addProperty(creationProperty);
@@ -41,7 +40,6 @@ export default {
       this.creationProperty.house = ''
       this.creationProperty.apartment = ''
       this.creationProperty.apartmentSize = 0
-      this.creationProperty.citizenId = ''
     }
   }
 }
