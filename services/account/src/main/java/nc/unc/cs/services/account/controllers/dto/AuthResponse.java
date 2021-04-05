@@ -1,6 +1,5 @@
 package nc.unc.cs.services.account.controllers.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
