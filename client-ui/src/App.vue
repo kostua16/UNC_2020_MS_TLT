@@ -64,67 +64,96 @@
           bottom
           temporary
       >
-<!--        <v-list-->
-<!--            nav-->
-<!--            v-for="(link) in links"-->
-<!--        >-->
-<!--            <v-list-item-group-->
-<!--                v-if="!(link.role == 'ROLE_ADMIN' && GET_USER_ROLE != link.role)"-->
-<!--                v-model="group"-->
-<!--                active-class="deep-purple&#45;&#45;text text&#45;&#45;accent-4"-->
-<!--            >-->
-<!--              <v-list-item-->
-<!--                  @click="$router.push(link.url)"-->
-<!--                  :disabled="$route.name === link.name"-->
-<!--              >-->
-<!--                <v-list-item-title>-->
-<!--                  {{ link.title }}-->
-<!--                </v-list-item-title>-->
-<!--              </v-list-item>-->
-<!--            </v-list-item-group>-->
+        <!--        <v-list-->
+        <!--            nav-->
+        <!--            v-for="(link) in links"-->
+        <!--        >-->
+        <!--            <v-list-item-group-->
+        <!--                v-if="!(link.role == 'ROLE_ADMIN' && GET_USER_ROLE != link.role)"-->
+        <!--                v-model="group"-->
+        <!--                active-class="deep-purple&#45;&#45;text text&#45;&#45;accent-4"-->
+        <!--            >-->
+        <!--              <v-list-item-->
+        <!--                  @click="$router.push(link.url)"-->
+        <!--                  :disabled="$route.name === link.name"-->
+        <!--              >-->
+        <!--                <v-list-item-title>-->
+        <!--                  {{ link.title }}-->
+        <!--                </v-list-item-title>-->
+        <!--              </v-list-item>-->
+        <!--            </v-list-item-group>-->
 
         <v-list nav>
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/profile')"
-                          :disabled="$route.name === 'profile'"
-                      >
-                        <v-list-item-title>
-                          Личный кабинет
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/profile')"
+                :disabled="$route.name === 'profile'"
+            >
+              <v-list-item-title>
+                Личный кабинет
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/tax/get-all')"
-                          :disabled="$route.name === 'tax-all'"
-                      >
-                        <v-list-item-title>
-                          Просмотреть налоги
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/tax/get-all')"
+                :disabled="$route.name === 'tax-all'"
+            >
+              <v-list-item-title>
+                Просмотреть налоги
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/communal/property/add-property')"
-                          :disabled="$route.name === 'add-property'"
-                      >
-                        <v-list-item-title>
-                          Добавить недвижимость
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/property/add-property')"
+                :disabled="$route.name === 'add-property'"
+            >
+              <v-list-item-title>
+                Добавить недвижимость
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/utilities/price-list')"
+                :disabled="$route.name === 'utilities-price-list'"
+            >
+              <v-list-item-title>
+                Коммунальные прейскуранты
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="checkAuthRole"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/properties')"
+                :disabled="$route.name === 'users-properties'"
+            >
+              <v-list-item-title>
+                Недвижимость граждан
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
 
         </v-list>
@@ -176,10 +205,18 @@ export default {
   computed: {
     ...mapGetters([
       'GET_USER_IS_ACTIVE',
-      'GET_USER_ROLE'
+      'GET_USER_ROLE',
+      'IS_ADMIN_ROLE'
     ]),
   },
   methods: {
+    checkAuthRole() {
+      if (this.GET_USER_IS_ACTIVE()) {
+        return this.IS_ADMIN_ROLE;
+      } else {
+        return false;
+      }
+    },
     logout() {
       this.$store.dispatch('auth/LOGOUT');
       this.$router.push('/login');

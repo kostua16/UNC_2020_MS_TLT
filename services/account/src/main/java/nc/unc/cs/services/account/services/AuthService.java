@@ -1,7 +1,7 @@
 package nc.unc.cs.services.account.services;
 
-import feign.FeignException;
 import java.util.List;
+import feign.FeignException;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
@@ -16,7 +16,6 @@ import nc.unc.cs.services.common.clients.passport.PassportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,19 +24,17 @@ import org.springframework.stereotype.Service;
 public class AuthService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
 
-  @Bean
-  public BCryptPasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  private final BCryptPasswordEncoder encoder = encoder();
-
+  private final BCryptPasswordEncoder encoder;
   private final AccountRepository accountRepository;
   private final PassportService passportService;
 
   @Autowired
   public AuthService(
-      final AccountRepository accountRepository, final PassportService passportService) {
+      final BCryptPasswordEncoder encoder,
+      final AccountRepository accountRepository,
+      final PassportService passportService
+  ) {
+    this.encoder = encoder;
     this.accountRepository = accountRepository;
     this.passportService = passportService;
   }
