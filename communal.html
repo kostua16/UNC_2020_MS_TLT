@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>HTTP verbs</title>
+<meta name="author" content="Konstantin Leontiev">
+<title>Communal API Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,21 +440,109 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
+<h1>Communal API Guide</h1>
+<div class="details">
+<span id="author" class="author">Konstantin Leontiev</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#overview_http_verbs">HTTP verbs</a></li>
+<li><a href="#javadocs">Javadocs</a></li>
+<li><a href="#agenda">Agenda</a></li>
+<li><a href="#addCitizensProperty">Registration of new property</a>
+<ul class="sectlevel2">
+<li><a href="#addCitizensProperty_curl_request">CURL request</a></li>
+<li><a href="#addCitizensProperty_http_request">Example request</a></li>
+<li><a href="#addCitizensProperty_http_response">Example response</a></li>
+<li><a href="#addCitizensProperty_response_fields">Response fields</a></li>
+</ul>
+</li>
+<li><a href="#getPropertiesByCitizenId">Receiving property by id of a citizen</a>
+<ul class="sectlevel2">
+<li><a href="#getPropertiesByCitizenId_curl_request">CURL request</a></li>
+<li><a href="#getPropertiesByCitizenId_http_request">Example request</a></li>
+<li><a href="#getPropertiesByCitizenId_http_response">Example response</a></li>
+<li><a href="#getPropertiesByCitizenId_response_fields">Response fields</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="overview_http_verbs">HTTP verbs</h2>
+<h2 id="javadocs">Javadocs</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>API as closely as possible to standard HTTP and REST conventions in its
-use of HTTP verbs.</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Communal service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/tax/TaxService.html">TaxService</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/services/PropertyTaxService.html">PropertyTaxService</a></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationProperty.html">CreationProperty</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationPropertyTaxValue.html">CreationPropertyTaxValue</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/entities/Property.html">Property</a></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationRegistration.html">CreationProperty</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/entities/Registration.html">Property</a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<div class="sect1">
+<h2 id="agenda">Agenda</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -461,29 +550,79 @@ use of HTTP verbs.</p>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Verb</th>
-<th class="tableblock halign-left valign-top">Usage</th>
+<th class="tableblock halign-left valign-top">Ref</th>
+<th class="tableblock halign-left valign-top">Details</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GET</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used to retrieve a resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Verbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/http_verbs.html">HTTP Verbs</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used to create a new resource</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PATCH</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used to update an existing resource, including partial updates</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DELETE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Used to delete an existing resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Codes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/http_codes.html">HTTP Codes</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="addCitizensProperty">Registration of new property</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="addCitizensProperty_curl_request">CURL request</h3>
+<div class="paragraph">
+<p>Snippet curl-request not found for operation::addCitizensProperty</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="addCitizensProperty_http_request">Example request</h3>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::addCitizensProperty</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="addCitizensProperty_http_response">Example response</h3>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::addCitizensProperty</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="addCitizensProperty_response_fields">Response fields</h3>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::addCitizensProperty</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getPropertiesByCitizenId">Receiving property by id of a citizen</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="getPropertiesByCitizenId_curl_request">CURL request</h3>
+<div class="paragraph">
+<p>Snippet curl-request not found for operation::getPropertiesByCitizenId</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="getPropertiesByCitizenId_http_request">Example request</h3>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::getPropertiesByCitizenId</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="getPropertiesByCitizenId_http_response">Example response</h3>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::getPropertiesByCitizenId</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="getPropertiesByCitizenId_response_fields">Response fields</h3>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::getPropertiesByCitizenId</p>
+</div>
+</div>
 </div>
 </div>
 </div>
