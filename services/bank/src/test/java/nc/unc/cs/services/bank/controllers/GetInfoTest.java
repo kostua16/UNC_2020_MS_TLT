@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = {BankController.class})
 @Import(ObjectMapper.class)
-public class GetInfoTest {
+class GetInfoTest {
   private static final String BANK_CONTROLLER_MAPPING = "http://localhost:8084/bank/";
   @Autowired
   private MockMvc mockMvc;
