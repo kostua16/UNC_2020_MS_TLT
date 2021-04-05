@@ -1,6 +1,7 @@
 package nc.unc.cs.services.passport.service;
 
 import feign.FeignException;
+import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
@@ -19,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Service
 public class PassportTable {
@@ -71,8 +70,7 @@ public class PassportTable {
     domestic.setNumber(random.nextInt(899999) + 100000);
     //        Сохранять в базу, только после успешной регистрации в банке и как это сделать?
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
+      this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
       this.domesticRepository.save(domestic);
       return ResponseEntity.ok(domestic);
     } catch (Exception e) {
@@ -93,14 +91,12 @@ public class PassportTable {
       international.setLocked(
           this.taxService.getListUnpaidTaxes(
               new IdInfo(
-                  citizen.getCitizenId(),
-                  2L))); // 2 - номер моего сервиса, добавть сшешяутШd
+                  citizen.getCitizenId(), 2L))); // 2 - номер моего сервиса, добавть сшешяутШd
     } catch (Exception e) {
       logger.error("Не удалось проверить налоги");
     }
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
+      this.bankService.requestPayment(new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
       return ResponseEntity.ok(this.internationalRepository.save(international));
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
@@ -108,7 +104,8 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<Domestic> updateDomestic(final Long id, final DomesticDTO domestic) throws FeignException {
+  public ResponseEntity<Domestic> updateDomestic(final Long id, final DomesticDTO domestic)
+      throws FeignException {
     Domestic updateDomestic =
         domesticRepository
             .findById(id)
@@ -131,7 +128,8 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<International> updateInternational(final Long id, InternationalDTO international) {
+  public ResponseEntity<International> updateInternational(
+      final Long id, InternationalDTO international) {
     International updateInternational =
         internationalRepository
             .findById(id)

@@ -1,16 +1,16 @@
 package nc.unc.cs.services.passport.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.Builder;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -47,8 +47,7 @@ public class Citizen {
       final String surname,
       final Date dateOfBirth,
       final String registration,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;

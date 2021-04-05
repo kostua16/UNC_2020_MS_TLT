@@ -1,7 +1,10 @@
 package nc.unc.cs.services.passport.service;
 
+import static org.mockito.Mockito.when;
+
+import java.util.Date;
+import java.util.Optional;
 import nc.unc.cs.services.common.clients.bank.BankService;
-import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.repository.InternationalRepository;
 import org.junit.jupiter.api.Assertions;
@@ -11,27 +14,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
 class ActivateInternationalTest {
 
+  @InjectMocks private PassportTable passportTable;
 
-  @InjectMocks
-  private PassportTable passportTable;
+  @Mock private BankService bankService;
 
-  @Mock
-  private BankService bankService;
-
-  @Mock
-  private InternationalRepository internationalRepository;
+  @Mock private InternationalRepository internationalRepository;
 
   private International createInternational() {
-    return International
-        .builder()
+    return International.builder()
         .internationalId(1L)
         .locked(false)
         .name("Nikita")
@@ -40,7 +33,6 @@ class ActivateInternationalTest {
         .isActive(false)
         .citizenId(111L)
         .build();
-
   }
 
   @Test
@@ -50,12 +42,11 @@ class ActivateInternationalTest {
 
     when(this.internationalRepository.findById(international.getInternationalId()))
         .thenReturn(Optional.of(international));
-    when(this.internationalRepository.save(international))
-        .thenReturn(international);
+    when(this.internationalRepository.save(international)).thenReturn(international);
 
-    final International response = this.passportTable.activateInternational(international.getInternationalId());
+    final International response =
+        this.passportTable.activateInternational(international.getInternationalId());
 
     Assertions.assertTrue(response.getIsActive());
   }
-
 }

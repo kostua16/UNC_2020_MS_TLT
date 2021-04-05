@@ -1,15 +1,14 @@
 package nc.unc.cs.services.passport.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -67,8 +66,7 @@ public class Domestic {
       final Boolean isActive,
       final Integer series,
       final Integer number,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.domesticId = domesticId;
     this.registration = registration.trim().toUpperCase();
     this.name = name.trim().toUpperCase();
@@ -91,6 +89,4 @@ public class Domestic {
   public void setSurname(String surname) {
     this.surname = surname.trim().toUpperCase();
   }
-
 }
-

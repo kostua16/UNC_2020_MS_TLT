@@ -1,5 +1,9 @@
 package nc.unc.cs.services.passport.service;
 
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.Mockito.when;
+
+import java.util.Date;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.passport.model.Citizen;
@@ -14,22 +18,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
-
-import static org.mockito.ArgumentMatchers.anyObject;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
 class PassportRegistrationTest {
 
-  @InjectMocks
-  private static PassportTable passportTable;
+  @InjectMocks private static PassportTable passportTable;
 
-  @Mock
-  private BankService bankService;
+  @Mock private BankService bankService;
 
-  @Mock
-  private DomesticRepository domesticRepository;
+  @Mock private DomesticRepository domesticRepository;
 
   @Test
   void getPassport() {
@@ -40,19 +36,18 @@ class PassportRegistrationTest {
     citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date(1234L));
 
-    final Domestic domestic = Domestic
-        .builder()
-        .name(citizen.getName())
-        .surname(citizen.getSurname())
-        .registration(citizen.getRegistration())
-        .dateOfBirth(citizen.getDateOfBirth())
-        .citizenId(citizen.getCitizenId())
-        .build();
+    final Domestic domestic =
+        Domestic.builder()
+            .name(citizen.getName())
+            .surname(citizen.getSurname())
+            .registration(citizen.getRegistration())
+            .dateOfBirth(citizen.getDateOfBirth())
+            .citizenId(citizen.getCitizenId())
+            .build();
 
     PaymentPayload paymentPayload = new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200);
 
-    when(bankService.requestPayment(paymentPayload))
-        .thenReturn(ResponseEntity.ok(1L));
+    when(bankService.requestPayment(paymentPayload)).thenReturn(ResponseEntity.ok(1L));
 
     when(domesticRepository.save(anyObject())).thenAnswer(invocation -> invocation.getArgument(0));
     final ResponseEntity<Domestic> response = passportTable.registerDomesticPassport(citizen);
@@ -60,9 +55,6 @@ class PassportRegistrationTest {
     Assertions.assertAll(
         () -> Assertions.assertEquals(HttpStatus.OK, response.getStatusCode()),
         () -> Assertions.assertEquals(citizen.getName(), response.getBody().getName()),
-        () -> Assertions.assertFalse(response.getBody().getIsActive())
-    );
+        () -> Assertions.assertFalse(response.getBody().getIsActive()));
   }
-
 }
-
