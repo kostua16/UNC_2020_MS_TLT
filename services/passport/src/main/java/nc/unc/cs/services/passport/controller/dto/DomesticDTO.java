@@ -1,9 +1,6 @@
 package nc.unc.cs.services.passport.controller.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +9,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @ToString
@@ -70,8 +70,7 @@ public class DomesticDTO {
       final Boolean isActive,
       final Integer series,
       final Integer number,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.domesticId = domesticId;
     this.registration = registration.trim().toUpperCase();
     this.name = name.trim().toUpperCase();
@@ -94,6 +93,4 @@ public class DomesticDTO {
   public void setSurname(String surname) {
     this.surname = surname.trim().toUpperCase();
   }
-
 }
-
