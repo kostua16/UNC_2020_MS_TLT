@@ -1,0 +1,52 @@
+= Communal API Guide
+Konstantin Leontiev;
+
+[[javadocs]]
+== Javadocs
+|===
+| Entity | Client API | Service Impl
+
+| Communal service
+| link:/{jdocs}/nc/unc/cs/services/common/clients/tax/TaxService.html[TaxService]
+| link:/{jdocs}/nc/unc/cs/services/communal/services/PropertyTaxService.html[PropertyTaxService]
+
+|===
+|===
+| Entity | Client API | Client API | Service Impl
+
+| Property specification
+| link:/{jdocs}/nc/unc/cs/services/communal/controllers/payloads/CreationProperty.html[CreationProperty]
+| link:/{jdocs}/nc/unc/cs/services/communal/controllers/payloads/CreationPropertyTaxValue.html[CreationPropertyTaxValue]
+| link:/{jdocs}/nc/unc/cs/services/communal/entities/Property.html[Property]
+
+|===
+|===
+| Entity | Client API | Service Impl
+
+| Registration specification
+| link:/{jdocs}/nc/unc/cs/services/communal/controllers/payloads/CreationRegistration.html[CreationProperty]
+| link:/{jdocs}/nc/unc/cs/services/communal/entities/Registration.html[Property]
+|===
+
+
+[[agenda]]
+== Agenda
+|===
+| Ref | Details
+
+| HTTP Verbs
+| link:/{root}/http_verbs.html[HTTP Verbs]
+
+| HTTP Codes
+| link:/{root}/http_codes.html[HTTP Codes]
+|===
+
+[[addCitizensProperty]]
+== Registration of new property
+operation::addCitizensProperty[snippets='curl-request,http-request,http-response,response-fields']
+
+[[getPropertiesByCitizenId]]
+== Receiving property by id of a citizen
+operation::getPropertiesByCitizenId[snippets='curl-request,http-request,http-response,response-fields']
+
+
