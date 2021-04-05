@@ -449,51 +449,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#javadocs">Javadocs</a></li>
 <li><a href="#agenda">Agenda</a></li>
-<li><a href="#ownderCars">List owned cars by person</a>
+<li><a href="#addCitizensProperty">Registration of new property</a>
 <ul class="sectlevel2">
-<li><a href="#ownderCars_curl_request">CURL request</a></li>
-<li><a href="#ownderCars_http_request">Example request</a></li>
-<li><a href="#ownderCars_http_response">Example response</a></li>
-<li><a href="#ownderCars_response_fields">Response fields</a></li>
+<li><a href="#addCitizensProperty_curl_request">CURL request</a></li>
+<li><a href="#addCitizensProperty_http_request">Example request</a></li>
+<li><a href="#addCitizensProperty_http_response">Example response</a></li>
+<li><a href="#addCitizensProperty_response_fields">Response fields</a></li>
 </ul>
 </li>
-<li><a href="#findCar">Find car by number</a>
+<li><a href="#getPropertiesByCitizenId">Receiving property by id of a citizen</a>
 <ul class="sectlevel2">
-<li><a href="#findCar_curl_request">CURL request</a></li>
-<li><a href="#findCar_http_request">Example request</a></li>
-<li><a href="#findCar_http_response">Example response</a></li>
-<li><a href="#findCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_not_found">Exceptions: <code>Car not found</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_not_found_http_response">Example response</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#addCar">Register new car</a>
-<ul class="sectlevel2">
-<li><a href="#addCar_curl_request">CURL request</a></li>
-<li><a href="#addCar_http_request">Example request</a></li>
-<li><a href="#addCar_http_response">Example response</a></li>
-<li><a href="#addCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_already_present">Exceptions: <code>Car already present</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_already_present_http_response">Example response</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#updateCar">Update car information</a>
-<ul class="sectlevel2">
-<li><a href="#updateCar_curl_request">CURL request</a></li>
-<li><a href="#updateCar_http_request">Example request</a></li>
-<li><a href="#updateCar_http_response">Example response</a></li>
-<li><a href="#updateCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_not_found_2">Exceptions: <code>Car not found</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_not_found_2_http_response">Example response</a></li>
-</ul>
-</li>
+<li><a href="#getPropertiesByCitizenId_curl_request">CURL request</a></li>
+<li><a href="#getPropertiesByCitizenId_http_request">Example request</a></li>
+<li><a href="#getPropertiesByCitizenId_http_response">Example response</a></li>
+<li><a href="#getPropertiesByCitizenId_response_fields">Response fields</a></li>
 </ul>
 </li>
 </ul>
@@ -518,14 +487,54 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gibdd service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/gibdd/GibddService.html">Gibdd client</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/gibdd/services/GibddService.html">Gibdd service</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Communal service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/tax/TaxService.html">TaxService</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/services/PropertyTaxService.html">PropertyTaxService</a></p></td>
 </tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Car specification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/gibdd/CarDto.html">Car DTO</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/gibdd/entities/Car.html">Car</a></p></td>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationProperty.html">CreationProperty</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationPropertyTaxValue.html">CreationPropertyTaxValue</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/entities/Property.html">Property</a></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/controllers/payloads/CreationRegistration.html">CreationProperty</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/communal/entities/Registration.html">Property</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -559,144 +568,59 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="ownderCars">List owned cars by person</h2>
+<h2 id="addCitizensProperty">Registration of new property</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="ownderCars_curl_request">CURL request</h3>
+<h3 id="addCitizensProperty_curl_request">CURL request</h3>
 <div class="paragraph">
-<p>Snippet curl-request not found for operation::ownedCars</p>
+<p>Snippet curl-request not found for operation::addCitizensProperty</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_http_request">Example request</h3>
+<h3 id="addCitizensProperty_http_request">Example request</h3>
 <div class="paragraph">
-<p>Snippet http-request not found for operation::ownedCars</p>
+<p>Snippet http-request not found for operation::addCitizensProperty</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_http_response">Example response</h3>
+<h3 id="addCitizensProperty_http_response">Example response</h3>
 <div class="paragraph">
-<p>Snippet http-response not found for operation::ownedCars</p>
+<p>Snippet http-response not found for operation::addCitizensProperty</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_response_fields">Response fields</h3>
+<h3 id="addCitizensProperty_response_fields">Response fields</h3>
 <div class="paragraph">
-<p>Snippet response-fields not found for operation::ownedCars</p>
+<p>Snippet response-fields not found for operation::addCitizensProperty</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="findCar">Find car by number</h2>
+<h2 id="getPropertiesByCitizenId">Receiving property by id of a citizen</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="findCar_curl_request">CURL request</h3>
+<h3 id="getPropertiesByCitizenId_curl_request">CURL request</h3>
 <div class="paragraph">
-<p>Snippet curl-request not found for operation::findCar</p>
+<p>Snippet curl-request not found for operation::getPropertiesByCitizenId</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_http_request">Example request</h3>
+<h3 id="getPropertiesByCitizenId_http_request">Example request</h3>
 <div class="paragraph">
-<p>Snippet http-request not found for operation::findCar</p>
+<p>Snippet http-request not found for operation::getPropertiesByCitizenId</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_http_response">Example response</h3>
+<h3 id="getPropertiesByCitizenId_http_response">Example response</h3>
 <div class="paragraph">
-<p>Snippet http-response not found for operation::findCar</p>
+<p>Snippet http-response not found for operation::getPropertiesByCitizenId</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_response_fields">Response fields</h3>
+<h3 id="getPropertiesByCitizenId_response_fields">Response fields</h3>
 <div class="paragraph">
-<p>Snippet response-fields not found for operation::findCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_not_found">Exceptions: <code>Car not found</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_not_found_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::findCarNotFound</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="addCar">Register new car</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="addCar_curl_request">CURL request</h3>
-<div class="paragraph">
-<p>Snippet curl-request not found for operation::addCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="addCar_http_request">Example request</h3>
-<div class="paragraph">
-<p>Snippet http-request not found for operation::addCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="addCar_http_response">Example response</h3>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::addCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="addCar_response_fields">Response fields</h3>
-<div class="paragraph">
-<p>Snippet response-fields not found for operation::addCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_already_present">Exceptions: <code>Car already present</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_already_present_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::addCarDuplicated</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="updateCar">Update car information</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="updateCar_curl_request">CURL request</h3>
-<div class="paragraph">
-<p>Snippet curl-request not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_http_request">Example request</h3>
-<div class="paragraph">
-<p>Snippet http-request not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_http_response">Example response</h3>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_response_fields">Response fields</h3>
-<div class="paragraph">
-<p>Snippet response-fields not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_not_found_2">Exceptions: <code>Car not found</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_not_found_2_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::updateCarNotFound</p>
-</div>
+<p>Snippet response-fields not found for operation::getPropertiesByCitizenId</p>
 </div>
 </div>
 </div>
