@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class PassportTable {
   /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
+
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
   private final Random random = new Random();
@@ -40,9 +41,7 @@ public class PassportTable {
     this.taxService = taxService;
   }
 
-  /**
-   * Возвращает список заграничных паспортов.
-   */
+  /** Возвращает список заграничных паспортов. */
   public Iterable<International> getInternational() {
     return this.internationalRepository.findAll();
   }
@@ -57,9 +56,7 @@ public class PassportTable {
     return this.internationalRepository.findById(id).orElseGet(null);
   }
 
-  /**
-   * Возвращает список отечественных паспортов.
-   */
+  /** Возвращает список отечественных паспортов. */
   public Iterable<Domestic> getDomestic() {
     return this.domesticRepository.findAll();
   }
@@ -163,7 +160,7 @@ public class PassportTable {
   }
 
   /**
-   * Обновление отечественного паспорта  гражданина.
+   * Обновление отечественного паспорта гражданина.
    *
    * @param id данные о гражданине
    * @param international данные о гражданине
@@ -191,7 +188,7 @@ public class PassportTable {
   }
 
   /**
-   * активация заграничного паспорта  гражданина.
+   * активация заграничного паспорта гражданина.
    *
    * @param id данные о гражданине
    * @return http-ответ, в теле которого находится данные о заграничном паспорте
@@ -206,7 +203,7 @@ public class PassportTable {
   }
 
   /**
-   * активация заграничного паспорта  гражданина.
+   * активация заграничного паспорта гражданина.
    *
    * @param id данные о гражданине
    * @return http-ответ, в теле которого находится данные о заграничном паспорте
