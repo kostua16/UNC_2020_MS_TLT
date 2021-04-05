@@ -110,12 +110,16 @@ public class AuthService {
    *
    * @return список аккаунтов
    */
-  @Deprecated
   public List<Account> getAllAccounts() {
     return accountRepository.findAll();
   }
 
-  @Deprecated
+  /**
+   * Выдаёт указанному пользователю права администратора.
+   *
+   * @param username имя аккаунта, которому будут выдавать права админа
+   * @return обнавлённая информация о пользователе
+   */
   public ResponseEntity<AuthResponse> changeRoleToAdmin(final String username) {
     final Account account = this.accountRepository.findAccountByUsername(username);
     if (account == null) {

@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-public class ServiceTest {
+class ServiceTest {
 
   @InjectMocks
   private AuthService authService;
