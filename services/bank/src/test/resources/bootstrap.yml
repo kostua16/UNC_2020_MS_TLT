@@ -1,0 +1,8 @@
+server:
+  port: ${PORT:8084}
+spring:
+  application:
+    name: BANK
+  cloud:
+    config:
+      enabled: false
