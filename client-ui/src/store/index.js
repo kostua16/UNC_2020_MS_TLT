@@ -12,9 +12,9 @@ export default new Vuex.Store({
     state: {
         properties: [],
         allProperties: [],
-        propertyTaxValue: [],
-        utilityBill: [],
-        utilityBillPriceList: [],
+        propertyTaxValues: [],
+        utilityBills: [],
+        utilityBillPriceLists: [],
         paymentRequests: [],
     },
     mutations,

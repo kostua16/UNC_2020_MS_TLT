@@ -8,6 +8,7 @@ import Login from "@/components/auth/Login";
 import store from '@/store/index'
 import SignUp from "@/components/auth/SignUp";
 import Profile from "@/components/main/Profile";
+import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
 
 Vue.use(Router);
 
@@ -126,6 +127,14 @@ export const router = new Router({
             path: '/communal/admin/properties',
             name: 'users-properties',
             component: UsersProperties,
+            beforeEnter(to, from, next) {
+                checkPrivilege(to, from, next);
+            },
+        },
+        {
+            path: '/communal/admin/utilities/price-list',
+            name: 'utilities-price-list',
+            component: UtilitiesPriceList,
             beforeEnter(to, from, next) {
                 checkPrivilege(to, from, next);
             },

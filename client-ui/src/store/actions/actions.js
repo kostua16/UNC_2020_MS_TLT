@@ -65,5 +65,55 @@ export default {
                 console.log('Failed to get information about payment requests. \n' + error);
                 return error;
             })
+    },
+
+    GET_UTILITIES_PRICE_LIST_FROM_API({commit}) {
+        return axios
+            .get(
+                URL_COMMUNAL + '/utilities/price-list/',
+                {},
+            )
+            .then(response => {
+                commit('SET_UTILITIES_PRICE_LIST_TO_STATE', response.data);
+                return response;
+            })
+            .catch(error => {
+                console.log('Failed to get information about utilities price lists. \n' + error);
+                return error;
+            })
+    },
+
+    ADD_UTILITIES_PRICE_LIST({commit, state}, priceList) {
+        return axios
+            .post(
+                URL_COMMUNAL + '/utilities/price-list',
+                {
+                    region: priceList.region,
+                    coldWaterPrice: priceList.coldWaterPrice,
+                    hotWaterPrice: priceList.hotWaterPrice,
+                    electricityPrice: priceList.electricityPrice
+                },
+                {}
+            )
+            .then(response => {
+                const priceListFromApi = response.data;
+                const utilitiesPriceListId = state
+                    .utilityBillPriceLists
+                    .findIndex(item => item.utilitiesPriceListId === priceListFromApi.utilitiesPriceListId);
+                console.log("state ", state.utilityBillPriceLists)
+                console.log("id ", utilitiesPriceListId)
+                if (utilitiesPriceListId > -1) {
+                    console.log("The price list is being updated...")
+                    commit('UPDATE_UTILITIES_PRICE_LIST', priceListFromApi, utilitiesPriceListId)
+                } else {
+                    console.log("The price list began to be saved...")
+                    commit('ADD_UTILITIES_PRICE_LIST', priceListFromApi)
+                }
+                return response.status;
+            })
+            .catch(error => {
+                console.log("Failed to save utilities price list!\n", error);
+                return error.status;
+            })
     }
 }
