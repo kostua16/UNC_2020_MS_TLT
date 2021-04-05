@@ -9,7 +9,6 @@ import nc.unc.cs.services.passport.controller.dto.DomesticDTO;
 import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
-import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 @Service

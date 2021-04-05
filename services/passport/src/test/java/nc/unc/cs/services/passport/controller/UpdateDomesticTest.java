@@ -60,7 +60,7 @@ class UpdateDomesticTest {
     final Domestic domestic = new Domestic();
 
     when(passportTable.updateDomestic(domesticDTO.getDomesticId(), domesticDTO))
-    .thenReturn(ResponseEntity.ok(domestic));
+        .thenReturn(ResponseEntity.ok(domestic));
 
 
     mockMvc.perform(post(PASSPORT_CONTROLLER_MAPPING + "/passport/updateDomestic/" + domesticDTO.getDomesticId())
