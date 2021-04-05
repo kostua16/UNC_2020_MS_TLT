@@ -9,13 +9,13 @@ import lombok.Data;
 @Builder
 public class LogEntry {
 
-    private long id;
+  private long id;
 
-    private Date created;
+  private Date created;
 
-    @Size(min = 1, max = 10)
-    private String service;
+  @Size(min = 1, max = 10)
+  private String service;
 
-    @Size(min = 1, max = 4000)
-    private String message;
+  @Size(min = 1, max = 4000)
+  private String message;
 }
