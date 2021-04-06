@@ -52,7 +52,7 @@ export default {
   methods: {
     ...mapActions(['GET_PROPERTY_TAX_VALUE_FROM_API']),
     editPriceLIst(priceLIst) {
-      this.utilitiesPriceList = priceLIst;
+      this.propertyTaxValue = priceLIst;
     },
   },
   created() {

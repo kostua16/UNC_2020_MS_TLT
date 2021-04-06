@@ -9,6 +9,7 @@ import SignUp from "@/components/auth/SignUp";
 import Profile from "@/components/main/Profile";
 import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
 import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
+import Property from '@/components/communal/property/Property'
 
 Vue.use(Router);
 
@@ -109,7 +110,7 @@ export const router = new Router({
         {
             path: '/communal/property/add-property',
             name: 'add-property',
-            component: () => '@/components/communal/property/Property',
+            component: Property,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },

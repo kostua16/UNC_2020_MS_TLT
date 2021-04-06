@@ -17,7 +17,7 @@
 
         <utilities-price-list-item
             v-for="(utilitiesPriceList, index) in filteredPriceList"
-            :key="`priceList.id - ${index}`"
+            :key="`utilitiesPriceList.id - ${index}`"
             :utilitiesPriceList="utilitiesPriceList"
             :editPriceLIst="editPriceLIst"
         />

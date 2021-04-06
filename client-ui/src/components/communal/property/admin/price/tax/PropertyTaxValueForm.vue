@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-title>Прейскурант для рассчёта налога на недвижимость</v-card-title>
+    <h2 class="text-center">Прейскурант для рассчёта налога на недвижимость</h2>
     <h3>{{ message }}</h3>
     <v-text-field
         type="text"
@@ -61,10 +61,9 @@ export default {
     },
     cleanForm() {
       this.propertyTaxValue.region = ''
-      this.propertyTaxValue.coldWaterPrice = ''
-      this.propertyTaxValue.hotWaterPrice = ''
-      this.propertyTaxValue.electricityPrice = ''
-      this.propertyTaxValue.utilitiesPriceListId = ''
+      this.propertyTaxValue.pricePerSquareMeter = ''
+      this.propertyTaxValue.cadastralValue = ''
+      this.propertyTaxValue.propertyTaxValueId = ''
     }
   }
 }
