@@ -14,6 +14,9 @@
 | link:/{root}/communal.html[Communal]
 | Sample service to manipulate communal services
 
+| Bank Service
+| link:/{root}/Bank.html[Bank]
+| Service responsible for paying bills
 |===
 
 [[commons]]

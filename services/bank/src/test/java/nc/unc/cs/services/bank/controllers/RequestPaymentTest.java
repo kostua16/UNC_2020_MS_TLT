@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -49,6 +50,7 @@ class RequestPaymentTest {
             post(BANK_CONTROLLER_MAPPING)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(paymentPayload)))
+        .andDo(document("requestPaymentTest"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().string(containsString(this.objectMapper.writeValueAsString(1L))));

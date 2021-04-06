@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +38,7 @@ public class GetInfoTest {
             get(BANK_CONTROLLER_MAPPING + paymentId)
                 .contentType("application/json")
         )
+        .andDo(document("checkPaymentStatusTest"))
         .andDo(print())
         .andExpect(status().isOk());
   }
@@ -53,6 +55,7 @@ public class GetInfoTest {
             get(BANK_CONTROLLER_MAPPING + "check/" + citizenId)
                 .contentType("application/json")
         )
+        .andDo(document("getDebtPaymentRequestsTest"))
         .andDo(print())
         .andExpect(status().isOk());
   }
