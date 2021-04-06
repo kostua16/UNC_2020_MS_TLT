@@ -10,6 +10,7 @@ import Profile from "@/components/main/Profile";
 import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
 import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
 import Property from '@/components/communal/property/Property'
+import MainPage from "@/components/main/MainPage";
 
 Vue.use(Router);
 
@@ -148,10 +149,13 @@ export const router = new Router({
                 checkPrivilege(to, from, next);
             },
         },
-        // {
-        //     path: '/main',
-        //     name: 'main',
-        //     component: MainPage
-        // }
+        {
+            path: '/main',
+            name: 'main',
+            component: MainPage,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        }
     ],
 });
