@@ -4,11 +4,11 @@ import Tax from "@/components/tax/Tax";
 import CitizenProperty from "@/components/communal/property/CitizenProperty";
 import UsersProperties from "@/components/communal/property/admin/UsersProperties";
 import Login from "@/components/auth/Login";
-// import MainPage from "@/components/main/MainPage";
 import store from '@/store/index'
 import SignUp from "@/components/auth/SignUp";
 import Profile from "@/components/main/Profile";
 import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
+import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
 
 Vue.use(Router);
 
@@ -139,11 +139,18 @@ export const router = new Router({
                 checkPrivilege(to, from, next);
             },
         },
+        {
+            path: '/communal/admin/tax/price-list',
+            name: 'tax-price-list',
+            component: PropertyTaxValue,
+            beforeEnter(to, from, next) {
+                checkPrivilege(to, from, next);
+            },
+        },
         // {
         //     path: '/main',
         //     name: 'main',
         //     component: MainPage
         // }
     ],
-
 });

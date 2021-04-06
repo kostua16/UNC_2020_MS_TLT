@@ -17,5 +17,15 @@ export default {
     },
     UPDATE_UTILITIES_PRICE_LIST(state, priceListFromApi, utilitiesPriceListId) {
         state.utilityBillPriceLists.splice(utilitiesPriceListId, 1, priceListFromApi);
+    },
+
+    SET_PROPERTY_TAX_VALUE_TO_STATE(state, propertyTaxValues) {
+        state.propertyTaxValues = propertyTaxValues;
+    },
+    ADD_PROPERTY_TAX_VALUE(state, priceListFromApi) {
+        state.propertyTaxValues.push(priceListFromApi);
+    },
+    UPDATE_PROPERTY_TAX_VALUE(state, priceListFromApi, propertyTaxValueId) {
+        state.propertyTaxValues.splice(propertyTaxValueId, 1, priceListFromApi);
     }
 }

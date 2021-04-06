@@ -1,5 +1,5 @@
 import axios from 'axios'
-import ParseLocalStorage from '@/services/auth/parse-local-storage'
+import AuthModule from '@/store/auth.module'
 
 const HTTP_PROTOCOL = 'http';
 
@@ -22,7 +22,7 @@ export default {
     GET_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(
-                PROPERTY_API_URL + '/citizen/' + ParseLocalStorage(),
+                PROPERTY_API_URL + '/citizen/' + AuthModule.state.user.citizenId,
                 {},
             )
             .then((properties) => {
@@ -54,7 +54,7 @@ export default {
     GET_MY_PAYMENT_REQUESTS_FROM_API({commit}) {
         return axios
             .get(
-                URL_BANK + '/check/' + ParseLocalStorage(),
+                URL_BANK + '/check/' + AuthModule.state.user.citizenId,
                 {},
             )
             .then((properties) => {
@@ -108,6 +108,53 @@ export default {
                 } else {
                     console.log("The price list began to be saved...")
                     commit('ADD_UTILITIES_PRICE_LIST', priceListFromApi)
+                }
+                return response.status;
+            })
+            .catch(error => {
+                console.log("Failed to save utilities price list!\n", error);
+                return error.status;
+            })
+    },
+
+    GET_PROPERTY_TAX_VALUE_FROM_API({commit}) {
+        return axios
+            .get(
+                URL_COMMUNAL + '/tax/price-list/',
+                {},
+            )
+            .then(response => {
+                commit('SET_PROPERTY_TAX_VALUE_TO_STATE', response.data);
+                return response;
+            })
+            .catch(error => {
+                console.log('Failed to get information about utilities price lists. \n' + error);
+                return error;
+            })
+    },
+
+    ADD_PROPERTY_TAX_VALUE({commit, state}, priceList) {
+        return axios
+            .post(
+                URL_COMMUNAL + '/tax/price-list/',
+                {
+                    region: priceList.region,
+                    pricePerSquareMeter: priceList.pricePerSquareMeter,
+                    cadastralValue: priceList.cadastralValue
+                },
+                {}
+            )
+            .then(response => {
+                const priceListFromApi = response.data;
+                const propertyTaxValueId = state
+                    .propertyTaxValues
+                    .findIndex(item => item.propertyTaxValueId === priceListFromApi.propertyTaxValueId);
+                if (propertyTaxValueId > -1) {
+                    console.log("The price list is being updated...")
+                    commit('UPDATE_PROPERTY_TAX_VALUE', priceListFromApi, propertyTaxValueId)
+                } else {
+                    console.log("The price list began to be saved...")
+                    commit('ADD_PROPERTY_TAX_VALUE', priceListFromApi)
                 }
                 return response.status;
             })

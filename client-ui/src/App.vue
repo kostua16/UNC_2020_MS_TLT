@@ -146,6 +146,21 @@
               active-class="deep-purple--text text--accent-4"
           >
             <v-list-item
+                @click="$router.push('/communal/admin/tax/price-list')"
+                :disabled="$route.name === 'tax-price-list'"
+            >
+              <v-list-item-title>
+                Налоговые прейскуранты
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="checkAuthRole"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
                 @click="$router.push('/communal/admin/properties')"
                 :disabled="$route.name === 'users-properties'"
             >
@@ -154,7 +169,6 @@
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
-
 
         </v-list>
       </v-navigation-drawer>
