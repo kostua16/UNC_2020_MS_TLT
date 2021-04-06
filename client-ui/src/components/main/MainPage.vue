@@ -44,32 +44,32 @@ export default {
       icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
       items: [
         {
-          title: 'New Releases',
+          title: 'Счета к оплате',
           link: '',
           img: require('@/assets/images/bank.png'),
         },
         {
-          title: 'Rock',
+          title: 'История оплаты',
           link: '',
           img: require('@/assets/images/payment_history.png'),
         },
         {
-          title: 'Mellow Moods',
+          title: 'Налоги',
           link: 'tax/get-all',
           img: require('@/assets/images/tax.png'),
         },
         {
-          title: 'Mellow Moods',
+          title: 'Налог(-и) на недвижимость',
           link: '',
           img: require('@/assets/images/propert_tax.png'),
         },
         {
-          title: 'Mellow Moods',
+          title: 'Коммунальные квитанции',
           link: '',
           img: require('@/assets/images/utility.png'),
         },
         {
-          title: 'Mellow Moods',
+          title: 'Оформить ЗагранПаспорт',
           link: '',
           img: require('@/assets/images/international_.png'),
         },
