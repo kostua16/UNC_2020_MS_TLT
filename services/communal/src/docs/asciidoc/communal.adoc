@@ -1,5 +1,5 @@
 = Communal API Guide
-Konstantin Leontiev;
+Gorbatiuk Artyom;
 
 [[javadocs]]
 == Javadocs
