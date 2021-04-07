@@ -50,7 +50,7 @@ export default {
         },
         {
           title: 'История оплаты',
-          link: '',
+          link: '/bank/transactions',
           img: require('@/assets/images/payment_history.png'),
         },
         {

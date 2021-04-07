@@ -11,6 +11,7 @@ import UtilitiesPriceList from "@/components/communal/property/admin/price/utili
 import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
 import Property from '@/components/communal/property/Property'
 import MainPage from "@/components/main/MainPage";
+import Transactions from "@/components/bank/Transactions";
 
 Vue.use(Router);
 
@@ -156,6 +157,14 @@ export const router = new Router({
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
-        }
+        },
+        {
+            path: '/bank/transactions',
+            name: 'transactions',
+            component: Transactions,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            }
+        },
     ],
 });

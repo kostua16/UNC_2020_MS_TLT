@@ -27,5 +27,8 @@ export default {
     },
     UPDATE_PROPERTY_TAX_VALUE(state, priceListFromApi, propertyTaxValueId) {
         state.propertyTaxValues.splice(propertyTaxValueId, 1, priceListFromApi);
+    },
+    SET_PERIOD_TRANSACTION_TO_STATE(state, transactions) {
+        state.transactions = transactions;
     }
 }

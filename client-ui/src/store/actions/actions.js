@@ -162,5 +162,26 @@ export default {
                 console.log("Failed to save utilities price list!\n", error);
                 return error.status;
             })
+    },
+
+    GET_PERIOD_TRANSACTION_FROM_API({commit}, period) {
+        return axios
+            .post(
+                URL_BANK + '/transaction',
+                {
+                    citizenId: AuthModule.state.user.citizenId,
+                    startDate: period.startDate,
+                    endDate: period.endDate
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_PERIOD_TRANSACTION_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error("Не удалось получить список транзакций!\n", error.status)
+                return error.status;
+            })
     }
 }

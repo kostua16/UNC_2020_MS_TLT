@@ -16,6 +16,7 @@ export default new Vuex.Store({
         utilityBills: [],
         utilityBillPriceLists: [],
         paymentRequests: [],
+        transactions: [],
     },
     mutations,
     actions,
