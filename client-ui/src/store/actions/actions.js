@@ -6,15 +6,15 @@ const HTTP_PROTOCOL = 'http';
 // hostnames
 const HOST_AND_PORT_BANK = 'localhost:8084';
 const HOST_AND_PORT_COMMUNAL = 'localhost:8083';
-const HOST_AND_PORT_TAX = 'localhost:8082';
-const HOST_AND_PORT_PASSPORT = 'localhost:8095';
-const HOST_AND_PORT_GIBDD = 'localhost:8088';
-const HOST_AND_PORT_LOGGING = 'localhost:8089';
+// const HOST_AND_PORT_TAX = 'localhost:8082';
+// const HOST_AND_PORT_PASSPORT = 'localhost:8095';
+// const HOST_AND_PORT_GIBDD = 'localhost:8088';
+// const HOST_AND_PORT_LOGGING = 'localhost:8089';
 
 const URL_BANK = HTTP_PROTOCOL + '://' + HOST_AND_PORT_BANK + '/bank'
 const URL_COMMUNAL = HTTP_PROTOCOL + '://' + HOST_AND_PORT_COMMUNAL + '/communal'
-const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
-const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
+// const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
+// const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
 
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 

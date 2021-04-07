@@ -1,5 +1,4 @@
 <template>
-  <!--  Сделать выбор периода дат -->
   <v-main class="justify-center align-center text-center">
     <v-card-title
         class="text-break text-center"
@@ -54,18 +53,17 @@ export default {
   methods: {
     ...mapActions(['GET_PERIOD_TRANSACTION_FROM_API']),
     getPeriodTransactions() {
-      console.log(this.range)
       this.period.startDate = this.range[0];
       this.period.endDate = this.range[1];
-      console.log("Period: ", this.period.startDate, " -- ", this.period.endDate)
-      // this.GET_PERIOD_TRANSACTION_FROM_API(this.period)
-      //     .then(status => {
-      //       if (status !== 200) {
-      //         this.message = 'Не удалось загрузить чеки. Попробуйте позже.';
-      //       }
-      //     })
+      this.GET_PERIOD_TRANSACTION_FROM_API(this.period)
+          .then(status => {
+            if (status !== 200) {
+              this.message = 'Не удалось загрузить чеки. Попробуйте позже.';
+            }
+          })
       this.startDate = '';
       this.endDate = '';
+      this.range = [];
     }
   },
 }

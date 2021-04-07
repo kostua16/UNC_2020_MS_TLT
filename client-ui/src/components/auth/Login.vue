@@ -1,54 +1,57 @@
 <template>
   <v-main>
     <v-layout row wrap align-center justify-center>
-    <v-card
-        flat
-        class="mt-10 text-center text-xs-center"
-        width="500"
-        max-height="400"
-    >
-      <h3>{{ message }}</h3>
-      <v-form name="form" @submit.prevent="handleLogin">
-        <v-container>
-          <v-row justify="center" class="mt-5">
+      <v-card
+          flat
+          class="mt-10 text-center text-xs-center"
+          width="500"
+          max-height="400"
+      >
+        <h3>{{ message }}</h3>
+        <v-form name="form" @submit.prevent="handleLogin">
+          <v-container>
+            <v-row justify="center" class="mt-5">
 
-            <v-col sm="9">
-              <v-text-field
-                  v-model="user.username"
-                  type="text"
-                  label="Login"
-                  counter
-                  outlined
-              ></v-text-field>
-            </v-col>
-          </v-row>
+              <v-col sm="9">
+                <v-text-field
+                    v-model="user.username"
+                    type="text"
+                    label="Login"
+                    counter
+                    outlined
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row justify="center">
-            <v-col sm="9">
-              <v-text-field
-                  v-model="user.password"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show ? 'text' : 'password'"
-                  name="password"
-                  label="Password"
-                  counter
-                  outlined
-                  @click:append="show = !show"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-btn
-              width="100px"
-              rounded
-              color="primary"
-              dark
-              @click="handleLogin"
-          >
-            <span>Login</span>
-          </v-btn>
-        </v-container>
-      </v-form>
-    </v-card>
+            <v-row justify="center">
+              <v-col sm="9">
+                <v-text-field
+                    v-model="user.password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show ? 'text' : 'password'"
+                    name="password"
+                    label="Password"
+                    counter
+                    outlined
+                    @click:append="show = !show"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-btn
+                width="100px"
+                rounded
+                color="primary"
+                dark
+                @click="handleLogin"
+            >
+              <span>Login</span>
+            </v-btn>
+          </v-container>
+        </v-form>
+        <div class="mt-5">
+          <router-link to="sign-up">Нету аккаута? Зарегестрируйтесь!</router-link>
+        </div>
+      </v-card>
     </v-layout>
   </v-main>
 </template>

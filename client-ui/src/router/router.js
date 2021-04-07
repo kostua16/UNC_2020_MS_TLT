@@ -12,6 +12,7 @@ import PropertyTaxValue from "@/components/communal/property/admin/price/tax/Pro
 import Property from '@/components/communal/property/Property'
 import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
+import RegistrationData from "@/models/auth/registration-data";
 
 Vue.use(Router);
 
@@ -32,7 +33,7 @@ function checkPrivilege(to, from, next) {
             next()
         } else {
             // если недостаточно прав
-            next('/profile')
+            next('main')
         }
     } else {
         console.warn('Вам необходимо авторизоваться!')
@@ -44,7 +45,7 @@ function checkPrivilege(to, from, next) {
 function checkNoAuth(to, from, next) {
     if (store.getters.GET_USER_IS_ACTIVE) {
         console.warn('Вам необходимо выйти из своего аккаунта!')
-        next('profile')
+        next('main')
     } else {
         next()
     }
@@ -58,15 +59,10 @@ export const router = new Router({
             // 404
             path: '*',
             name: 'NotFound',
-            redirect: 'profile',
+            redirect: 'main',
 
             beforeEnter(to, from, next) {
-                if (store.getters.GET_USER_IS_ACTIVE) {
-                    next('profile')
-                } else {
-                    console.warn('Вам необходимо авторизоваться!')
-                    next('login')
-                }
+                checkAuth(to, from, next);
             },
         },
         {
@@ -96,7 +92,7 @@ export const router = new Router({
         {
             path: '/communal/add-registration',
             name: 'add-registration',
-            component: () => '@/components/communal/RegistrationData',
+            component: RegistrationData,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
