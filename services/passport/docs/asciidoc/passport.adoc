@@ -7,18 +7,24 @@ Konstantin Leontiev;
 | Entity | Client API | Service Impl
 
 | Passport Service
-| link:/{jdocs}/nc/unc/cs/services/passport/src/main/java/nc/unc/cs/services/passport/controller/dto/
-| link:/{jdocs}/nc/unc/cs/services/communal/services/З\PassportService.html[PropertyTaxService]
+| link:/{jdocs}/nc/unc/cs/services/passport/src/main/java/nc/unc/cs/common/clients/passport/PassportService..html[PassportClient]
+| link:/{jdocs}/nc/unc/cs/services/passport/service/PassportService.html[PassportService]
 
 |===
 |===
-| Entity | Client API | Client API | Service Impl
+| Entity | Client API | Service Impl
 
-| Passport specification
-| link:/{jdocs}/nc/unc/cs/services/communal/controllers/payloads/CreationProperty.html[CreationProperty]
-| link:/{jdocs}/nc/unc/cs/services/communal/controllers/payloads/CreationPropertyTaxValue.html[CreationPropertyTaxValue]
-| link:/{jdocs}/nc/unc/cs/services/communal/entities/Property.html[Property]
+| Passport domestic specification
+| link:/{jdocs}/nc/unc/cs/services/passport/controller/dto/DomesticDto.html[DomesticDto]
+| link:/{jdocs}/nc/unc/cs/services/passport/model/Domestic.html[CreationPropertyTaxValue]
 
+|===
+|===
+| Entity | Client API | Service Impl
+
+| Passport international specification
+| link:/{jdocs}/nc/unc/cs/services/passport/controller/dto/InternationalDto.html[DomesticDto]
+| link:/{jdocs}/nc/unc/cs/services/passport/model/International.html[CreationPropertyTaxValue]
 
 |===
 
@@ -34,12 +40,18 @@ Konstantin Leontiev;
 | link:/{root}/http_codes.html[HTTP Codes]
 |===
 
-[[addCitizensProperty]]
-== Registration of new property
-operation::addCitizensProperty[snippets='curl-request,http-request,http-response,response-fields']
+[[registerDomesticPassport]]
+== Registration of new domestic passport
+operation::registerDomesticPassport[snippets='curl-request,http-request,http-response,response-fields']
 
-[[getPropertiesByCitizenId]]
+[[updateDomestic]]
 == Receiving property by id of a citizen
-operation::getPropertiesByCitizenId[snippets='curl-request,http-request,http-response,response-fields']
+operation::updateDomestic[snippets='curl-request,http-request,http-response,response-fields']
 
+[[registerInternationalPassport]]
+== Registration of new domestic passport
+operation::registerInternationalPassport[snippets='curl-request,http-request,http-response,response-fields']
 
+[[updateInternational]]
+== Receiving property by id of a citizen
+operation::updateInternational[snippets='curl-request,http-request,http-response,response-fields']

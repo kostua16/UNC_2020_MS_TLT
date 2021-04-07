@@ -20,8 +20,6 @@ class ActivateInternationalTest {
 
   @InjectMocks private PassportTable passportTable;
 
-  @Mock private BankService bankService;
-
   @Mock private InternationalRepository internationalRepository;
 
   private International createInternational() {

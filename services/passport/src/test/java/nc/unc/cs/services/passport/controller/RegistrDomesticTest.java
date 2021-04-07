@@ -1,6 +1,7 @@
 package nc.unc.cs.services.passport.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,6 +52,7 @@ class RegistrDomesticTest {
             post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domestic)))
+        .andDo(document("registerDomesticPassportTest"))
         .andExpect(status().isOk());
   }
 }
