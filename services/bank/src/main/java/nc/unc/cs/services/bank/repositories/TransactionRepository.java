@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
   List<Transaction> findByCreationDateBetweenAndCitizenId(
-      Date startDate, Date endDate, Long citizenId
-  );
+      Date startDate, Date endDate, Long citizenId);
 }
