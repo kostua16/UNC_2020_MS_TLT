@@ -1,9 +1,6 @@
 package nc.unc.cs.services.passport.controller.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +8,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @ToString
@@ -55,8 +55,7 @@ public class InternationalDto {
       final String surname,
       final Date dateOfBirth,
       final Boolean isActive,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.internationalId = internationalId;
     this.locked = locked;
     this.name = name.trim().toUpperCase();
@@ -66,7 +65,6 @@ public class InternationalDto {
     this.citizenId = citizenId;
   }
 
-
   public void setName(final String name) {
     this.name = name.trim().toUpperCase();
   }
@@ -74,5 +72,4 @@ public class InternationalDto {
   public void setSurname(final String surname) {
     this.surname = surname.trim().toUpperCase();
   }
-
 }

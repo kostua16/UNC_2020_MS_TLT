@@ -71,8 +71,7 @@ public class Domestic {
       final Boolean isActive,
       final Integer series,
       final Integer number,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.domesticId = domesticId;
     this.registration = registration.trim().toUpperCase();
     this.name = name.trim().toUpperCase();
@@ -95,6 +94,4 @@ public class Domestic {
   public void setSurname(String surname) {
     this.surname = surname.trim().toUpperCase();
   }
-
 }
-

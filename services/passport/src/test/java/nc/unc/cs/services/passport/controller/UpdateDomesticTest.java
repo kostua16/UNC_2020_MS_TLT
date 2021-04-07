@@ -62,10 +62,13 @@ class UpdateDomesticTest {
     when(passportTable.updateDomestic(domesticDTO.getDomesticId(), domesticDTO))
         .thenReturn(ResponseEntity.ok(domestic));
 
-
-    mockMvc.perform(post(PASSPORT_CONTROLLER_MAPPING + "/passport/updateDomestic/" + domesticDTO.getDomesticId())
-        .contentType("application/json")
-        .content(objectMapper.writeValueAsString(domesticDTO)))
+    mockMvc
+        .perform(
+            post(PASSPORT_CONTROLLER_MAPPING
+                    + "/passport/updateDomestic/"
+                    + domesticDTO.getDomesticId())
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(domesticDTO)))
         .andExpect(status().isOk());
   }
 }
