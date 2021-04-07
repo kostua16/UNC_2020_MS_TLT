@@ -15,7 +15,6 @@ nc.unc.cs.services.bank.repositories
 nc.unc.cs.services.bank.services
 nc.unc.cs.services.common.actuator
 nc.unc.cs.services.common.clients
-nc.unc.cs.services.common.clients.account
 nc.unc.cs.services.common.clients.bank
 nc.unc.cs.services.common.clients.gibdd
 nc.unc.cs.services.common.clients.logging
