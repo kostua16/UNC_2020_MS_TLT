@@ -1,8 +1,8 @@
 package nc.unc.cs.services.bank.services;
 
+import feign.FeignException;
 import java.util.Date;
 import java.util.List;
-import feign.FeignException;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.exceptions.PaymentRequestNotFoundException;
@@ -160,8 +160,7 @@ public class BankService {
   }
 
   /**
-   * Возвращает список транзакций совершённых в определённый период,
-   *    определённым гражданином.
+   * Возвращает список транзакций совершённых в определённый период, определённым гражданином.
    *
    * @param startDate дата начала выборки
    * @param endDate дата конца выборки
@@ -169,12 +168,10 @@ public class BankService {
    * @return список транзакций
    */
   public List<Transaction> getAllCitizenTransactions(
-      final Date startDate,
-      final Date endDate,
-      final Long citizenId
-  ) throws IllegalArgumentException {
+      final Date startDate, final Date endDate, final Long citizenId)
+      throws IllegalArgumentException {
     logger.info("ALL TRANSACTIONS: \n{}", this.transactionRepository.findAll());
-    return this.transactionRepository
-        .findByCreationDateBetweenAndCitizenId(startDate, endDate, citizenId);
+    return this.transactionRepository.findByCreationDateBetweenAndCitizenId(
+        startDate, endDate, citizenId);
   }
 }
