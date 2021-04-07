@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -18,15 +17,14 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class DomesticDTO {
+public class InternationalDto {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long domesticId;
+  private Long internationalId;
 
   @NotBlank(message = "Incorrect region name")
-  @Size(min = 2, max = 40, message = "Incorrect region name")
-  @Column(nullable = false, length = 40)
-  private String registration;
+  @Column(nullable = false)
+  private Boolean locked;
 
   @NotBlank(message = "Incorrect region name")
   @Size(min = 2, max = 40, message = "Incorrect region name")
@@ -38,62 +36,43 @@ public class DomesticDTO {
   @Column(nullable = false, length = 40)
   private String surname;
 
-  @NotNull
-  @Column(updatable = false, nullable = false)
+  @NotBlank(message = "Incorrect house name")
   private Date dateOfBirth;
 
-  @NotNull
+  @NotBlank(message = "Incorrect house name")
   @Column(nullable = false)
   private Boolean isActive;
 
-  @NotNull(message = "Incorrect tax amount")
-  @Min(1111)
-  @Column(updatable = false, nullable = false)
-  private Integer series;
-
-  @NotNull(message = "Incorrect tax amount")
-  @Min(111111)
-  @Column(updatable = false, nullable = false)
-  private Integer number;
-
-  @NotNull(message = "Incorrect citizen ID")
+  @NotBlank(message = "Incorrect house name")
   @Min(1L)
-  @Column(updatable = false, nullable = false)
+  @Column(nullable = false)
   private Long citizenId;
 
-  public DomesticDTO(
-      final Long domesticId,
-      final String registration,
+  public InternationalDto(
+      final Long internationalId,
+      final Boolean locked,
       final String name,
       final String surname,
       final Date dateOfBirth,
       final Boolean isActive,
-      final Integer series,
-      final Integer number,
       final Long citizenId
   ) {
-    this.domesticId = domesticId;
-    this.registration = registration.trim().toUpperCase();
+    this.internationalId = internationalId;
+    this.locked = locked;
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
     this.isActive = isActive;
-    this.series = series;
-    this.number = number;
     this.citizenId = citizenId;
   }
 
-  public void setRegistration(String registration) {
-    this.registration = registration.trim().toUpperCase();
-  }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name.trim().toUpperCase();
   }
 
-  public void setSurname(String surname) {
+  public void setSurname(final String surname) {
     this.surname = surname.trim().toUpperCase();
   }
 
 }
-

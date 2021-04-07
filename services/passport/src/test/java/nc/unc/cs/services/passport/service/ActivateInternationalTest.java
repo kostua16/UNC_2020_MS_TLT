@@ -1,7 +1,7 @@
 package nc.unc.cs.services.passport.service;
 
 import nc.unc.cs.services.common.clients.bank.BankService;
-import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.repository.InternationalRepository;
 import org.junit.jupiter.api.Assertions;

@@ -5,8 +5,8 @@ import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
-import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.controller.dto.DomesticDto;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.passport.model.Citizen;
@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 @Service
@@ -50,11 +51,9 @@ public class PassportTable {
   /**
    * Возвращает активную регистрацю пользователя.
    *
-   * @param id идентификатор гражданина
+   * @param internationalId идентификатор гражданина
    * @return заграничный паспорт гражданина
    */
-  public International getInternationalById(Long id) {
-    return this.internationalRepository.findById(id).orElseGet(null);
   public International getInternationalById(final Long internationalId) {
     return this.internationalRepository.findInternationalByInternationalId(internationalId);
   }
@@ -64,16 +63,14 @@ public class PassportTable {
     return this.domesticRepository.findAll();
   }
 
-  public Domestic getDomesticById(final Long domesticId) {
-    return this.domesticRepository.findDomesticByDomesticId(domesticId);
   /**
    * Возвращает активную регистрацю пользователя.
    *
-   * @param id идентификатор гражданина
+   * @param domesticId идентификатор гражданина
    * @return отечественный паспорт гражданина
    */
-  public Domestic getDomesticById(Long id) {
-    return this.domesticRepository.findById(id).orElseGet(null);
+  public Domestic getDomesticById(final Long domesticId) {
+    return this.domesticRepository.findDomesticByDomesticId(domesticId);
   }
 
   /**
@@ -94,7 +91,8 @@ public class PassportTable {
     domestic.setNumber(random.nextInt(899999) + 100000);
     //        Сохранять в базу, только после успешной регистрации в банке и как это сделать?
     try {
-      this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
+      this.bankService.requestPayment(
+          new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
       this.domesticRepository.save(domestic);
       return ResponseEntity.ok(domestic);
     } catch (Exception e) {
@@ -160,7 +158,7 @@ public class PassportTable {
       return ResponseEntity.ok(updateDomestic);
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
-      return ResponseEntity.status(503).body(domestic);
+      return ResponseEntity.status(503).body(updateDomestic);
     }
   }
 

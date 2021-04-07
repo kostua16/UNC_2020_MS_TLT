@@ -1,7 +1,7 @@
 package nc.unc.cs.services.passport.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nc.unc.cs.services.passport.controller.dto.DomesticDTO;
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.service.PassportTable;
@@ -45,7 +45,7 @@ class UpdateDomesticTest {
     citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date());
 
-    DomesticDTO domesticDTO = new DomesticDTO(
+    DomesticDto domesticDTO = new DomesticDto(
         1L,
         "Samara",
         "Pupkin",
