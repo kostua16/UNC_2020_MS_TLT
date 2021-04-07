@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Konstantin Leontiev">
-<title>Gibdd API Guide</title>
+<title>Bank API Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Gibdd API Guide</h1>
+<h1>Bank API Guide</h1>
 <div class="details">
 <span id="author" class="author">Konstantin Leontiev</span><br>
 </div>
@@ -449,51 +449,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#javadocs">Javadocs</a></li>
 <li><a href="#agenda">Agenda</a></li>
-<li><a href="#ownderCars">List owned cars by person</a>
+<li><a href="#findPaymentRequestById">finding a request for payment by id</a>
 <ul class="sectlevel2">
-<li><a href="#ownderCars_curl_request">CURL request</a></li>
-<li><a href="#ownderCars_http_request">Example request</a></li>
-<li><a href="#ownderCars_http_response">Example response</a></li>
-<li><a href="#ownderCars_response_fields">Response fields</a></li>
+<li><a href="#findPaymentRequestById_curl_request">CURL request</a></li>
+<li><a href="#findPaymentRequestById_http_request">Example request</a></li>
+<li><a href="#findPaymentRequestById_http_response">Example response</a></li>
+<li><a href="#findPaymentRequestById_response_fields">Response fields</a></li>
 </ul>
 </li>
-<li><a href="#findCar">Find car by number</a>
+<li><a href="#requestPayment">registration of performed services</a>
 <ul class="sectlevel2">
-<li><a href="#findCar_curl_request">CURL request</a></li>
-<li><a href="#findCar_http_request">Example request</a></li>
-<li><a href="#findCar_http_response">Example response</a></li>
-<li><a href="#findCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_not_found">Exceptions: <code>Car not found</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_not_found_http_response">Example response</a></li>
+<li><a href="#requestPayment_curl_request">CURL request</a></li>
+<li><a href="#requestPayment_http_request">Example request</a></li>
+<li><a href="#requestPayment_http_response">Example response</a></li>
+<li><a href="#requestPayment_response_fields">Response fields</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#addCar">Register new car</a>
+<li><a href="#payment">bill payment</a>
 <ul class="sectlevel2">
-<li><a href="#addCar_curl_request">CURL request</a></li>
-<li><a href="#addCar_http_request">Example request</a></li>
-<li><a href="#addCar_http_response">Example response</a></li>
-<li><a href="#addCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_already_present">Exceptions: <code>Car already present</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_already_present_http_response">Example response</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#updateCar">Update car information</a>
-<ul class="sectlevel2">
-<li><a href="#updateCar_curl_request">CURL request</a></li>
-<li><a href="#updateCar_http_request">Example request</a></li>
-<li><a href="#updateCar_http_response">Example response</a></li>
-<li><a href="#updateCar_response_fields">Response fields</a></li>
-<li><a href="#_exceptions_car_not_found_2">Exceptions: <code>Car not found</code></a>
-<ul class="sectlevel3">
-<li><a href="#_exceptions_car_not_found_2_http_response">Example response</a></li>
-</ul>
-</li>
+<li><a href="#payment_curl_request">CURL request</a></li>
+<li><a href="#payment_http_request">Example request</a></li>
+<li><a href="#payment_http_response">Example response</a></li>
+<li><a href="#payment_response_fields">Response fields</a></li>
 </ul>
 </li>
 </ul>
@@ -518,14 +495,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gibdd service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/gibdd/GibddService.html">Gibdd client</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/gibdd/services/GibddService.html">Gibdd service</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bank service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/bank/BankService.html">Bank Client</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/bank/services/BankService.html">BankService</a></p></td>
 </tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Car specification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/gibdd/CarDto.html">Car DTO</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/gibdd/entities/Car.html">Car</a></p></td>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bank specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/bank/PaymentPayload.html">PaymentPayload</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/bank/entities/PaymentRequest.html">PaymentRequest</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -559,144 +552,88 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="ownderCars">List owned cars by person</h2>
+<h2 id="findPaymentRequestById">finding a request for payment by id</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="ownderCars_curl_request">CURL request</h3>
+<h3 id="findPaymentRequestById_curl_request">CURL request</h3>
 <div class="paragraph">
-<p>Snippet curl-request not found for operation::ownedCars</p>
+<p>Snippet curl-request not found for operation::findPaymentRequestById</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_http_request">Example request</h3>
+<h3 id="findPaymentRequestById_http_request">Example request</h3>
 <div class="paragraph">
-<p>Snippet http-request not found for operation::ownedCars</p>
+<p>Snippet http-request not found for operation::findPaymentRequestById</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_http_response">Example response</h3>
+<h3 id="findPaymentRequestById_http_response">Example response</h3>
 <div class="paragraph">
-<p>Snippet http-response not found for operation::ownedCars</p>
+<p>Snippet http-response not found for operation::findPaymentRequestById</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ownderCars_response_fields">Response fields</h3>
+<h3 id="findPaymentRequestById_response_fields">Response fields</h3>
 <div class="paragraph">
-<p>Snippet response-fields not found for operation::ownedCars</p>
+<p>Snippet response-fields not found for operation::findPaymentRequestById</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="findCar">Find car by number</h2>
+<h2 id="requestPayment">registration of performed services</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="findCar_curl_request">CURL request</h3>
+<h3 id="requestPayment_curl_request">CURL request</h3>
 <div class="paragraph">
-<p>Snippet curl-request not found for operation::findCar</p>
+<p>Snippet curl-request not found for operation::requestPayment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_http_request">Example request</h3>
+<h3 id="requestPayment_http_request">Example request</h3>
 <div class="paragraph">
-<p>Snippet http-request not found for operation::findCar</p>
+<p>Snippet http-request not found for operation::requestPayment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_http_response">Example response</h3>
+<h3 id="requestPayment_http_response">Example response</h3>
 <div class="paragraph">
-<p>Snippet http-response not found for operation::findCar</p>
+<p>Snippet http-response not found for operation::requestPayment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="findCar_response_fields">Response fields</h3>
+<h3 id="requestPayment_response_fields">Response fields</h3>
 <div class="paragraph">
-<p>Snippet response-fields not found for operation::findCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_not_found">Exceptions: <code>Car not found</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_not_found_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::findCarNotFound</p>
-</div>
+<p>Snippet response-fields not found for operation::requestPayment</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="addCar">Register new car</h2>
+<h2 id="payment">bill payment</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="addCar_curl_request">CURL request</h3>
+<h3 id="payment_curl_request">CURL request</h3>
 <div class="paragraph">
-<p>Snippet curl-request not found for operation::addCar</p>
+<p>Snippet curl-request not found for operation::payment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="addCar_http_request">Example request</h3>
+<h3 id="payment_http_request">Example request</h3>
 <div class="paragraph">
-<p>Snippet http-request not found for operation::addCar</p>
+<p>Snippet http-request not found for operation::payment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="addCar_http_response">Example response</h3>
+<h3 id="payment_http_response">Example response</h3>
 <div class="paragraph">
-<p>Snippet http-response not found for operation::addCar</p>
+<p>Snippet http-response not found for operation::payment</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="addCar_response_fields">Response fields</h3>
+<h3 id="payment_response_fields">Response fields</h3>
 <div class="paragraph">
-<p>Snippet response-fields not found for operation::addCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_already_present">Exceptions: <code>Car already present</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_already_present_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::addCarDuplicated</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="updateCar">Update car information</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="updateCar_curl_request">CURL request</h3>
-<div class="paragraph">
-<p>Snippet curl-request not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_http_request">Example request</h3>
-<div class="paragraph">
-<p>Snippet http-request not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_http_response">Example response</h3>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="updateCar_response_fields">Response fields</h3>
-<div class="paragraph">
-<p>Snippet response-fields not found for operation::updateCar</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exceptions_car_not_found_2">Exceptions: <code>Car not found</code></h3>
-<div class="sect3">
-<h4 id="_exceptions_car_not_found_2_http_response">Example response</h4>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::updateCarNotFound</p>
-</div>
+<p>Snippet response-fields not found for operation::payment</p>
 </div>
 </div>
 </div>
