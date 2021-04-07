@@ -1,6 +1,7 @@
 nc.unc.cs.config
 nc.unc.cs.discovery
 nc.unc.cs.services.account
+nc.unc.cs.services.account.config
 nc.unc.cs.services.account.controllers
 nc.unc.cs.services.account.controllers.dto
 nc.unc.cs.services.account.entities
@@ -39,7 +40,6 @@ nc.unc.cs.services.logging.repositories
 nc.unc.cs.services.logging.services
 nc.unc.cs.services.passport
 nc.unc.cs.services.passport.controller
-nc.unc.cs.services.passport.controller.dto
 nc.unc.cs.services.passport.exceptions
 nc.unc.cs.services.passport.model
 nc.unc.cs.services.passport.repository
