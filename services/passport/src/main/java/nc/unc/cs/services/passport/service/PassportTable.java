@@ -5,8 +5,8 @@ import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
-import nc.unc.cs.services.passport.controller.dto.DomesticDTO;
-import nc.unc.cs.services.passport.controller.dto.InternationalDTO;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.passport.model.Citizen;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.Random;
 
 @Service
@@ -43,22 +42,46 @@ public class PassportTable {
     this.taxService = taxService;
   }
 
+  /** Возвращает список заграничных паспортов. */
   public Iterable<International> getInternational() {
     return this.internationalRepository.findAll();
   }
 
+  /**
+   * Возвращает активную регистрацю пользователя.
+   *
+   * @param id идентификатор гражданина
+   * @return заграничный паспорт гражданина
+   */
+  public International getInternationalById(Long id) {
+    return this.internationalRepository.findById(id).orElseGet(null);
   public International getInternationalById(final Long internationalId) {
     return this.internationalRepository.findInternationalByInternationalId(internationalId);
   }
 
+  /** Возвращает список отечественных паспортов. */
   public Iterable<Domestic> getDomestic() {
     return this.domesticRepository.findAll();
   }
 
   public Domestic getDomesticById(final Long domesticId) {
     return this.domesticRepository.findDomesticByDomesticId(domesticId);
+  /**
+   * Возвращает активную регистрацю пользователя.
+   *
+   * @param id идентификатор гражданина
+   * @return отечественный паспорт гражданина
+   */
+  public Domestic getDomesticById(Long id) {
+    return this.domesticRepository.findById(id).orElseGet(null);
   }
 
+  /**
+   * Создает отечественный паспорт гражданина.
+   *
+   * @param citizen данные о гражданине
+   * @return http-ответ, в теле которого находится данные об отечественном паспорте
+   */
   public ResponseEntity<Domestic> registerDomesticPassport(Citizen citizen) {
     Domestic domestic = new Domestic();
     domestic.setRegistration(citizen.getRegistration());
@@ -71,8 +94,7 @@ public class PassportTable {
     domestic.setNumber(random.nextInt(899999) + 100000);
     //        Сохранять в базу, только после успешной регистрации в банке и как это сделать?
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
+      this.bankService.requestPayment(new PaymentPayload(2L, citizen.getCitizenId(), 2000, 200));
       this.domesticRepository.save(domestic);
       return ResponseEntity.ok(domestic);
     } catch (Exception e) {
@@ -82,6 +104,12 @@ public class PassportTable {
     }
   }
 
+  /**
+   * Создает заграничный паспорт гражданина.
+   *
+   * @param citizen данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public ResponseEntity<International> registerInternationalPassport(Citizen citizen) {
     International international = new International();
     international.setName(citizen.getName());
@@ -93,14 +121,12 @@ public class PassportTable {
       international.setLocked(
           this.taxService.getListUnpaidTaxes(
               new IdInfo(
-                  citizen.getCitizenId(),
-                  2L))); // 2 - номер моего сервиса, добавть сшешяутШd
+                  citizen.getCitizenId(), 2L))); // 2 - номер моего сервиса, добавть сшешяутШd
     } catch (Exception e) {
       logger.error("Не удалось проверить налоги");
     }
     try {
-      this.bankService.requestPayment(
-          new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
+      this.bankService.requestPayment(new PaymentPayload(citizen.getCitizenId(), 2L, 3500, 350));
       return ResponseEntity.ok(this.internationalRepository.save(international));
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
@@ -108,7 +134,14 @@ public class PassportTable {
     }
   }
 
-  public ResponseEntity<Domestic> updateDomestic(final Long id, final DomesticDTO domestic) throws FeignException {
+  /**
+   * Обновление заграничного паспорта гражданина.
+   *
+   * @param id данные о гражданине
+   * @param domestic данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
+  public ResponseEntity<Domestic> updateDomestic(final Long id, final DomesticDto domestic) throws FeignException {
     Domestic updateDomestic =
         domesticRepository
             .findById(id)
@@ -127,11 +160,18 @@ public class PassportTable {
       return ResponseEntity.ok(updateDomestic);
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
-      return ResponseEntity.status(503).body(updateDomestic);
+      return ResponseEntity.status(503).body(domestic);
     }
   }
 
-  public ResponseEntity<International> updateInternational(final Long id, InternationalDTO international) {
+  /**
+   * Обновление отечественного паспорта гражданина.
+   *
+   * @param id данные о гражданине
+   * @param international данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
+  public ResponseEntity<International> updateInternational(final Long id, InternationalDto international) {
     International updateInternational =
         internationalRepository
             .findById(id)
@@ -152,6 +192,12 @@ public class PassportTable {
     }
   }
 
+  /**
+   * активация заграничного паспорта гражданина.
+   *
+   * @param id данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public Domestic activateDomestic(Long id) throws Exception {
     Domestic updateDomestic = domesticRepository.findById(id).orElse(null);
     if (updateDomestic == null) {
@@ -161,6 +207,12 @@ public class PassportTable {
     return domesticRepository.save(updateDomestic);
   }
 
+  /**
+   * активация заграничного паспорта гражданина.
+   *
+   * @param id данные о гражданине
+   * @return http-ответ, в теле которого находится данные о заграничном паспорте
+   */
   public International activateInternational(Long id) throws Exception {
     International updateInternational = internationalRepository.findById(id).orElse(null);
     if (updateInternational == null) {

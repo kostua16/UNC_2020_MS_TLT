@@ -27,6 +27,7 @@
     <module>passport</module>
     <module>communal</module>
     <module>common</module>
+    <module>account</module>
   </modules>
 
 

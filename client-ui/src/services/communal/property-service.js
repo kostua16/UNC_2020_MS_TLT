@@ -1,10 +1,12 @@
 import axios from 'axios'
+import ParseLocalStorage from '../auth/parse-local-storage'
 
 // const API_URL = 'https://nc-edu-2020-communal.herokuapp.com'
 const API_URL = 'http://localhost:8083/communal/property/'
 
 class PropertyService {
     addProperty(creationProperty) {
+        creationProperty.citizenId = ParseLocalStorage();
         return axios.post(API_URL, {
                 region: creationProperty.region,
                 city: creationProperty.city,
@@ -17,12 +19,6 @@ class PropertyService {
         )
             .then(response => {
                     console.log('REGISTRATE PROPERTY: ', response)
-                    return response;
-                }
-            )
-            .catch(error => {
-                    console.error("Failed to add property.", error);
-                    return error;
                 }
             );
     }

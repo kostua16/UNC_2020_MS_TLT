@@ -2,6 +2,7 @@ package nc.unc.cs.services.communal.controllers.mock.registration.correct;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,6 +29,7 @@ class AddRegistrationWebTest extends RegistrationParentWeb {
             post(REGISTRATION_CONTROLLER_MAPPING)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(newRegistration)))
+        .andDo(document("addRegistrationTest"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(
