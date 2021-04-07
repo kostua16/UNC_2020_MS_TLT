@@ -1,6 +1,12 @@
 package nc.unc.cs.services.passport.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Date;
 import nc.unc.cs.services.passport.controller.dto.DomesticDto;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
@@ -14,28 +20,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Date;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(controllers = {PassportController.class})
-//@Import(ObjectMapper.class)
-//@WithMockUser("customUsername") // аннотация для создания авторизованного пользователя
+// @Import(ObjectMapper.class)
+// @WithMockUser("customUsername") // аннотация для создания авторизованного пользователя
 class UpdateDomesticTest {
   private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
   private static final Logger logger = LoggerFactory.getLogger(UpdateDomesticTest.class);
 
-  @Autowired
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-  @MockBean
-  private PassportTable passportTable;
+  @MockBean private PassportTable passportTable;
 
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Test
   void updateDomesticPassportTest() throws Exception {
@@ -46,17 +42,9 @@ class UpdateDomesticTest {
     citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date());
 
-    DomesticDto domesticDTO = new DomesticDto(
-        1L,
-        "Samara",
-        "Pupkin",
-        "Vasya",
-        citizen.getDateOfBirth(),
-        false,
-        2222,
-        333333,
-        111L
-    );
+    DomesticDto domesticDTO =
+        new DomesticDto(
+            1L, "Samara", "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
 
     final Domestic domestic = new Domestic();
 

@@ -1,6 +1,9 @@
 package nc.unc.cs.services.passport.service;
 
-import nc.unc.cs.services.common.clients.bank.BankService;
+import static org.mockito.Mockito.when;
+
+import java.util.Date;
+import java.util.Optional;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.repository.InternationalRepository;
 import org.junit.jupiter.api.Assertions;
@@ -9,11 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Date;
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class ActivateInternationalTest {
@@ -32,7 +30,6 @@ class ActivateInternationalTest {
         .isActive(false)
         .citizenId(111L)
         .build();
-
   }
 
   @Test
