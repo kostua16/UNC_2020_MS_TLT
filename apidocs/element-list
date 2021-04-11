@@ -10,6 +10,7 @@ nc.unc.cs.services.account.repositories
 nc.unc.cs.services.account.services
 nc.unc.cs.services.bank
 nc.unc.cs.services.bank.controllers
+nc.unc.cs.services.bank.controllers.dto
 nc.unc.cs.services.bank.entities
 nc.unc.cs.services.bank.exceptions
 nc.unc.cs.services.bank.repositories
