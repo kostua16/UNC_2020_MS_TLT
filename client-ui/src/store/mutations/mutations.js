@@ -30,5 +30,10 @@ export default {
     },
     SET_PERIOD_TRANSACTION_TO_STATE(state, transactions) {
         state.transactions = transactions;
+    },
+
+    // passport
+    SET_DOMESTIC_TO_STATE(state, domestic) {
+        state.domestic = domestic;
     }
 }
