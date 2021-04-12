@@ -5,6 +5,9 @@ import {router} from './router/router'
 import store from './store'
 import Vuex from 'vuex'
 import 'vuetify/dist/vuetify.min.css'
+import moment from 'moment';
+
+Vue.prototype.moment = moment
 
 Vue.config.productionTip = false
 

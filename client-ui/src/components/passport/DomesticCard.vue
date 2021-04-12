@@ -6,10 +6,9 @@
   >
     <v-card-title>{{ domestic.surname }} {{ domestic.name }}</v-card-title>
     <v-list>
-      <v-list-item>Дата Рождения {{ domestic.dateOfBirth }}</v-list-item>
-      <v-list-item>Серия: {{ domestic.series }}</v-list-item>
-      <v-list-item>Номер:{{ domestic.number }}</v-list-item>
-      <v-list-item>Что-то</v-list-item>
+      <v-list-item>Дата Рождения: {{domestic.dateOfBirth | moment }}</v-list-item>
+      <v-list-item>Серия/Номер: {{ domestic.series }} / {{ domestic.number }}</v-list-item>
+      <v-list-item>Тут вытягивается регитсрация</v-list-item>
     </v-list>
     <v-card-actions class="card_action">
       <v-btn>
@@ -22,6 +21,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import Domestic from "@/models/passport/domestic";
+import Moment from "moment";
 
 export default {
   name: "DomesticCard",
@@ -47,6 +47,12 @@ export default {
             this.domestic = response.data;
           }
         })
+  },
+  filters: {
+    moment(date) {
+      Moment.locale('ru')
+      return Moment(date).format('DD MMMM YYYY');
+    }
   }
 }
 </script>
