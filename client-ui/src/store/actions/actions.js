@@ -67,6 +67,23 @@ export default {
             })
     },
 
+    PAY_PAYMENT_REQUEST_ACTION({commit}, paymentRequestId) {
+        return axios
+            .put(
+                URL_BANK + '/payment/' + paymentRequestId,
+                {},
+                {},
+                )
+            .then(response => {
+                commit('PAY_PAYMENT_REQUEST', paymentRequestId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Не удалось оплатить выставленный счёт!')
+                return error.status;
+            })
+    },
+
     GET_UTILITIES_PRICE_LIST_FROM_API({commit}) {
         return axios
             .get(

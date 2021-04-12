@@ -32,7 +32,7 @@
               text
               @click="pay"
           >
-            Отправить
+            Оплатить
           </v-btn>
           <v-btn
               color="green darken-1"
@@ -49,6 +49,8 @@
 
 <script>
 
+import {mapActions} from "vuex";
+
 export default {
   name: "PaymentPopup",
   props: ['paymentRequest'],
@@ -58,8 +60,10 @@ export default {
     }
   },
   methods: {
-    pay() { // Оплата выставленного счёта и удаление его из store
-      this.dialog = false
+    ...mapActions(['PAY_PAYMENT_REQUEST_ACTION']),
+    pay() {
+      this.PAY_PAYMENT_REQUEST_ACTION(this.paymentRequest.paymentRequestId);
+      this.dialog = false;
     }
   }
 }

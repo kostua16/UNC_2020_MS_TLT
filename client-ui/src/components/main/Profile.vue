@@ -20,7 +20,7 @@
                 class="mx-auto"
             >
               <v-card-title>Выставленные счета</v-card-title>
-              <v-card>
+              <v-card v-if="stateRequestPaymentsIsNotEmpty">
                 <v-virtual-scroll
                     :bench="benched"
                     :items="getMyRequestPayments"
@@ -30,16 +30,6 @@
                   <template v-slot:default="{ item }">
                     <v-list-item :key="item.paymentRequestId">
                       <v-list-item-action class="mr-md-2">
-                        <!--                  <v-btn-->
-                        <!--                      fab-->
-                        <!--                      large-->
-                        <!--                      depressed-->
-                        <!--                      color="green"-->
-                        <!--                      class="text-center"-->
-                        <!--                      icon-->
-                        <!--                  >-->
-                        <!--                    <v-icon>payment</v-icon>-->
-                        <!--                  </v-btn>-->
                         <payment-popup :paymentRequest="item"/>
                       </v-list-item-action>
 
@@ -55,6 +45,18 @@
                     <v-divider></v-divider>
                   </template>
                 </v-virtual-scroll>
+              </v-card>
+              <v-card
+                  height="400px"
+                  color="#f4f9fa"
+                  flat
+                  v-else
+              >
+                <v-img
+                    height="400px"
+                    width="450"
+                    :src="require('@/assets/images/empty_card.png')"
+                />
               </v-card>
             </v-card>
           </v-col>
@@ -106,6 +108,9 @@ export default {
     getMyRequestPayments() {
       return this.GET_MY_REQUEST_PAYMENTS;
     },
+    stateRequestPaymentsIsNotEmpty() {
+      return this.GET_MY_REQUEST_PAYMENTS.length !== 0;
+    }
   },
   created() {
     this.GET_MY_PAYMENT_REQUESTS_FROM_API()
@@ -119,5 +124,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

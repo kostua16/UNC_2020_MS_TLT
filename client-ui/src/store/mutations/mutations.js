@@ -1,4 +1,5 @@
 export default {
+    // bank
     SET_PROPERTY_TO_STATE(state, properties) {
         state.properties = properties;
     },
@@ -9,6 +10,16 @@ export default {
         state.paymentRequests = paymentRequests;
     },
 
+    PAY_PAYMENT_REQUEST(state, paymentRequestId) {
+        const id = state
+            .paymentRequests
+            .findIndex(
+                item => item.paymentRequestId === paymentRequestId
+            );
+        state.paymentRequests.splice(id, 1)
+    },
+
+    // communal
     SET_UTILITIES_PRICE_LIST_TO_STATE(state, utilitiesPriceLists) {
         state.utilityBillPriceLists = utilitiesPriceLists;
     },
