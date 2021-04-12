@@ -46,5 +46,14 @@ export default {
     // passport
     SET_DOMESTIC_TO_STATE(state, domestic) {
         state.domestic = domestic;
-    }
+    },
+    UPDATE_DOMESTIC(state, updateDomestic) {
+        state.domestic = updateDomestic;
+    },
+    SET_INTERNATIONAL_TO_STATE(state, international) {
+        state.international = international;
+    },
+    UPDATE_INTERNATIONAL(state, updateInternational) {
+        state.international = updateInternational;
+    },
 }

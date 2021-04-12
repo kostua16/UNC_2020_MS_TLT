@@ -1,5 +1,6 @@
 import axios from 'axios'
 import AuthModule from '@/store/auth.module'
+import {response} from "express";
 
 const HTTP_PROTOCOL = 'http';
 
@@ -216,5 +217,72 @@ export default {
                 console.error('Passport not found!', error);
                 return error;
             })
+    },
+
+    // метод будет отредактирован после обновления api
+    UPDATE_DOMESTIC_ACTION({commit}, updateDomestic) {
+        return axios
+            .post( // заменить на put
+                URL_PASSPORT + '/updateDomestic/' + updateDomestic.domesticId,
+                {
+                    domesticId: updateDomestic.domesticId,
+                    registration: updateDomestic.registration,
+                    name: updateDomestic.name,
+                    surname: updateDomestic.surname,
+                    dateOfBirth: updateDomestic.dateOfBirth,
+                    isActive: updateDomestic.isActive,
+                    series: updateDomestic.series,
+                    number: updateDomestic.number,
+                    citizenId: updateDomestic.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('UPDATE_DOMESTIC', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to update domestic passport.')
+                return error.status;
+            })
+    },
+
+    GET_INTERNATIONAL_FROM_API({commit}, citizenId) {
+        return axios
+            .get(URL_PASSPORT + '/international/citizen/' + citizenId, {})
+            .then(response => {
+                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get international passport', error.statusMessage);
+                return error.status;
+            })
+    },
+
+    UPDATE_INTERNATIONAL_ACTION({commit}, international) {
+        return axios
+            .post(
+                URL_PASSPORT + '/updateInternational/' + international.internationalId,
+                {
+                    internationalId: international.internationalId,
+                    locked: international.locked,
+                    name: international.name,
+                    surname: international.surname,
+                    dateOfBirth: international.dateOfBirth,
+                    isActive: international.isActive,
+                    citizenId: international.citizenId
+                },
+                {}
+            )
+            .then(response => {
+                commit('UPDATE_INTERNATIONAL', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to update international passport!', error.status)
+                return error.status;
+            })
     }
+
 }
