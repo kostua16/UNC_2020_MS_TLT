@@ -16,5 +16,6 @@ import nc.unc.cs.services.account.entities.Roles;
 @Builder
 public class AuthResponse {
   private Long citizenId;
+  private String email;
   private Roles role;
 }

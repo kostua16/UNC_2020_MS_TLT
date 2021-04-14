@@ -31,10 +31,7 @@ class RegistrationWebTest {
     return RegistrationDto.builder()
         .username("username")
         .password("password")
-        .name("name")
-        .surname("surname")
-        .dateOfBirth(new Date())
-        .registration("samara")
+        .email("hello@gmail.com")
         .build();
   }
 
