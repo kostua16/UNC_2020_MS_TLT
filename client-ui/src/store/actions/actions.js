@@ -1,6 +1,5 @@
 import axios from 'axios'
 import AuthModule from '@/store/auth.module'
-import {response} from "express";
 
 const HTTP_PROTOCOL = 'http';
 

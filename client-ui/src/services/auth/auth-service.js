@@ -22,22 +22,18 @@ class AuthService {
     }
 
     register(registration) {
-        console.log(registration); /////
         return axios
             .post(API_URL + '/sign-up', {
                 username: registration.username,
                 password: registration.password,
-                name: registration.name,
-                surname: registration.surname,
-                dateOfBirth: registration.dateOfBirth,
-                registration: registration.registration
+                email: registration.email
             })
             .then(response => {
-                return response;
+                return response.status;
             })
             .catch(error => {
                 console.error("RegistrationData failed! \n", error)
-                return error;
+                return error.status;
             });
     }
 }
