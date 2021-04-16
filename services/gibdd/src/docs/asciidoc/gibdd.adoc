@@ -1,4 +1,4 @@
-= Communal API Guide
+= Gibdd API Guide
 Konstantin Leontiev;
 
 [[javadocs]]

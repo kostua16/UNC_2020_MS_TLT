@@ -48,9 +48,9 @@ public class BankService {
   /**
    * Возвращает выставленный счёт (PaymentRequest).
    *
-   * @param paymentRequestId идентификатор ыставленного счёта.
+   * @param paymentRequestId идентификатор выставленного счёта.
    * @return счёт на оплату
-   * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
+   * @throws PaymentRequestNotFoundException если не удалиться найти PaymentRequest
    */
   public PaymentRequest findPaymentRequestById(final Long paymentRequestId)
       throws PaymentRequestNotFoundException {
@@ -62,9 +62,9 @@ public class BankService {
   /**
    * Регистрация проведённых услуг.
    *
-   * @param paymentPayload информация для регистрации усуги
+   * @param paymentPayload информация для регистрации услуги
    * @return идентификатор выставленного счёта;
-   * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
+   * @throws PaymentRequestNotFoundException если не удалиться найти PaymentRequest
    */
   public ResponseEntity<Long> requestPayment(final PaymentPayload paymentPayload)
       throws FeignException {
@@ -102,8 +102,8 @@ public class BankService {
    *
    * @param paymentRequestId идентификатор выставленного счёта
    * @return http-ответ, в теле которого находится чек
-   * @throws FeignException если не удасться обратиться к Банковскому сервису
-   * @throws PaymentRequestNotFoundException если не удалсться найти PaymentRequest
+   * @throws FeignException если не удалиться обратиться к Банковскому сервису
+   * @throws PaymentRequestNotFoundException если не удалиться найти PaymentRequest
    */
   public ResponseEntity<Transaction> payment(final Long paymentRequestId)
       throws FeignException, PaymentRequestNotFoundException {
@@ -142,7 +142,7 @@ public class BankService {
   /**
    * Возвращает статус оплаты выставленного счёта.
    *
-   * @param paymentId идентификатор высталвенного счёта
+   * @param paymentId идентификатор выставленного счёта
    * @return статус оплаты
    */
   public Boolean isPaid(final Long paymentId) {
@@ -157,5 +157,21 @@ public class BankService {
    */
   public List<PaymentRequest> getDebtPaymentRequests(final Long citizenId) {
     return this.paymentRequestRepository.findAllByCitizenIdAndStatus(citizenId, false);
+  }
+
+  /**
+   * Возвращает список транзакций совершённых в определённый период, определённым гражданином.
+   *
+   * @param startDate дата начала выборки
+   * @param endDate дата конца выборки
+   * @param citizenId идентификатор гражданина
+   * @return список транзакций
+   */
+  public List<Transaction> getAllCitizenTransactions(
+      final Date startDate, final Date endDate, final Long citizenId)
+      throws IllegalArgumentException {
+    logger.info("ALL TRANSACTIONS: \n{}", this.transactionRepository.findAll());
+    return this.transactionRepository.findByCreationDateBetweenAndCitizenId(
+        startDate, endDate, citizenId);
   }
 }

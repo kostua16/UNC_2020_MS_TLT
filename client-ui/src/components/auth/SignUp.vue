@@ -74,7 +74,6 @@
                     label="Фамилия"
                     counter
                     outlined
-
                     :rules="[rules.required, rules.minData]"
                     required
                 ></v-text-field>
@@ -83,39 +82,33 @@
 
             <v-row justify="center">
               <v-col sm="9">
-                <v-text-field
-                    v-model="regData.dateOfBirth"
-                    type="text"
-                    label="Дата рождения"
-                    outlined
-                    :rules="[rules.required]"
-                    required
-                    readonly
+                <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
                 >
-                  <template v-slot:append>
-                    <v-menu
-                        style="top: -12px"
-                        offset-y
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                            color="white"
-                            v-bind="attrs"
-                            v-on="on"
-                            :ripple="false"
-                            class="v-btn--icon v-btn--flat mb-4"
-                        >
-                          <v-icon>event</v-icon>
-                        </v-btn>
-                      </template>
-                      <v-date-picker
-                          v-model="regData.dateOfBirth"
-                      ></v-date-picker>
-                    </v-menu>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="regData.dateOfBirth"
+                        label="Дата Рождения"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
                   </template>
-                </v-text-field>
-
-
+                  <v-date-picker
+                      ref="picker"
+                      v-model="regData.dateOfBirth"
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                  ></v-date-picker>
+                </v-menu>
               </v-col>
             </v-row>
 
@@ -166,10 +159,19 @@ export default {
         minAuth: value => value.length > 4 || 'Number of characters 5-25',
         minData: value => value.length >= 2 || 'Min 2 characters',
       },
-      number: 0
+      number: 0,
+      menu: false,
     };
   },
+  watch: {
+    menu (val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+    },
+  },
   methods: {
+    save (date) {
+      this.$refs.menu.save(date)
+    },
     clear() {
       this.regData.username = ''
       this.regData.password = ''

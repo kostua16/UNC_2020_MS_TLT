@@ -2,10 +2,9 @@ package nc.unc.cs.services.bank.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import javax.validation.constraints.Min;
+import nc.unc.cs.services.bank.controllers.dto.PeriodTransactions;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.services.BankService;
@@ -56,15 +55,7 @@ public class BankController {
       description = "Payment of the issued invoice and the tax attached to it",
       method = "PUT")
   @PutMapping(value = "payment/{paymentId}", produces = "application/json")
-  public ResponseEntity<Transaction> pay(
-      @Parameter(
-              name = "paymentId",
-              description = "PaymentPayload ID",
-              required = true,
-              schema = @Schema(type = "long"))
-          @Min(value = 1L)
-          @PathVariable("paymentId")
-          final Long paymentId) {
+  public ResponseEntity<Transaction> pay(@PathVariable("paymentId") final Long paymentId) {
     return this.bankService.payment(paymentId);
   }
 
@@ -74,11 +65,7 @@ public class BankController {
       description = "Checking the status of invoice payment",
       method = "GET")
   public Boolean checkPaymentStatus(
-      @Parameter(
-              name = "paymentId",
-              description = "PaymentPayload ID",
-              required = true,
-              schema = @Schema(type = "long"))
+      @Parameter(name = "paymentId", description = "PaymentPayload ID", required = true)
           @PathVariable("paymentId")
           final Long paymentId) {
     return this.bankService.isPaid(paymentId);
@@ -90,16 +77,24 @@ public class BankController {
       method = "GET")
   @GetMapping("check/{citizenId}")
   public List<PaymentRequest> getDebtPaymentRequests(
-      @Parameter(
-              name = "citizenId",
-              description = "Citizen ID",
-              required = true,
-              schema = @Schema(type = "long"))
+      @Parameter(name = "citizenId", description = "Citizen ID", required = true)
           @PathVariable("citizenId")
           Long citizenId) {
     return this.bankService.getDebtPaymentRequests(citizenId);
   }
 
-  // добавить методов по извлечению транзакций и неоплаченных счетов из БД (по
-  // датам, статусу и тп)
+  @Operation(
+      summary = "getAllCitizenTransactions",
+      description =
+          "Returns a list of transactions"
+              + " made during a specified period by a specific citizen.",
+      method = "POST")
+  @PostMapping(value = "transaction", produces = "application/json")
+  public List<Transaction> getAllCitizenTransactions(
+      @Validated @RequestBody final PeriodTransactions periodTransactions) {
+    return this.bankService.getAllCitizenTransactions(
+        periodTransactions.getStartDate(),
+        periodTransactions.getEndDate(),
+        periodTransactions.getCitizenId());
+  }
 }

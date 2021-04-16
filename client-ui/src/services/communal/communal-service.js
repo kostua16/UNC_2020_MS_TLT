@@ -1,12 +1,12 @@
 import axios from 'axios'
-import ParseLocalStorage from '../auth/parse-local-storage'
+import AuthModule from "@/store/auth.module";
 
 // const API_URL = 'https://nc-edu-2020-communal.herokuapp.com'
 const API_URL = 'http://localhost:8083/communal/housing'
 
 class CommunalService {
     addRegistration(registration) {
-        registration.citizenId = ParseLocalStorage();
+        registration.citizenId = AuthModule.state.user.citizenId;
         return axios.post(API_URL + '/', {
                 state: registration.state,
                 city: registration.city,

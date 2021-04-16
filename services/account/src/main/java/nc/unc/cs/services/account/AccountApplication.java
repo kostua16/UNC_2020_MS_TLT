@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "nc.unc.cs.services")
 public class AccountApplication {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     SpringApplication.run(AccountApplication.class, args);
   }
 }

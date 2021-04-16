@@ -16,7 +16,6 @@ import nc.unc.cs.services.common.clients.passport.PassportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,19 +24,16 @@ import org.springframework.stereotype.Service;
 public class AuthService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
 
-  @Bean
-  public BCryptPasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  private final BCryptPasswordEncoder encoder = encoder();
-
+  private final BCryptPasswordEncoder encoder;
   private final AccountRepository accountRepository;
   private final PassportService passportService;
 
   @Autowired
   public AuthService(
-      final AccountRepository accountRepository, final PassportService passportService) {
+      final BCryptPasswordEncoder encoder,
+      final AccountRepository accountRepository,
+      final PassportService passportService) {
+    this.encoder = encoder;
     this.accountRepository = accountRepository;
     this.passportService = passportService;
   }
@@ -113,12 +109,16 @@ public class AuthService {
    *
    * @return список аккаунтов
    */
-  @Deprecated
   public List<Account> getAllAccounts() {
     return accountRepository.findAll();
   }
 
-  @Deprecated
+  /**
+   * Выдаёт указанному пользователю права администратора.
+   *
+   * @param username имя аккаунта, которому будут выдавать права админа
+   * @return обнавлённая информация о пользователе
+   */
   public ResponseEntity<AuthResponse> changeRoleToAdmin(final String username) {
     final Account account = this.accountRepository.findAccountByUsername(username);
     if (account == null) {
