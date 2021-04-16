@@ -27,7 +27,7 @@
     <minidev.version>1.0.2</minidev.version>
     <springdoc.version>1.5.7</springdoc.version>
     <xstream.version>1.4.16</xstream.version>
-    <delombok.version>1.18.18.0</delombok.version>
+    <delombok.version>1.18.20.0</delombok.version>
     <checkstyle.version>8.41.1</checkstyle.version>
     <checkstyle.build.version>3.1.2</checkstyle.build.version>
     <asciidoc.build.version>2.1.0</asciidoc.build.version>
