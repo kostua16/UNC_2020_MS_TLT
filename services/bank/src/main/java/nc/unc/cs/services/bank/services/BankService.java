@@ -158,4 +158,20 @@ public class BankService {
   public List<PaymentRequest> getDebtPaymentRequests(final Long citizenId) {
     return this.paymentRequestRepository.findAllByCitizenIdAndStatus(citizenId, false);
   }
+
+  /**
+   * Возвращает список транзакций совершённых в определённый период, определённым гражданином.
+   *
+   * @param startDate дата начала выборки
+   * @param endDate дата конца выборки
+   * @param citizenId идентификатор гражданина
+   * @return список транзакций
+   */
+  public List<Transaction> getAllCitizenTransactions(
+      final Date startDate, final Date endDate, final Long citizenId)
+      throws IllegalArgumentException {
+    logger.info("ALL TRANSACTIONS: \n{}", this.transactionRepository.findAll());
+    return this.transactionRepository.findByCreationDateBetweenAndCitizenId(
+        startDate, endDate, citizenId);
+  }
 }

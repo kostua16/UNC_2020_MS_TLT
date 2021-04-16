@@ -1,20 +1,20 @@
 import axios from 'axios'
-import ParseLocalStorage from '@/services/auth/parse-local-storage'
+import AuthModule from '@/store/auth.module'
 
 const HTTP_PROTOCOL = 'http';
 
 // hostnames
 const HOST_AND_PORT_BANK = 'localhost:8084';
 const HOST_AND_PORT_COMMUNAL = 'localhost:8083';
-const HOST_AND_PORT_TAX = 'localhost:8082';
-const HOST_AND_PORT_PASSPORT = 'localhost:8095';
-const HOST_AND_PORT_GIBDD = 'localhost:8088';
-const HOST_AND_PORT_LOGGING = 'localhost:8089';
+// const HOST_AND_PORT_TAX = 'localhost:8082';
+// const HOST_AND_PORT_PASSPORT = 'localhost:8095';
+// const HOST_AND_PORT_GIBDD = 'localhost:8088';
+// const HOST_AND_PORT_LOGGING = 'localhost:8089';
 
 const URL_BANK = HTTP_PROTOCOL + '://' + HOST_AND_PORT_BANK + '/bank'
 const URL_COMMUNAL = HTTP_PROTOCOL + '://' + HOST_AND_PORT_COMMUNAL + '/communal'
-const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
-const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
+// const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
+// const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
 
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 
@@ -22,7 +22,7 @@ export default {
     GET_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(
-                PROPERTY_API_URL + '/citizen/' + ParseLocalStorage(),
+                PROPERTY_API_URL + '/citizen/' + AuthModule.state.user.citizenId,
                 {},
             )
             .then((properties) => {
@@ -54,7 +54,7 @@ export default {
     GET_MY_PAYMENT_REQUESTS_FROM_API({commit}) {
         return axios
             .get(
-                URL_BANK + '/check/' + ParseLocalStorage(),
+                URL_BANK + '/check/' + AuthModule.state.user.citizenId,
                 {},
             )
             .then((properties) => {
@@ -113,6 +113,74 @@ export default {
             })
             .catch(error => {
                 console.log("Failed to save utilities price list!\n", error);
+                return error.status;
+            })
+    },
+
+    GET_PROPERTY_TAX_VALUE_FROM_API({commit}) {
+        return axios
+            .get(
+                URL_COMMUNAL + '/tax/price-list/',
+                {},
+            )
+            .then(response => {
+                commit('SET_PROPERTY_TAX_VALUE_TO_STATE', response.data);
+                return response;
+            })
+            .catch(error => {
+                console.log('Failed to get information about utilities price lists. \n' + error);
+                return error;
+            })
+    },
+
+    ADD_PROPERTY_TAX_VALUE({commit, state}, priceList) {
+        return axios
+            .post(
+                URL_COMMUNAL + '/tax/price-list/',
+                {
+                    region: priceList.region,
+                    pricePerSquareMeter: priceList.pricePerSquareMeter,
+                    cadastralValue: priceList.cadastralValue
+                },
+                {}
+            )
+            .then(response => {
+                const priceListFromApi = response.data;
+                const propertyTaxValueId = state
+                    .propertyTaxValues
+                    .findIndex(item => item.propertyTaxValueId === priceListFromApi.propertyTaxValueId);
+                if (propertyTaxValueId > -1) {
+                    console.log("The price list is being updated...")
+                    commit('UPDATE_PROPERTY_TAX_VALUE', priceListFromApi, propertyTaxValueId)
+                } else {
+                    console.log("The price list began to be saved...")
+                    commit('ADD_PROPERTY_TAX_VALUE', priceListFromApi)
+                }
+                return response.status;
+            })
+            .catch(error => {
+                console.log("Failed to save utilities price list!\n", error);
+                return error.status;
+            })
+    },
+
+    GET_PERIOD_TRANSACTION_FROM_API({commit}, period) {
+        return axios
+            .post(
+                URL_BANK + '/transaction',
+                {
+                    citizenId: AuthModule.state.user.citizenId,
+                    startDate: period.startDate,
+                    endDate: period.endDate
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_PERIOD_TRANSACTION_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error("Не удалось получить список транзакций!\n", error.status)
                 return error.status;
             })
     }

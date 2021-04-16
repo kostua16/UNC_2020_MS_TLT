@@ -5,14 +5,16 @@ export default {
     GET_ALL_PROPERTIES(state) {
         return state.allProperties;
     },
-    GET_MY_REQUEST_PAYMENTS(state) {
-        return state.paymentRequests;
-    },
+
     SORTED_UTILITIES_PRICE_LIST(state) {
         // return state.utilityBillPriceLists.sort((a,b) => (a.region[0] - b.region[0]));
         // const utilityBillPriceLists = state.utilityBillPriceLists.region.sort();
         // utilityBillPriceLists.region.reverse();
         return state.utilityBillPriceLists;
+    },
+
+    SORTED_PROPERTY_TAX_VALUE(state) {
+        return state.propertyTaxValues;
     },
 
     // auth data
@@ -28,4 +30,12 @@ export default {
     GET_USER_IS_ACTIVE(state) {
         return state.auth.status.loggedIn
     },
+
+    //bank
+    GET_MY_REQUEST_PAYMENTS(state) {
+        return state.paymentRequests;
+    },
+    GET_TRANSACTIONS(state) {
+        return state.transactions;
+    }
 }

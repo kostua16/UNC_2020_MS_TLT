@@ -13,11 +13,21 @@
             @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
 
-        <v-toolbar-title>ГосПортал</v-toolbar-title>
+        <router-link to="/main">
+          <v-btn
+              v-if="GET_USER_IS_ACTIVE && $route.path !== '/main'"
+              icon
+          >
+            <v-icon>home</v-icon>
+          </v-btn>
+        </router-link>
+        <v-toolbar-title>
+          ГосПортал
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <router-link to="sign-up">
+        <router-link to="/sign-up">
           <v-btn
               v-if="!GET_USER_IS_ACTIVE"
               icon
@@ -27,7 +37,7 @@
           </v-btn>
         </router-link>
 
-        <router-link to="login">
+        <router-link to="/login">
           <v-btn
               v-if="!GET_USER_IS_ACTIVE"
               icon
@@ -37,7 +47,7 @@
           </v-btn>
         </router-link>
 
-        <router-link to="profile">
+        <router-link to="/profile">
           <v-btn
               v-if="GET_USER_IS_ACTIVE"
               icon
@@ -64,6 +74,7 @@
           bottom
           temporary
       >
+        <!--        ЗАКОММЕНТИРОВАНО СПЕЦИАЛЬНО, ТАК КАК БУДУ ПЕРЕДЕЛЫВАТЬ-->
         <!--        <v-list-->
         <!--            nav-->
         <!--            v-for="(link) in links"-->
@@ -131,6 +142,21 @@
               active-class="deep-purple--text text--accent-4"
           >
             <v-list-item
+                @click="$router.push('/bank/transactions')"
+                :disabled="$route.name === 'transactions'"
+            >
+              <v-list-item-title>
+                История платежей
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
                 @click="$router.push('/communal/admin/utilities/price-list')"
                 :disabled="$route.name === 'utilities-price-list'"
             >
@@ -141,7 +167,22 @@
           </v-list-item-group>
 
           <v-list-item-group
-              v-if="checkAuthRole"
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/tax/price-list')"
+                :disabled="$route.name === 'tax-price-list'"
+            >
+              <v-list-item-title>
+                Налоговые прейскуранты
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
               v-model="group"
               active-class="deep-purple--text text--accent-4"
           >
@@ -154,7 +195,6 @@
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
-
 
         </v-list>
       </v-navigation-drawer>
@@ -210,13 +250,6 @@ export default {
     ]),
   },
   methods: {
-    checkAuthRole() {
-      if (this.GET_USER_IS_ACTIVE()) {
-        return this.IS_ADMIN_ROLE;
-      } else {
-        return false;
-      }
-    },
     logout() {
       this.$store.dispatch('auth/LOGOUT');
       this.$router.push('/login');
