@@ -5,10 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -60,6 +64,12 @@ public class Property {
   @Column(nullable = false)
   private Long citizenId;
 
+  @NotNull
+  @Column(updatable = false, nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @Temporal(value = TemporalType.DATE)
+  private Date propertyTaxDate;
+
   @Builder
   public Property(
       final Long propertyId,
@@ -69,7 +79,8 @@ public class Property {
       final String house,
       final String apartment,
       final Integer apartmentSize,
-      final Long citizenId) {
+      final Long citizenId
+  ) {
     this.propertyId = propertyId;
     this.region = region.trim().toUpperCase();
     this.city = city.trim().toUpperCase();
@@ -78,6 +89,7 @@ public class Property {
     this.apartment = apartment.trim().toUpperCase();
     this.apartmentSize = apartmentSize;
     this.citizenId = citizenId;
+    this.propertyTaxDate = new Date();
   }
 
   public void setRegion(final String region) {
