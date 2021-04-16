@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Date;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.services.AuthService;
 import org.junit.jupiter.api.Test;
