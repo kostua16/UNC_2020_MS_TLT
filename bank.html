@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>HTTP status codes</title>
+<meta name="author" content="Gorbatiuk Artyom">
+<title>Bank API Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,21 +440,93 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
+<h1>Bank API Guide</h1>
+<div class="details">
+<span id="author" class="author">Gorbatiuk Artyom</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#overview_http_status_codes">HTTP status codes</a></li>
+<li><a href="#javadocs">Javadocs</a></li>
+<li><a href="#agenda">Agenda</a></li>
+<li><a href="#findPaymentRequestById">finding a request for payment by id</a>
+<ul class="sectlevel2">
+<li><a href="#findPaymentRequestById_curl_request">CURL request</a></li>
+<li><a href="#findPaymentRequestById_http_request">Example request</a></li>
+<li><a href="#findPaymentRequestById_http_response">Example response</a></li>
+<li><a href="#findPaymentRequestById_response_fields">Response fields</a></li>
+</ul>
+</li>
+<li><a href="#requestPayment">registration of performed services</a>
+<ul class="sectlevel2">
+<li><a href="#requestPayment_curl_request">CURL request</a></li>
+<li><a href="#requestPayment_http_request">Example request</a></li>
+<li><a href="#requestPayment_http_response">Example response</a></li>
+<li><a href="#requestPayment_response_fields">Response fields</a></li>
+</ul>
+</li>
+<li><a href="#payment">bill payment</a>
+<ul class="sectlevel2">
+<li><a href="#payment_curl_request">CURL request</a></li>
+<li><a href="#payment_http_request">Example request</a></li>
+<li><a href="#payment_http_response">Example response</a></li>
+<li><a href="#payment_response_fields">Response fields</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="overview_http_status_codes">HTTP status codes</h2>
+<h2 id="javadocs">Javadocs</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>API as closely as possible to standard HTTP and REST conventions in its
-use of HTTP status codes.</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bank service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/bank/BankService.html">Bank Client</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/bank/services/BankService.html">BankService</a></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Entity</th>
+<th class="tableblock halign-left valign-top">Client API</th>
+<th class="tableblock halign-left valign-top">Service Impl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bank specification</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/common/clients/bank/PaymentPayload.html">PaymentPayload</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/apidocs/nc/unc/cs/services/bank/entities/PaymentRequest.html">PaymentRequest</a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<div class="sect1">
+<h2 id="agenda">Agenda</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -461,34 +534,108 @@ use of HTTP status codes.</p>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Status code</th>
-<th class="tableblock halign-left valign-top">Usage</th>
+<th class="tableblock halign-left valign-top">Ref</th>
+<th class="tableblock halign-left valign-top">Details</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>200 OK</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The request completed successfully</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Verbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/http_verbs.html">HTTP Verbs</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>201 Created</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A new resource has been created successfully. The resource&#8217;s URI is available from the response&#8217;s
-<code>Location</code> header</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>204 No Content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An update to an existing resource has been applied successfully</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>400 Bad Request</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The request was malformed. The response body will include an error providing further information</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>404 Not Found</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The requested resource did not exist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP Codes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/UNC_2020_MS_TLT/http_codes.html">HTTP Codes</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="findPaymentRequestById">finding a request for payment by id</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="findPaymentRequestById_curl_request">CURL request</h3>
+<div class="paragraph">
+<p>Snippet curl-request not found for operation::findPaymentRequestById</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="findPaymentRequestById_http_request">Example request</h3>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::findPaymentRequestById</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="findPaymentRequestById_http_response">Example response</h3>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::findPaymentRequestById</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="findPaymentRequestById_response_fields">Response fields</h3>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::findPaymentRequestById</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="requestPayment">registration of performed services</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="requestPayment_curl_request">CURL request</h3>
+<div class="paragraph">
+<p>Snippet curl-request not found for operation::requestPayment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requestPayment_http_request">Example request</h3>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::requestPayment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requestPayment_http_response">Example response</h3>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::requestPayment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requestPayment_response_fields">Response fields</h3>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::requestPayment</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="payment">bill payment</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="payment_curl_request">CURL request</h3>
+<div class="paragraph">
+<p>Snippet curl-request not found for operation::payment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="payment_http_request">Example request</h3>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::payment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="payment_http_response">Example response</h3>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::payment</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="payment_response_fields">Response fields</h3>
+<div class="paragraph">
+<p>Snippet response-fields not found for operation::payment</p>
+</div>
+</div>
 </div>
 </div>
 </div>
