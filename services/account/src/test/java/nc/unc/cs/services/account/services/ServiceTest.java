@@ -1,5 +1,8 @@
 package nc.unc.cs.services.account.services;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
@@ -14,26 +17,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class ServiceTest {
 
-  @InjectMocks
-  private AuthService authService;
-  @Mock
-  private AccountRepository accountRepository;
-  @Mock
-  private BCryptPasswordEncoder encoder;
+  @InjectMocks private AuthService authService;
+  @Mock private AccountRepository accountRepository;
+  @Mock private BCryptPasswordEncoder encoder;
 
   private LoginDto createLoginDto() {
     return LoginDto.builder().username("username").password("password").build();
   }
 
   private Account createAccount(final String username, final String password) {
-    return Account
-        .builder()
+    return Account.builder()
         .citizenId(1L)
         .username(username)
         .password(password)
@@ -42,8 +39,7 @@ class ServiceTest {
   }
 
   private RegistrationDto createRegistrationDto() {
-    return RegistrationDto
-        .builder()
+    return RegistrationDto.builder()
         .username("username")
         .password("password")
         .email("hello@gmail.com")

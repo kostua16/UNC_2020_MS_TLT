@@ -27,11 +27,7 @@ public class RegistrationDto {
   private String email;
 
   @Builder
-  public RegistrationDto(
-      final String username,
-      final String password,
-      final String email
-  ) {
+  public RegistrationDto(final String username, final String password, final String email) {
     this.username = username.trim();
     this.password = password.trim();
     this.email = email.trim();

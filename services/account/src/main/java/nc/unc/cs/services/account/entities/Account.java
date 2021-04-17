@@ -52,11 +52,7 @@ public class Account {
 
   @Builder
   public Account(
-      final Long citizenId,
-      final String username,
-      final String password,
-      final String email
-  ) {
+      final Long citizenId, final String username, final String password, final String email) {
     this.citizenId = citizenId;
     this.username = username.trim();
     this.password = password.trim();

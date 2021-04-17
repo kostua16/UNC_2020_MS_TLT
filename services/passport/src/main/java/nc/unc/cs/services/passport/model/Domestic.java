@@ -26,6 +26,7 @@ public class Domestic { // необходимо добавить настрой�
   private Boolean isActive;
   private Integer series;
   private Integer number;
+
   @Column(nullable = false, unique = true)
   private Long citizenId;
 }
