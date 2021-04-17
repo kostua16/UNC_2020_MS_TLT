@@ -18,6 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang.time.DateUtils;
 
 @Entity
 @Data
@@ -65,7 +66,7 @@ public class Property {
   private Long citizenId;
 
   @NotNull
-  @Column(updatable = false, nullable = false)
+  @Column(nullable = false)
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   @Temporal(value = TemporalType.DATE)
   private Date propertyTaxDate;
@@ -89,7 +90,8 @@ public class Property {
     this.apartment = apartment.trim().toUpperCase();
     this.apartmentSize = apartmentSize;
     this.citizenId = citizenId;
-    this.propertyTaxDate = new Date();
+    // todo: (for test) replace DateUtils with new Date()
+    this.propertyTaxDate = DateUtils.addDays(new Date(), -5);
   }
 
   public void setRegion(final String region) {

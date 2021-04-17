@@ -18,5 +18,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
   Property findPropertyByPropertyTaxDateBefore(Date date);
 
-  List<Property> findPropertiesByPropertyTaxDateBeforeAndRegion(Date date, String region);
+  List<Property> findFirst3ByPropertyTaxDateBeforeAndRegion(Date date, String region);
 }
