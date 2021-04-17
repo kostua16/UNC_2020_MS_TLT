@@ -26,9 +26,7 @@ public class AuthService {
 
   @Autowired
   public AuthService(
-      final BCryptPasswordEncoder encoder,
-      final AccountRepository accountRepository
-  ) {
+      final BCryptPasswordEncoder encoder, final AccountRepository accountRepository) {
     this.encoder = encoder;
     this.accountRepository = accountRepository;
   }
@@ -45,8 +43,7 @@ public class AuthService {
         this.accountRepository.findAccountByUsername(registrationDto.getUsername());
     if (account == null) {
       final Account newAccount =
-          Account
-              .builder()
+          Account.builder()
               .username(registrationDto.getUsername())
               .password(encoder.encode(registrationDto.getPassword()))
               .email(registrationDto.getEmail())
@@ -73,8 +70,7 @@ public class AuthService {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
     } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
       final AuthResponse authResponse =
-          AuthResponse
-              .builder()
+          AuthResponse.builder()
               .citizenId(account.getCitizenId())
               .email(account.getEmail())
               .role(account.getRole())
@@ -108,8 +104,7 @@ public class AuthService {
       account.setRole(Roles.ROLE_ADMIN);
       this.accountRepository.save(account);
       final AuthResponse authResponse =
-          AuthResponse
-              .builder()
+          AuthResponse.builder()
               .citizenId(account.getCitizenId())
               .email(account.getEmail())
               .role(account.getRole())
