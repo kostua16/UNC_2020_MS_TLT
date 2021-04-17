@@ -13,6 +13,7 @@ import Property from '@/components/communal/property/Property'
 import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
 import RegistrationData from "@/models/auth/registration-data";
+import DomesticRegistration from "@/components/passport/DomesticRegistration";
 
 Vue.use(Router);
 
@@ -158,6 +159,14 @@ export const router = new Router({
             path: '/bank/transactions',
             name: 'transactions',
             component: Transactions,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            }
+        },
+        {
+            path: '/passport/domestic',
+            name: 'domestic',
+            component: DomesticRegistration,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             }

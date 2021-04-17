@@ -1,87 +1,71 @@
 <template>
   <v-main>
     <v-layout row wrap align-center justify-center>
-      <v-card
-          flat
-          class="mt-10 text-center text-xs-center"
-          width="600"
-          max-height="400"
-      >
-        <v-form
-            justify="center"
-            name="form"
-            class="text-center form_width"
-            @submit.prevent="registration"
-        >
+      <v-card flat>
+        <v-card-title>
+          <span class="headline">Оформление паспорта гражданина РФ</span>
+        </v-card-title>
+        <v-card-text>
           <v-container>
-            <v-row justify="center">
-              <v-col sm="9">
-                <h3>
-                  <div class="error-message">{{ message }}</div>
-                </h3>
-              </v-col>
-            </v-row>
-            <v-row justify="center">
-              <v-col sm="9">
+            <v-row>
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="5"
+              >
                 <v-text-field
-                    v-model="regData.username"
-                    type="text"
-                    label="Логин"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minAuth]"
-                    required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-text-field
-                    v-model="regData.password"
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show ? 'text' : 'password'"
-                    name="password"
-                    label="Пароль"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minAuth]"
-                    @click:append="show = !show"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-text-field
-                    v-model="regData.name"
-                    type="text"
                     label="Имя"
-                    counter
-                    outlined
-
-                    :rules="[rules.required, rules.minData]"
                     required
                 ></v-text-field>
               </v-col>
-            </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="2"
+              ></v-col>
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="5"
+              >
                 <v-text-field
-                    v-model="regData.surname"
-                    type="text"
                     label="Фамилия"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minData]"
+                    required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                  v-if="domestic.series"
+                  cols="12"
+                  sm="6"
+                  md="5"
+              >
+                <v-text-field
+                    label="Серия"
+                    readonly
+                    required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                  v-if="domestic.series"
+                  cols="12"
+                  sm="6"
+                  md="2"
+              ></v-col>
+              <v-col
+                  v-if="domestic.number"
+                  cols="12"
+                  sm="6"
+                  md="5"
+              >
+                <v-text-field
+                    label="Номер"
+                    readonly
                     required
                 ></v-text-field>
               </v-col>
             </v-row>
-
             <v-row justify="center">
-              <v-col sm="9">
+              <v-col sm="6">
                 <v-menu
                     ref="menu"
                     v-model="menu"
@@ -92,75 +76,105 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                        v-model="regData.dateOfBirth"
+                        v-model="dateOfBirth"
                         label="Дата Рождения"
                         prepend-icon="mdi-calendar"
                         readonly
-                        outlined
                         v-bind="attrs"
                         v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
                       ref="picker"
-                      v-model="regData.dateOfBirth"
+                      v-model="dateOfBirth"
                       :max="new Date().toISOString().substr(0, 10)"
-                      min="1950-01-01"
+                      min="1900-01-01"
                       @change="save"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
             </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-text-field
-                    v-model="regData.registration"
-                    type="text"
-                    label="Прописка"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minData]"
-                    required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-btn
-                rounded
-                color="primary"
-                dark
-                @click="registration"
-            >
-              <span>Зарегестрироваться</span>
-            </v-btn>
-            <v-btn @click="clear">clear</v-btn>
           </v-container>
-        </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="blue darken-1"
+              text
+              @click="clear"
+          >
+            Очистить
+          </v-btn>
+          <v-btn
+              v-if="!domestic.series"
+              color="blue darken-1"
+              text
+              @click="registerDomestic"
+          >
+            Оформить
+          </v-btn>
+          <v-btn
+              v-else-if="domestic.series"
+              color="blue darken-1"
+              text
+              @click="updateDomestic"
+          >
+            Обновить
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-layout>
   </v-main>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+import Domestic from "@/models/passport/domestic";
 
 export default {
   name: "DomesticRegistration",
-  data() { // todo: fix for passport registration
+  data() {
     return {
-      regData: '', // new RegistrationData,
-      successful: false,
-      show: false,
-      message: '', // Сообщение в которое возвращается тело ошибки при регистрации
-      issFilled: false,
-      rules: { // правлиа для поллей ввода информации (+ юзается в html тегах, см выше) ПОЧИНИТЬ!!!
-        required: value => !!value || 'Required!',
-        minAuth: value => value.length > 4 || 'Number of characters 5-25',
-        minData: value => value.length >= 2 || 'Min 2 characters',
-      },
+      domestic: new Domestic(),
       number: 0,
       menu: false,
-    };
+      name: '',
+      surname: '',
+      dateOfBirth: '',
+    }
   },
+  created() {
+    this.domestic = this.GET_DOMESTIC
+    this.name = this.domestic.name
+    this.surname = this.domestic.surname
+    this.dateOfBirth = this.domestic.dateOfBirth
+  },
+  computed: {
+    ...mapGetters(['GET_DOMESTIC'])
+  },
+  methods: {
+    registerDomestic() {
+      // todo: validate and request to API
+      this.domestic.name = this.name
+      this.domestic.surname = this.surname
+      this.domestic.dateOfBirth = this.dateOfBirth
+
+    },
+    updateDomestic() {
+      // todo: validate
+      this.domestic.name = this.name
+      this.domestic.surname = this.surname
+      this.domestic.dateOfBirth = this.dateOfBirth
+    },
+    clear() {
+      this.domestic.name = ''
+      this.domestic.surname = ''
+      this.domestic.dateOfBirth = ''
+    },
+    save(date) {
+      this.$refs.menu.save(date)
+    },
+  }
 }
 </script>
 

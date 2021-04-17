@@ -4,6 +4,7 @@
       <v-container>
         <v-row no-gutters>
           <v-col
+              class="mt-4"
               cols="12"
               sm="7"
           >
@@ -13,7 +14,6 @@
               cols="12"
               sm="5"
           >
-            <!--      elevation - делает обводку вокруг карточки  -->
             <v-card
                 flat
                 max-width="450"
@@ -59,23 +59,6 @@
                 />
               </v-card>
             </v-card>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col
-              cols="4"
-          >
-            <router-link to="/tax/get-all">Просмотреть налоги</router-link>
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <v-spacer></v-spacer>
-          </v-col>
-          <v-col
-              cols="4"
-          >
-            <router-link to="/tax/get-all">Просмотреть налоги</router-link>
           </v-col>
         </v-row>
       </v-container>
