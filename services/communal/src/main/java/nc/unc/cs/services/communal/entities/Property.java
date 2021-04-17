@@ -1,5 +1,7 @@
 package nc.unc.cs.services.communal.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -80,8 +80,7 @@ public class Property {
       final String house,
       final String apartment,
       final Integer apartmentSize,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.propertyId = propertyId;
     this.region = region.trim().toUpperCase();
     this.city = city.trim().toUpperCase();
