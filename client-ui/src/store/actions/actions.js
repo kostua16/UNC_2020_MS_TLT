@@ -80,7 +80,7 @@ export default {
             })
             .catch(error => {
                 console.error('Не удалось оплатить выставленный счёт!')
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -130,7 +130,7 @@ export default {
             })
             .catch(error => {
                 console.log("Failed to save utilities price list!\n", error);
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -177,7 +177,7 @@ export default {
             })
             .catch(error => {
                 console.log("Failed to save utilities price list!\n", error);
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -198,7 +198,7 @@ export default {
             })
             .catch(error => {
                 console.error("Не удалось получить список транзакций!\n", error.status)
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -215,6 +215,29 @@ export default {
             .catch(error => {
                 console.error('Passport not found!', error);
                 return error;
+            })
+    },
+
+    REGISTER_DOMESTIC_PASSPORT_ACTION({commit}, citizen) {
+        return axios
+            .post(
+                URL_PASSPORT + '/registerDomestic',
+                {
+                    name: citizen.name,
+                    surname: citizen.surname,
+                    dateOfBirth: citizen.dateOfBirth,
+                    registration: 'unknown', // todo: remove hard code
+                    citizenId: AuthModule.state.user.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_DOMESTIC_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to create domestic passport!', error.response.status);
+                return error.response.status;
             })
     },
 
@@ -242,7 +265,7 @@ export default {
             })
             .catch(error => {
                 console.error('Failed to update domestic passport.')
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -255,7 +278,7 @@ export default {
             })
             .catch(error => {
                 console.error('Failed to get international passport', error.statusMessage);
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -280,7 +303,7 @@ export default {
             })
             .catch(error => {
                 console.error('Failed to update international passport!', error.status)
-                return error.status;
+                return error.response.status;
             })
     }
 

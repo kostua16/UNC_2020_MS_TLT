@@ -1,7 +1,10 @@
 <template>
   <v-main>
     <v-layout row wrap align-center justify-center>
-      <v-card flat>
+      <v-card
+          flat
+          width="650px"
+      >
         <v-card-title>
           <span class="headline">Оформление паспорта гражданина РФ</span>
         </v-card-title>
@@ -14,8 +17,13 @@
                   md="5"
               >
                 <v-text-field
+                    v-model.trim="name"
+                    :error-messages="nameErrors"
                     label="Имя"
+                    counter
                     required
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
                 ></v-text-field>
               </v-col>
               <v-col
@@ -29,38 +37,13 @@
                   md="5"
               >
                 <v-text-field
+                    v-model.trim="surname"
+                    :error-messages="surnameErrors"
                     label="Фамилия"
+                    counter
                     required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                  v-if="domestic.series"
-                  cols="12"
-                  sm="6"
-                  md="5"
-              >
-                <v-text-field
-                    label="Серия"
-                    readonly
-                    required
-                ></v-text-field>
-              </v-col>
-              <v-col
-                  v-if="domestic.series"
-                  cols="12"
-                  sm="6"
-                  md="2"
-              ></v-col>
-              <v-col
-                  v-if="domestic.number"
-                  cols="12"
-                  sm="6"
-                  md="5"
-              >
-                <v-text-field
-                    label="Номер"
-                    readonly
-                    required
+                    @input="$v.surname.$touch()"
+                    @blur="$v.surname.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -77,11 +60,14 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateOfBirth"
+                        :error-messages="dateOfBirthErrors"
                         label="Дата Рождения"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        @input="$v.dateOfBirth.$touch()"
+                        @blur="$v.dateOfBirth.$touch()"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -106,70 +92,123 @@
             Очистить
           </v-btn>
           <v-btn
-              v-if="!domestic.series"
               color="blue darken-1"
               text
               @click="registerDomestic"
           >
             Оформить
           </v-btn>
-          <v-btn
-              v-else-if="domestic.series"
-              color="blue darken-1"
-              text
-              @click="updateDomestic"
-          >
-            Обновить
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-layout>
+    <v-snackbar
+        :color="notificationColor"
+        v-model="snackbar"
+        :timeout="timeout"
+        top
+    >
+      {{ notification }} {{ redirectTime }}
+    </v-snackbar>
   </v-main>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import Domestic from "@/models/passport/domestic";
+import {mapActions} from "vuex";
+import {maxLength, minLength, required} from "vuelidate/lib/validators";
+import Citizen from "@/models/passport/citizen";
 
 export default {
   name: "DomesticRegistration",
   data() {
     return {
-      domestic: new Domestic(),
+      citizen: new Citizen(),
       number: 0,
       menu: false,
       name: '',
       surname: '',
-      dateOfBirth: '',
+      dateOfBirth: null,
+      snackbar: false,
+      notification: '',
+      timeout: 5000,
+      notificationColor: '',
+      redirectTime: '',
     }
   },
-  created() {
-    this.domestic = this.GET_DOMESTIC
-    this.name = this.domestic.name
-    this.surname = this.domestic.surname
-    this.dateOfBirth = this.domestic.dateOfBirth
+  watch: {
+    menu(val) { // start from year
+      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+    },
+  },
+  validations: {
+    name: {required, minLength: minLength(2), maxLength: maxLength(40)},
+    surname: {required, minLength: minLength(2), maxLength: maxLength(40)},
+    dateOfBirth: {required},
   },
   computed: {
-    ...mapGetters(['GET_DOMESTIC'])
+    nameErrors() {
+      const errors = []
+      if (!this.$v.name.$dirty) return errors
+      !this.$v.name.minLength && errors.push('Имя должно состоять из не менее, чем из 2 символов!')
+      !this.$v.name.maxLength && errors.push('Имя должно состоять из не более, чем из 20 символов!')
+      !this.$v.name.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    surnameErrors() {
+      const errors = []
+      if (!this.$v.surname.$dirty) return errors
+      !this.$v.surname.minLength && errors.push('Фамилия должно состоять из не менее, чем из 2 символов!')
+      !this.$v.surname.maxLength && errors.push('Фамилия должно состоять из не более, чем из 20 символов!')
+      !this.$v.surname.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    dateOfBirthErrors() {
+      const errors = []
+      if (!this.$v.dateOfBirth.$dirty) return errors
+      !this.$v.dateOfBirth.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    countRedirect() {
+      setInterval(() => {
+            if (this.redirectTime === 0) {
+              return (this.redirectTime = 0)
+            }
+            this.redirectTime -= 1
+          }, 950
+      )
+    }
   },
   methods: {
+    ...mapActions(['REGISTER_DOMESTIC_PASSPORT_ACTION']),
     registerDomestic() {
-      // todo: validate and request to API
-      this.domestic.name = this.name
-      this.domestic.surname = this.surname
-      this.domestic.dateOfBirth = this.dateOfBirth
-
-    },
-    updateDomestic() {
-      // todo: validate
-      this.domestic.name = this.name
-      this.domestic.surname = this.surname
-      this.domestic.dateOfBirth = this.dateOfBirth
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      this.citizen.name = this.name
+      this.citizen.surname = this.surname
+      this.citizen.dateOfBirth = this.dateOfBirth
+      console.log('Data for passport registration: ', this.citizen)
+      this.REGISTER_DOMESTIC_PASSPORT_ACTION(this.citizen)
+          .then(status => {
+            if (status === 200) {
+              this.notificationColor = 'green'
+              this.notification = 'Паспорт оформлен! Вы будете перенаправлены в личный кабинет через '
+              this.redirectTime = 3
+              this.timeout = 3000
+              this.snackbar = true
+              setTimeout(() => this.$router.push('/profile'), 3000, this.countRedirect)
+            } else {
+              this.notification = 'Произошла ошибка! Попробуйте позже.'
+              this.notificationColor = 'red'
+              this.snackbar = true
+            }
+          })
     },
     clear() {
-      this.domestic.name = ''
-      this.domestic.surname = ''
-      this.domestic.dateOfBirth = ''
+      this.$v.$reset()
+      this.name = ''
+      this.surname = ''
+      this.dateOfBirth = null
     },
     save(date) {
       this.$refs.menu.save(date)

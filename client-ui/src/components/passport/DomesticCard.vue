@@ -1,6 +1,6 @@
 <template>
   <v-card
-      v-if="domestic"
+      v-if="domestic.domesticId"
       height="450px"
       max-width="600px"
       flat
@@ -29,6 +29,7 @@
         class="mx-auto text-center"
         height="400px"
         max-width="600px"
+        color="#f4f9fa"
         @click="$router.push('/passport/domestic')"
     >
       <v-card-text
