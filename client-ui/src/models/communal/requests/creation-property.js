@@ -1,4 +1,13 @@
 export default class CreationProperty {
+    constructor(apartmentSize) {
+        this.region = ''
+        this.city = ''
+        this.street = ''
+        this.house = ''
+        this.apartment = ''
+        this.apartmentSize = apartmentSize
+        this.citizenId = 0
+    };
     constructor(
         region,
         city,
@@ -15,5 +24,5 @@ export default class CreationProperty {
         this.apartment = apartment
         this.apartmentSize = apartmentSize
         this.citizenId = citizenId
-    }
+    };
 }
