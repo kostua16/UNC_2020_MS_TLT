@@ -9,7 +9,6 @@ import SignUp from "@/components/auth/SignUp";
 import Profile from "@/components/main/Profile";
 import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
 import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
-import Property from '@/components/communal/property/Property'
 import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
 import RegistrationData from "@/models/auth/registration-data";
@@ -105,15 +104,6 @@ export const router = new Router({
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
-        },
-        {
-            path: '/communal/property/add-property',
-            name: 'add-property',
-            component: Property,
-            beforeEnter(to, from, next) {
-                checkAuth(to, from, next);
-            },
-
         },
         {
             path: '/communal/property/list',

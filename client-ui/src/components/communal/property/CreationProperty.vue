@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <v-container>
     <v-text-field
         type="text"
         label="Область"
@@ -71,18 +71,19 @@
         block color="red"
         dark
     >
-      Добавить недвижимость
+      Создать недвижимость
     </v-btn>
-  </div>
+  </v-container>
 </template>
 
 <script>
-import PropertyService from '@/services/communal/property-service'
 import CreationProperty from '@/models/communal/requests/creation-property'
-import {maxLength, minLength, required, minValue, alpha, alphaNum, integer, numeric} from "vuelidate/lib/validators";
+import {maxLength, minLength, minValue, numeric, required} from "vuelidate/lib/validators";
+import {mapActions} from "vuex";
 
 export default {
-  name: "Property",
+  name: "CreationProperty",
+  props: ['propertyAttr'],
   data() {
     return {
       creationProperty: new CreationProperty(0),
@@ -183,6 +184,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['ADD_PROPERTY_ACTION']),
     addProperty() {
       if (this.$v.$invalid) {
         this.$v.$touch();
@@ -195,11 +197,16 @@ export default {
       this.creationProperty.apartment = this.apartment
       this.creationProperty.apartmentSize = this.apartmentSize
 
-      // PropertyService.addProperty(this.creationProperty);
+      this.ADD_PROPERTY_ACTION(this.creationProperty)
+          .then(status => {
+            if (status === 200) {
+              this.clear()
+              // всплывающее уведомление
+            } else {
 
-      this.clear() // => .then
+            }
+          })
     },
-
     clear() {
       this.$v.$reset()
       this.region = ''

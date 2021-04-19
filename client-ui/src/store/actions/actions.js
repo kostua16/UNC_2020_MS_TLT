@@ -35,6 +35,30 @@ export default {
             })
     },
 
+    ADD_PROPERTY_ACTION({commit}, creationProperty) {
+        return axios.post(
+            PROPERTY_API_URL,
+            {
+                region: creationProperty.region,
+                city: creationProperty.city,
+                street: creationProperty.street,
+                house: creationProperty.house,
+                apartment: creationProperty.apartment,
+                apartmentSize: creationProperty.apartmentSize,
+                citizenId: AuthModule.state.user.citizenId
+            },
+            {}
+        )
+            .then(response => {
+                commit('ADD_PROPERTY', response.data);
+                return response.status
+            })
+            .catch(error => {
+                console.error('Failed to add property', error.response.headers);
+                return error.response.status;
+            })
+    },
+
     GET_ALL_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(
@@ -73,7 +97,7 @@ export default {
                 URL_BANK + '/payment/' + paymentRequestId,
                 {},
                 {},
-                )
+            )
             .then(response => {
                 commit('PAY_PAYMENT_REQUEST', paymentRequestId);
                 return response.status;
@@ -207,7 +231,7 @@ export default {
             .get(
                 URL_PASSPORT + '/domestic/citizen/' + AuthModule.state.user.citizenId,
                 {}
-                )
+            )
             .then(response => {
                 commit('SET_DOMESTIC_TO_STATE', response.data);
                 return response

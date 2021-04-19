@@ -3,9 +3,6 @@ export default {
     SET_PROPERTY_TO_STATE(state, properties) {
         state.properties = properties;
     },
-    SET_ALL_PROPERTIES_TO_STATE(state, properties) {
-        state.allProperties = properties;
-    },
     SET_PAYMENT_REQUESTS_TO_STATE(state, paymentRequests) {
         state.paymentRequests = paymentRequests;
     },
@@ -19,7 +16,15 @@ export default {
         state.paymentRequests.splice(id, 1)
     },
 
-    // communal
+    // property
+    SET_ALL_PROPERTIES_TO_STATE(state, properties) {
+        state.allProperties = properties;
+    },
+    ADD_PROPERTY(state, property) {
+        state.properties.push(property);
+    },
+
+    // utilities price list
     SET_UTILITIES_PRICE_LIST_TO_STATE(state, utilitiesPriceLists) {
         state.utilityBillPriceLists = utilitiesPriceLists;
     },
@@ -30,6 +35,7 @@ export default {
         state.utilityBillPriceLists.splice(utilitiesPriceListId, 1, priceListFromApi);
     },
 
+    // property tax value
     SET_PROPERTY_TAX_VALUE_TO_STATE(state, propertyTaxValues) {
         state.propertyTaxValues = propertyTaxValues;
     },
