@@ -105,8 +105,7 @@ public class BackgroundTaskService {
 
   public Property getPropertyByTaxDateBefore(final Date beforeDate)
       throws FeignException, PropertyNotFoundException {
-    final Property property =
-        this.propertyRepository.findFirstByPropertyTaxDateBefore(beforeDate);
+    final Property property = this.propertyRepository.findFirstByPropertyTaxDateBefore(beforeDate);
     if (property == null) {
       this.logging.addLog(
           LogEntry.builder()
