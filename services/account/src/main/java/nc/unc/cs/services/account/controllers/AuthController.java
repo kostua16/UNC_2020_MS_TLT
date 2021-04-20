@@ -24,7 +24,7 @@ public class AuthController {
   private final AuthService authService;
 
   @Autowired
-  public AuthController(AuthService authService) {
+  public AuthController(final AuthService authService) {
     this.authService = authService;
   }
 
@@ -39,18 +39,11 @@ public class AuthController {
     return this.authService.login(loginDto);
   }
 
-  /**
-   * Возвращает список все аккаунтов. (ВРЕМЕННЫЙ МЕТОД!!!)
-   *
-   * @return список аккаунтов
-   */
-  @Deprecated
   @GetMapping(produces = "application/json")
   public List<Account> getAllAccounts() {
     return this.authService.getAllAccounts();
   }
 
-  @Deprecated
   @PutMapping(value = "role/{username}", produces = "application/json")
   public ResponseEntity<AuthResponse> changeRoleToAdmin(@PathVariable final String username) {
     return this.authService.changeRoleToAdmin(username);

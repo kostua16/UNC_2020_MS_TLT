@@ -1,6 +1,10 @@
 package nc.unc.cs.services.account.controllers.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,7 +36,11 @@ public class RegistrationDto {
   @Size(min = 2, max = 40)
   private String surname;
 
-  @NotNull private Date dateOfBirth;
+  @Column(nullable = false, updatable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @Temporal(value = TemporalType.DATE)
+  @NotNull
+  private Date dateOfBirth;
 
   @NotBlank
   @Size(min = 2, max = 40)

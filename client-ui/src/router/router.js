@@ -4,10 +4,15 @@ import Tax from "@/components/tax/Tax";
 import CitizenProperty from "@/components/communal/property/CitizenProperty";
 import UsersProperties from "@/components/communal/property/admin/UsersProperties";
 import Login from "@/components/auth/Login";
-// import MainPage from "@/components/main/MainPage";
 import store from '@/store/index'
 import SignUp from "@/components/auth/SignUp";
 import Profile from "@/components/main/Profile";
+import UtilitiesPriceList from "@/components/communal/property/admin/price/utility/UtilitiesPriceList";
+import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
+import Property from '@/components/communal/property/Property'
+import MainPage from "@/components/main/MainPage";
+import Transactions from "@/components/bank/Transactions";
+import RegistrationData from "@/models/auth/registration-data";
 
 Vue.use(Router);
 
@@ -28,7 +33,7 @@ function checkPrivilege(to, from, next) {
             next()
         } else {
             // если недостаточно прав
-            next('/profile')
+            next('main')
         }
     } else {
         console.warn('Вам необходимо авторизоваться!')
@@ -40,7 +45,7 @@ function checkPrivilege(to, from, next) {
 function checkNoAuth(to, from, next) {
     if (store.getters.GET_USER_IS_ACTIVE) {
         console.warn('Вам необходимо выйти из своего аккаунта!')
-        next('profile')
+        next('main')
     } else {
         next()
     }
@@ -54,15 +59,10 @@ export const router = new Router({
             // 404
             path: '*',
             name: 'NotFound',
-            redirect: 'profile',
+            redirect: 'main',
 
             beforeEnter(to, from, next) {
-                if (store.getters.GET_USER_IS_ACTIVE) {
-                    next('profile')
-                } else {
-                    console.warn('Вам необходимо авторизоваться!')
-                    next('login')
-                }
+                checkAuth(to, from, next);
             },
         },
         {
@@ -92,7 +92,7 @@ export const router = new Router({
         {
             path: '/communal/add-registration',
             name: 'add-registration',
-            component: () => '@/components/communal/RegistrationData',
+            component: RegistrationData,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
@@ -108,7 +108,7 @@ export const router = new Router({
         {
             path: '/communal/property/add-property',
             name: 'add-property',
-            component: () => '@/components/communal/property/Property',
+            component: Property,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
@@ -130,11 +130,37 @@ export const router = new Router({
                 checkPrivilege(to, from, next);
             },
         },
-        // {
-        //     path: '/main',
-        //     name: 'main',
-        //     component: MainPage
-        // }
+        {
+            path: '/communal/admin/utilities/price-list',
+            name: 'utilities-price-list',
+            component: UtilitiesPriceList,
+            beforeEnter(to, from, next) {
+                checkPrivilege(to, from, next);
+            },
+        },
+        {
+            path: '/communal/admin/tax/price-list',
+            name: 'tax-price-list',
+            component: PropertyTaxValue,
+            beforeEnter(to, from, next) {
+                checkPrivilege(to, from, next);
+            },
+        },
+        {
+            path: '/main',
+            name: 'main',
+            component: MainPage,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
+            path: '/bank/transactions',
+            name: 'transactions',
+            component: Transactions,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            }
+        },
     ],
-
 });

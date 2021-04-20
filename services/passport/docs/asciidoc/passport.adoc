@@ -1,5 +1,5 @@
-= Communal API Guide
-Konstantin Leontiev;
+= Passport API Guide
+Zabegaev Nikita;
 
 [[javadocs]]
 == Javadocs

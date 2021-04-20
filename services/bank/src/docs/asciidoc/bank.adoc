@@ -1,0 +1,49 @@
+= Bank API Guide
+Gorbatiuk Artyom;
+
+[[javadocs]]
+== Javadocs
+|===
+| Entity | Client API | Service Impl
+
+| Bank service
+| link:/{jdocs}/nc/unc/cs/services/common/clients/bank/BankService.html[Bank Client]
+| link:/{jdocs}/nc/unc/cs/services/bank/services/BankService.html[BankService]
+
+|===
+|===
+| Entity | Client API | Service Impl
+
+| Bank specification
+| link:/{jdocs}/nc/unc/cs/services/common/clients/bank/PaymentPayload.html[PaymentPayload]
+| link:/{jdocs}/nc/unc/cs/services/bank/entities/PaymentRequest.html[PaymentRequest]
+
+|===
+
+
+
+[[agenda]]
+== Agenda
+|===
+| Ref | Details
+
+| HTTP Verbs
+| link:/{root}/http_verbs.html[HTTP Verbs]
+
+| HTTP Codes
+| link:/{root}/http_codes.html[HTTP Codes]
+|===
+
+[[findPaymentRequestById]]
+== finding a request for payment by id
+operation::findPaymentRequestById[snippets='curl-request,http-request,http-response,response-fields']
+
+[[requestPayment]]
+== registration of performed services
+operation::requestPayment[snippets='curl-request,http-request,http-response,response-fields']
+
+[[payment]]
+== bill payment
+operation::payment[snippets='curl-request,http-request,http-response,response-fields']
+
+

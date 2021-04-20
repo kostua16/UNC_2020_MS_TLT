@@ -1,5 +1,4 @@
 = GIBDD API Guide
-Konstantin Leontiev;
 
 [[javadocs]]
 == Javadocs

@@ -13,11 +13,21 @@
             @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
 
-        <v-toolbar-title>ГосПортал</v-toolbar-title>
+        <router-link to="/main">
+          <v-btn
+              v-if="GET_USER_IS_ACTIVE && $route.path !== '/main'"
+              icon
+          >
+            <v-icon>home</v-icon>
+          </v-btn>
+        </router-link>
+        <v-toolbar-title>
+          ГосПортал
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <router-link to="sign-up">
+        <router-link to="/sign-up">
           <v-btn
               v-if="!GET_USER_IS_ACTIVE"
               icon
@@ -27,7 +37,7 @@
           </v-btn>
         </router-link>
 
-        <router-link to="login">
+        <router-link to="/login">
           <v-btn
               v-if="!GET_USER_IS_ACTIVE"
               icon
@@ -37,7 +47,7 @@
           </v-btn>
         </router-link>
 
-        <router-link to="profile">
+        <router-link to="/profile">
           <v-btn
               v-if="GET_USER_IS_ACTIVE"
               icon
@@ -64,68 +74,127 @@
           bottom
           temporary
       >
-<!--        <v-list-->
-<!--            nav-->
-<!--            v-for="(link) in links"-->
-<!--        >-->
-<!--            <v-list-item-group-->
-<!--                v-if="!(link.role == 'ROLE_ADMIN' && GET_USER_ROLE != link.role)"-->
-<!--                v-model="group"-->
-<!--                active-class="deep-purple&#45;&#45;text text&#45;&#45;accent-4"-->
-<!--            >-->
-<!--              <v-list-item-->
-<!--                  @click="$router.push(link.url)"-->
-<!--                  :disabled="$route.name === link.name"-->
-<!--              >-->
-<!--                <v-list-item-title>-->
-<!--                  {{ link.title }}-->
-<!--                </v-list-item-title>-->
-<!--              </v-list-item>-->
-<!--            </v-list-item-group>-->
+        <!--        ЗАКОММЕНТИРОВАНО СПЕЦИАЛЬНО, ТАК КАК БУДУ ПЕРЕДЕЛЫВАТЬ-->
+        <!--        <v-list-->
+        <!--            nav-->
+        <!--            v-for="(link) in links"-->
+        <!--        >-->
+        <!--            <v-list-item-group-->
+        <!--                v-if="!(link.role == 'ROLE_ADMIN' && GET_USER_ROLE != link.role)"-->
+        <!--                v-model="group"-->
+        <!--                active-class="deep-purple&#45;&#45;text text&#45;&#45;accent-4"-->
+        <!--            >-->
+        <!--              <v-list-item-->
+        <!--                  @click="$router.push(link.url)"-->
+        <!--                  :disabled="$route.name === link.name"-->
+        <!--              >-->
+        <!--                <v-list-item-title>-->
+        <!--                  {{ link.title }}-->
+        <!--                </v-list-item-title>-->
+        <!--              </v-list-item>-->
+        <!--            </v-list-item-group>-->
 
         <v-list nav>
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/profile')"
-                          :disabled="$route.name === 'profile'"
-                      >
-                        <v-list-item-title>
-                          Личный кабинет
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/profile')"
+                :disabled="$route.name === 'profile'"
+            >
+              <v-list-item-title>
+                Личный кабинет
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/tax/get-all')"
-                          :disabled="$route.name === 'tax-all'"
-                      >
-                        <v-list-item-title>
-                          Просмотреть налоги
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/tax/get-all')"
+                :disabled="$route.name === 'tax-all'"
+            >
+              <v-list-item-title>
+                Просмотреть налоги
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
-                    <v-list-item-group
-                        v-model="group"
-                        active-class="deep-purple--text text--accent-4"
-                    >
-                      <v-list-item
-                          @click="$router.push('/communal/property/add-property')"
-                          :disabled="$route.name === 'add-property'"
-                      >
-                        <v-list-item-title>
-                          Добавить недвижимость
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list-item-group>
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/property/add-property')"
+                :disabled="$route.name === 'add-property'"
+            >
+              <v-list-item-title>
+                Добавить недвижимость
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/bank/transactions')"
+                :disabled="$route.name === 'transactions'"
+            >
+              <v-list-item-title>
+                История платежей
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/utilities/price-list')"
+                :disabled="$route.name === 'utilities-price-list'"
+            >
+              <v-list-item-title>
+                Коммунальные прейскуранты
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/tax/price-list')"
+                :disabled="$route.name === 'tax-price-list'"
+            >
+              <v-list-item-title>
+                Налоговые прейскуранты
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-if="GET_USER_IS_ACTIVE && IS_ADMIN_ROLE"
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
+                @click="$router.push('/communal/admin/properties')"
+                :disabled="$route.name === 'users-properties'"
+            >
+              <v-list-item-title>
+                Недвижимость граждан
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
 
         </v-list>
       </v-navigation-drawer>
@@ -176,7 +245,8 @@ export default {
   computed: {
     ...mapGetters([
       'GET_USER_IS_ACTIVE',
-      'GET_USER_ROLE'
+      'GET_USER_ROLE',
+      'IS_ADMIN_ROLE'
     ]),
   },
   methods: {

@@ -19,14 +19,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-public class ServiceTest {
+class ServiceTest {
 
   @InjectMocks private AuthService authService;
   @Mock private AccountRepository accountRepository;
   @Mock private PassportService passportService;
+  @Mock private BCryptPasswordEncoder encoder;
 
   private LoginDto createLoginDto() {
     return LoginDto.builder().username("username").password("password").build();
@@ -51,10 +53,10 @@ public class ServiceTest {
   void loginTest() {
     final LoginDto loginDto = this.createLoginDto();
     final Account account = this.createAccount(loginDto.getUsername(), loginDto.getPassword());
-    account.setPassword(this.authService.encoder().encode(account.getPassword()));
     account.setIsActive(true);
+    //    account.setPassword(encoder.encode(account.getPassword()));
     given(this.accountRepository.findAccountByUsername(loginDto.getUsername())).willReturn(account);
-
+    given(this.encoder.matches(loginDto.getPassword(), account.getPassword())).willReturn(true);
     final ResponseEntity<AuthResponse> response = this.authService.login(loginDto);
 
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -89,7 +91,9 @@ public class ServiceTest {
     given(this.accountRepository.save(any())).willAnswer(mock -> mock.getArgument(0));
     given(this.passportService.registerDomesticPassport(citizen))
         .willReturn(ResponseEntity.ok(domestic));
-    //        .willAnswer(mock -> mock.getArgument(0));
+    given(this.encoder.encode(registrationDto.getPassword()))
+        .willReturn(registrationDto.getPassword());
+
     given(this.accountRepository.save(any())).willAnswer(mock -> mock.getArgument(0));
 
     final ResponseEntity<String> response = this.authService.register(registrationDto);
