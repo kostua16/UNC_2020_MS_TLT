@@ -68,6 +68,7 @@
 <script>
 import UtilitiesPayload from '@/models/communal/requests/utilities-payload'
 import UtilityBillService from "@/services/communal/utility-bill-service";
+import {required, integer, between} from "vuelidate/lib/validators";
 
 export default {
   name: "UtilitiesPopup",
@@ -76,16 +77,58 @@ export default {
     return {
       dialog: false,
       utilitiesPayload: new UtilitiesPayload,
+      coldWater: 0,
+      hotWater: 0,
+      electricity: 0,
+      snackbar: false,
+      notification: '',
+      timeout: 5000,
+      notificationColor: '',
+      redirectTime: '',
     }
+  },
+  validations: {
+    coldWater: {required, integer, between: between(1, 999999)},
+    hotWater: {required, integer, between: between(1, 999999)},
+    electricity: {required, integer, between: between(1, 999999)},
+  },
+  computed: {
+    coldWaterErrors() {
+      const errors = []
+      if (!this.$v.coldWater.$dirty) return errors
+      !this.$v.coldWater.between && errors.push('Диапозон значение 1-999999')
+      !this.$v.coldWater.integer && errors.push('Введите число!')
+      !this.$v.coldWater.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    hotWaterErrors() {
+      const errors = []
+      if (!this.$v.hotWater.$dirty) return errors
+      !this.$v.hotWater.between && errors.push('Диапозон значение 1-999999')
+      !this.$v.hotWater.integer && errors.push('Введите число!')
+      !this.$v.hotWater.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    electricityErrors() {
+      const errors = []
+      if (!this.$v.electricity.$dirty) return errors
+      !this.$v.electricity.between && errors.push('Диапозон значение 1-999999')
+      !this.$v.electricity.integer && errors.push('Введите число!')
+      !this.$v.electricity.required && errors.push('Это обязательное поле!')
+      return errors
+    },
   },
   methods: {
     sendUtilities() {
-      this.dialog = false;
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
       this.utilitiesPayload.propertyId = this.propertyId;
-      console.log(this.utilitiesPayload);
       UtilityBillService.createPropertyTax(this.utilitiesPayload)
           .then(response => {
             this.sendUtilitiesStatus(response.status);
+
           })
     },
   }

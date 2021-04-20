@@ -37,5 +37,10 @@ export default {
     },
     GET_TRANSACTIONS(state) {
         return state.transactions;
+    },
+
+    // passport
+    GET_DOMESTIC(state) {
+        return state.domestic;
     }
 }

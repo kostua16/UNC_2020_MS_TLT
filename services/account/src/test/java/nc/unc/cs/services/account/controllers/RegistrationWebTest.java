@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Date;
 import nc.unc.cs.services.account.controllers.dto.RegistrationDto;
 import nc.unc.cs.services.account.services.AuthService;
 import org.junit.jupiter.api.Test;
@@ -31,10 +30,7 @@ class RegistrationWebTest {
     return RegistrationDto.builder()
         .username("username")
         .password("password")
-        .name("name")
-        .surname("surname")
-        .dateOfBirth(new Date())
-        .registration("samara")
+        .email("hello@gmail.com")
         .build();
   }
 

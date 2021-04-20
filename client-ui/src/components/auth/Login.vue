@@ -14,11 +14,14 @@
 
               <v-col sm="9">
                 <v-text-field
-                    v-model="user.username"
+                    v-model.trim="username"
+                    :error-messages="usernameErrors"
                     type="text"
                     label="Login"
                     counter
                     outlined
+                    @input="$v.username.$touch()"
+                    @blur="$v.username.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -26,7 +29,8 @@
             <v-row justify="center">
               <v-col sm="9">
                 <v-text-field
-                    v-model="user.password"
+                    v-model.trim="password"
+                    :error-messages="passwordErrors"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show ? 'text' : 'password'"
                     name="password"
@@ -34,6 +38,8 @@
                     counter
                     outlined
                     @click:append="show = !show"
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -57,6 +63,7 @@
 </template>
 
 <script>
+import {maxLength, minLength, required} from 'vuelidate/lib/validators'
 import User from "@/models/auth/user";
 import {mapGetters} from 'vuex'
 
@@ -64,16 +71,38 @@ export default {
   name: "Login",
   data() {
     return {
+      username: '',
+      password: '',
       user: new User('', ''),
       show: false,
       message: ''
     };
   },
+  validations: {
+    username: {required, minLength: minLength(5), maxLength: maxLength(20)},
+    password: {required, minLength: minLength(5), maxLength: maxLength(20)},
+  },
   computed: {
     ...mapGetters(['GET_USER_IS_ACTIVE']),
     loggedIn() {
       return this.GET_USER_IS_ACTIVE;
-    }
+    },
+    usernameErrors() {
+      const errors = []
+      if (!this.$v.username.$dirty) return errors
+      !this.$v.username.minLength && errors.push('Имя пользователь должно состоять из не менее, чем из 5 символов!')
+      !this.$v.username.maxLength && errors.push('Имя пользователь должно состоять из не более, чем из 20 символов!')
+      !this.$v.username.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    passwordErrors() {
+      const errors = []
+      if (!this.$v.password.$dirty) return errors
+      !this.$v.password.minLength && errors.push('Пароль должно состоять из не менее, чем из 5 символов!')
+      !this.$v.password.maxLength && errors.push('Пароль должно состоять из не более, чем из 20 символов!')
+      !this.$v.password.required && errors.push('Это обязательное поле!')
+      return errors
+    },
   },
   created() {
     if (this.loggedIn) {
@@ -82,15 +111,19 @@ export default {
   },
   methods: {
     handleLogin() {
-      if (this.user.username && this.user.password) {
-        this.$store.dispatch('auth/LOGIN', this.user)
-            .then(() => {
-              this.$router.push('/profile');
-            })
-            .catch(() => {
-              this.message = 'Неверный логин или пароль!'
-            })
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
       }
+      this.user.username = this.username
+      this.user.password = this.password
+      this.$store.dispatch('auth/LOGIN', this.user)
+          .then(() => {
+            this.$router.push('/profile');
+          })
+          .catch(() => {
+            this.message = 'Неверный логин или пароль!'
+          })
     }
   }
 };

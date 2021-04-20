@@ -7,14 +7,14 @@ const HTTP_PROTOCOL = 'http';
 const HOST_AND_PORT_BANK = 'localhost:8084';
 const HOST_AND_PORT_COMMUNAL = 'localhost:8083';
 // const HOST_AND_PORT_TAX = 'localhost:8082';
-// const HOST_AND_PORT_PASSPORT = 'localhost:8095';
+const HOST_AND_PORT_PASSPORT = 'localhost:8095';
 // const HOST_AND_PORT_GIBDD = 'localhost:8088';
 // const HOST_AND_PORT_LOGGING = 'localhost:8089';
 
 const URL_BANK = HTTP_PROTOCOL + '://' + HOST_AND_PORT_BANK + '/bank'
 const URL_COMMUNAL = HTTP_PROTOCOL + '://' + HOST_AND_PORT_COMMUNAL + '/communal'
 // const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
-// const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
+const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
 
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 
@@ -32,6 +32,30 @@ export default {
             .catch((error) => {
                 console.log('Failed to get information about the user\'s property. \n' + error);
                 return error;
+            })
+    },
+
+    ADD_PROPERTY_ACTION({commit}, creationProperty) {
+        return axios.post(
+            PROPERTY_API_URL,
+            {
+                region: creationProperty.region,
+                city: creationProperty.city,
+                street: creationProperty.street,
+                house: creationProperty.house,
+                apartment: creationProperty.apartment,
+                apartmentSize: creationProperty.apartmentSize,
+                citizenId: AuthModule.state.user.citizenId
+            },
+            {}
+        )
+            .then(response => {
+                commit('ADD_PROPERTY', response.data);
+                return response.status
+            })
+            .catch(error => {
+                console.error('Failed to add property', error.response.headers);
+                return error.response.status;
             })
     },
 
@@ -64,6 +88,23 @@ export default {
             .catch((error) => {
                 console.log('Failed to get information about payment requests. \n' + error);
                 return error;
+            })
+    },
+
+    PAY_PAYMENT_REQUEST_ACTION({commit}, paymentRequestId) {
+        return axios
+            .put(
+                URL_BANK + '/payment/' + paymentRequestId,
+                {},
+                {},
+            )
+            .then(response => {
+                commit('PAY_PAYMENT_REQUEST', paymentRequestId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Не удалось оплатить выставленный счёт!')
+                return error.response.status;
             })
     },
 
@@ -113,7 +154,7 @@ export default {
             })
             .catch(error => {
                 console.log("Failed to save utilities price list!\n", error);
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -160,7 +201,7 @@ export default {
             })
             .catch(error => {
                 console.log("Failed to save utilities price list!\n", error);
-                return error.status;
+                return error.response.status;
             })
     },
 
@@ -181,7 +222,113 @@ export default {
             })
             .catch(error => {
                 console.error("Не удалось получить список транзакций!\n", error.status)
-                return error.status;
+                return error.response.status;
+            })
+    },
+
+    GET_DOMESTIC_FROM_API({commit}) {
+        return axios
+            .get(
+                URL_PASSPORT + '/domestic/citizen/' + AuthModule.state.user.citizenId,
+                {}
+            )
+            .then(response => {
+                commit('SET_DOMESTIC_TO_STATE', response.data);
+                return response
+            })
+            .catch(error => {
+                console.error('Passport not found!', error);
+                return error;
+            })
+    },
+
+    REGISTER_DOMESTIC_PASSPORT_ACTION({commit}, citizen) {
+        return axios
+            .post(
+                URL_PASSPORT + '/registerDomestic',
+                {
+                    name: citizen.name,
+                    surname: citizen.surname,
+                    dateOfBirth: citizen.dateOfBirth,
+                    registration: 'unknown', // todo: remove hard code
+                    citizenId: AuthModule.state.user.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_DOMESTIC_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to create domestic passport!', error.response.status);
+                return error.response.status;
+            })
+    },
+
+    // метод будет отредактирован после обновления api
+    UPDATE_DOMESTIC_ACTION({commit}, updateDomestic) {
+        return axios
+            .post( // заменить на put
+                URL_PASSPORT + '/updateDomestic/' + updateDomestic.domesticId,
+                {
+                    domesticId: updateDomestic.domesticId,
+                    registration: updateDomestic.registration,
+                    name: updateDomestic.name,
+                    surname: updateDomestic.surname,
+                    dateOfBirth: updateDomestic.dateOfBirth,
+                    isActive: updateDomestic.isActive,
+                    series: updateDomestic.series,
+                    number: updateDomestic.number,
+                    citizenId: updateDomestic.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('UPDATE_DOMESTIC', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to update domestic passport.')
+                return error.response.status;
+            })
+    },
+
+    GET_INTERNATIONAL_FROM_API({commit}, citizenId) {
+        return axios
+            .get(URL_PASSPORT + '/international/citizen/' + citizenId, {})
+            .then(response => {
+                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get international passport', error.statusMessage);
+                return error.response.status;
+            })
+    },
+
+    UPDATE_INTERNATIONAL_ACTION({commit}, international) {
+        return axios
+            .post(
+                URL_PASSPORT + '/updateInternational/' + international.internationalId,
+                {
+                    internationalId: international.internationalId,
+                    locked: international.locked,
+                    name: international.name,
+                    surname: international.surname,
+                    dateOfBirth: international.dateOfBirth,
+                    isActive: international.isActive,
+                    citizenId: international.citizenId
+                },
+                {}
+            )
+            .then(response => {
+                commit('UPDATE_INTERNATIONAL', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to update international passport!', error.status)
+                return error.response.status;
             })
     }
+
 }

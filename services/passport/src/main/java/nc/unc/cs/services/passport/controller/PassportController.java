@@ -75,4 +75,9 @@ public class PassportController {
   public International activateInternationalPassport(@PathVariable Long id) throws Exception {
     return this.passportTable.activateInternational(id);
   }
+
+  @GetMapping(value = "/domestic/citizen/{citizenId}", produces = "application/json")
+  public Domestic getDomesticByCitizenId(@PathVariable("citizenId") final Long citizenId) {
+    return this.passportTable.getDomesticByCitizenId(citizenId);
+  }
 }
