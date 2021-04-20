@@ -16,7 +16,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
   Property findPropertyByRegionAndCityAndStreetAndHouseAndApartment(
       String region, String city, String street, String house, String apartment);
 
-  Property findPropertyByPropertyTaxDateBefore(Date date);
+  Property findFirstByPropertyTaxDateBefore(Date date);
 
   List<Property> findFirst3ByPropertyTaxDateBeforeAndRegion(Date date, String region);
 }

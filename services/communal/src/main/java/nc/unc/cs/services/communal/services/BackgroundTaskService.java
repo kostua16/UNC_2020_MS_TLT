@@ -66,6 +66,7 @@ public class BackgroundTaskService {
   @Scheduled(fixedDelay = 60000) // вынести в проперти
   public void reportDate() {
     final Date beforeDate = DateUtils.addDays(new Date(), -taxPeriod);
+    LOGGER.info("Before Date: {}", beforeDate);
     try {
       final Property property = this.getPropertyByTaxDateBefore(beforeDate);
       final List<Property> properties =
@@ -105,7 +106,7 @@ public class BackgroundTaskService {
   public Property getPropertyByTaxDateBefore(final Date beforeDate)
       throws FeignException, PropertyNotFoundException {
     final Property property =
-        this.propertyRepository.findPropertyByPropertyTaxDateBefore(beforeDate);
+        this.propertyRepository.findFirstByPropertyTaxDateBefore(beforeDate);
     if (property == null) {
       this.logging.addLog(
           LogEntry.builder()
