@@ -20,6 +20,7 @@ nc.unc.cs.services.common.clients
 nc.unc.cs.services.common.clients.bank
 nc.unc.cs.services.common.clients.gibdd
 nc.unc.cs.services.common.clients.logging
+nc.unc.cs.services.common.clients.passport
 nc.unc.cs.services.common.clients.tax
 nc.unc.cs.services.common.configurations
 nc.unc.cs.services.common.services
@@ -40,6 +41,7 @@ nc.unc.cs.services.logging.repositories
 nc.unc.cs.services.logging.services
 nc.unc.cs.services.passport
 nc.unc.cs.services.passport.controller
+nc.unc.cs.services.passport.controller.dto
 nc.unc.cs.services.passport.exceptions
 nc.unc.cs.services.passport.model
 nc.unc.cs.services.passport.repository
