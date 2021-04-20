@@ -5,9 +5,9 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,8 +46,7 @@ public class Citizen {
       final String surname,
       final Date dateOfBirth,
       final String registration,
-      final Long citizenId
-  ) {
+      final Long citizenId) {
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
