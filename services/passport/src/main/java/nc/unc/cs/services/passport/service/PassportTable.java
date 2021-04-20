@@ -227,6 +227,6 @@ public class PassportTable {
    * @return http-отве, в теле которого находится паспорт гражданина
    */
   public Domestic getDomesticByCitizenId(final Long citizenId) {
-    return this.domesticRepository.findDomesticByCitizenId(citizenId);
+    return this.domesticRepository.findDomesticByDomesticId(citizenId);
   }
 }
