@@ -219,4 +219,14 @@ public class PassportTable {
     updateInternational.setIsActive(true);
     return internationalRepository.save(updateInternational);
   }
+
+  /**
+   * Возвращает паспорт гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return http-отве, в теле которого находится паспорт гражданина
+   */
+  public Domestic getDomesticByCitizenId(final Long citizenId) {
+    return this.domesticRepository.findDomesticByCitizenId(citizenId);
+  }
 }

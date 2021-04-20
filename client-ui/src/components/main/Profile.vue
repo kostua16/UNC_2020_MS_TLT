@@ -1,107 +1,80 @@
 <template>
-  <v-container class="mt-10 mb-10">
-    <v-row no-gutters>
-      <v-col
-          cols="12"
-          sm="7"
-      >
-        <v-card-title>Name title</v-card-title>
-        <v-card
-            flat
-            height="400px"
-            max-width="600"
-            class="pa-3"
-        >
-          <v-list>
-            <v-list-item>Что-то</v-list-item>
-            <v-list-item>Что-то</v-list-item>
-            <v-list-item>Что-то</v-list-item>
-            <v-list-item>Что-то</v-list-item>
-          </v-list>
-        </v-card>
-      </v-col>
-      <v-col
-      >
-        <v-spacer></v-spacer>
-      </v-col>
-      <v-col
-          cols="12"
-          sm="5"
-      >
-        <v-card-title>Выставленные счета</v-card-title>
-<!--      elevation - делает обводку вокруг карточки  -->
-        <v-card
-            flat
-            elevation="1"
-            max-width="450"
-            class="mx-auto"
-        >
-          <v-virtual-scroll
-              :bench="benched"
-              :items="getMyRequestPayments"
-              height="400"
-              item-height="80"
+  <v-main>
+    <v-layout>
+      <v-container>
+        <v-row no-gutters>
+          <v-col
+              class="mt-4"
+              cols="12"
+              sm="7"
           >
-            <template v-slot:default="{ item }">
-              <v-list-item :key="item.paymentRequestId">
-                <v-list-item-action class="mr-md-2">
-<!--                  <v-btn-->
-<!--                      fab-->
-<!--                      large-->
-<!--                      depressed-->
-<!--                      color="green"-->
-<!--                      class="text-center"-->
-<!--                      icon-->
-<!--                  >-->
-<!--                    <v-icon>payment</v-icon>-->
-<!--                  </v-btn>-->
-                  <payment-popup :paymentRequest="item" />
-                </v-list-item-action>
+            <domestic-card/>
+          </v-col>
+          <v-col
+              cols="12"
+              sm="5"
+          >
+            <v-card
+                flat
+                max-width="450"
+                class="mx-auto"
+            >
+              <v-card-title>Выставленные счета</v-card-title>
+              <v-card v-if="stateRequestPaymentsIsNotEmpty">
+                <v-virtual-scroll
+                    :bench="benched"
+                    :items="getMyRequestPayments"
+                    height="400px"
+                    item-height="80px"
+                >
+                  <template v-slot:default="{ item }">
+                    <v-list-item :key="item.paymentRequestId">
+                      <v-list-item-action class="mr-md-2">
+                        <payment-popup :paymentRequest="item"/>
+                      </v-list-item-action>
 
-                <v-list-item-content>
-                  <v-list-item-title class="mt-2">
-                    Номер выставленного счёта: {{ item.paymentRequestId }}
-                  </v-list-item-title>
-                  <v-list-item-title>
-                    Сумма к оплате: {{ item.amount }} руб.
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-            </template>
-          </v-virtual-scroll>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col
-          cols="4"
-      >
-        <router-link to="/tax/get-all">Просмотреть налоги</router-link>
-      </v-col>
-      <v-col
-          cols="4"
-      >
-        <v-spacer></v-spacer>
-      </v-col>
-      <v-col
-          cols="4"
-      >
-        <router-link to="/tax/get-all">Просмотреть налоги</router-link>
-      </v-col>
-    </v-row>
-
-  </v-container>
+                      <v-list-item-content>
+                        <v-list-item-title class="mt-2">
+                          Номер выставленного счёта: {{ item.paymentRequestId }}
+                        </v-list-item-title>
+                        <v-list-item-title>
+                          Сумма к оплате: {{ item.amount }} руб.
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-divider></v-divider>
+                  </template>
+                </v-virtual-scroll>
+              </v-card>
+              <v-card
+                  height="400px"
+                  color="#f4f9fa"
+                  flat
+                  v-else
+              >
+                <v-img
+                    height="400px"
+                    width="450"
+                    :src="require('@/assets/images/empty_card.png')"
+                />
+              </v-card>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-layout>
+  </v-main>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
 import PaymentRequest from '@/models/bank/payment-request'
 import PaymentPopup from "@/components/main/popup/PaymentPopup";
+import DomesticCard from "@/components/passport/DomesticCard";
 
 export default {
   name: "Profile",
-  components: {PaymentPopup},
+  components: {PaymentPopup, DomesticCard},
   data() {
     return {
       paymentRequest: new PaymentRequest,
@@ -118,6 +91,9 @@ export default {
     getMyRequestPayments() {
       return this.GET_MY_REQUEST_PAYMENTS;
     },
+    stateRequestPaymentsIsNotEmpty() {
+      return this.GET_MY_REQUEST_PAYMENTS.length !== 0;
+    }
   },
   created() {
     this.GET_MY_PAYMENT_REQUESTS_FROM_API()
@@ -131,5 +107,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

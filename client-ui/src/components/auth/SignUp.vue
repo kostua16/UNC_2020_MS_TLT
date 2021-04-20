@@ -24,13 +24,15 @@
             <v-row justify="center">
               <v-col sm="9">
                 <v-text-field
-                    v-model="regData.username"
+                    v-model.trim="username"
+                    :error-messages="usernameErrors"
                     type="text"
                     label="Логин"
                     counter
                     outlined
-                    :rules="[rules.required, rules.minAuth]"
                     required
+                    @input="$v.username.$touch()"
+                    @blur="$v.username.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -38,15 +40,18 @@
             <v-row justify="center">
               <v-col sm="9">
                 <v-text-field
-                    v-model="regData.password"
+                    v-model.trim="password"
+                    :error-messages="passwordErrors"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show ? 'text' : 'password'"
                     name="password"
                     label="Пароль"
                     counter
                     outlined
-                    :rules="[rules.required, rules.minAuth]"
+                    required
                     @click:append="show = !show"
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -54,77 +59,19 @@
             <v-row justify="center">
               <v-col sm="9">
                 <v-text-field
-                    v-model="regData.name"
+                    v-model.trim="email"
+                    :error-messages="emailErrors"
                     type="text"
-                    label="Имя"
+                    label="Электронная почта"
                     counter
                     outlined
-
-                    :rules="[rules.required, rules.minData]"
                     required
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
 
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-text-field
-                    v-model="regData.surname"
-                    type="text"
-                    label="Фамилия"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minData]"
-                    required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="regData.dateOfBirth"
-                        label="Дата Рождения"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        outlined
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                      ref="picker"
-                      v-model="regData.dateOfBirth"
-                      :max="new Date().toISOString().substr(0, 10)"
-                      min="1950-01-01"
-                      @change="save"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-
-            <v-row justify="center">
-              <v-col sm="9">
-                <v-text-field
-                    v-model="regData.registration"
-                    type="text"
-                    label="Прописка"
-                    counter
-                    outlined
-                    :rules="[rules.required, rules.minData]"
-                    required
-                ></v-text-field>
-              </v-col>
-            </v-row>
             <v-btn
                 rounded
                 color="primary"
@@ -138,61 +85,127 @@
         </v-form>
       </v-card>
     </v-layout>
+    <v-snackbar
+        :color="notificationColor"
+        v-model="snackbar"
+        :timeout="timeout"
+        top
+    >
+      {{ notification }} {{ redirectTime }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-main>
 </template>
 
 <script>
-import AuthService from '@/services/auth/auth-service'
+import {email, maxLength, minLength, required} from 'vuelidate/lib/validators'
+import {validationMixin} from "vuelidate";
 import RegistrationData from "@/models/auth/registration-data";
+import AuthService from '@/services/auth/auth-service'
+
 
 export default {
   name: "SignUp",
+  mixins: [validationMixin],
   data() {
     return {
+      username: '',
+      password: '',
+      email: '',
       regData: new RegistrationData,
       successful: false,
       show: false,
       message: '', // Сообщение в которое возвращается тело ошибки при регистрации
-      issFilled: false,
-      rules: { // правлиа для поллей ввода информации (+ юзается в html тегах, см выше) ПОЧИНИТЬ!!!
-        required: value => !!value || 'Required!',
-        minAuth: value => value.length > 4 || 'Number of characters 5-25',
-        minData: value => value.length >= 2 || 'Min 2 characters',
-      },
-      number: 0,
-      menu: false,
+      snackbar: false,
+      notification: '',
+      timeout: 5000,
+      notificationColor: '',
+      redirectTime: '',
     };
   },
-  watch: {
-    menu (val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+  validations: {
+    username: {required, minLength: minLength(5), maxLength: maxLength(20)},
+    password: {required, minLength: minLength(5), maxLength: maxLength(20)},
+    email: {required, email, minLength: minLength(10)},
+  },
+  computed: {
+    usernameErrors() {
+      const errors = []
+      if (!this.$v.username.$dirty) return errors
+      !this.$v.username.minLength && errors.push('Имя пользователь должно состоять из не менее, чем из 5 символов!')
+      !this.$v.username.maxLength && errors.push('Имя пользователь должно состоять из не более, чем из 20 символов!')
+      !this.$v.username.required && errors.push('Это обязательное поле!')
+      return errors
     },
+    passwordErrors() {
+      const errors = []
+      if (!this.$v.password.$dirty) return errors
+      !this.$v.password.minLength && errors.push('Пароль должно состоять из не менее, чем из 5 символов!')
+      !this.$v.password.maxLength && errors.push('Пароль должно состоять из не более, чем из 20 символов!')
+      !this.$v.password.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    emailErrors() {
+      const errors = []
+      if (!this.$v.email.$dirty) return errors
+      !this.$v.email.email && errors.push('Должен быть корректный адрес электронной почты!')
+      !this.$v.email.required && errors.push('Это обязательное поле!')
+      return errors
+    },
+    countRedirect() {
+      setInterval(() => {
+            if (this.redirectTime === 0) {
+              return (this.redirectTime = 0)
+            }
+            this.redirectTime -= 1
+          }, 950
+      )
+    }
   },
   methods: {
-    save (date) {
-      this.$refs.menu.save(date)
-    },
-    clear() {
-      this.regData.username = ''
-      this.regData.password = ''
-      this.regData.name = ''
-      this.regData.surname = ''
-      this.regData.dateOfBirth = ''
-      this.regData.registration = ''
-      // this.$refs.observer.reset()
-      // this.$refs.form.reset;
-    },
     registration() {
-      // this.$refs.form.validate();
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      this.regData.username = this.username
+      this.regData.password = this.password
+      this.regData.email = this.email
       AuthService.register(this.regData)
-          .then(response => {
-            if (response.status === 200) {
-              this.$router.push('/login');
+          .then(status => {
+            if (status === 200) {
+              this.notificationColor = 'green'
+              this.notification = 'Вы успешно зарегистрировались. Перенапрявляем вас на страницу авторизации...'
+              this.redirectTime = 3
+              this.timeout = 3000
+              this.snackbar = true
+              setTimeout(() => this.$router.push('/login'), 3000, this.countRedirect)
             } else {
-              this.message = 'Ошибка регистрации!'
+              this.notification = 'Ошибка регистрации!'
+              this.notificationColor = 'red'
+              this.snackbar = true
             }
           })
-    }
+    },
+    clear() {
+      this.$v.$reset()
+      this.username = ''
+      this.password = ''
+      this.email = ''
+      this.regData.username = ''
+      this.regData.password = ''
+      this.regData.email = ''
+    },
   }
 }
 </script>

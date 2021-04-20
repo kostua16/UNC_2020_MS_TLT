@@ -128,8 +128,8 @@
               active-class="deep-purple--text text--accent-4"
           >
             <v-list-item
-                @click="$router.push('/communal/property/add-property')"
-                :disabled="$route.name === 'add-property'"
+                @click="$router.push('/communal/property/list')"
+                :disabled="$route.name === 'property-list'"
             >
               <v-list-item-title>
                 Добавить недвижимость

@@ -1,11 +1,13 @@
 package nc.unc.cs.services.passport.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
-import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,26 +21,23 @@ import lombok.ToString;
 public class Citizen {
   @NotBlank(message = "Incorrect region name")
   @Size(min = 2, max = 40, message = "Incorrect region name")
-  @Column(nullable = false, length = 40)
   private String name;
 
   @NotBlank(message = "Incorrect region surname")
   @Size(min = 2, max = 40, message = "Incorrect region surname")
-  @Column(nullable = false, length = 40)
   private String surname;
 
   @NotNull
-  @Column(updatable = false, nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @Temporal(value = TemporalType.DATE)
   private Date dateOfBirth;
 
   @NotBlank(message = "Incorrect region registration")
   @Size(min = 2, max = 40, message = "Incorrect region registration")
-  @Column(nullable = false, length = 40)
   private String registration;
 
   @NotNull(message = "Incorrect citizen ID")
   @Min(1L)
-  @Column(updatable = false, nullable = false)
   private Long citizenId;
 
   @Builder
@@ -47,7 +46,8 @@ public class Citizen {
       final String surname,
       final Date dateOfBirth,
       final String registration,
-      final Long citizenId) {
+      final Long citizenId
+  ) {
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;

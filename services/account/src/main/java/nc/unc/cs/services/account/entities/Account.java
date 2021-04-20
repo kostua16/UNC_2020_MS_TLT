@@ -37,6 +37,11 @@ public class Account {
   @Column(nullable = false)
   private String password;
 
+  @NotBlank
+  @Size(min = 8, max = 40)
+  @Column(nullable = false)
+  private String email;
+
   @NotNull
   @Column(nullable = false)
   private Boolean isActive;
@@ -46,10 +51,12 @@ public class Account {
   private Roles role;
 
   @Builder
-  public Account(final Long citizenId, final String username, final String password) {
+  public Account(
+      final Long citizenId, final String username, final String password, final String email) {
     this.citizenId = citizenId;
     this.username = username.trim();
     this.password = password.trim();
+    this.email = email.trim();
     this.isActive = false;
     this.role = Roles.ROLE_USER;
   }
@@ -60,5 +67,9 @@ public class Account {
 
   public void setPassword(final String password) {
     this.password = password.trim();
+  }
+
+  public void setEmail(final String email) {
+    this.email = email.trim();
   }
 }

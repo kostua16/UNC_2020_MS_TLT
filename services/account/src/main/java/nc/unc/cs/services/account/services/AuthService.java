@@ -1,6 +1,5 @@
 package nc.unc.cs.services.account.services;
 
-import feign.FeignException;
 import java.util.List;
 import nc.unc.cs.services.account.controllers.dto.AuthResponse;
 import nc.unc.cs.services.account.controllers.dto.LoginDto;
@@ -11,8 +10,6 @@ import nc.unc.cs.services.account.exceptions.AccountNotFoundException;
 import nc.unc.cs.services.account.exceptions.IncorrectPasswordException;
 import nc.unc.cs.services.account.exceptions.RegistrationException;
 import nc.unc.cs.services.account.repositories.AccountRepository;
-import nc.unc.cs.services.common.clients.passport.Citizen;
-import nc.unc.cs.services.common.clients.passport.PassportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,26 +23,12 @@ public class AuthService {
 
   private final BCryptPasswordEncoder encoder;
   private final AccountRepository accountRepository;
-  private final PassportService passportService;
 
   @Autowired
   public AuthService(
-      final BCryptPasswordEncoder encoder,
-      final AccountRepository accountRepository,
-      final PassportService passportService) {
+      final BCryptPasswordEncoder encoder, final AccountRepository accountRepository) {
     this.encoder = encoder;
     this.accountRepository = accountRepository;
-    this.passportService = passportService;
-  }
-
-  /**
-   * Отправляет запрос на оформление паспорта гражданина.
-   *
-   * @param citizen информация для оформления паспорта
-   * @throws FeignException если Паспортный сервис не отвечает
-   */
-  private void createPassport(final Citizen citizen) throws FeignException {
-    this.passportService.registerDomesticPassport(citizen);
   }
 
   /**
@@ -63,18 +46,8 @@ public class AuthService {
           Account.builder()
               .username(registrationDto.getUsername())
               .password(encoder.encode(registrationDto.getPassword()))
+              .email(registrationDto.getEmail())
               .build();
-      this.accountRepository.save(newAccount);
-      final Citizen citizen =
-          Citizen.builder()
-              .citizenId(newAccount.getCitizenId())
-              .name(registrationDto.getName())
-              .surname(registrationDto.getSurname())
-              .dateOfBirth(registrationDto.getDateOfBirth())
-              .registration(registrationDto.getRegistration())
-              .build();
-      this.createPassport(citizen);
-      newAccount.setIsActive(true);
       this.accountRepository.save(newAccount);
       return ResponseEntity.ok(newAccount.getUsername());
     } else {
@@ -97,7 +70,11 @@ public class AuthService {
       throw new AccountNotFoundException(loginDto.getUsername(), loginDto.getPassword());
     } else if (encoder.matches(loginDto.getPassword(), account.getPassword())) {
       final AuthResponse authResponse =
-          AuthResponse.builder().citizenId(account.getCitizenId()).role(account.getRole()).build();
+          AuthResponse.builder()
+              .citizenId(account.getCitizenId())
+              .email(account.getEmail())
+              .role(account.getRole())
+              .build();
       return ResponseEntity.ok(authResponse);
     } else {
       throw new IncorrectPasswordException(loginDto.getUsername());
@@ -127,7 +104,11 @@ public class AuthService {
       account.setRole(Roles.ROLE_ADMIN);
       this.accountRepository.save(account);
       final AuthResponse authResponse =
-          AuthResponse.builder().citizenId(account.getCitizenId()).role(account.getRole()).build();
+          AuthResponse.builder()
+              .citizenId(account.getCitizenId())
+              .email(account.getEmail())
+              .role(account.getRole())
+              .build();
       return ResponseEntity.ok(authResponse);
     }
   }

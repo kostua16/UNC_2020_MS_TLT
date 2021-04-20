@@ -11,9 +11,8 @@
 </template>
 
 <script>
-
-import RegistrationData from '@/models/communal/registration'
 import CommunalService from '@/services/communal/communal-service'
+import Registration from "@/models/communal/registration";
 
 export default {
   name: "Registration",
