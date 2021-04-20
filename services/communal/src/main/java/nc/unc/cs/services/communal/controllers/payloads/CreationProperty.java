@@ -28,11 +28,11 @@ public class CreationProperty {
   private String street;
 
   @NotBlank(message = "Incorrect house name")
-  @Size(min = 2, max = 40, message = "Incorrect house name")
+  @Size(min = 1, max = 10, message = "Incorrect house number")
   private String house;
 
   @NotBlank(message = "Incorrect apartment name")
-  @Size(min = 2, max = 40, message = "Incorrect apartment name")
+  @Size(min = 1, max = 10, message = "Incorrect apartment number")
   private String apartment;
 
   @NotNull(message = "Incorrect Apartment size")

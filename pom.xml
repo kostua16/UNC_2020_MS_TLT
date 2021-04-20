@@ -293,7 +293,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.41</version>
+            <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -337,7 +337,7 @@
             <include>**/*IT*.java</include>
           </includes>
           <!--suppress UnresolvedMavenProperty -->
-          <argLine>${spring.runner.args} ${argLine}</argLine>
+          <argLine>${spring.runner.args} @{argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -419,7 +419,7 @@
           <plugin>
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
-            <version>3.8.0.2131</version>
+            <version>${sonar.version}</version>
             <executions>
               <execution>
                 <phase>test</phase>
