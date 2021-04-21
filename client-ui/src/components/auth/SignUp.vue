@@ -162,15 +162,6 @@ export default {
       !this.$v.email.required && errors.push('Это обязательное поле!')
       return errors
     },
-    countRedirect() {
-      setInterval(() => {
-            if (this.redirectTime === 0) {
-              return (this.redirectTime = 0)
-            }
-            this.redirectTime -= 1
-          }, 950
-      )
-    }
   },
   methods: {
     registration() {
@@ -189,13 +180,21 @@ export default {
               this.redirectTime = 3
               this.timeout = 3000
               this.snackbar = true
-              setTimeout(() => this.$router.push('/login'), 3000, this.countRedirect)
+              setTimeout(() => this.$router.push('/login'), 3000, this.interval())
             } else {
               this.notification = 'Ошибка регистрации!'
               this.notificationColor = 'red'
               this.snackbar = true
             }
           })
+    },
+    interval() {
+      setInterval(() => {
+        if (this.redirectTime === 0) {
+          (this.redirectTime = 0)
+        }
+        this.redirectTime -= 1
+      }, 950);
     },
     clear() {
       this.$v.$reset()
