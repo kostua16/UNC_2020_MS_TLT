@@ -1,6 +1,9 @@
 const express = require('express')
 const serveStatic = require('serve-static')
+const dotenv = require('dotenv');
 const path = require('path')
+
+dotenv.config();
 
 const app = express()
 
