@@ -1,10 +1,14 @@
 package nc.unc.cs.services.communal.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,6 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang.time.DateUtils;
 
 @Entity
 @Data
@@ -60,6 +65,12 @@ public class Property {
   @Column(nullable = false)
   private Long citizenId;
 
+  @NotNull
+  @Column(nullable = false)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @Temporal(value = TemporalType.DATE)
+  private Date propertyTaxDate;
+
   @Builder
   public Property(
       final Long propertyId,
@@ -78,6 +89,8 @@ public class Property {
     this.apartment = apartment.trim().toUpperCase();
     this.apartmentSize = apartmentSize;
     this.citizenId = citizenId;
+    // todo: (for test) replace DateUtils with new Date()
+    this.propertyTaxDate = DateUtils.addDays(new Date(), -5);
   }
 
   public void setRegion(final String region) {
