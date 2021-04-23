@@ -1,8 +1,9 @@
 import axios from 'axios'
 import AuthModule from "@/store/auth.module";
 
-// const API_URL = 'https://nc-edu-2020-communal.herokuapp.com'
-const API_URL = 'http://localhost:8083/communal/housing'
+const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
+const COMMUNAL_URL = process.env.VUE_APP_COMMUNAL_URL || 'localhost:8083';
+const API_URL = HTTP_PROTOCOL + '://' + COMMUNAL_URL + '/communal/housing';
 
 class CommunalService {
     addRegistration(registration) {

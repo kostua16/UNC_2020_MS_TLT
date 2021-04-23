@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const UTILITY_BILL_API_URL = 'http://localhost:8083/communal/utilities';
+const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
+const COMMUNAL_URL = process.env.VUE_APP_COMMUNAL_URL || 'localhost:8083';
+const UTILITY_BILL_API_URL = HTTP_PROTOCOL + '://' + COMMUNAL_URL + '/communal/utilities';
 
 class UtilityBillService {
     createPropertyTax(utilitiesPayload) {
