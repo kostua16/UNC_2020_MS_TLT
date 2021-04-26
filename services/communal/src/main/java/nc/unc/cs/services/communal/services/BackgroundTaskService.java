@@ -1,8 +1,8 @@
 package nc.unc.cs.services.communal.services;
 
+import feign.FeignException;
 import java.util.Date;
 import java.util.List;
-import feign.FeignException;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.communal.entities.Property;
@@ -49,8 +49,7 @@ public class BackgroundTaskService {
       final PropertyTaxRepository propertyTaxRepository,
       final PropertyTaxValueRepository propertyTaxValueRepository,
       final BankIntegrationService bankIntegrationService,
-      final LoggingService logging
-  ) {
+      final LoggingService logging) {
     this.propertyRepository = propertyRepository;
     this.propertyTaxRepository = propertyTaxRepository;
     this.propertyTaxValueRepository = propertyTaxValueRepository;
@@ -174,10 +173,6 @@ public class BackgroundTaskService {
 
   public Integer calculatePropertyTaxAmount(
       final Double apartmentSize, final Double pricePerSquareMeter, final Double cadastralValue) {
-    return (int)
-        (apartmentSize
-            * pricePerSquareMeter
-            / 100.0
-            * (cadastralValue / 100.0));
+    return (int) (apartmentSize * pricePerSquareMeter / 100.0 * (cadastralValue / 100.0));
   }
 }
