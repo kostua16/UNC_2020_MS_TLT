@@ -2,7 +2,7 @@
   <v-main>
     <v-list>
       <utility-bill-item
-          v-for="(utilityBill, index) in getSortedUtilityBills"
+          v-for="(utilityBill, index) in GET_UTILITY_BILLS"
           :key="`utilityBill.utilityBillId - ${index}`"
           :utilityBill="utilityBill"
       />
@@ -25,11 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters(['GET_UTILITY_BILLS']),
-    getSortedUtilityBills() {
-      return this.GET_UTILITY_BILLS.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date);
-      })
-    }
   },
   methods: {
     ...mapActions(['GET_UTILITY_BILLS_FROM_API']),

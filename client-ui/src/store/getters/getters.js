@@ -21,7 +21,9 @@ export default {
 
     // utility bills
     GET_UTILITY_BILLS(state) {
-        return state.utilityBills;
+        return state.utilityBills.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
     },
 
     // auth data
