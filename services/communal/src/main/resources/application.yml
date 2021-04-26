@@ -27,7 +27,16 @@ logging:
         web:
           client:
             RestTemplate: OFF
-feign:
+communal:
+  background:
+    job:
+      tax-period: 1
+      timeout: 60000
+  property:
+    tax-percent: 10
+  service-id:
+    property-tax: 20
+#feign:
 #  httpclient:
 #    connection-timeout: 2000
 #    enabled: false
