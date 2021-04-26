@@ -140,8 +140,8 @@ export default {
     },
   },
   validations: {
-    name: {required, minLength: minLength(2), maxLength: maxLength(40)},
-    surname: {required, minLength: minLength(2), maxLength: maxLength(40)},
+    name: {required, minLength: minLength(2), maxLength: maxLength(40), alpha: val => /^[а-яё]*$/i.test(val)},
+    surname: {required, minLength: minLength(2), maxLength: maxLength(40), alpha: val => /^[а-яё]*$/i.test(val)},
     dateOfBirth: {required},
   },
   computed: {
@@ -150,6 +150,7 @@ export default {
       if (!this.$v.name.$dirty) return errors
       !this.$v.name.minLength && errors.push('Имя должно состоять из не менее, чем из 2 символов!')
       !this.$v.name.maxLength && errors.push('Имя должно состоять из не более, чем из 20 символов!')
+      !this.$v.name.alpha && errors.push('Имя должно состоять из букв русского алфавита!')
       !this.$v.name.required && errors.push('Это обязательное поле!')
       return errors
     },
@@ -158,6 +159,7 @@ export default {
       if (!this.$v.surname.$dirty) return errors
       !this.$v.surname.minLength && errors.push('Фамилия должно состоять из не менее, чем из 2 символов!')
       !this.$v.surname.maxLength && errors.push('Фамилия должно состоять из не более, чем из 20 символов!')
+      !this.$v.surname.alpha && errors.push('Фамилия должно состоять из букв русского алфавита!')
       !this.$v.surname.required && errors.push('Это обязательное поле!')
       return errors
     },

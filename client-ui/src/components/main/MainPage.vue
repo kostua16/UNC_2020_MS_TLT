@@ -44,9 +44,9 @@ export default {
       icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
       items: [
         {
-          title: 'Счета к оплате',
-          link: '',
-          img: require('@/assets/images/bank.png'),
+          title: 'Недвижимость',
+          link: 'communal/property/list',
+          img: require('@/assets/images/property.png'),
         },
         {
           title: 'История оплаты',
