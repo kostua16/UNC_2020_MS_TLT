@@ -1,5 +1,8 @@
 package nc.unc.cs.services.communal.services.integrations.background;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 class BackgroundTaskServiceTest {
@@ -36,18 +37,12 @@ class BackgroundTaskServiceTest {
   //  @Value("${communal.background.job.tax-period}")
   private Integer taxPeriod = 1;
 
-  @Mock
-  private PropertyRepository propertyRepository;
-  @Mock
-  private PropertyTaxRepository propertyTaxRepository;
-  @Mock
-  private PropertyTaxValueRepository propertyTaxValueRepository;
-  @Mock
-  private BankIntegrationService bankIntegrationService;
-  @Mock
-  private LoggingService logging;
-  @InjectMocks
-  private BackgroundTaskService backgroundTaskService;
+  @Mock private PropertyRepository propertyRepository;
+  @Mock private PropertyTaxRepository propertyTaxRepository;
+  @Mock private PropertyTaxValueRepository propertyTaxValueRepository;
+  @Mock private BankIntegrationService bankIntegrationService;
+  @Mock private LoggingService logging;
+  @InjectMocks private BackgroundTaskService backgroundTaskService;
 
   private Property createProperty() {
     return Property.builder()
@@ -73,8 +68,7 @@ class BackgroundTaskServiceTest {
   }
 
   private PropertyTaxValue createPropertyTaxValue() {
-    return PropertyTaxValue
-        .builder()
+    return PropertyTaxValue.builder()
         .region("samara")
         .pricePerSquareMeter(1000)
         .cadastralValue(10)
@@ -82,40 +76,40 @@ class BackgroundTaskServiceTest {
         .build();
   }
 
-
   @Test
   void reportDate() {
     final Property property = this.createProperty();
     final List<Property> properties = this.createProperties();
     final PropertyTaxValue propertyTaxValue = this.createPropertyTaxValue();
-    final Integer amount = this.backgroundTaskService.calculatePropertyTaxAmount(
-        Double.valueOf(property.getApartmentSize()),
-        Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-        Double.valueOf(propertyTaxValue.getCadastralValue())
-    );
+    final Integer amount =
+        this.backgroundTaskService.calculatePropertyTaxAmount(
+            Double.valueOf(property.getApartmentSize()),
+            Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
+            Double.valueOf(propertyTaxValue.getCadastralValue()));
     ReflectionTestUtils.setField(backgroundTaskService, "taxPercent", 10);
     ReflectionTestUtils.setField(backgroundTaskService, "serviceId", 20L);
     ReflectionTestUtils.setField(backgroundTaskService, "taxPeriod", 1);
     final Date beforeDate = DateUtils.addDays(new Date(), -taxPeriod);
-    given(this.propertyRepository.findFirstByPropertyTaxDateBefore(any()))
-        .willReturn(property);
-    given(this.propertyRepository
-        .findFirst3ByPropertyTaxDateBeforeAndRegion(beforeDate, property.getRegion()))
+    given(this.propertyRepository.findFirstByPropertyTaxDateBefore(any())).willReturn(property);
+    given(
+            this.propertyRepository.findFirst3ByPropertyTaxDateBeforeAndRegion(
+                beforeDate, property.getRegion()))
         .willReturn(properties);
     given(this.propertyTaxValueRepository.findPropertyTaxValueByRegion(property.getRegion()))
         .willReturn(propertyTaxValue);
     given(logging.addLog(any())).willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
-    given(this.bankIntegrationService
-        .bankRequest(serviceId, property.getCitizenId(), amount, taxPercent))
+    given(
+            this.bankIntegrationService.bankRequest(
+                serviceId, property.getCitizenId(), amount, taxPercent))
         .willReturn(55L);
-    given(this.propertyTaxRepository.save(any())).willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
+    given(this.propertyTaxRepository.save(any()))
+        .willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
     given(this.propertyRepository.save(any()))
         .willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
 
-//    Assertions.assertDoesNotThrow(
-//        F.class,
-//        () -> );
+    //    Assertions.assertDoesNotThrow(
+    //        F.class,
+    //        () -> );
     this.backgroundTaskService.reportDate();
   }
-
 }
