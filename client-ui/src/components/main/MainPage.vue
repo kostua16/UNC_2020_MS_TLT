@@ -65,7 +65,7 @@ export default {
         },
         {
           title: 'Коммунальные квитанции',
-          link: '',
+          link: '/communal/utility-bills',
           img: require('@/assets/images/utility.png'),
         },
         {

@@ -204,6 +204,27 @@ export default {
             })
     },
 
+    GET_UTILITY_BILLS_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + '/utilities/citizen/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_UTILITY_BILLS_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                return error.response.status;
+            })
+    },
+    PAY_UTILITY_BILL({commit}, utilityBill) {
+        return this.PAY_PAYMENT_REQUEST_ACTION(commit, utilityBill.paymentRequestId)
+            .then(status => {
+                if (status === 200) {
+                    commit('UPDATE_UTILITY_BILL_PAY_STATUS', utilityBill.utilityBillId);
+                }
+                return status;
+            })
+    },
+
     GET_PERIOD_TRANSACTION_FROM_API({commit}, period) {
         return axios
             .post(

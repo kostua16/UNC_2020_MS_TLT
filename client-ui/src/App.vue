@@ -158,6 +158,20 @@
               active-class="deep-purple--text text--accent-4"
           >
             <v-list-item
+                @click="$router.push('/communal/utility-bills')"
+                :disabled="$route.name === 'utility-bills'"
+            >
+              <v-list-item-title>
+                Просмотреть квитанции ЖКХ
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item
                 @click="$router.push('/communal/property/list')"
                 :disabled="$route.name === 'property-list'"
             >

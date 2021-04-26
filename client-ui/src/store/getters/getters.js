@@ -1,4 +1,5 @@
 export default {
+    // properties
     GET_PROPERTIES(state) {
         return state.properties;
     },
@@ -6,6 +7,7 @@ export default {
         return state.allProperties;
     },
 
+    // price lists
     SORTED_UTILITIES_PRICE_LIST(state) {
         // return state.utilityBillPriceLists.sort((a,b) => (a.region[0] - b.region[0]));
         // const utilityBillPriceLists = state.utilityBillPriceLists.region.sort();
@@ -15,6 +17,11 @@ export default {
 
     SORTED_PROPERTY_TAX_VALUE(state) {
         return state.propertyTaxValues;
+    },
+
+    // utility bills
+    GET_UTILITY_BILLS(state) {
+        return state.utilityBills;
     },
 
     // auth data

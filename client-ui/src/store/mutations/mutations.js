@@ -49,6 +49,19 @@ export default {
         state.transactions = transactions;
     },
 
+    // utility bills
+    SET_UTILITY_BILLS_TO_STATE(state, utilityBills) {
+      state.utilityBills = utilityBills;
+    },
+    UPDATE_UTILITY_BILL_PAY_STATUS(state, utilityBillId) {
+        const id = state
+            .utilityBills
+            .findIndex(
+                item => item.utilityBillId === utilityBillId
+            );
+        state.utilityBills[id].isPaid = true;
+    },
+
     // passport
     SET_DOMESTIC_TO_STATE(state, domestic) {
         state.domestic = domestic;

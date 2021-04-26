@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import sun.plugin2.applet.context.InitialJNLPExecutionContext;
 
 @Service
 public class CommunalService {
@@ -186,5 +187,9 @@ public class CommunalService {
    */
   public List<UtilityBill> getAllUtilityBills() {
     return this.utilityBillRepository.findAll();
+  }
+
+  public List<UtilityBill> getCitizenUtilityBills(final Long citizenId) {
+    return this.utilityBillRepository.findUtilityBillsByCitizenId(citizenId);
   }
 }

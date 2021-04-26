@@ -13,6 +13,7 @@ import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
 import RegistrationData from "@/models/auth/registration-data";
 import DomesticRegistration from "@/components/passport/DomesticRegistration";
+import UtilityBills from "@/components/communal/bill/UtilityBills";
 
 Vue.use(Router);
 
@@ -109,6 +110,14 @@ export const router = new Router({
             path: '/communal/property/list',
             name: 'property-list',
             component: CitizenProperty,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
+            path: '/communal/utility-bills',
+            name: 'utility-bills',
+            component: UtilityBills,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },
