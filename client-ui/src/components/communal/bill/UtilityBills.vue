@@ -15,7 +15,7 @@ import UtilityBill from "@/models/communal/utility-bill";
 import UtilityBillItem from "@/components/communal/bill/UtilityBillItem";
 import {mapActions, mapGetters} from "vuex";
 
-export default {
+export default { // todo: всплывающее уведомление: данных не найдено
   name: "UtilityBills",
   components: {UtilityBillItem},
   data() {

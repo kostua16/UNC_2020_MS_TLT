@@ -71,7 +71,7 @@
         block color="red"
         dark
     >
-      Создать недвижимость
+      Зарегистрировать недвижимость
     </v-btn>
   </v-container>
 </template>
