@@ -15,6 +15,7 @@ import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,18 @@ public class BackgroundTaskService {
 
   /** Логгер. */
   private static final Logger LOGGER = LoggerFactory.getLogger(BackgroundTaskService.class);
-  /** Процентный делитель. */
-  public static final Double PERCENT_DIVISOR = 100.0;
+
   /** Налоговый процент от стоимости платежа. */
-  public static final Integer TAX_PERCENT = 10;
+  @Value("${communal.property.tax-percent}")
+  private Integer taxPercent;
+
   /** Номер сервиса. */
-  public static final Long SERVICE_ID = 20L;
+  @Value("${communal.service-id.property-tax}")
+  private Long serviceId;
 
   /** Налоговый период. */
-  // @Value
-  private final Integer taxPeriod = 1; // todo: change period
+  @Value("${communal.background.job.tax-period}")
+  private Integer taxPeriod;
 
   private final PropertyRepository propertyRepository;
   private final PropertyTaxRepository propertyTaxRepository;
@@ -63,7 +66,7 @@ public class BackgroundTaskService {
   // ! В случае отсутствия прейскуранта для конвретной области,
   // расчёт происходит по стандартному прейскуранту
   // *доступная дата - дата превышающая налоговый период
-  @Scheduled(fixedDelay = 60000) // вынести в проперти
+  @Scheduled(fixedDelayString = "${communal.background.job.timeout}")
   public void reportDate() {
     final Date beforeDate = DateUtils.addDays(new Date(), -taxPeriod);
     LOGGER.info("Before Date: {}", beforeDate);
@@ -98,8 +101,6 @@ public class BackgroundTaskService {
       properties.forEach(p -> this.createPropertyTax(p, propertyTaxValue));
     } catch (final FeignException fe) {
       LOGGER.error("Logging service unavailable!", fe);
-      //    } catch (final PropertyNotFoundException pe) {
-      //      LOGGER.info("No tax creation is required.", pe);
     }
   }
 
@@ -134,7 +135,7 @@ public class BackgroundTaskService {
               .taxAmount(amount)
               .paymentRequestId(
                   this.bankIntegrationService.bankRequest(
-                      SERVICE_ID, property.getCitizenId(), amount, TAX_PERCENT))
+                      serviceId, property.getCitizenId(), amount, taxPercent))
               .build();
       this.propertyTaxRepository.save(propertyTax);
       property.setPropertyTaxDate(new Date());
@@ -172,10 +173,6 @@ public class BackgroundTaskService {
 
   public Integer calculatePropertyTaxAmount(
       final Double apartmentSize, final Double pricePerSquareMeter, final Double cadastralValue) {
-    return (int)
-        (apartmentSize
-            * pricePerSquareMeter
-            / PERCENT_DIVISOR
-            * (cadastralValue / PERCENT_DIVISOR));
+    return (int) (apartmentSize * pricePerSquareMeter / 100.0 * (cadastralValue / 100.0));
   }
 }
