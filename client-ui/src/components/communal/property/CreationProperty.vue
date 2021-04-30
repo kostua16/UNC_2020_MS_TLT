@@ -203,7 +203,7 @@ export default {
               this.clear()
               // всплывающее уведомление
             } else {
-
+              console.warn('Error message') // todo: красное уведомление
             }
           })
     },

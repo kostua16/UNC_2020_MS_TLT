@@ -167,15 +167,6 @@ export default {
       !this.$v.dateOfBirth.required && errors.push('Это обязательное поле!')
       return errors
     },
-    countRedirect() {
-      setInterval(() => {
-            if (this.redirectTime === 0) {
-              return (this.redirectTime = 0)
-            }
-            this.redirectTime -= 1
-          }, 950
-      )
-    }
   },
   methods: {
     ...mapActions(['REGISTER_DOMESTIC_PASSPORT_ACTION']),
@@ -196,13 +187,21 @@ export default {
               this.redirectTime = 3
               this.timeout = 3000
               this.snackbar = true
-              setTimeout(() => this.$router.push('/profile'), 3000, this.countRedirect)
+              setTimeout(() => this.$router.push('/profile'), 3000, this.interval())
             } else {
               this.notification = 'Произошла ошибка! Попробуйте позже.'
               this.notificationColor = 'red'
               this.snackbar = true
             }
           })
+    },
+    interval() {
+      setInterval(() => {
+        if (this.redirectTime === 0) {
+          (this.redirectTime = 0)
+        }
+        this.redirectTime -= 1
+      }, 950);
     },
     clear() {
       this.$v.$reset()
@@ -213,7 +212,18 @@ export default {
     save(date) {
       this.$refs.menu.save(date)
     },
-  }
+  },
+  // watch: {
+  //   value (redirectTime) {
+  //     setInterval(() => {
+  //           if (this.redirectTime === 0) {
+  //             return (this.redirectTime = 0)
+  //           }
+  //           return this.redirectTime -= 1
+  //         }, 950
+  //     )
+  //   }
+  //   }
 }
 </script>
 
