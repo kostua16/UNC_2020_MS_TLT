@@ -41,14 +41,14 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import CitizenPropertyItem from '@/components/communal/property/CitizenPropertyItem'
+// import CitizenPropertyItem from '@/components/communal/property/CitizenPropertyItem'
 import Property from "@/models/communal/property";
 import CreationProperty from "@/components/communal/property/CreationProperty";
 import UtilitiesPopup from "@/components/communal/property/popup/UtilitiesPopup";
 
 export default {
   name: "CitizenProperty",
-  components: {CitizenPropertyItem, CreationProperty, UtilitiesPopup},
+  components: {CreationProperty, UtilitiesPopup},
   data() {
     return {
       search: '',
