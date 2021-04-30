@@ -1,10 +1,13 @@
 package nc.unc.cs.services.passport.service;
 
+import feign.FeignException;
 import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.passport.model.Citizen;
@@ -20,9 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PassportTable {
-  /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
-
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
   private final Random random = new Random();
@@ -49,11 +50,11 @@ public class PassportTable {
   /**
    * Возвращает активную регистрацю пользователя.
    *
-   * @param id идентификатор гражданина
+   * @param internationalId идентификатор гражданина
    * @return заграничный паспорт гражданина
    */
-  public International getInternationalById(Long id) {
-    return this.internationalRepository.findById(id).orElseGet(null);
+  public International getInternationalById(final Long internationalId) {
+    return this.internationalRepository.findInternationalByInternationalId(internationalId);
   }
 
   /** Возвращает список отечественных паспортов. */
@@ -64,11 +65,11 @@ public class PassportTable {
   /**
    * Возвращает активную регистрацю пользователя.
    *
-   * @param id идентификатор гражданина
+   * @param domesticId идентификатор гражданина
    * @return отечественный паспорт гражданина
    */
-  public Domestic getDomesticById(Long id) {
-    return this.domesticRepository.findById(id).orElseGet(null);
+  public Domestic getDomesticById(final Long domesticId) {
+    return this.domesticRepository.findDomesticByDomesticId(domesticId);
   }
 
   /**
@@ -136,7 +137,8 @@ public class PassportTable {
    * @param domestic данные о гражданине
    * @return http-ответ, в теле которого находится данные о заграничном паспорте
    */
-  public ResponseEntity<Domestic> updateDomestic(Long id, Domestic domestic) {
+  public ResponseEntity<Domestic> updateDomestic(final Long id, final DomesticDto domestic)
+      throws FeignException {
     Domestic updateDomestic =
         domesticRepository
             .findById(id)
@@ -155,7 +157,7 @@ public class PassportTable {
       return ResponseEntity.ok(updateDomestic);
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
-      return ResponseEntity.status(503).body(domestic);
+      return ResponseEntity.status(503).body(updateDomestic);
     }
   }
 
@@ -166,7 +168,8 @@ public class PassportTable {
    * @param international данные о гражданине
    * @return http-ответ, в теле которого находится данные о заграничном паспорте
    */
-  public ResponseEntity<International> updateInternational(Long id, International international) {
+  public ResponseEntity<International> updateInternational(
+      final Long id, InternationalDto international) {
     International updateInternational =
         internationalRepository
             .findById(id)
@@ -183,7 +186,7 @@ public class PassportTable {
       return ResponseEntity.ok(updateInternational);
     } catch (Exception e) {
       logger.error("Услуга не зарегистрирована");
-      return ResponseEntity.status(503).body(international);
+      return ResponseEntity.status(503).body(updateInternational);
     }
   }
 
@@ -224,6 +227,6 @@ public class PassportTable {
    * @return http-отве, в теле которого находится паспорт гражданина
    */
   public Domestic getDomesticByCitizenId(final Long citizenId) {
-    return this.domesticRepository.findDomesticByCitizenId(citizenId);
+    return this.domesticRepository.findDomesticByDomesticId(citizenId);
   }
 }

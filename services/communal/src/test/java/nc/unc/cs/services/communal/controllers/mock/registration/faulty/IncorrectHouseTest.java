@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class IncorrectHouseTest extends RegistrationParentWeb {
 
   @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+  @ValueSource(strings = {"   ", "sssssssssss"})
   void checkHouseNameTest(final String word) throws Exception {
     final CreationRegistration registration = this.createCreationRegistration();
     registration.setHouse(word);

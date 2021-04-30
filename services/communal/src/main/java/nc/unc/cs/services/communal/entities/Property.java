@@ -46,13 +46,13 @@ public class Property {
   private String street;
 
   @NotBlank(message = "Incorrect house name")
-  @Size(min = 2, max = 40, message = "Incorrect house name")
-  @Column(nullable = false, updatable = false, length = 40)
+  @Size(min = 1, max = 10, message = "Incorrect house number")
+  @Column(nullable = false, updatable = false, length = 10)
   private String house;
 
   @NotBlank(message = "Incorrect apartment name")
-  @Size(min = 2, max = 40, message = "Incorrect apartment name")
-  @Column(nullable = false, updatable = false, length = 40)
+  @Size(min = 1, max = 10, message = "Incorrect apartment number")
+  @Column(nullable = false, updatable = false, length = 10)
   private String apartment;
 
   @NotNull(message = "Incorrect Apartment size")

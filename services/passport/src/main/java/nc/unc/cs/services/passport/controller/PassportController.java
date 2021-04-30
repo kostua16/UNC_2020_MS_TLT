@@ -1,15 +1,15 @@
 package nc.unc.cs.services.passport.controller;
 
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.service.PassportTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +24,7 @@ public class PassportController {
   }
 
   @GetMapping(value = "/allInternational", produces = "application/json")
-  public Iterable<International> getAllInternational() {
+  public Iterable<International> AllInternational() {
     return this.passportTable.getInternational();
   }
 
@@ -34,7 +34,7 @@ public class PassportController {
   }
 
   @GetMapping(value = "/allDomestic", produces = "application/json")
-  public Iterable<Domestic> getAllDomestic() {
+  public Iterable<Domestic> AllDomestic() {
     return this.passportTable.getDomestic();
   }
 
@@ -56,7 +56,7 @@ public class PassportController {
 
   @PostMapping(value = "/updateDomestic/{id}", produces = "application/json")
   public ResponseEntity<Domestic> updateDomesticPassport(
-      @PathVariable("id") Long id, @RequestBody Domestic domestic) {
+      @PathVariable("id") Long id, @RequestBody DomesticDto domestic) {
     return this.passportTable.updateDomestic(id, domestic);
   }
 
@@ -67,7 +67,7 @@ public class PassportController {
 
   @PostMapping(value = "/updateInternational/{id}", produces = "application/json")
   public ResponseEntity<International> updateInternationalPassport(
-      @PathVariable("id") Long id, @RequestBody International international) {
+      @PathVariable("id") Long id, @RequestBody InternationalDto international) {
     return this.passportTable.updateInternational(id, international);
   }
 
