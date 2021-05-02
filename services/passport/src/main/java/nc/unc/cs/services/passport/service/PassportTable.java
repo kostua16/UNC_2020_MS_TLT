@@ -1,7 +1,7 @@
 package nc.unc.cs.services.passport.service;
 
-import java.util.List;
 import feign.FeignException;
+import java.util.List;
 import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 public class PassportTable {
   /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
+
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
   private final Random random = new Random();
