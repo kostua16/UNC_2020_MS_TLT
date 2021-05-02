@@ -7,6 +7,8 @@ import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.exceptions.DomesticPassportNotFoundException;
 import nc.unc.cs.services.passport.exceptions.InternationalPassportNotFoundException;
 import nc.unc.cs.services.passport.model.Citizen;

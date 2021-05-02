@@ -1,6 +1,8 @@
 package nc.unc.cs.services.passport.controller;
 
 import java.util.List;
+import nc.unc.cs.services.passport.controller.dto.DomesticDto;
+import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
