@@ -40,7 +40,6 @@ nc.unc.cs.services.logging.repositories
 nc.unc.cs.services.logging.services
 nc.unc.cs.services.passport
 nc.unc.cs.services.passport.controller
-nc.unc.cs.services.passport.controller.dto
 nc.unc.cs.services.passport.exceptions
 nc.unc.cs.services.passport.model
 nc.unc.cs.services.passport.repository
