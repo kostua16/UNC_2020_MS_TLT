@@ -1,29 +1,32 @@
-package nc.unc.cs.services.passport.model;
+package nc.unc.cs.services.passport.controller.dto;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Entity
 @Data
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
-public class International {
+public class DomesticDto {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long internationalId;
+  private Long domesticId;
 
   @NotBlank(message = "Incorrect region name")
-  @Column(nullable = false)
-  private Boolean locked;
+  @Size(min = 2, max = 40, message = "Incorrect region name")
+  @Column(nullable = false, length = 40)
+  private String registration;
 
   @NotBlank(message = "Incorrect region name")
   @Size(min = 2, max = 40, message = "Incorrect region name")
@@ -35,41 +38,59 @@ public class International {
   @Column(nullable = false, length = 40)
   private String surname;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull
+  @Column(updatable = false, nullable = false)
   private Date dateOfBirth;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull
   @Column(nullable = false)
   private Boolean isActive;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull(message = "Incorrect tax amount")
+  @Min(1111)
+  @Column(updatable = false, nullable = false)
+  private Integer series;
+
+  @NotNull(message = "Incorrect tax amount")
+  @Min(111111)
+  @Column(updatable = false, nullable = false)
+  private Integer number;
+
+  @NotNull(message = "Incorrect citizen ID")
   @Min(1L)
-  @Column(nullable = false)
+  @Column(updatable = false, nullable = false)
   private Long citizenId;
 
-  @Builder
-  public International(
-      final Long internationalId,
-      final Boolean locked,
+  public DomesticDto(
+      final Long domesticId,
+      final String registration,
       final String name,
       final String surname,
       final Date dateOfBirth,
       final Boolean isActive,
+      final Integer series,
+      final Integer number,
       final Long citizenId) {
-    this.internationalId = internationalId;
-    this.locked = locked;
+    this.domesticId = domesticId;
+    this.registration = registration.trim().toUpperCase();
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
     this.isActive = isActive;
+    this.series = series;
+    this.number = number;
     this.citizenId = citizenId;
   }
 
-  public void setName(final String name) {
+  public void setRegistration(String registration) {
+    this.registration = registration.trim().toUpperCase();
+  }
+
+  public void setName(String name) {
     this.name = name.trim().toUpperCase();
   }
 
-  public void setSurname(final String surname) {
+  public void setSurname(String surname) {
     this.surname = surname.trim().toUpperCase();
   }
 }

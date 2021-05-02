@@ -1,22 +1,23 @@
-package nc.unc.cs.services.passport.model;
+package nc.unc.cs.services.passport.controller.dto;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Entity
 @Data
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
-public class International {
+public class InternationalDto {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long internationalId;
@@ -47,8 +48,7 @@ public class International {
   @Column(nullable = false)
   private Long citizenId;
 
-  @Builder
-  public International(
+  public InternationalDto(
       final Long internationalId,
       final Boolean locked,
       final String name,

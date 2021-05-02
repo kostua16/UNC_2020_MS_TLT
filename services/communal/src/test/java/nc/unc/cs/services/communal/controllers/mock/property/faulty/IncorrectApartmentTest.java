@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class IncorrectApartmentTest extends PropertyParentWeb {
 
   @ParameterizedTest
-  @ValueSource(strings = {"   ", " 1 ", "sssssssssssssssssssssssssssssssssssssssss"})
+  @ValueSource(strings = {"   ", "sssssssssss"})
   void checkApartmentNameTest(final String word) throws Exception {
     final CreationProperty property = this.createCreationProperty();
     property.setApartment(word);
