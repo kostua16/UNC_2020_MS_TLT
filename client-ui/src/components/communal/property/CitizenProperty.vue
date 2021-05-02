@@ -2,8 +2,7 @@
   <v-main>
     <v-container>
       <v-layout align-content-space-around justify-start column>
-        <creation-property :propertyAttr="property"/>
-
+<!--        <creation-property :propertyAttr="property"/>-->
         <v-col cols="12" sm="4">
           <v-text-field
               v-model.trim="search"
@@ -22,6 +21,20 @@
             :items-per-page="10"
             class="elevation-0"
         >
+          <template v-slot:top>
+            <v-toolbar
+                flat
+            >
+              <v-toolbar-title>Моя недвижимость</v-toolbar-title>
+              <v-divider
+                  class="mx-4"
+                  inset
+                  vertical
+              ></v-divider>
+              <v-spacer></v-spacer>
+              <creation-property />
+            </v-toolbar>
+          </template>
           <template v-slot:item.actions="{ item }">
             <utilities-popup
                 :propertyId="item.propertyId"
