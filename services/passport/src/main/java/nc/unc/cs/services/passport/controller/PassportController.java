@@ -1,5 +1,6 @@
 package nc.unc.cs.services.passport.controller;
 
+import java.util.List;
 import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.model.International;
@@ -79,5 +80,12 @@ public class PassportController {
   @GetMapping(value = "/domestic/citizen/{citizenId}", produces = "application/json")
   public Domestic getDomesticByCitizenId(@PathVariable("citizenId") final Long citizenId) {
     return this.passportTable.getDomesticByCitizenId(citizenId);
+  }
+
+  @GetMapping(value = "/international/citizen/{citizenId}", produces = "application/json")
+  public List<International> getInternationalsByCitizenId(
+      @PathVariable("citizenId") final Long citizenId
+  ) {
+    return this.passportTable.getInternationalsByCitizenId(citizenId);
   }
 }

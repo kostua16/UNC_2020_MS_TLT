@@ -51,5 +51,9 @@ export default {
     // passport
     GET_DOMESTIC(state) {
         return state.domestic;
-    }
+    },
+
+    GET_INTERNATIONAL_PASSPORTS(state) {
+        return state.internationals;
+    },
 }

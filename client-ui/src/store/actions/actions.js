@@ -299,7 +299,7 @@ export default {
                     isActive: updateDomestic.isActive,
                     series: updateDomestic.series,
                     number: updateDomestic.number,
-                    citizenId: updateDomestic.citizenId,
+                    citizenId: AuthModule.state.user.citizenId,
                 },
                 {}
             )
@@ -313,15 +313,18 @@ export default {
             })
     },
 
-    GET_INTERNATIONAL_FROM_API({commit}, citizenId) {
+    GET_INTERNATIONAL_FROM_API({commit}) {
         return axios
-            .get(URL_PASSPORT + '/international/citizen/' + citizenId, {})
+            .get(
+                URL_PASSPORT + '/international/citizen/' + AuthModule.state.user.citizenId,
+                {}
+            )
             .then(response => {
-                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                commit('SET_INTERNATIONAL_PASSPORTS_TO_STATE', response.data);
                 return response.status;
             })
             .catch(error => {
-                console.error('Failed to get international passport', error.statusMessage);
+                console.error('Failed to get international passport', error.response.statusMessage);
                 return error.response.status;
             })
     },
@@ -337,7 +340,7 @@ export default {
                     surname: international.surname,
                     dateOfBirth: international.dateOfBirth,
                     isActive: international.isActive,
-                    citizenId: international.citizenId
+                    citizenId: AuthModule.state.user.citizenId
                 },
                 {}
             )
@@ -349,6 +352,28 @@ export default {
                 console.error('Failed to update international passport!', error.status)
                 return error.response.status;
             })
-    }
+    },
 
+    REGISTER_INTERNATIONAL_PASSPORT_ACTION({commit}, citizen) {
+        return axios
+            .post(
+                URL_PASSPORT + '/registerInternational',
+                {
+                    name: citizen.name,
+                    surname: citizen.surname,
+                    dateOfBirth: citizen.dateOfBirth,
+                    registration: 'unknown', // todo: remove hard code
+                    citizenId: AuthModule.state.user.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to create international passport!', error.response.status);
+                return error.response.status;
+            })
+    },
 }

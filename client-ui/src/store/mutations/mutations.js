@@ -69,8 +69,11 @@ export default {
     UPDATE_DOMESTIC(state, updateDomestic) {
         state.domestic = updateDomestic;
     },
+    SET_INTERNATIONAL_PASSPORTS_TO_STATE(state, internationals) {
+        state.internationals = internationals;
+    },
     SET_INTERNATIONAL_TO_STATE(state, international) {
-        state.international = international;
+        state.internationals.push(international);
     },
     UPDATE_INTERNATIONAL(state, updateInternational) {
         state.international = updateInternational;

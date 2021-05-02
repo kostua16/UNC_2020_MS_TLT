@@ -1,5 +1,6 @@
 package nc.unc.cs.services.passport.service;
 
+import java.util.List;
 import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
@@ -225,5 +226,15 @@ public class PassportTable {
    */
   public Domestic getDomesticByCitizenId(final Long citizenId) {
     return this.domesticRepository.findDomesticByCitizenId(citizenId);
+  }
+
+  /**
+   * Возвращает паспорт гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return http-отве, в теле которого находится паспорт гражданина
+   */
+  public List<International> getInternationalsByCitizenId(final Long citizenId) {
+    return this.internationalRepository.findInternationalsByCitizenId(citizenId);
   }
 }

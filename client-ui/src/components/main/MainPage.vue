@@ -70,7 +70,7 @@ export default {
         },
         {
           title: 'Оформить ЗагранПаспорт',
-          link: '',
+          link: '/passport/international',
           img: require('@/assets/images/international_.png'),
         },
       ],
