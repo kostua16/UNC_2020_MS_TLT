@@ -55,7 +55,7 @@ public class GetInfoTest {
           GetInfoTest.TAX_ID_DESCR
       };
 
-  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP = responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
+//  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP = responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
   private static final ResponseFieldsSnippet PAYMENT_REQUESTS_RESP =
       responseFields(fieldWithPath("[]").description("PaymentRequests"))
           .andWithPrefix("[].", GetInfoTest.PAYMENT_REQUEST_DESCR);
