@@ -29,9 +29,9 @@
 | link:/{root}/http_codes.html[HTTP Codes]
 |===
 
-[[paymentPayload]]
+[[requestPaymentTest]]
 == Registration of performed services
-operation::requestPayment[snippets='curl-request,http-request,http-response,response-fields']
+operation::requestPaymentTest[snippets='curl-request,http-request,http-response,response-fields']
 
 [[paymentTest]]
 == Bills payment

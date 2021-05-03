@@ -28,6 +28,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ObjectMapper.class)
 @AutoConfigureRestDocs
 class RequestPaymentTest {
+  private static final FieldDescriptor AMOUNT_DESCR =
+      fieldWithPath("amount").type(Integer.class).description("Service cost.");
+  private static final FieldDescriptor TAX_AMOUNT_DESCR =
+      fieldWithPath("taxAmount").type(Integer.class).description("Tax amount.");
+  private static final FieldDescriptor SERVICE_ID_DESCR =
+      fieldWithPath("serviceId").type(Long.class).description("ID of the service.");
+  private static final FieldDescriptor CITIZEN_ID_DESCR =
+      fieldWithPath("citizenId").type(Long.class).description("ID of the citizen.");
+
+  private static final FieldDescriptor[] PAYMENT_REQUEST_DESCR =
+      new FieldDescriptor[]{
+          RequestPaymentTest.AMOUNT_DESCR,
+          RequestPaymentTest.TAX_AMOUNT_DESCR,
+          RequestPaymentTest.SERVICE_ID_DESCR,
+          RequestPaymentTest.CITIZEN_ID_DESCR
+      };
+
+  private static final RequestFieldsSnippet REQUEST_PAYMENT_REQ =
+      requestFields(RequestPaymentTest.PAYMENT_REQUEST_DESCR);
+
   private static final String BANK_CONTROLLER_MAPPING =
       "http://localhost:8084/bank/request-payment";
   @Autowired
@@ -58,14 +78,8 @@ class RequestPaymentTest {
                 .content(objectMapper.writeValueAsString(paymentPayload)))
         .andDo(
             document(
-                "requestPayment",
-                requestFields(
-                    fieldWithPath("paymentPayload")
-                        .description("Information for registration of the performed service.")
-                ),
-                responseFields(
-                    fieldWithPath("requestPayment").description("Request payment.")
-                )
+                "requestPaymentTest",
+                RequestPaymentTest.REQUEST_PAYMENT_REQ
             )
         )
         .andExpect(status().isOk())
