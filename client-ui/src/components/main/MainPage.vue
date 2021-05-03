@@ -59,7 +59,7 @@ export default {
           img: require('@/assets/images/tax.png'),
         },
         {
-          title: 'Налог(-и) на недвижимость',
+          title: 'Налоги на недвижимость',
           link: '',
           img: require('@/assets/images/propert_tax.png'),
         },
@@ -69,7 +69,7 @@ export default {
           img: require('@/assets/images/utility.png'),
         },
         {
-          title: 'Оформить ЗагранПаспорт',
+          title: 'Оформить Заграничный паспорт',
           link: '/passport/international',
           img: require('@/assets/images/international_.png'),
         },
