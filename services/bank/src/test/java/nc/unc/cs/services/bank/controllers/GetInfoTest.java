@@ -14,15 +14,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-import org.springframework.restdocs.request.PathParametersSnippet;
-import org.springframework.restdocs.request.RequestParametersSnippet;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -55,7 +51,7 @@ public class GetInfoTest {
           GetInfoTest.TAX_ID_DESCR
       };
 
-//  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP = responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
+  //  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP = responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
   private static final ResponseFieldsSnippet PAYMENT_REQUESTS_RESP =
       responseFields(fieldWithPath("[]").description("PaymentRequests"))
           .andWithPrefix("[].", GetInfoTest.PAYMENT_REQUEST_DESCR);
