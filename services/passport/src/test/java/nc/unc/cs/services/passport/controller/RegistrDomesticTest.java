@@ -49,7 +49,9 @@ class RegistrDomesticTest {
       fieldWithPath("dateOfBirth").type(String.class).description("date of birth of the citizen.");
 
   private static final FieldDescriptor ACTIVE_DESCR =
-      fieldWithPath("isActive").type(String.class).description("boolean value that indicates whether the passport tax has been paid.");
+      fieldWithPath("isActive")
+          .type(String.class)
+          .description("boolean value that indicates whether the passport tax has been paid.");
 
   private static final FieldDescriptor SERIES_DESCR =
       fieldWithPath("series").type(Long.class).description("Series of the passport.");
@@ -59,15 +61,15 @@ class RegistrDomesticTest {
 
   private static final FieldDescriptor[] PASSPORT_DESCR =
       new FieldDescriptor[] {
-          RegistrDomesticTest.DOMESTIC_ID_DESCR,
-          RegistrDomesticTest.CITIZEN_ID_DESCR,
-          RegistrDomesticTest.ACTIVE_DESCR,
-          RegistrDomesticTest.NAME_DESCR,
-          RegistrDomesticTest.SURNAME_DESCR,
-          RegistrDomesticTest.DATE_OF_BIRTH_DESCR,
-          RegistrDomesticTest.REGISTRATION_DESCR,
-          RegistrDomesticTest.SERIES_DESCR,
-          RegistrDomesticTest.NUMBER_DESCR
+        RegistrDomesticTest.DOMESTIC_ID_DESCR,
+        RegistrDomesticTest.CITIZEN_ID_DESCR,
+        RegistrDomesticTest.ACTIVE_DESCR,
+        RegistrDomesticTest.NAME_DESCR,
+        RegistrDomesticTest.SURNAME_DESCR,
+        RegistrDomesticTest.DATE_OF_BIRTH_DESCR,
+        RegistrDomesticTest.REGISTRATION_DESCR,
+        RegistrDomesticTest.SERIES_DESCR,
+        RegistrDomesticTest.NUMBER_DESCR
       };
 
   private static final RequestFieldsSnippet PASSPORT_REQ =
@@ -99,7 +101,7 @@ class RegistrDomesticTest {
             post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domestic)))
-                .andDo(document("registerDomesticPassportTest",PASSPORT_REQ))
+        .andDo(document("registerDomesticPassportTest", PASSPORT_REQ))
         .andExpect(status().isOk());
   }
 }
