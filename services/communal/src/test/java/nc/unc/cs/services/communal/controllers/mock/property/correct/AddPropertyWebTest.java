@@ -31,20 +31,28 @@ class AddPropertyWebTest extends PropertyParentWeb {
 
   private static final FieldDescriptor REGION_DESCR =
       fieldWithPath("region").type(String.class).description("Address region.");
+
   private static final FieldDescriptor CITY_DESCR =
       fieldWithPath("city").type(String.class).description("Address city.");
+
   private static final FieldDescriptor STREET_DESCR =
       fieldWithPath("street").type(String.class).description("Address street.");
+
   private static final FieldDescriptor HOUSE_DESCR =
       fieldWithPath("house").type(String.class).description("Address house.");
+
   private static final FieldDescriptor APARTMENT_DESCR =
       fieldWithPath("apartment").type(String.class).description("Address apartment.");
+
   private static final FieldDescriptor APARTMENT_SIZE_DESCR =
       fieldWithPath("apartmentSize").type(Integer.class).description("Address size.");
+
   private static final FieldDescriptor CITIZEN_ID_DESCR =
       fieldWithPath("citizenId").type(Long.class).description("ID of the citizen.");
+
   private static final FieldDescriptor PROPERTY_ID_DESCR =
       fieldWithPath("propertyId").type(Long.class).description("ID of the property.");
+
   private static final FieldDescriptor PROPERTY_TAX_DESCR =
       fieldWithPath("propertyTaxDate").type(Date.class).description("Last tax deduction.");
 

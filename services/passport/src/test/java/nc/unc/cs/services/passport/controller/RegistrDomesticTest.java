@@ -1,6 +1,9 @@
 package nc.unc.cs.services.passport.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,17 +16,62 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = PassportController.class)
-// @Import(ObjectMapper.class)
-// @WithMockUser("customUsername") // аннотация для создания авторизованного пользователя
+@AutoConfigureRestDocs
 class RegistrDomesticTest {
   private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
   private static final Logger logger = LoggerFactory.getLogger(RegistrDomesticTest.class);
+
+  private static final FieldDescriptor REGISTRATION_DESCR =
+      fieldWithPath("registration").type(String.class).description("registration of citizen.");
+
+  private static final FieldDescriptor DOMESTIC_ID_DESCR =
+      fieldWithPath("domesticId").type(String.class).description("registration of citizen.");
+
+  private static final FieldDescriptor CITIZEN_ID_DESCR =
+      fieldWithPath("citizenId").type(String.class).description("registration of citizen.");
+
+  private static final FieldDescriptor NAME_DESCR =
+      fieldWithPath("name").type(String.class).description("name of citizen.");
+
+  private static final FieldDescriptor SURNAME_DESCR =
+      fieldWithPath("surname").type(String.class).description("surname.");
+
+  private static final FieldDescriptor DATE_OF_BIRTH_DESCR =
+      fieldWithPath("dateOfBirth").type(String.class).description("date of birth of the citizen.");
+
+  private static final FieldDescriptor ACTIVE_DESCR =
+      fieldWithPath("isActive").type(String.class).description("boolean value that indicates whether the passport tax has been paid.");
+
+  private static final FieldDescriptor SERIES_DESCR =
+      fieldWithPath("series").type(Long.class).description("Series of the passport.");
+
+  private static final FieldDescriptor NUMBER_DESCR =
+      fieldWithPath("number").type(Long.class).description("Number of the passport.");
+
+  private static final FieldDescriptor[] PASSPORT_DESCR =
+      new FieldDescriptor[] {
+          RegistrDomesticTest.DOMESTIC_ID_DESCR,
+          RegistrDomesticTest.CITIZEN_ID_DESCR,
+          RegistrDomesticTest.ACTIVE_DESCR,
+          RegistrDomesticTest.NAME_DESCR,
+          RegistrDomesticTest.SURNAME_DESCR,
+          RegistrDomesticTest.DATE_OF_BIRTH_DESCR,
+          RegistrDomesticTest.REGISTRATION_DESCR,
+          RegistrDomesticTest.SERIES_DESCR,
+          RegistrDomesticTest.NUMBER_DESCR
+      };
+
+  private static final RequestFieldsSnippet PASSPORT_REQ =
+      requestFields(RegistrDomesticTest.PASSPORT_DESCR);
 
   @Autowired private MockMvc mockMvc;
 
@@ -51,7 +99,7 @@ class RegistrDomesticTest {
             post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domestic)))
-        //        .andDo(document("registerDomesticPassportTest"))
+                .andDo(document("registerDomesticPassportTest",PASSPORT_REQ))
         .andExpect(status().isOk());
   }
 }
