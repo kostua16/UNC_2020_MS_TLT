@@ -29,7 +29,7 @@ class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
             post(UTILITY_BILL_PRICE_LIST_MAPPING)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(newPriceList)))
-        .andDo(document("addRegistrationTest"))
+//        .andDo(document("addRegistrationTest"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(

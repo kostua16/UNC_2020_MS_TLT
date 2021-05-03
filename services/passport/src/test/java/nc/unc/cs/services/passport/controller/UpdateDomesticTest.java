@@ -58,7 +58,7 @@ class UpdateDomesticTest {
                     + domesticDTO.getDomesticId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domesticDTO)))
-        .andDo(document("updateDomesticPassportTest"))
+//        .andDo(document("updateDomesticPassportTest"))
         .andExpect(status().isOk());
   }
 }

@@ -52,7 +52,7 @@ class RegistrDomesticTest {
             post(PASSPORT_CONTROLLER_MAPPING + "/passport/registerDomestic")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domestic)))
-        .andDo(document("registerDomesticPassportTest"))
+//        .andDo(document("registerDomesticPassportTest"))
         .andExpect(status().isOk());
   }
 }
