@@ -49,7 +49,9 @@ class UpdateDomesticTest {
       fieldWithPath("dateOfBirth").type(String.class).description("date of birth of the citizen.");
 
   private static final FieldDescriptor ACTIVE_DESCR =
-      fieldWithPath("isActive").type(String.class).description("boolean value that indicates whether the passport tax has been paid.");
+      fieldWithPath("isActive")
+          .type(String.class)
+          .description("boolean value that indicates whether the passport tax has been paid.");
 
   private static final FieldDescriptor SERIES_DESCR =
       fieldWithPath("series").type(Long.class).description("Series of the passport.");
@@ -59,18 +61,19 @@ class UpdateDomesticTest {
 
   private static final FieldDescriptor[] PASSPORT_DESCR =
       new FieldDescriptor[] {
-          UpdateDomesticTest.DOMESTIC_ID_DESCR,
-          UpdateDomesticTest.CITIZEN_ID_DESCR,
-          UpdateDomesticTest.ACTIVE_DESCR,
-          UpdateDomesticTest.NAME_DESCR,
-          UpdateDomesticTest.SURNAME_DESCR,
-          UpdateDomesticTest.DATE_OF_BIRTH_DESCR,
-          UpdateDomesticTest.REGISTRATION_DESCR,
-          UpdateDomesticTest.SERIES_DESCR,
-          UpdateDomesticTest.NUMBER_DESCR
+        UpdateDomesticTest.DOMESTIC_ID_DESCR,
+        UpdateDomesticTest.CITIZEN_ID_DESCR,
+        UpdateDomesticTest.ACTIVE_DESCR,
+        UpdateDomesticTest.NAME_DESCR,
+        UpdateDomesticTest.SURNAME_DESCR,
+        UpdateDomesticTest.DATE_OF_BIRTH_DESCR,
+        UpdateDomesticTest.REGISTRATION_DESCR,
+        UpdateDomesticTest.SERIES_DESCR,
+        UpdateDomesticTest.NUMBER_DESCR
       };
 
-  private static final ResponseFieldsSnippet PASSPORT_RESP = responseFields(UpdateDomesticTest.PASSPORT_DESCR);
+  private static final ResponseFieldsSnippet PASSPORT_RESP =
+      responseFields(UpdateDomesticTest.PASSPORT_DESCR);
 
   @Autowired private MockMvc mockMvc;
 
@@ -103,7 +106,7 @@ class UpdateDomesticTest {
                     + domesticDTO.getDomesticId())
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(domesticDTO)))
-                .andDo(document("updateDomesticTest", PASSPORT_RESP))
+        .andDo(document("updateDomesticTest", PASSPORT_RESP))
         .andExpect(status().isOk());
   }
 }

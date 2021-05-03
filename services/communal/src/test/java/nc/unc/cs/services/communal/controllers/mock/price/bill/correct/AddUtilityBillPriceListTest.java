@@ -32,14 +32,16 @@ class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
       fieldWithPath("hotWaterPrice").type(String.class).description("Apartment hot water price.");
 
   private static final FieldDescriptor ELECTRICITY_DESCR =
-      fieldWithPath("electricityPrice").type(String.class).description("Apartment electricity price.");
+      fieldWithPath("electricityPrice")
+          .type(String.class)
+          .description("Apartment electricity price.");
 
   private static final FieldDescriptor[] BILL_PRICE_DESCR =
-      new FieldDescriptor[]{
-          AddUtilityBillPriceListTest.REGION_DESCR,
-          AddUtilityBillPriceListTest.COLD_WATER_DESCR,
-          AddUtilityBillPriceListTest.HOT_WATER_DESCR,
-          AddUtilityBillPriceListTest.ELECTRICITY_DESCR
+      new FieldDescriptor[] {
+        AddUtilityBillPriceListTest.REGION_DESCR,
+        AddUtilityBillPriceListTest.COLD_WATER_DESCR,
+        AddUtilityBillPriceListTest.HOT_WATER_DESCR,
+        AddUtilityBillPriceListTest.ELECTRICITY_DESCR
       };
 
   private static final RequestFieldsSnippet BILL_PRICE_REQ =
@@ -58,7 +60,7 @@ class AddUtilityBillPriceListTest extends UtilityBillPriceListParent {
             post(UTILITY_BILL_PRICE_LIST_MAPPING)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(newPriceList)))
-                .andDo(document("addRegistrationTest", BILL_PRICE_REQ))
+        .andDo(document("addRegistrationTest", BILL_PRICE_REQ))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(
