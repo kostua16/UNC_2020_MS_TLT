@@ -31,7 +31,7 @@ public class PaymentPayload {
   @Min(value = 1, message = "Incorrect amount")
   private Integer amount;
 
-  /** Tax amount.*/
+  /** Tax amount. */
   @NotNull(message = "Incorrect taxAmount")
   @Min(value = 1, message = "Incorrect tax ID")
   private Integer taxAmount;

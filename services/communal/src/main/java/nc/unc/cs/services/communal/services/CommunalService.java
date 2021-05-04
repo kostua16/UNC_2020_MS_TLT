@@ -211,13 +211,14 @@ public class CommunalService {
         this.utilityBillRepository.findUtilityBillByPaymentRequestId(paymentRequestId);
     if (utilityBill == null
         || utilityBill.getIsPaid()
-        || !this.bankIntegrationService.checkPaymentStatus(paymentRequestId)
-    ) {
+        || !this.bankIntegrationService.checkPaymentStatus(paymentRequestId)) {
       throw new UtilityBillPaymentException(paymentRequestId);
     } else {
       utilityBill.setIsPaid(true);
       this.utilityBillRepository.save(utilityBill);
-      logger.info("Payment status UtilityBill with ID = {} has been changed!", utilityBill.getUtilityBillId());
+      logger.info(
+          "Payment status UtilityBill with ID = {} has been changed!",
+          utilityBill.getUtilityBillId());
       return ResponseEntity.ok(utilityBill);
     }
   }
