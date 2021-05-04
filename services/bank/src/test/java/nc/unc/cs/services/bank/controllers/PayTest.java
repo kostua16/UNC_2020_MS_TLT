@@ -1,5 +1,12 @@
 package nc.unc.cs.services.bank.controllers;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.services.BankService;
@@ -13,13 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {BankController.class})
 @Import(ObjectMapper.class)
@@ -36,23 +36,20 @@ class PayTest {
   private static final FieldDescriptor AMOUNT_DESCR =
       fieldWithPath("amount").type(Long.class).description("Service cost.");
 
-
   private static final FieldDescriptor[] PAYMENT_DESCR =
-      new FieldDescriptor[]{
-          PayTest.TRANSACTION_ID_DESCR,
-          PayTest.CITIZEN_ID_DESCR,
-          PayTest.PAYMENT_REQUEST_ID_DESCR,
-          PayTest.CREATION_DATE_DESCR,
-          PayTest.AMOUNT_DESCR
+      new FieldDescriptor[] {
+        PayTest.TRANSACTION_ID_DESCR,
+        PayTest.CITIZEN_ID_DESCR,
+        PayTest.PAYMENT_REQUEST_ID_DESCR,
+        PayTest.CREATION_DATE_DESCR,
+        PayTest.AMOUNT_DESCR
       };
 
   private static final ResponseFieldsSnippet PAYMENT_RESP = responseFields(PayTest.PAYMENT_DESCR);
 
   private static final String BANK_CONTROLLER_MAPPING = "http://localhost:8084/bank/payment/";
-  @Autowired
-  private MockMvc mockMvc;
-  @MockBean
-  private BankService bankService;
+  @Autowired private MockMvc mockMvc;
+  @MockBean private BankService bankService;
 
   private Transaction createTransaction() {
     return Transaction.builder()
