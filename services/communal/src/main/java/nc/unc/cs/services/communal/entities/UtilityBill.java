@@ -77,7 +77,7 @@ public class UtilityBill {
 
   @NotNull(message = "Incorrect payment request ID")
   @Min(1L)
-  @Column(nullable = false, updatable = false)
+  @Column(nullable = false, updatable = false, unique = true)
   private Long paymentRequestId;
 
   @NotNull(message = "Incorrect property ID")
