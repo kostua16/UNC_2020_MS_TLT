@@ -215,13 +215,19 @@ export default {
                 return error.response.status;
             })
     },
-    PAY_UTILITY_BILL({commit}, utilityBill) {
-        return this.PAY_PAYMENT_REQUEST_ACTION(commit, utilityBill.paymentRequestId)
-            .then(status => {
-                if (status === 200) {
-                    commit('UPDATE_UTILITY_BILL_PAY_STATUS', utilityBill.utilityBillId);
-                }
-                return status;
+    CHANGE_UTILITY_BILL_PAYMENT_STATUS({commit}, utilityBill) {
+        return axios.put(
+            URL_COMMUNAL + '/utilities/' + utilityBill.paymentRequestId,
+            {},
+            {}
+        )
+            .then(response => {
+                commit('UPDATE_UTILITY_BILL_PAY_STATUS', utilityBill.utilityBillId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to change utility payment status!');
+                return error.response.status;
             })
     },
 

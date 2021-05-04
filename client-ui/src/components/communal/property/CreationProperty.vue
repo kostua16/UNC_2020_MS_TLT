@@ -161,13 +161,13 @@ export default {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartment: {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartmentSize: {required, numeric, minValue: minValue(10)},
   },
