@@ -1,26 +1,26 @@
 <template>
   <v-card class="mx-5 my-5 green lighten-1" width="495px" height="270px">
-      <v-row>
-        <v-col sm="8">
-          <v-card-title primary-title>
-            Регион: {{ utilitiesPriceList.region }}
-          </v-card-title>
-        </v-col>
-        <v-col>
-          <v-card-actions>
-            <v-btn
-                @click="edit"
-                class="ma-2"
-                outlined
-                small
-                fab
-                color="deep-purple accent-4"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-col>
-      </v-row>
+    <v-row>
+      <v-col sm="8">
+        <v-card-title primary-title>
+          Регион: {{ utilitiesPriceList.region }}
+        </v-card-title>
+      </v-col>
+      <v-col>
+        <v-card-actions>
+          <v-btn
+              @click="edit"
+              class="ma-2"
+              outlined
+              small
+              fab
+              color="deep-purple accent-4"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-col>
+    </v-row>
     <v-card-title class="pt-6">
       <v-row justify="center">
         <v-col sm="8">Цена за 1 куб. м. Х. воды:</v-col>

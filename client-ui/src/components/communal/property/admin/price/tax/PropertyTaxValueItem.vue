@@ -1,10 +1,12 @@
 <template>
-  <v-card class="my-2 text-settings" width="850px">
-    <v-main class="yellow darken-3 black--text pt-8">
-      <div class="main-block">
+  <v-card class="mx-5 my-5 orange darken-1" width="490px" height="220px">
+    <v-row>
+      <v-col sm="9">
         <v-card-title primary-title>
-          <h2>{{ propertyTaxValue.region }}</h2>
+          Регион: {{ propertyTaxValue.region }}
         </v-card-title>
+      </v-col>
+      <v-col>
         <v-card-actions>
           <v-btn
               @click="edit"
@@ -17,27 +19,18 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </v-card-actions>
-      </div>
-      <v-card-text>
-
-        <v-simple-table height="120px" class="yellow darken-3 black--text title">
-          <template v-slot:default>
-            <thead>
-            <tr>
-              <th class="text-left">Цена за кв. м.</th>
-              <th class="text-left">Кадастровое значение</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>{{ propertyTaxValue.pricePerSquareMeter }} руб.</td>
-              <td>{{ propertyTaxValue.cadastralValue }} руб.</td>
-            </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-card-text>
-    </v-main>
+      </v-col>
+    </v-row>
+    <v-card-title class="pt-6">
+      <v-row justify="center">
+        <v-col sm="7">Цена за 1 кв. метр:</v-col>
+        <v-col>{{ propertyTaxValue.pricePerSquareMeter }} руб.</v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col sm="7">Кадастровое значение:</v-col>
+        <v-col>{{ propertyTaxValue.cadastralValue }} %</v-col>
+      </v-row>
+    </v-card-title>
   </v-card>
 </template>
 
