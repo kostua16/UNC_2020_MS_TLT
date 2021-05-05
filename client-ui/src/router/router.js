@@ -13,6 +13,7 @@ import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
 import RegistrationData from "@/models/auth/registration-data";
 import DomesticRegistration from "@/components/passport/DomesticRegistration";
+import CitizenPropertyTaxList from "@/components/communal/property/tax/CitizenPropertyTaxList";
 
 Vue.use(Router);
 
@@ -109,6 +110,14 @@ export const router = new Router({
             path: '/communal/property/list',
             name: 'property-list',
             component: CitizenProperty,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
+            path: '/communal/property-tax',
+            name: 'property-tax',
+            component: CitizenPropertyTaxList,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },

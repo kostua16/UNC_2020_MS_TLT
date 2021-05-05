@@ -58,6 +58,32 @@ export default {
             })
     },
 
+    GET_CITIZEN_PROPERTY_TAXES_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + '/property-tax/citizen/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_CITIZEN_PROPERTY_TAX_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get citizen property tax', error.response.status);
+                return error.response.status;
+            })
+    },
+
+    CHANGE_PROPERTY_TAX_PAYMENT_STATUS_ACTION({commit}, propertyTaxId) {
+        return axios
+            .put(URL_COMMUNAL + '/property-tax/pay/' + propertyTaxId, {}, {})
+            .then(response => {
+                commit('CHANGE_PROPERTY_TAX_PAYMENT_STATUS', response.data.propertyTaxId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to change property tax payment status!', error.response.status);
+                return error.response.status;
+            })
+    },
+
     GET_ALL_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(

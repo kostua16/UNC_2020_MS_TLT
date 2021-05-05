@@ -17,6 +17,10 @@ export default {
         return state.propertyTaxValues;
     },
 
+    GET_CITIZEN_PROPERTY_TAXES(state) {
+        return state.propertyTaxes;
+    },
+
     // auth data
     GET_USER_CITIZEN_ID(state) {
         return state.auth.user.citizenId

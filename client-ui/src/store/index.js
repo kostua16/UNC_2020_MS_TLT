@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import propertyModule from "@/store/communal/property/property-module";
 import mutations from './mutations/mutations'
 import actions from './actions/actions'
 import getters from './getters/getters'
@@ -19,6 +18,7 @@ export default new Vuex.Store({
         utilityBillPriceLists: [],
         paymentRequests: [],
         transactions: [],
+        propertyTaxes: [],
         domestic: new Domestic(),
         international: new International(),
     },

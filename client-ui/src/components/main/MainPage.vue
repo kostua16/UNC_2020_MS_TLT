@@ -59,8 +59,8 @@ export default {
           img: require('@/assets/images/tax.png'),
         },
         {
-          title: 'Налог(-и) на недвижимость',
-          link: '',
+          title: 'Налоги на недвижимость',
+          link: '/communal/property-tax',
           img: require('@/assets/images/propert_tax.png'),
         },
         {
