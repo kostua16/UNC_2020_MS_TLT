@@ -84,8 +84,7 @@ public class PassportController {
 
   @GetMapping(value = "/international/citizen/{citizenId}", produces = "application/json")
   public List<International> getInternationalsByCitizenId(
-      @PathVariable("citizenId") final Long citizenId
-  ) {
+      @PathVariable("citizenId") final Long citizenId) {
     return this.passportTable.getInternationalsByCitizenId(citizenId);
   }
 }
