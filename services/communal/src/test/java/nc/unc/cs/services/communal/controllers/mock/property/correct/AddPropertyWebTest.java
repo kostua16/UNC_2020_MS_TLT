@@ -1,5 +1,15 @@
 package nc.unc.cs.services.communal.controllers.mock.property.correct;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
 import nc.unc.cs.services.communal.controllers.mock.property.PropertyParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.entities.Property;
@@ -11,17 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-
-import java.util.Date;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs
 class AddPropertyWebTest extends PropertyParentWeb {
@@ -56,26 +55,26 @@ class AddPropertyWebTest extends PropertyParentWeb {
       fieldWithPath("propertyTaxDate").type(Date.class).description("Last tax deduction.");
 
   private static final FieldDescriptor[] PROPERTY_DESCR =
-      new FieldDescriptor[]{
-          AddPropertyWebTest.REGION_DESCR,
-          AddPropertyWebTest.CITY_DESCR,
-          AddPropertyWebTest.STREET_DESCR,
-          AddPropertyWebTest.HOUSE_DESCR,
-          AddPropertyWebTest.APARTMENT_DESCR,
-          AddPropertyWebTest.APARTMENT_SIZE_DESCR,
-          AddPropertyWebTest.CITIZEN_ID_DESCR
+      new FieldDescriptor[] {
+        AddPropertyWebTest.REGION_DESCR,
+        AddPropertyWebTest.CITY_DESCR,
+        AddPropertyWebTest.STREET_DESCR,
+        AddPropertyWebTest.HOUSE_DESCR,
+        AddPropertyWebTest.APARTMENT_DESCR,
+        AddPropertyWebTest.APARTMENT_SIZE_DESCR,
+        AddPropertyWebTest.CITIZEN_ID_DESCR
       };
   private static final FieldDescriptor[] PROPERTY_REQ_DESCR =
-      new FieldDescriptor[]{
-          AddPropertyWebTest.REGION_DESCR,
-          AddPropertyWebTest.CITY_DESCR,
-          AddPropertyWebTest.STREET_DESCR,
-          AddPropertyWebTest.HOUSE_DESCR,
-          AddPropertyWebTest.APARTMENT_DESCR,
-          AddPropertyWebTest.APARTMENT_SIZE_DESCR,
-          AddPropertyWebTest.PROPERTY_ID_DESCR,
-          AddPropertyWebTest.PROPERTY_TAX_DESCR,
-          AddPropertyWebTest.CITIZEN_ID_DESCR
+      new FieldDescriptor[] {
+        AddPropertyWebTest.REGION_DESCR,
+        AddPropertyWebTest.CITY_DESCR,
+        AddPropertyWebTest.STREET_DESCR,
+        AddPropertyWebTest.HOUSE_DESCR,
+        AddPropertyWebTest.APARTMENT_DESCR,
+        AddPropertyWebTest.APARTMENT_SIZE_DESCR,
+        AddPropertyWebTest.PROPERTY_ID_DESCR,
+        AddPropertyWebTest.PROPERTY_TAX_DESCR,
+        AddPropertyWebTest.CITIZEN_ID_DESCR
       };
 
   private static final RequestFieldsSnippet PROPERTY_REQ =

@@ -1,5 +1,13 @@
 package nc.unc.cs.services.communal.controllers.mock.registration.correct;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import nc.unc.cs.services.communal.controllers.mock.registration.RegistrationParentWeb;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Registration;
@@ -10,14 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs
 class AddRegistrationWebTest extends RegistrationParentWeb {
@@ -40,24 +40,24 @@ class AddRegistrationWebTest extends RegistrationParentWeb {
       fieldWithPath("isActive").type(Boolean.class).description("Registration active status.");
 
   private static final FieldDescriptor[] REGISTRATION_DESCR =
-      new FieldDescriptor[]{
-          AddRegistrationWebTest.REGION_DESCR,
-          AddRegistrationWebTest.CITY_DESCR,
-          AddRegistrationWebTest.STREET_DESCR,
-          AddRegistrationWebTest.HOUSE_DESCR,
-          AddRegistrationWebTest.APARTMENT_DESCR,
-          AddRegistrationWebTest.CITIZEN_ID_DESCR
+      new FieldDescriptor[] {
+        AddRegistrationWebTest.REGION_DESCR,
+        AddRegistrationWebTest.CITY_DESCR,
+        AddRegistrationWebTest.STREET_DESCR,
+        AddRegistrationWebTest.HOUSE_DESCR,
+        AddRegistrationWebTest.APARTMENT_DESCR,
+        AddRegistrationWebTest.CITIZEN_ID_DESCR
       };
   private static final FieldDescriptor[] REG_RESP_DESCR =
-      new FieldDescriptor[]{
-          AddRegistrationWebTest.REGION_DESCR,
-          AddRegistrationWebTest.CITY_DESCR,
-          AddRegistrationWebTest.STREET_DESCR,
-          AddRegistrationWebTest.HOUSE_DESCR,
-          AddRegistrationWebTest.APARTMENT_DESCR,
-          AddRegistrationWebTest.REGISTRATION_ID_DESCR,
-          AddRegistrationWebTest.IS_ACTIVE_DESCR,
-          AddRegistrationWebTest.CITIZEN_ID_DESCR
+      new FieldDescriptor[] {
+        AddRegistrationWebTest.REGION_DESCR,
+        AddRegistrationWebTest.CITY_DESCR,
+        AddRegistrationWebTest.STREET_DESCR,
+        AddRegistrationWebTest.HOUSE_DESCR,
+        AddRegistrationWebTest.APARTMENT_DESCR,
+        AddRegistrationWebTest.REGISTRATION_ID_DESCR,
+        AddRegistrationWebTest.IS_ACTIVE_DESCR,
+        AddRegistrationWebTest.CITIZEN_ID_DESCR
       };
 
   private static final RequestFieldsSnippet REGISTRATION_REQ =
@@ -78,11 +78,11 @@ class AddRegistrationWebTest extends RegistrationParentWeb {
             post(REGISTRATION_CONTROLLER_MAPPING)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(newRegistration)))
-        .andDo(document(
-            "addRegistrationTest",
-            AddRegistrationWebTest.REGISTRATION_REQ,
-            AddRegistrationWebTest.REGISTRATION_RESP)
-        )
+        .andDo(
+            document(
+                "addRegistrationTest",
+                AddRegistrationWebTest.REGISTRATION_REQ,
+                AddRegistrationWebTest.REGISTRATION_RESP))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.region", Matchers.is(newRegistration.getRegion())));
