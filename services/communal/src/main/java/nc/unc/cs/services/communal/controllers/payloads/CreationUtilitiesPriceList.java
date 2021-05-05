@@ -28,7 +28,7 @@ public class CreationUtilitiesPriceList {
   private Integer hotWaterPrice;
 
   @NotNull(message = "Incorrect electricity price size")
-  @Min(value = 1, message = "Apartment cold water price is incorrect")
+  @Min(value = 1, message = "Apartment electricity price is incorrect")
   private Integer electricityPrice;
 
   @Builder

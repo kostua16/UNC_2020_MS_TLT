@@ -31,7 +31,7 @@
 
 [[requestPaymentTest]]
 == Registration of performed services
-operation::requestPaymentTest[snippets='curl-request,http-request,http-response,response-fields']
+operation::requestPaymentTest[snippets='curl-request,http-request,http-response']
 
 [[paymentTest]]
 == Bills payment
