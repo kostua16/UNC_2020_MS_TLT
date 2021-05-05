@@ -35,25 +35,6 @@ public class PropertyTaxController {
     this.propertyTaxService = propertyTaxService;
   }
 
-  @PostMapping(consumes = "application/json", produces = "application/json")
-  @Operation(
-      summary = "calculatePropertyTax",
-      description = "Calculate the tax on the selected property and notify the owner",
-      method = "POST")
-  @ApiResponses({
-    @ApiResponse(responseCode = "400", description = "PropertyTax with ID = null"),
-    @ApiResponse(responseCode = "503", description = "PropertyTax with ID = null")
-  })
-  public ResponseEntity<PropertyTax> calculatePropertyTax(
-      @Validated
-          @RequestBody
-          @io.swagger.v3.oas.annotations.parameters.RequestBody(
-              required = true,
-              description = "Property ID for which the tax will be calculated")
-          final IdRequest idRequest) {
-    return this.propertyTaxService.calculatePropertyTax(idRequest.getPropertyId());
-  }
-
   @PutMapping(value = "pay/{propertyTaxId}", produces = "application/json")
   @Operation(
       summary = "changePropertyTaxStatus",
