@@ -582,9 +582,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="addRegistrationTest_curl_request">CURL request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/communal/utilities/price-list' -i -X POST \
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/communal/registration' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -d '{"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}'</code></pre>
+    -d '{"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","citizenId":111}'</code></pre>
 </div>
 </div>
 </div>
@@ -592,12 +592,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="addRegistrationTest_http_request">Example request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /communal/utilities/price-list HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /communal/registration HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 78
+Content-Length: 98
 Host: localhost:8080
 
-{"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}</code></pre>
+{"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","citizenId":111}</code></pre>
 </div>
 </div>
 </div>
@@ -616,9 +616,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 103
+Content-Length: 136
 
-{"utilitiesPriceListId":1,"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}</code></pre>
+{"registrationId":null,"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","isActive":true,"citizenId":111}</code></pre>
 </div>
 </div>
 </div>
@@ -639,29 +639,44 @@ Content-Length: 103
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>utilitiesPriceListId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Utility bills.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>region</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Address region.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>coldWaterPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>city</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment cold water price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address city.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotWaterPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>street</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment hot water price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address street.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>electricityPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>house</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment electricity price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address house.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apartment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address apartment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>registrationId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the registration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isActive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration active status.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>citizenId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the citizen.</p></td>
 </tr>
 </tbody>
 </table>
@@ -788,9 +803,9 @@ Content-Length: 168
 <h3 id="addPropertyTaxValue_curl_request">CURL request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/communal/utilities/price-list' -i -X POST \
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/communal/registration' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -d '{"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}'</code></pre>
+    -d '{"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","citizenId":111}'</code></pre>
 </div>
 </div>
 </div>
@@ -798,12 +813,12 @@ Content-Length: 168
 <h3 id="addPropertyTaxValue_http_request">Example request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /communal/utilities/price-list HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /communal/registration HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 78
+Content-Length: 98
 Host: localhost:8080
 
-{"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}</code></pre>
+{"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","citizenId":111}</code></pre>
 </div>
 </div>
 </div>
@@ -822,9 +837,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 103
+Content-Length: 136
 
-{"utilitiesPriceListId":1,"region":"SAMARA","coldWaterPrice":3,"hotWaterPrice":20,"electricityPrice":5}</code></pre>
+{"registrationId":null,"region":"SAMARA","city":"SAMARA","street":"MAIN","house":"111","apartment":"1B","isActive":true,"citizenId":111}</code></pre>
 </div>
 </div>
 </div>
@@ -845,29 +860,44 @@ Content-Length: 103
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>utilitiesPriceListId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Utility bills.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>region</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Address region.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>coldWaterPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>city</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment cold water price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address city.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hotWaterPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>street</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment hot water price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address street.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>electricityPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>house</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Apartment electricity price.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address house.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apartment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Address apartment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>registrationId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the registration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isActive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration active status.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>citizenId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the citizen.</p></td>
 </tr>
 </tbody>
 </table>
@@ -877,7 +907,7 @@ Content-Length: 103
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-05-05 04:57:33 UTC
+Last updated 2021-05-05 04:58:07 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
