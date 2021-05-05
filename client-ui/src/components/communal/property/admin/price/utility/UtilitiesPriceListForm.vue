@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-card-title>Прейскурант для рассчёта стоимости коммунальных услуг</v-card-title>
-    <h3>{{ message }}</h3>
+    <h2 class="text-center">Прейскурант для рассчёта стоимости коммунальных услуг</h2>
     <v-text-field
         type="text"
         label="Введите название региона"
@@ -43,6 +42,14 @@
         @blur="$v.electricityPrice.$touch()"
     />
     <v-btn @click="save" class="mt-5 mb-8" block color="red" dark>Добавить прейскурант</v-btn>
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        :color="notificationColor"
+        top
+    >
+      <h4 class="text-center">{{ notificationText }}</h4>
+    </v-snackbar>
   </div>
 </template>
 
@@ -56,6 +63,10 @@ export default {
   props: ['priceListAttr'],
   data() {
     return {
+      snackbar: false,
+      timeout: 3000,
+      notificationColor: '',
+      notificationText: '',
       utilitiesPriceList: new UtilitiesPriceList(),
       message: '',
       region: '',
@@ -145,12 +156,18 @@ export default {
       this.ADD_UTILITIES_PRICE_LIST(this.utilitiesPriceList)
           .then(status => {
             if (status === 200) {
-              this.message = 'Прескурант успешно добавлен.';
+              this.notificationColor = 'green'
+              this.notificationText = 'Прескурант успешно добавлен';
+              this.timeout = 2000
+              this.snackbar = true
+              this.cleanForm();
             } else {
-              this.message = 'Не удалось добавить прейскурант! Попробуйте позже.'
+              this.notificationColor = 'red'
+              this.notificationText = 'Не удалось добавить прейскурант! Попробуйте позже'
+              this.timeout = 3000
+              this.snackbar = true
             }
           })
-      this.cleanForm();
     },
     cleanForm() {
       this.$v.$reset()

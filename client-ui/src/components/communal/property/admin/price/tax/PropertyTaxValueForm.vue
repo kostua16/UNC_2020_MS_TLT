@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2 class="text-center">Прейскурант для рассчёта налога на недвижимость</h2>
-    <h3>{{ message }}</h3>
     <v-text-field
         type="text"
         label="Введите название региона"
@@ -33,6 +32,14 @@
         @blur="$v.cadastralValue.$touch()"
     />
     <v-btn @click="save" class="mt-5 mb-8" block color="red" dark>Добавить прейскурант</v-btn>
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        :color="notificationColor"
+        top
+    >
+      <h4 class="text-center">{{ notificationText }}</h4>
+    </v-snackbar>
   </div>
 </template>
 
@@ -46,6 +53,10 @@ export default {
   props: ['priceListAttr'],
   data() {
     return {
+      snackbar: false,
+      timeout: 3000,
+      notificationColor: '',
+      notificationText: '',
       propertyTaxValue: new PropertyTaxValue(),
       message: '',
       region: '',
@@ -123,9 +134,16 @@ export default {
       this.ADD_PROPERTY_TAX_VALUE(this.propertyTaxValue)
           .then(status => {
             if (status === 200) {
-              this.message = 'Прескурант успешно добавлен.';
+              this.notificationColor = 'green'
+              this.notificationText = 'Прескурант успешно добавлен';
+              this.timeout = 2000
+              this.snackbar = true
+              this.cleanForm();
             } else {
-              this.message = 'Не удалось добавить прейскурант! Попробуйте позже.'
+              this.notificationColor = 'red'
+              this.notificationText = 'Не удалось добавить прейскурант! Попробуйте позже'
+              this.timeout = 3000
+              this.snackbar = true
             }
           })
       this.cleanForm();
