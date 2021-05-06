@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface DomesticRepository extends JpaRepository<Domestic, Long> {
 
   Domestic findDomesticByDomesticId(Long domesticId);
+
+  Domestic findDomesticByCitizenId(Long citizenId);
 }

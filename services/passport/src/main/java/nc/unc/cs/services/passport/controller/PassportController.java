@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("passport")
+@CrossOrigin
 public class PassportController {
   private final PassportTable passportTable;
 
