@@ -135,16 +135,4 @@ class CreateUtilityBillTest {
         PropertyNotFoundException.class,
         () -> this.communalService.calculateUtilityBill(utilitiesPayload));
   }
-
-  @Test
-  void calculateUtilityCostsUtilitiesPriceListNotFoundTest() {
-    final UtilitiesPayload utilitiesPayload = this.createUtilitiesPayload();
-    final Property property = this.createProperty();
-
-    given(this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(property.getRegion()))
-        .willReturn(null);
-    Assertions.assertThrows(
-        UtilitiesPriceListNotFoundException.class,
-        () -> this.communalService.calculateUtilityCosts(property.getRegion(), utilitiesPayload));
-  }
 }
