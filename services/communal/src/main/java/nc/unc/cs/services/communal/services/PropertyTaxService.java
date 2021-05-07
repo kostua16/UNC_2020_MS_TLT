@@ -1,14 +1,10 @@
 package nc.unc.cs.services.communal.services;
 
-import feign.FeignException;
 import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
-import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
-import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxNotFoundException;
-import nc.unc.cs.services.communal.exceptions.PropertyTaxValueNotFoundException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;

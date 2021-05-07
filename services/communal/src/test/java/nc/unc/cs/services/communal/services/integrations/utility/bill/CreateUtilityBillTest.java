@@ -7,7 +7,6 @@ import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilityBill;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
-import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.UtilitiesPriceListRepository;
 import nc.unc.cs.services.communal.repositories.UtilityBillRepository;

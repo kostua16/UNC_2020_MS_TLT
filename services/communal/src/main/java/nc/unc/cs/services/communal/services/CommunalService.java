@@ -61,13 +61,13 @@ public class CommunalService {
           this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion("DEFAULT");
       logger.info("Default price list is used!");
       if (defaultPriceList == null) {
-        priceList = UtilitiesPriceList
-            .builder()
-            .region("DEFAULT")
-            .coldWaterPrice(1)
-            .hotWaterPrice(5)
-            .electricityPrice(5)
-            .build();
+        priceList =
+            UtilitiesPriceList.builder()
+                .region("DEFAULT")
+                .coldWaterPrice(1)
+                .hotWaterPrice(5)
+                .electricityPrice(5)
+                .build();
         this.utilitiesPriceListRepository.save(priceList);
       } else {
         priceList = defaultPriceList;
