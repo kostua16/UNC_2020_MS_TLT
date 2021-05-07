@@ -9,19 +9,24 @@
         range
         v-model="range"
         @click="getPeriodTransactions"
+        :max="new Date().toISOString().substr(0, 10)"
+        min="2020-12-01"
     ></v-date-picker>
     <v-btn
         block
         color="primary"
         @click="getPeriodTransactions"
+        :disabled="isDisabled"
     >
       Запросить чеки
     </v-btn>
-    <transaction-item
-        v-for="(transaction, index) in getTransactions"
-        :key="`transaction.transactionId - ${index}`"
-        :transaction="transaction"
-    />
+    <v-row justify="center" class="mt-10">
+      <transaction-item
+          v-for="(transaction, index) in getTransactions"
+          :key="`transaction.transactionId - ${index}`"
+          :transaction="transaction"
+      />
+    </v-row>
   </v-main>
 </template>
 
@@ -49,12 +54,20 @@ export default {
     getTransactions() {
       return this.GET_TRANSACTIONS;
     },
+    isDisabled() {
+      return !(this.range[1]);
+    }
   },
   methods: {
     ...mapActions(['GET_PERIOD_TRANSACTION_FROM_API']),
     getPeriodTransactions() {
-      this.period.startDate = this.range[0];
-      this.period.endDate = this.range[1];
+      if (this.range[0] <= this.range[1]) {
+        this.period.startDate = this.range[0];
+        this.period.endDate = this.range[1];
+      } else {
+        this.period.startDate = this.range[1];
+        this.period.endDate = this.range[0];
+      }
       this.GET_PERIOD_TRANSACTION_FROM_API(this.period)
           .then(status => {
             if (status !== 200) {
