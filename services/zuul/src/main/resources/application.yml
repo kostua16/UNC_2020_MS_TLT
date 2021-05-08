@@ -36,41 +36,41 @@ zuul:
       path: /auth/**
       service-id: ACCOUNT
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${ACCOUNT_URL:localhost:8888}/auth
     bank:
       path: /bank/**
       service-id: BANK
       strip-prefix: true
-      sensitive-headers: '*'
-      url:  ${config.protocol}://${BANK_URL:localhost:8084}/bank
+      sensitive-headers: "*"
+      url: ${config.protocol}://${BANK_URL:localhost:8084}/bank
     communal:
       path: /communal/**
       service-id: COMMUNAL
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${COMMUNAL_URL:localhost:8083}/communal
     passport:
       path: /passport/**
       service-id: PASSPORT
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${PASSPORT_URL:localhost:8095}/passport
     tax:
       path: /passport/**
       service-id: TAX
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${TAX_URL:localhost:8082}/tax
     gibdd:
       path: /gibdd/**
       service-id: GIBDD
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${GIBDD_URL:localhost:8088}/gibdd
     logger:
       path: /logger/**
       service-id: LOGGER
       strip-prefix: true
-      sensitive-headers: '*'
+      sensitive-headers: "*"
       url: ${config.protocol}://${LOGGING_URL:localhost:8089}/logs
