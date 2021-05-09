@@ -1,9 +1,9 @@
 package nc.unc.cs.services.bank.controllers;
 
-import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import nc.unc.cs.services.bank.controllers.dto.PeriodTransactions;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
@@ -42,10 +42,11 @@ public class BankController {
       method = "POST")
   public ResponseEntity<Long> requestPayment(
       @Validated
-      @RequestBody
-      @io.swagger.v3.oas.annotations.parameters.RequestBody(
-          required = true,
-          description = "Data for registration of the service provided to the user") final PaymentPayload paymentPayload) {
+          @RequestBody
+          @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              required = true,
+              description = "Data for registration of the service provided to the user")
+          final PaymentPayload paymentPayload) {
     return this.bankService.requestPayment(paymentPayload);
   }
 
@@ -65,7 +66,8 @@ public class BankController {
       method = "GET")
   public Boolean checkPaymentStatus(
       @Parameter(name = "paymentId", description = "PaymentPayload ID", required = true)
-      @PathVariable("paymentId") final Long paymentId) {
+          @PathVariable("paymentId")
+          final Long paymentId) {
     return this.bankService.isPaid(paymentId);
   }
 
@@ -76,7 +78,7 @@ public class BankController {
   @GetMapping("check/{citizenId}")
   public List<PaymentRequest> getDebtPaymentRequests(
       @Parameter(name = "citizenId", description = "Citizen ID", required = true)
-      @PathVariable("citizenId")
+          @PathVariable("citizenId")
           Long citizenId) {
     return this.bankService.getDebtPaymentRequests(citizenId);
   }
