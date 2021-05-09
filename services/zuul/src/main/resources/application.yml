@@ -28,6 +28,7 @@ logging:
           client:
             RestTemplate: OFF
 zuul:
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
   host:
     connect-timeout-millis: 60000
     socket-timeout-millis: 60000
