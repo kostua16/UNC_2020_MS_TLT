@@ -2,7 +2,7 @@ import axios from 'axios'
 import AuthModule from "@/store/auth.module";
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
-const TAX_URL = process.env.VUE_APP_TAX_URL || 'localhost:8082';
+const TAX_URL = process.env.VUE_APP_TAX_URL || 'localhost:8880';
 const API_URL = HTTP_PROTOCOL + '://' + TAX_URL + '/tax';
 
 class TaxService {

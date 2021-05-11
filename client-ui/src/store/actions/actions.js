@@ -3,17 +3,12 @@ import AuthModule from '@/store/auth.module'
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
 
-const HOST_AND_PORT_BANK = process.env.VUE_APP_BANK_URL || 'localhost:8084';
-const HOST_AND_PORT_COMMUNAL = process.env.VUE_APP_COMMUNAL_URL || 'localhost:8083';
-// const HOST_AND_PORT_TAX = process.env.VUE_APP_TAX_URL || 'localhost:8082';
-const HOST_AND_PORT_PASSPORT = process.env.VUE_APP_PASSPORT_URL || 'localhost:8095';
-// const HOST_AND_PORT_GIBDD = process.env.VUE_APP_GIBDD_URL || 'localhost:8088';
-// const HOST_AND_PORT_LOGGING = process.env.VUE_APP_LOGGING_URL || 'localhost:8089';
+const API_URL = process.env.VUE_APP_BANK_URL || 'localhost:8880';
 
-const URL_BANK = HTTP_PROTOCOL + '://' + HOST_AND_PORT_BANK + '/bank'
-const URL_COMMUNAL = HTTP_PROTOCOL + '://' + HOST_AND_PORT_COMMUNAL + '/communal'
-// const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
-const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
+const URL_BANK = HTTP_PROTOCOL + '://' + API_URL + '/bank'
+const URL_COMMUNAL = HTTP_PROTOCOL + '://' + API_URL + '/communal'
+// const URL_TAX = HTTP_PROTOCOL + '://' + API_URL + '/tax'
+const URL_PASSPORT = HTTP_PROTOCOL + '://' + API_URL + '/passport'
 
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 

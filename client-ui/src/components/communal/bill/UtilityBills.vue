@@ -51,14 +51,11 @@
 
 <script>
 import UtilityBill from "@/models/communal/utility-bill";
-import UtilityBillItem from "@/components/communal/bill/UtilityBillItem";
 import {mapActions, mapGetters} from "vuex";
-import PaymentPopup from "@/components/main/popup/PaymentPopup";
 import PaymentRequest from "@/models/bank/payment-request"
 
 export default { // todo: всплывающее уведомление: данных не найдено
   name: "UtilityBills",
-  components: {UtilityBillItem, PaymentPopup},
   data() {
     return {
       snackbar: false,
