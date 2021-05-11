@@ -49,6 +49,19 @@ export default {
         state.transactions = transactions;
     },
 
+    // property tax
+    SET_CITIZEN_PROPERTY_TAX_TO_STATE(state, propertyTaxes) {
+        state.propertyTaxes = propertyTaxes;
+    },
+    CHANGE_PROPERTY_TAX_PAYMENT_STATUS(state, propertyTaxId) {
+        const id = state
+            .propertyTaxes
+            .findIndex(
+                item => item.propertyTaxId === propertyTaxId
+            );
+        state.propertyTaxes[id].isPaid = true;
+    },
+
     // utility bills
     SET_UTILITY_BILLS_TO_STATE(state, utilityBills) {
       state.utilityBills = utilityBills;

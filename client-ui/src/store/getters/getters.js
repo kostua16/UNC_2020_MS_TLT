@@ -19,6 +19,10 @@ export default {
         return state.propertyTaxValues;
     },
 
+    GET_CITIZEN_PROPERTY_TAXES(state) {
+        return state.propertyTaxes;
+    },
+
     // utility bills
     GET_UTILITY_BILLS(state) {
         return state.utilityBills.sort((a, b) => {

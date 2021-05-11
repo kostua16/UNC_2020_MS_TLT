@@ -49,8 +49,8 @@ operation::addRegistrationTest[snippets='curl-request,http-request,http-response
 == Registration of new property
 operation::addCitizensPropertyTest[snippets='curl-request,http-request,http-response,response-fields']
 
-[[getPropertiesByCitizenId]]
-== Receiving property by id of a citizen
-operation::getPropertiesByCitizenId[snippets='curl-request,http-request,http-response,response-fields']
+[[addPropertyTaxValue]]
+== Adding property tax value
+operation::addRegistrationTest[snippets='curl-request,http-request,http-response,response-fields']
 
 

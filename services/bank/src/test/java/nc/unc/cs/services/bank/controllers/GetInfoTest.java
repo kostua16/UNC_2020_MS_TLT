@@ -52,8 +52,8 @@ public class GetInfoTest {
         GetInfoTest.TAX_ID_DESCR
       };
 
-  //  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP =
-  // responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
+  private static final ResponseFieldsSnippet PAYMENT_REQUEST_RESP =
+      responseFields(GetInfoTest.PAYMENT_REQUEST_DESCR);
   private static final ResponseFieldsSnippet PAYMENT_REQUESTS_RESP =
       responseFields(fieldWithPath("[]").description("PaymentRequests"))
           .andWithPrefix("[].", GetInfoTest.PAYMENT_REQUEST_DESCR);
@@ -73,7 +73,7 @@ public class GetInfoTest {
                 .contentType("application/json"))
         //        .andDo(
         //            document(
-        //                "checkPaymentStatusTest",
+        //                "checkPaymentStatusTest", PAYMENT_REQUEST_RESP))
         //                requestFields(
         //                    fieldWithPath("requestPaymentId").description("Request payment id.")
         //                ),
