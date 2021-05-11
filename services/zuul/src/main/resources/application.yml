@@ -58,7 +58,7 @@ zuul:
       sensitive-headers: "*"
       url: ${config.protocol}://${PASSPORT_URL:localhost:8095}/passport
     tax:
-      path: /passport/**
+      path: /tax/**
       service-id: TAX
       strip-prefix: true
       sensitive-headers: "*"
