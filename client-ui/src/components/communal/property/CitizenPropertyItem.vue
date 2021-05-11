@@ -16,7 +16,6 @@
               <td>{{ property.citizenId }}</td>
               <td>
                 <utilities-popup
-                    :sendUtilitiesStatus="sendUtilitiesStatus"
                     :propertyId="property.propertyId"
                 />
               </td>
@@ -32,29 +31,12 @@
 <script>
 import UtilitiesPopup from "@/components/communal/property/popup/UtilitiesPopup";
 
-const ERROR_MESSAGE = 'Error! Try later.';
-const UTILITY_BILL_SUC_MESSAGE = 'Utility bill has been created.';
-
 export default {
   name: "CitizenPropertyItem",
   props: [
     'property'
   ],
   components: {UtilitiesPopup},
-  methods: {
-    /**
-     * Вывод сообщени/статуса о проведённой операции по созданию квитанции о затраченных коммунальных услугах.
-     *
-     * @param status статус ответа от бэкенда
-     */
-    sendUtilitiesStatus(status) {
-      if (status === 200) {
-        this.message = UTILITY_BILL_SUC_MESSAGE;
-      } else {
-        this.message = ERROR_MESSAGE;
-      }
-    },
-  }
 }
 </script>
 

@@ -6,7 +6,7 @@
           width="650px"
       >
         <v-card-title>
-          <span class="headline">Оформление паспорта гражданина РФ</span>
+          <span class="headline">Оформление заграничного паспорта</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -107,21 +107,32 @@
         :timeout="timeout"
         top
     >
-      {{ notification }} {{ redirectTime }}
+      {{ notification }}
     </v-snackbar>
+    <v-row>
+      <international-card-item
+          v-for="(international, index) in getInternationalPassports"
+          :key="`international.internationalId - ${index}`"
+          :international="international"
+      />
+    </v-row>
   </v-main>
 </template>
 
 <script>
-import {mapActions} from "vuex";
-import {maxLength, minLength, required} from "vuelidate/lib/validators";
 import Citizen from "@/models/passport/citizen";
+import {maxLength, minLength, required} from "vuelidate/lib/validators";
+import {mapActions, mapGetters} from "vuex";
+import International from "@/models/passport/international";
+import InternationalCardItem from "@/components/passport/international/InternationalCardItem";
 
 export default {
-  name: "DomesticRegistration",
+  name: "International",
+  components: {InternationalCardItem},
   data() {
     return {
       citizen: new Citizen(),
+      international: new International(),
       number: 0,
       menu: false,
       name: '',
@@ -131,11 +142,10 @@ export default {
       notification: '',
       timeout: 5000,
       notificationColor: '',
-      redirectTime: '',
     }
   },
   watch: {
-    menu(val) { // start from year
+    menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
     },
   },
@@ -145,6 +155,10 @@ export default {
     dateOfBirth: {required},
   },
   computed: {
+    ...mapGetters(['GET_INTERNATIONAL_PASSPORTS']),
+    getInternationalPassports() {
+      return this.GET_INTERNATIONAL_PASSPORTS
+    },
     nameErrors() {
       const errors = []
       if (!this.$v.name.$dirty) return errors
@@ -171,7 +185,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['REGISTER_DOMESTIC_PASSPORT_ACTION']),
+    ...mapActions([
+      'REGISTER_INTERNATIONAL_PASSPORT_ACTION',
+      'GET_INTERNATIONAL_FROM_API'
+    ]),
     registerDomestic() {
       if (this.$v.$invalid) {
         this.$v.$touch();
@@ -180,30 +197,21 @@ export default {
       this.citizen.name = this.name
       this.citizen.surname = this.surname
       this.citizen.dateOfBirth = this.dateOfBirth
-      console.log('Data for passport registration: ', this.citizen)
-      this.REGISTER_DOMESTIC_PASSPORT_ACTION(this.citizen)
+      this.REGISTER_INTERNATIONAL_PASSPORT_ACTION(this.citizen)
           .then(status => {
             if (status === 200) {
               this.notificationColor = 'green'
-              this.notification = 'Паспорт оформлен! Вы будете перенаправлены в личный кабинет через '
+              this.notification = 'Заграничный паспорт оформлен! Вы будете перенаправлены в личный кабинет через '
               this.redirectTime = 3
               this.timeout = 3000
               this.snackbar = true
-              setTimeout(() => this.$router.push('/profile'), 3000, this.interval())
+              this.clear()
             } else {
               this.notification = 'Произошла ошибка! Попробуйте позже.'
               this.notificationColor = 'red'
               this.snackbar = true
             }
           })
-    },
-    interval() {
-      setInterval(() => {
-        if (this.redirectTime === 0) {
-          (this.redirectTime = 0)
-        }
-        this.redirectTime -= 1
-      }, 950);
     },
     clear() {
       this.$v.$reset()
@@ -215,17 +223,14 @@ export default {
       this.$refs.menu.save(date)
     },
   },
-  // watch: {
-  //   value (redirectTime) {
-  //     setInterval(() => {
-  //           if (this.redirectTime === 0) {
-  //             return (this.redirectTime = 0)
-  //           }
-  //           return this.redirectTime -= 1
-  //         }, 950
-  //     )
-  //   }
-  //   }
+  created() {
+    this.GET_INTERNATIONAL_FROM_API()
+        .then(response => {
+          if (response.status !== 200) {
+            // notification and redirect
+          }
+        })
+  }
 }
 </script>
 

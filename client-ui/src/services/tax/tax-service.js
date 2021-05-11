@@ -17,8 +17,11 @@ class TaxService {
     getALlTaxes() {
         return axios.get(API_URL)
             .then(response => {
-                console.log(response.data)
-                response.data
+                return response
+            })
+            .catch(error => {
+                console.error('Не удалосб получить налоги!\n', error.response.status)
+                return error
             });
     }
 }

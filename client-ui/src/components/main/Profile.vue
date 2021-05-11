@@ -72,7 +72,7 @@ import PaymentRequest from '@/models/bank/payment-request'
 import PaymentPopup from "@/components/main/popup/PaymentPopup";
 import DomesticCard from "@/components/passport/DomesticCard";
 
-export default {
+export default { // todo: skeleton loader
   name: "Profile",
   components: {PaymentPopup, DomesticCard},
   data() {
