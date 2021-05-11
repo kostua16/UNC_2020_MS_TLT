@@ -143,13 +143,13 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
     },
     city: {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
     },
     street: {
       required,
@@ -161,13 +161,13 @@ export default {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartment: {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartmentSize: {required, numeric, minValue: minValue(10)},
   },
@@ -177,7 +177,7 @@ export default {
       if (!this.$v.region.$dirty) return errors
       !this.$v.region.minLength && errors.push('Название региона должно состоять из не менее, чем из 2 букв!')
       !this.$v.region.maxLength && errors.push('Название региона должно состоять из не более, чем из 40 букв!')
-      !this.$v.region.alpha && errors.push('Название региона должно состоять из букв русского алфавита.')
+      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская", "Ямало-Ненецкий"')
       !this.$v.region.required && errors.push('Это обязательное поле!')
       return errors
     },
@@ -186,7 +186,7 @@ export default {
       if (!this.$v.city.$dirty) return errors
       !this.$v.city.minLength && errors.push('Название города должно состоять из не менее, чем из 2 букв!')
       !this.$v.city.maxLength && errors.push('Название города должно состоять из не более, чем из 40 букв!')
-      !this.$v.city.alpha && errors.push('Название города должно состоять из букв русского алфавита.')
+      !this.$v.city.alpha && errors.push('Неверный формат города! Пример: "Санкт-Петербург", "Самара')
       !this.$v.city.required && errors.push('Это обязательное поле!')
       return errors
     },

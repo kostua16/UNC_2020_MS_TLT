@@ -41,9 +41,13 @@ Nikita Zabegaev ;
 | link:/{root}/http_codes.html[HTTP Codes]
 |===
 
-[[addCitizensProperty]]
+[[addRegistrationTest]]
+== Adds registration to the citizen
+operation::addRegistrationTest[snippets='curl-request,http-request,http-response,response-fields']
+
+[[addCitizensPropertyTest]]
 == Registration of new property
-operation::addCitizensProperty[snippets='curl-request,http-request,http-response,response-fields']
+operation::addCitizensPropertyTest[snippets='curl-request,http-request,http-response,response-fields']
 
 [[getPropertiesByCitizenId]]
 == Receiving property by id of a citizen

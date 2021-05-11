@@ -24,7 +24,7 @@
             :length="pageCount"
         ></v-pagination>
         <v-row justify="center">
-          <v-col sm="6">
+          <v-col sm="4">
             <v-text-field
                 :value="itemsPerPage"
                 :error-messages="pageErrors"
