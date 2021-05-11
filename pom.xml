@@ -22,7 +22,7 @@
     <spring-cloud.version>2020.0.2</spring-cloud.version>
     <zipkin.version>2.12.9</zipkin.version>
     <sonar.version>3.9.0.2155</sonar.version>
-    <jacoco.version>0.8.6</jacoco.version>
+    <jacoco.version>0.8.7</jacoco.version>
     <modelmapper.version>2.4.3</modelmapper.version>
     <minidev.version>1.0.2</minidev.version>
     <springdoc.version>1.5.8</springdoc.version>
