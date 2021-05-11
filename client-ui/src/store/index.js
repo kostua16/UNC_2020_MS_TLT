@@ -6,7 +6,6 @@ import actions from './actions/actions'
 import getters from './getters/getters'
 import auth from './auth.module'
 import Domestic from "@/models/passport/domestic";
-import International from "@/models/passport/international";
 
 Vue.use(Vuex)
 

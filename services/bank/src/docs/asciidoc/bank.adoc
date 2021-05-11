@@ -1,5 +1,4 @@
 = Bank API Guide
-Gorbatiuk Artyom;
 
 [[javadocs]]
 == Javadocs
@@ -10,17 +9,13 @@ Gorbatiuk Artyom;
 | link:/{jdocs}/nc/unc/cs/services/common/clients/bank/BankService.html[Bank Client]
 | link:/{jdocs}/nc/unc/cs/services/bank/services/BankService.html[BankService]
 
-|===
-|===
-| Entity | Client API | Service Impl
 
 | Bank specification
 | link:/{jdocs}/nc/unc/cs/services/common/clients/bank/PaymentPayload.html[PaymentPayload]
 | link:/{jdocs}/nc/unc/cs/services/bank/entities/PaymentRequest.html[PaymentRequest]
+| link:/{jdocs}/nc/unc/cs/services/bank/entities/Transaction.html[Transaction]
 
 |===
-
-
 
 [[agenda]]
 == Agenda
@@ -34,16 +29,20 @@ Gorbatiuk Artyom;
 | link:/{root}/http_codes.html[HTTP Codes]
 |===
 
-[[findPaymentRequestById]]
-== finding a request for payment by id
-operation::findPaymentRequestById[snippets='curl-request,http-request,http-response,response-fields']
+[[requestPaymentTest]]
+== Registration of performed services
+operation::requestPaymentTest[snippets='curl-request,http-request,http-response']
 
-[[requestPayment]]
-== registration of performed services
-operation::requestPayment[snippets='curl-request,http-request,http-response,response-fields']
+[[paymentTest]]
+== Bills payment
+operation::paymentTest[snippets='curl-request,http-request,http-response,response-fields']
 
-[[payment]]
-== bill payment
-operation::payment[snippets='curl-request,http-request,http-response,response-fields']
+[[checkPaymentStatusTest]]
+== Checking invoice payment status
+operation::checkPaymentStatusTest[snippets='curl-request,http-request,http-response,response-fields']
+
+[[getDebtPaymentRequestsTest]]
+== Receiving unpaid invoices by citizen ID
+operation::getDebtPaymentRequestsTest[snippets='curl-request,http-request,http-response,response-fields']
 
 

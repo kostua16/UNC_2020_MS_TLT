@@ -8,15 +8,23 @@
 
 | GIBDD Service
 | link:/{root}/gibdd.html[Gibdd]
-| Sample service to manipulate cars informantion
+| Sample service to manipulate cars information
+
+| Bank Service
+| link:/{root}/bank.html[Bank]
+| Sample service to manipulate bank information and operations
 
 | Communal Service
 | link:/{root}/communal.html[Communal]
-| Sample service to manipulate communal services
+| An example of a service that implements the functions of housing and communal services.
 
 | Passport Service
-| link:/{root}/passport.html[Communal]
-| Sample service to manipulate communal services
+| link:/{root}/passport.html[Passport]
+| Sample service to manipulate personal information of a citizen
+
+| Tax Service
+| link:/{root}/tax.html[Tax]
+| Sample service to manipulate tax information
 
 |===
 

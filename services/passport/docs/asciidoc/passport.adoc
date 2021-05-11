@@ -40,18 +40,11 @@ Zabegaev Nikita;
 | link:/{root}/http_codes.html[HTTP Codes]
 |===
 
-[[registerDomesticPassport]]
+[[registerDomesticPassportTest]]
 == Registration of new domestic passport
-operation::registerDomesticPassport[snippets='curl-request,http-request,http-response,response-fields']
+operation::registerDomesticPassportTest[snippets='curl-request,http-request,http-response,response-fields']
 
-[[updateDomestic]]
-== Receiving property by id of a citizen
-operation::updateDomestic[snippets='curl-request,http-request,http-response,response-fields']
+[[UpdateDomesticTest]]
+== Updating an existing passport
+operation::UpdateDomesticTest[snippets='curl-request,http-request,http-response,response-fields']
 
-[[registerInternationalPassport]]
-== Registration of new domestic passport
-operation::registerInternationalPassport[snippets='curl-request,http-request,http-response,response-fields']
-
-[[updateInternational]]
-== Receiving property by id of a citizen
-operation::updateInternational[snippets='curl-request,http-request,http-response,response-fields']
