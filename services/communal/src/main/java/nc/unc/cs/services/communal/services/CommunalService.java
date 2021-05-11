@@ -53,10 +53,27 @@ public class CommunalService {
    *     региону
    */
   public UtilitiesPriceList findPriceListByRegion(final String region) {
-    final UtilitiesPriceList priceList =
+    final UtilitiesPriceList priceList;
+    final UtilitiesPriceList utilitiesPriceList =
         this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(region);
-    if (priceList == null) {
-      throw new UtilitiesPriceListNotFoundException(region);
+    if (utilitiesPriceList == null) {
+      final UtilitiesPriceList defaultPriceList =
+          this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion("DEFAULT");
+      logger.info("Default price list is used!");
+      if (defaultPriceList == null) {
+        priceList =
+            UtilitiesPriceList.builder()
+                .region("DEFAULT")
+                .coldWaterPrice(1)
+                .hotWaterPrice(5)
+                .electricityPrice(5)
+                .build();
+        this.utilitiesPriceListRepository.save(priceList);
+      } else {
+        priceList = defaultPriceList;
+      }
+    } else {
+      priceList = utilitiesPriceList;
     }
     return priceList;
   }

@@ -1,14 +1,10 @@
 package nc.unc.cs.services.communal.services;
 
-import feign.FeignException;
 import java.util.List;
 import nc.unc.cs.services.communal.controllers.payloads.CreationPropertyTaxValue;
-import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
-import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxNotFoundException;
-import nc.unc.cs.services.communal.exceptions.PropertyTaxValueNotFoundException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
@@ -138,71 +134,6 @@ public class PropertyTaxService {
             * pricePerSquareMeter
             / PERCENT_DIVISOR
             * (cadastralValue / PERCENT_DIVISOR));
-  }
-
-  /**
-   * Возвращает прайс-лист для имущественного расчёта налога.
-   *
-   * @param region наименование региона
-   * @return прайс-лист
-   * @throws PropertyTaxValueNotFoundException если не удасться найти прайс-лист с заданным регионом
-   */
-  public PropertyTaxValue findPropertyTaxValueByRegion(final String region)
-      throws PropertyTaxValueNotFoundException {
-    final PropertyTaxValue propertyTaxValue =
-        this.propertyTaxValueRepository.findPropertyTaxValueByRegion(region);
-    if (propertyTaxValue == null) {
-      throw new PropertyTaxValueNotFoundException(region);
-    }
-    return propertyTaxValue;
-  }
-
-  /**
-   * Возвращает данные о объект недвижимость.
-   *
-   * @param propertyId идентификатор недвижимости
-   * @return объект недвижимость
-   * @throws PropertyNotFoundException если не удасться найти недвижимость с заданным
-   *     идентификатором
-   */
-  public Property findPropertyById(final Long propertyId) throws PropertyNotFoundException {
-    final Property property = this.propertyRepository.findPropertyByPropertyId(propertyId);
-    if (property == null) {
-      throw new PropertyNotFoundException(propertyId);
-    }
-    return property;
-  }
-
-  /**
-   * Создаёт налог на недвижимость.
-   *
-   * @param propertyId идетнтификатор недвижимости
-   * @return http-ответ, в теле которого находится налоговая квитанция
-   * @throws FeignException если не удасться обратиться к Банковскому сервису
-   */
-  public ResponseEntity<PropertyTax> calculatePropertyTax(final Long propertyId)
-      throws FeignException {
-    final Property property = this.findPropertyById(propertyId);
-    final PropertyTaxValue propertyTaxValue =
-        this.findPropertyTaxValueByRegion((property.getRegion()));
-    final Integer amount =
-        this.calculatePropertyTaxAmount(
-            Double.valueOf(property.getApartmentSize()),
-            Double.valueOf(propertyTaxValue.getPricePerSquareMeter()),
-            Double.valueOf(propertyTaxValue.getCadastralValue()));
-
-    final PropertyTax propertyTax =
-        PropertyTax.builder()
-            .propertyId(property.getPropertyId())
-            .citizenId(property.getCitizenId())
-            .taxAmount(amount)
-            .paymentRequestId(
-                this.bankIntegrationService.bankRequest(
-                    SERVICE_ID, property.getCitizenId(), amount, TAX_PERCENT))
-            .build();
-    this.propertyTaxRepository.save(propertyTax);
-    LOGGER.info("PropertyTax successfully created");
-    return ResponseEntity.ok(propertyTax);
   }
 
   /**
