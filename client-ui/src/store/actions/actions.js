@@ -3,7 +3,7 @@ import AuthModule from '@/store/auth.module'
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
 
-const API_URL = process.env.VUE_APP_BANK_URL || 'localhost:8880';
+const API_URL = process.env.VUE_APP_API_URL || 'localhost:8880';
 
 const URL_BANK = HTTP_PROTOCOL + '://' + API_URL + '/bank'
 const URL_COMMUNAL = HTTP_PROTOCOL + '://' + API_URL + '/communal'

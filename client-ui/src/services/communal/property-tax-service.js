@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
-const COMMUNAL_URL = process.env.VUE_APP_COMMUNAL_URL || 'localhost:8880';
+const COMMUNAL_URL = process.env.VUE_APP_API_URL || 'localhost:8880';
 const PROPERTY_TAX_API_URL = HTTP_PROTOCOL + '://' + COMMUNAL_URL + '/communal/property-tax';
 
 class PropertyTaxService {
