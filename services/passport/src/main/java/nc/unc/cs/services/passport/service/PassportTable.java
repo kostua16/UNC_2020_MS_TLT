@@ -1,6 +1,7 @@
 package nc.unc.cs.services.passport.service;
 
 import feign.FeignException;
+import java.util.List;
 import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PassportTable {
+  /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(PassportTable.class);
+
   private final InternationalRepository internationalRepository;
   private final DomesticRepository domesticRepository;
   private final Random random = new Random();
@@ -228,5 +231,15 @@ public class PassportTable {
    */
   public Domestic getDomesticByCitizenId(final Long citizenId) {
     return this.domesticRepository.findDomesticByDomesticId(citizenId);
+  }
+
+  /**
+   * Возвращает паспорт гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return http-отве, в теле которого находится паспорт гражданина
+   */
+  public List<International> getInternationalsByCitizenId(final Long citizenId) {
+    return this.internationalRepository.findInternationalsByCitizenId(citizenId);
   }
 }

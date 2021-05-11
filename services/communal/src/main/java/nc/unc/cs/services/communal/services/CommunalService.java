@@ -204,4 +204,14 @@ public class CommunalService {
   public List<UtilityBill> getAllUtilityBills() {
     return this.utilityBillRepository.findAll();
   }
+
+  /**
+   * Возвращает список коммунальных квитанций конкретного гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return список кв\оммунальных квитанций
+   */
+  public List<UtilityBill> getCitizenUtilityBills(final Long citizenId) {
+    return this.utilityBillRepository.findUtilityBillsByCitizenId(citizenId);
+  }
 }

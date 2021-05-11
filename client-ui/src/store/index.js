@@ -20,7 +20,7 @@ export default new Vuex.Store({
         transactions: [],
         propertyTaxes: [],
         domestic: new Domestic(),
-        international: new International(),
+        internationals: [],
     },
     mutations,
     actions,

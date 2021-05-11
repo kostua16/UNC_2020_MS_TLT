@@ -7,9 +7,27 @@
   >
     <v-card-title>{{ domestic.surname }} {{ domestic.name }}</v-card-title>
     <v-list>
-      <v-list-item>Дата Рождения: {{ domestic.dateOfBirth | moment }}</v-list-item>
-      <v-list-item>Серия/Номер: {{ domestic.series }} / {{ domestic.number }}</v-list-item>
-      <v-list-item>Тут вытягивается регитсрация</v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col sm="4">
+            Дата Рождения:
+          </v-col>
+          <v-col class="font-weight-bold">
+            {{ domestic.dateOfBirth | moment }}
+          </v-col>
+        </v-row>
+      </v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col sm="4">
+            Серия/Номер:
+          </v-col>
+          <v-col class="font-weight-bold">
+            {{ domestic.series }} / {{ domestic.number }}
+          </v-col>
+        </v-row>
+      </v-list-item>
+      <!--      <v-list-item>Тут вытягивается регитсрация</v-list-item>  class="font-weight-bold"-->
     </v-list>
     <v-card-actions class="card_action">
       <v-btn>
@@ -35,7 +53,7 @@
       <v-card-text
           class="mt-12 text-xs-center black--text text-h5"
       >
-        У вас ещё нет пасспорта гражданина РФ. Оформите его сейчас!
+        У вас ещё нет паспорта гражданина РФ. Оформите его сейчас!
       </v-card-text>
     </v-card>
   </v-hover>

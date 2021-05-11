@@ -17,6 +17,7 @@
 
   <properties>
     <build.repackage>true</build.repackage>
+    <zuul.version>2.2.8.RELEASE</zuul.version>
   </properties>
 
   <modules>
@@ -28,6 +29,7 @@
     <module>communal</module>
     <module>common</module>
     <module>account</module>
+      <module>zuul</module>
   </modules>
 
 
@@ -101,6 +103,13 @@
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+      <version>${zuul.version}</version>
+    </dependency>
+
 
   </dependencies>
 
