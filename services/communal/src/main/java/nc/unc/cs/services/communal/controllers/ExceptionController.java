@@ -46,13 +46,6 @@ public class ExceptionController {
     return new ResponseEntity<>(ptv.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(value = {UtilitiesPriceListNotFoundException.class})
-  public ResponseEntity<Object> propertyTaxValueNotFoundException(
-      final UtilitiesPriceListNotFoundException upe) {
-    LOGGER.error("Utilities Price List Not Found!", upe);
-    return new ResponseEntity<>(upe.getMessage(), HttpStatus.BAD_REQUEST);
-  }
-
   @ExceptionHandler(value = {UtilityBillPaymentException.class})
   public ResponseEntity<Object> propertyTaxValueNotFoundException(
       final UtilityBillPaymentException upe) {

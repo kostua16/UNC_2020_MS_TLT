@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "communal/utilities")
 @Tag(name = "Utility Bill Api", description = "API for creating utility bill")
-@CrossOrigin
 public class UtilityBillController {
 
   private final CommunalService communalService;
