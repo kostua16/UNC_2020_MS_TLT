@@ -4,7 +4,6 @@ import feign.FeignException;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxValueNotFoundException;
-import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
 import nc.unc.cs.services.communal.exceptions.UtilityBillPaymentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
