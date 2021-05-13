@@ -44,6 +44,32 @@ services:
       - SPRING_PROFILES_ACTIVE=native
     ports:
       - "8762:8080"
+  proxy:
+    restart: always
+    build:
+      context: .
+      args:
+        JAR_FILE: proxy/target/proxy-0.0.1-SNAPSHOT.jar
+    container_name: proxy
+    depends_on:
+      - discovery
+      - config
+    deploy:
+      resources:
+        limits:
+          cpus: 0.50
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - APP_URL=proxy:8080
+      - FRONTEND_URI=http://frontend:3000
+    ports:
+      - "8080:8080"
   logging:
     restart: always
     build:
@@ -247,8 +273,8 @@ services:
       resources:
         limits:
           cpus: 0.50
-          memory: 300M
+          memory: 40M
         reservations:
-          memory: 100M
+          memory: 10M
     ports:
-      - "3000:8080"
+      - "3000:3000"

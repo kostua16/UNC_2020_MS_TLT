@@ -1,36 +1,25 @@
 app:
   local-url: 127.0.0.1:${server.port}
   public-url: ${APP_URL:${app.local-url}}
-  bank-url: ${BANK_URL:127.0.0.1:8084}
-  tax-url: ${TAX_URL:127.0.0.1:8082}
-  logging-url: ${LOGGING_URL:127.0.0.1:8089}
-  passport-url: ${PASSPORT_URL:127.0.0.1:8095}
-  account-url: ${ACCOUNT_URL:127.0.0.1:8085}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020}
   user: ${EUREKA_UID:unc2020}
   host: ${EUREKA_HOST:127.0.0.1:8761}
   protocol: ${EUREKA_PROTOCOL:http}
   url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
-config:
-  password: ${CFG_PASSWORD:unc2020}
-  user: ${CFG_UID:unc2020}
-  host: ${CFG_HOST:127.0.0.1:8762}
-  protocol: ${CFG_PROTOCOL:http}
-  url: ${config.protocol}://${config.user}:${config.password}@${config.host}/
-server:
-  port: ${PORT:8880}
 spring:
   application:
-    name: ZUUL
-  cloud:
-    config:
-      uri: ${config.url}
-      fail-fast: true
-      label: master
+    name: proxy
+  main:
+    banner-mode: off
+  security:
+    user:
+      password: ${discovery.password}
+      name: ${discovery.user}
+server:
+  port: ${PORT:8080}
 eureka:
   client:
-    fetchRegistry: true
     service-url:
       defaultZone: ${discovery.url}
   instance:
