@@ -13,8 +13,6 @@ import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.service.PassportTable;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 class RegistrDomesticTest {
   private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
-  private static final Logger logger = LoggerFactory.getLogger(RegistrDomesticTest.class);
 
   private static final FieldDescriptor REGISTRATION_DESCR =
       fieldWithPath("registration").type(String.class).description("registration of citizen.");
