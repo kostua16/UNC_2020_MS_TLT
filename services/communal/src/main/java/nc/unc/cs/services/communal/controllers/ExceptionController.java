@@ -4,7 +4,7 @@ import feign.FeignException;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxNotFoundException;
 import nc.unc.cs.services.communal.exceptions.PropertyTaxValueNotFoundException;
-import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
+import nc.unc.cs.services.communal.exceptions.UtilityBillPaymentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -45,10 +45,10 @@ public class ExceptionController {
     return new ResponseEntity<>(ptv.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(value = {UtilitiesPriceListNotFoundException.class})
+  @ExceptionHandler(value = {UtilityBillPaymentException.class})
   public ResponseEntity<Object> propertyTaxValueNotFoundException(
-      final UtilitiesPriceListNotFoundException upe) {
-    LOGGER.error("Utilities Price List Not Found!", upe);
+      final UtilityBillPaymentException upe) {
+    LOGGER.error("Failed to change utility bill payment status!\n", upe);
     return new ResponseEntity<>(upe.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }

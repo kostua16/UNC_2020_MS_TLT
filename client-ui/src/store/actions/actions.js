@@ -3,17 +3,12 @@ import AuthModule from '@/store/auth.module'
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
 
-const HOST_AND_PORT_BANK = process.env.VUE_APP_BANK_URL || 'localhost:8084';
-const HOST_AND_PORT_COMMUNAL = process.env.VUE_APP_COMMUNAL_URL || 'localhost:8083';
-// const HOST_AND_PORT_TAX = process.env.VUE_APP_TAX_URL || 'localhost:8082';
-const HOST_AND_PORT_PASSPORT = process.env.VUE_APP_PASSPORT_URL || 'localhost:8095';
-// const HOST_AND_PORT_GIBDD = process.env.VUE_APP_GIBDD_URL || 'localhost:8088';
-// const HOST_AND_PORT_LOGGING = process.env.VUE_APP_LOGGING_URL || 'localhost:8089';
+const API_URL = process.env.VUE_APP_API_URL || 'localhost:8880';
 
-const URL_BANK = HTTP_PROTOCOL + '://' + HOST_AND_PORT_BANK + '/bank'
-const URL_COMMUNAL = HTTP_PROTOCOL + '://' + HOST_AND_PORT_COMMUNAL + '/communal'
-// const URL_TAX = HTTP_PROTOCOL + '://' + HOST_AND_PORT_TAX + '/tax'
-const URL_PASSPORT = HTTP_PROTOCOL + '://' + HOST_AND_PORT_PASSPORT + '/passport'
+const URL_BANK = HTTP_PROTOCOL + '://' + API_URL + '/bank'
+const URL_COMMUNAL = HTTP_PROTOCOL + '://' + API_URL + '/communal'
+// const URL_TAX = HTTP_PROTOCOL + '://' + API_URL + '/tax'
+const URL_PASSPORT = HTTP_PROTOCOL + '://' + API_URL + '/passport'
 
 const PROPERTY_API_URL = URL_COMMUNAL + '/property';
 
@@ -54,6 +49,32 @@ export default {
             })
             .catch(error => {
                 console.error('Failed to add property', error.response.headers);
+                return error.response.status;
+            })
+    },
+
+    GET_CITIZEN_PROPERTY_TAXES_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + '/property-tax/citizen/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_CITIZEN_PROPERTY_TAX_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get citizen property tax', error.response.status);
+                return error.response.status;
+            })
+    },
+
+    CHANGE_PROPERTY_TAX_PAYMENT_STATUS_ACTION({commit}, propertyTaxId) {
+        return axios
+            .put(URL_COMMUNAL + '/property-tax/pay/' + propertyTaxId, {}, {})
+            .then(response => {
+                commit('CHANGE_PROPERTY_TAX_PAYMENT_STATUS', response.data.propertyTaxId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to change property tax payment status!', error.response.status);
                 return error.response.status;
             })
     },
@@ -204,6 +225,33 @@ export default {
             })
     },
 
+    GET_UTILITY_BILLS_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + '/utilities/citizen/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_UTILITY_BILLS_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                return error.response.status;
+            })
+    },
+    CHANGE_UTILITY_BILL_PAYMENT_STATUS({commit}, utilityBill) {
+        return axios.put(
+            URL_COMMUNAL + '/utilities/' + utilityBill.paymentRequestId,
+            {},
+            {}
+        )
+            .then(response => {
+                commit('UPDATE_UTILITY_BILL_PAY_STATUS', utilityBill.utilityBillId);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to change utility payment status!');
+                return error.response.status;
+            })
+    },
+
     GET_PERIOD_TRANSACTION_FROM_API({commit}, period) {
         return axios
             .post(
@@ -278,7 +326,7 @@ export default {
                     isActive: updateDomestic.isActive,
                     series: updateDomestic.series,
                     number: updateDomestic.number,
-                    citizenId: updateDomestic.citizenId,
+                    citizenId: AuthModule.state.user.citizenId,
                 },
                 {}
             )
@@ -292,15 +340,18 @@ export default {
             })
     },
 
-    GET_INTERNATIONAL_FROM_API({commit}, citizenId) {
+    GET_INTERNATIONAL_FROM_API({commit}) {
         return axios
-            .get(URL_PASSPORT + '/international/citizen/' + citizenId, {})
+            .get(
+                URL_PASSPORT + '/international/citizen/' + AuthModule.state.user.citizenId,
+                {}
+            )
             .then(response => {
-                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                commit('SET_INTERNATIONAL_PASSPORTS_TO_STATE', response.data);
                 return response.status;
             })
             .catch(error => {
-                console.error('Failed to get international passport', error.statusMessage);
+                console.error('Failed to get international passport', error.response.statusMessage);
                 return error.response.status;
             })
     },
@@ -316,7 +367,7 @@ export default {
                     surname: international.surname,
                     dateOfBirth: international.dateOfBirth,
                     isActive: international.isActive,
-                    citizenId: international.citizenId
+                    citizenId: AuthModule.state.user.citizenId
                 },
                 {}
             )
@@ -328,6 +379,28 @@ export default {
                 console.error('Failed to update international passport!', error.status)
                 return error.response.status;
             })
-    }
+    },
 
+    REGISTER_INTERNATIONAL_PASSPORT_ACTION({commit}, citizen) {
+        return axios
+            .post(
+                URL_PASSPORT + '/registerInternational',
+                {
+                    name: citizen.name,
+                    surname: citizen.surname,
+                    dateOfBirth: citizen.dateOfBirth,
+                    registration: 'unknown', // todo: remove hard code
+                    citizenId: AuthModule.state.user.citizenId,
+                },
+                {}
+            )
+            .then(response => {
+                commit('SET_INTERNATIONAL_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to create international passport!', error.response.status);
+                return error.response.status;
+            })
+    },
 }

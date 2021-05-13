@@ -49,6 +49,32 @@ export default {
         state.transactions = transactions;
     },
 
+    // property tax
+    SET_CITIZEN_PROPERTY_TAX_TO_STATE(state, propertyTaxes) {
+        state.propertyTaxes = propertyTaxes;
+    },
+    CHANGE_PROPERTY_TAX_PAYMENT_STATUS(state, propertyTaxId) {
+        const id = state
+            .propertyTaxes
+            .findIndex(
+                item => item.propertyTaxId === propertyTaxId
+            );
+        state.propertyTaxes[id].isPaid = true;
+    },
+
+    // utility bills
+    SET_UTILITY_BILLS_TO_STATE(state, utilityBills) {
+      state.utilityBills = utilityBills;
+    },
+    UPDATE_UTILITY_BILL_PAY_STATUS(state, utilityBillId) {
+        const id = state
+            .utilityBills
+            .findIndex(
+                item => item.utilityBillId === utilityBillId
+            );
+        state.utilityBills[id].isPaid = true;
+    },
+
     // passport
     SET_DOMESTIC_TO_STATE(state, domestic) {
         state.domestic = domestic;
@@ -56,8 +82,11 @@ export default {
     UPDATE_DOMESTIC(state, updateDomestic) {
         state.domestic = updateDomestic;
     },
+    SET_INTERNATIONAL_PASSPORTS_TO_STATE(state, internationals) {
+        state.internationals = internationals;
+    },
     SET_INTERNATIONAL_TO_STATE(state, international) {
-        state.international = international;
+        state.internationals.push(international);
     },
     UPDATE_INTERNATIONAL(state, updateInternational) {
         state.international = updateInternational;

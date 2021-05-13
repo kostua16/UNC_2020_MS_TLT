@@ -17,14 +17,17 @@ import lombok.ToString;
 @Builder
 public class CreationTax {
 
+  /** ID of the service. */
   @NotNull(message = "Incorrect service ID")
   @Min(1L)
   private Long serviceId;
 
+  /** ID of the citizen. */
   @NotNull(message = "Incorrect citizen ID")
   @Min(1L)
   private Long citizenId;
 
+  /** Tax amount. */
   @NotNull(message = "Incorrect tax amount")
   @Min(1)
   private Integer taxAmount;

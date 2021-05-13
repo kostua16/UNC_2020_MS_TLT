@@ -15,12 +15,14 @@
           ></v-text-field>
         </v-col>
 
-        <utilities-price-list-item
-            v-for="(utilitiesPriceList, index) in filteredPriceList"
-            :key="`utilitiesPriceList.id - ${index}`"
-            :utilitiesPriceList="utilitiesPriceList"
-            :editPriceLIst="editPriceLIst"
-        />
+        <v-row justify="center">
+            <utilities-price-list-item
+                v-for="(utilitiesPriceList, index) in filteredPriceList"
+                :key="`utilitiesPriceList.id - ${index}`"
+                :utilitiesPriceList="utilitiesPriceList"
+                :editPriceLIst="editPriceLIst"
+            />
+        </v-row>
       </v-layout>
     </v-container>
   </v-main>

@@ -8,6 +8,7 @@ import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilityBill;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
+import nc.unc.cs.services.communal.exceptions.UtilityBillPaymentException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.UtilitiesPriceListRepository;
 import nc.unc.cs.services.communal.repositories.UtilityBillRepository;
@@ -53,10 +54,27 @@ public class CommunalService {
    *     региону
    */
   public UtilitiesPriceList findPriceListByRegion(final String region) {
-    final UtilitiesPriceList priceList =
+    final UtilitiesPriceList priceList;
+    final UtilitiesPriceList utilitiesPriceList =
         this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion(region);
-    if (priceList == null) {
-      throw new UtilitiesPriceListNotFoundException(region);
+    if (utilitiesPriceList == null) {
+      final UtilitiesPriceList defaultPriceList =
+          this.utilitiesPriceListRepository.findUtilitiesPriceListByRegion("DEFAULT");
+      logger.info("Default price list is used!");
+      if (defaultPriceList == null) {
+        priceList =
+            UtilitiesPriceList.builder()
+                .region("DEFAULT")
+                .coldWaterPrice(1)
+                .hotWaterPrice(5)
+                .electricityPrice(5)
+                .build();
+        this.utilitiesPriceListRepository.save(priceList);
+      } else {
+        priceList = defaultPriceList;
+      }
+    } else {
+      priceList = utilitiesPriceList;
     }
     return priceList;
   }
@@ -186,5 +204,39 @@ public class CommunalService {
    */
   public List<UtilityBill> getAllUtilityBills() {
     return this.utilityBillRepository.findAll();
+  }
+
+  /**
+   * Возвращает список коммунальных квитанций конкретного гражданина.
+   *
+   * @param citizenId идентификатор гражданина
+   * @return список кв\оммунальных квитанций
+   */
+  public List<UtilityBill> getCitizenUtilityBills(final Long citizenId) {
+    return this.utilityBillRepository.findUtilityBillsByCitizenId(citizenId);
+  }
+
+  /**
+   * Изменение статуса оплаты коммунальной квитанции.
+   *
+   * @param paymentRequestId идентификатор выставленного счёта
+   * @return обнавлённая коммунальная квитанция
+   * @exception UtilityBillPaymentException если квитанция уже оплачена или её не существует
+   */
+  public ResponseEntity<UtilityBill> changeUtilityBillPaymentStatus(final Long paymentRequestId) {
+    final UtilityBill utilityBill =
+        this.utilityBillRepository.findUtilityBillByPaymentRequestId(paymentRequestId);
+    if (utilityBill == null
+        || utilityBill.getIsPaid()
+        || !this.bankIntegrationService.checkPaymentStatus(paymentRequestId)) {
+      throw new UtilityBillPaymentException(paymentRequestId);
+    } else {
+      utilityBill.setIsPaid(true);
+      this.utilityBillRepository.save(utilityBill);
+      logger.info(
+          "Payment status UtilityBill with ID = {} has been changed!",
+          utilityBill.getUtilityBillId());
+      return ResponseEntity.ok(utilityBill);
+    }
   }
 }

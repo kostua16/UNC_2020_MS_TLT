@@ -1,79 +1,121 @@
 <template>
-  <v-container>
-    <v-text-field
-        type="text"
-        label="Область"
-        v-model.trim="region"
-        :error-messages="regionErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.region.$touch()"
-        @blur="$v.region.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Населённый пункт"
-        v-model.trim="city"
-        :error-messages="cityErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.city.$touch()"
-        @blur="$v.city.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Улица"
-        v-model.trim="street"
-        :error-messages="streetErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.street.$touch()"
-        @blur="$v.street.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Дом"
-        v-model.trim="house"
-        :error-messages="houseErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.house.$touch()"
-        @blur="$v.house.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Офис/Квартира"
-        v-model.trim="apartment"
-        :error-messages="apartmentErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.apartment.$touch()"
-        @blur="$v.apartment.$touch()"
-    />
-    <v-text-field
-        type="number"
-        label="Площадь квартиры"
-        v-model="apartmentSize"
-        :error-messages="apartmentSizeErrors"
-        hide-details="auto"
-        required
-        @input="$v.apartmentSize.$touch()"
-        @blur="$v.apartmentSize.$touch()"
-    />
-    <v-btn
-        @click="addProperty"
-        class="mt-5 mb-8"
-        block color="red"
-        dark
-    >
-      Создать недвижимость
-    </v-btn>
-  </v-container>
+  <v-dialog
+      v-model="dialog"
+      max-width="500px"
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+          color="primary"
+          dark
+          class="mb-2"
+          v-bind="attrs"
+          v-on="on"
+      >
+        Зарегистрировать недвижимость
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text>
+        <v-container>
+          <v-row>
+            <v-text-field
+                type="text"
+                label="Область"
+                v-model.trim="region"
+                :error-messages="regionErrors"
+                hide-details="auto"
+                counter
+                required
+                @input="$v.region.$touch()"
+                @blur="$v.region.$touch()"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+                type="text"
+                label="Населённый пункт"
+                v-model.trim="city"
+                :error-messages="cityErrors"
+                hide-details="auto"
+                counter
+                required
+                @input="$v.city.$touch()"
+                @blur="$v.city.$touch()"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+                type="text"
+                label="Улица"
+                v-model.trim="street"
+                :error-messages="streetErrors"
+                hide-details="auto"
+                counter
+                required
+                @input="$v.street.$touch()"
+                @blur="$v.street.$touch()"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+                type="text"
+                label="Дом"
+                v-model.trim="house"
+                :error-messages="houseErrors"
+                hide-details="auto"
+                counter
+                required
+                @input="$v.house.$touch()"
+                @blur="$v.house.$touch()"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+                type="text"
+                label="Офис/Квартира"
+                v-model.trim="apartment"
+                :error-messages="apartmentErrors"
+                hide-details="auto"
+                counter
+                required
+                @input="$v.apartment.$touch()"
+                @blur="$v.apartment.$touch()"
+            />
+          </v-row>
+          <v-row>
+            <v-text-field
+                type="number"
+                label="Площадь квартиры"
+                v-model="apartmentSize"
+                :error-messages="apartmentSizeErrors"
+                hide-details="auto"
+                required
+                @input="$v.apartmentSize.$touch()"
+                @blur="$v.apartmentSize.$touch()"
+            />
+          </v-row>
+        </v-container>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="blue darken-1"
+            text
+            @click="close"
+        >
+          Отменить
+        </v-btn>
+        <v-btn
+            color="blue darken-1"
+            text
+            @click="addProperty"
+        >
+          Зарегестрировать
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -86,6 +128,7 @@ export default {
   props: ['propertyAttr'],
   data() {
     return {
+      dialog: false,
       creationProperty: new CreationProperty(0),
       region: '',
       city: '',
@@ -100,13 +143,13 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
     },
     city: {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
     },
     street: {
       required,
@@ -118,13 +161,13 @@ export default {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartment: {
       required,
       minLength: minLength(1),
       maxLength: maxLength(10),
-      alphaNum: val => /^[1-9]*[а-яё]$|^[1-9]*$/i.test(val)
+      alphaNum: val => /^[1-9][0-9]*[а-яё]$|^[1-9][0-9]*$/i.test(val)
     },
     apartmentSize: {required, numeric, minValue: minValue(10)},
   },
@@ -134,7 +177,7 @@ export default {
       if (!this.$v.region.$dirty) return errors
       !this.$v.region.minLength && errors.push('Название региона должно состоять из не менее, чем из 2 букв!')
       !this.$v.region.maxLength && errors.push('Название региона должно состоять из не более, чем из 40 букв!')
-      !this.$v.region.alpha && errors.push('Название региона должно состоять из букв')
+      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская", "Ямало-Ненецкий"')
       !this.$v.region.required && errors.push('Это обязательное поле!')
       return errors
     },
@@ -143,7 +186,7 @@ export default {
       if (!this.$v.city.$dirty) return errors
       !this.$v.city.minLength && errors.push('Название города должно состоять из не менее, чем из 2 букв!')
       !this.$v.city.maxLength && errors.push('Название города должно состоять из не более, чем из 40 букв!')
-      !this.$v.city.alpha && errors.push('Название города должно состоять из букв.')
+      !this.$v.city.alpha && errors.push('Неверный формат города! Пример: "Санкт-Петербург", "Самара')
       !this.$v.city.required && errors.push('Это обязательное поле!')
       return errors
     },
@@ -201,11 +244,16 @@ export default {
           .then(status => {
             if (status === 200) {
               this.clear()
+              this.dialog = false
               // всплывающее уведомление
             } else {
               console.warn('Error message') // todo: красное уведомление
             }
           })
+    },
+    close() {
+      this.dialog = false
+      this.clear()
     },
     clear() {
       this.$v.$reset()

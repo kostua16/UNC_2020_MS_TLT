@@ -44,9 +44,9 @@ export default {
       icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
       items: [
         {
-          title: 'Счета к оплате',
-          link: '',
-          img: require('@/assets/images/bank.png'),
+          title: 'Недвижимость',
+          link: 'communal/property/list',
+          img: require('@/assets/images/property.png'),
         },
         {
           title: 'История оплаты',
@@ -59,18 +59,18 @@ export default {
           img: require('@/assets/images/tax.png'),
         },
         {
-          title: 'Налог(-и) на недвижимость',
-          link: '',
+          title: 'Налоги на недвижимость',
+          link: '/communal/property-tax',
           img: require('@/assets/images/propert_tax.png'),
         },
         {
           title: 'Коммунальные квитанции',
-          link: '',
+          link: '/communal/utility-bills',
           img: require('@/assets/images/utility.png'),
         },
         {
-          title: 'Оформить ЗагранПаспорт',
-          link: '',
+          title: 'Оформить Заграничный паспорт',
+          link: '/passport/international',
           img: require('@/assets/images/international_.png'),
         },
       ],

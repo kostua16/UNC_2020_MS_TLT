@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -21,30 +22,31 @@ public class International {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long internationalId;
 
-  @NotBlank(message = "Incorrect region name")
+  @NotNull
   @Column(nullable = false)
   private Boolean locked;
 
-  @NotBlank(message = "Incorrect region name")
+  @NotBlank(message = "Blank name")
   @Size(min = 2, max = 40, message = "Incorrect region name")
   @Column(nullable = false, length = 40)
   private String name;
 
-  @NotBlank(message = "Incorrect region name")
+  @NotBlank(message = "Blank surname")
   @Size(min = 2, max = 40, message = "Incorrect region name")
   @Column(nullable = false, length = 40)
   private String surname;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull
+  @Column(nullable = false, updatable = false)
   private Date dateOfBirth;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull
   @Column(nullable = false)
   private Boolean isActive;
 
-  @NotBlank(message = "Incorrect house name")
+  @NotNull
   @Min(1L)
-  @Column(nullable = false)
+  @Column(nullable = false, updatable = false)
   private Long citizenId;
 
   @Builder

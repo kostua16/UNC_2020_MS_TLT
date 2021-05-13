@@ -108,15 +108,13 @@
 </template>
 
 <script>
-import {email, maxLength, minLength, required} from 'vuelidate/lib/validators'
-import {validationMixin} from "vuelidate";
+import {email, maxLength, minLength, required, alphaNum} from 'vuelidate/lib/validators'
 import RegistrationData from "@/models/auth/registration-data";
 import AuthService from '@/services/auth/auth-service'
 
 
 export default {
   name: "SignUp",
-  mixins: [validationMixin],
   data() {
     return {
       username: '',
@@ -134,14 +132,15 @@ export default {
     };
   },
   validations: {
-    username: {required, minLength: minLength(5), maxLength: maxLength(20)},
-    password: {required, minLength: minLength(5), maxLength: maxLength(20)},
+    username: {required, minLength: minLength(5), maxLength: maxLength(20), alphaNum},
+    password: {required, minLength: minLength(5), maxLength: maxLength(20), alphaNum},
     email: {required, email, minLength: minLength(10)},
   },
   computed: {
     usernameErrors() {
       const errors = []
       if (!this.$v.username.$dirty) return errors
+      !this.$v.username.alphaNum && errors.push('Имя пользователь должно состоять из латинских букв и цифр. Пример: "username123"')
       !this.$v.username.minLength && errors.push('Имя пользователь должно состоять из не менее, чем из 5 символов!')
       !this.$v.username.maxLength && errors.push('Имя пользователь должно состоять из не более, чем из 20 символов!')
       !this.$v.username.required && errors.push('Это обязательное поле!')
@@ -150,6 +149,7 @@ export default {
     passwordErrors() {
       const errors = []
       if (!this.$v.password.$dirty) return errors
+      !this.$v.password.alphaNum && errors.push('Пароль должно состоять из латинских букв и цифр. Пример: "username123"')
       !this.$v.password.minLength && errors.push('Пароль должно состоять из не менее, чем из 5 символов!')
       !this.$v.password.maxLength && errors.push('Пароль должно состоять из не более, чем из 20 символов!')
       !this.$v.password.required && errors.push('Это обязательное поле!')

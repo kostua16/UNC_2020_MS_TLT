@@ -13,6 +13,9 @@ import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
 import RegistrationData from "@/models/auth/registration-data";
 import DomesticRegistration from "@/components/passport/DomesticRegistration";
+import CitizenPropertyTaxList from "@/components/communal/property/tax/CitizenPropertyTaxList";
+import UtilityBills from "@/components/communal/bill/UtilityBills";
+import International from "@/components/passport/international/International";
 
 Vue.use(Router);
 
@@ -114,6 +117,22 @@ export const router = new Router({
             },
         },
         {
+            path: '/communal/property-tax',
+            name: 'property-tax',
+            component: CitizenPropertyTaxList,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
+            path: '/communal/utility-bills',
+            name: 'utility-bills',
+            component: UtilityBills,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            },
+        },
+        {
             path: '/communal/admin/properties',
             name: 'users-properties',
             component: UsersProperties,
@@ -157,6 +176,14 @@ export const router = new Router({
             path: '/passport/domestic',
             name: 'domestic',
             component: DomesticRegistration,
+            beforeEnter(to, from, next) {
+                checkAuth(to, from, next);
+            }
+        },
+        {
+            path: '/passport/international',
+            name: 'international',
+            component: International,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             }
