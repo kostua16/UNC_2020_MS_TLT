@@ -9,7 +9,6 @@
         range
         v-model="range"
         @click="getPeriodTransactions"
-        :max="new Date().toISOString().substr(0, 10)"
         min="2020-12-01"
     ></v-date-picker>
     <v-btn
@@ -56,7 +55,11 @@ export default {
     },
     isDisabled() {
       return !(this.range[1]);
-    }
+    },
+    // getDate() {
+    //   let date = new Date()
+    //   return date.setDate(date.ge)
+    // }
   },
   methods: {
     ...mapActions(['GET_PERIOD_TRANSACTION_FROM_API']),

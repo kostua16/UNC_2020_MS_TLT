@@ -8,6 +8,7 @@ import nc.unc.cs.services.communal.entities.UtilitiesPriceList;
 import nc.unc.cs.services.communal.entities.UtilityBill;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.exceptions.UtilitiesPriceListNotFoundException;
+import nc.unc.cs.services.communal.exceptions.UtilityBillPaymentException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.UtilitiesPriceListRepository;
 import nc.unc.cs.services.communal.repositories.UtilityBillRepository;
@@ -213,5 +214,29 @@ public class CommunalService {
    */
   public List<UtilityBill> getCitizenUtilityBills(final Long citizenId) {
     return this.utilityBillRepository.findUtilityBillsByCitizenId(citizenId);
+  }
+
+  /**
+   * Изменение статуса оплаты коммунальной квитанции.
+   *
+   * @param paymentRequestId идентификатор выставленного счёта
+   * @return обнавлённая коммунальная квитанция
+   * @exception UtilityBillPaymentException если квитанция уже оплачена или её не существует
+   */
+  public ResponseEntity<UtilityBill> changeUtilityBillPaymentStatus(final Long paymentRequestId) {
+    final UtilityBill utilityBill =
+        this.utilityBillRepository.findUtilityBillByPaymentRequestId(paymentRequestId);
+    if (utilityBill == null
+        || utilityBill.getIsPaid()
+        || !this.bankIntegrationService.checkPaymentStatus(paymentRequestId)) {
+      throw new UtilityBillPaymentException(paymentRequestId);
+    } else {
+      utilityBill.setIsPaid(true);
+      this.utilityBillRepository.save(utilityBill);
+      logger.info(
+          "Payment status UtilityBill with ID = {} has been changed!",
+          utilityBill.getUtilityBillId());
+      return ResponseEntity.ok(utilityBill);
+    }
   }
 }

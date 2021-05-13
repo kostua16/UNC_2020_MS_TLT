@@ -15,12 +15,14 @@
           ></v-text-field>
         </v-col>
 
-        <property-tax-value-item
-            v-for="(propertyTaxValue, index) in filteredPriceList"
-            :key="`propertyTaxValue.id - ${index}`"
-            :propertyTaxValue="propertyTaxValue"
-            :editPriceLIst="editPriceLIst"
-        />
+        <v-row justify="center">
+          <property-tax-value-item
+              v-for="(propertyTaxValue, index) in filteredPriceList"
+              :key="`propertyTaxValue.id - ${index}`"
+              :propertyTaxValue="propertyTaxValue"
+              :editPriceLIst="editPriceLIst"
+          />
+        </v-row>
       </v-layout>
     </v-container>
   </v-main>
@@ -67,6 +69,6 @@ export default {
 }
 </script>
 
-<style scoped> 
+<style scoped>
 
 </style>

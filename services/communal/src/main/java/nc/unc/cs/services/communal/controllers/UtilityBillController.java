@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,12 @@ public class UtilityBillController {
   public ResponseEntity<UtilityBill> createUtilityBill(
       @Validated @RequestBody final UtilitiesPayload utilitiesPayload) {
     return this.communalService.calculateUtilityBill(utilitiesPayload);
+  }
+
+  @PutMapping(value = "/{paymentRequestId}")
+  public ResponseEntity<UtilityBill> changeUtilityBillPaymentStatus(
+      @Validated @PathVariable("paymentRequestId") final Long paymentRequestId) {
+    return this.communalService.changeUtilityBillPaymentStatus(paymentRequestId);
   }
 
   @GetMapping(value = "/citizen/{citizenId}", produces = "application/json")
