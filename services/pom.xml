@@ -121,6 +121,9 @@
             <configuration>
               <wait>1000</wait>
               <maxAttempts>180</maxAttempts>
+              <layers>
+                <enabled>true</enabled>
+              </layers>
             </configuration>
             <executions>
               <execution>

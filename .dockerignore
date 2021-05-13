@@ -1,0 +1,14 @@
+*.java
+*/src
+*/*/src
+*.yml
+*.yaml
+*.toml
+.editorconfig
+.project
+.gitignore
+.whitesource
+*.MD
+*.md
+*.adoc
+*.png

@@ -1,10 +1,10 @@
 app:
-  local-url: localhost:${server.port}
+  local-url: 127.0.0.1:${server.port}
   public-url: ${APP_URL:${app.local-url}}
 discovery:
-  password: ${EUREKA_PASSWORD:unc2020pass}
+  password: ${EUREKA_PASSWORD:unc2020}
   user: ${EUREKA_UID:unc2020}
-  host: ${EUREKA_HOST:localhost:8761}
+  host: ${EUREKA_HOST:${app.public-url}}
   protocol: ${EUREKA_PROTOCOL:http}
   url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
 spring:

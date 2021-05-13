@@ -26,7 +26,7 @@ logging:
       springframework:
         web:
           client:
-            RestTemplate: OFF
+            RestTemplate: trace
 feign:
 #  httpclient:
 #    connection-timeout: 2000
