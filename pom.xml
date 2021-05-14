@@ -26,7 +26,7 @@
     <modelmapper.version>2.4.3</modelmapper.version>
     <minidev.version>1.0.2</minidev.version>
     <springdoc.version>1.5.8</springdoc.version>
-    <xstream.version>1.4.16</xstream.version>
+    <xstream.version>1.4.17</xstream.version>
     <delombok.version>1.18.20.0</delombok.version>
     <checkstyle.version>8.42</checkstyle.version>
     <checkstyle.build.version>3.1.2</checkstyle.build.version>
