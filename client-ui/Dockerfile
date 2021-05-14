@@ -14,6 +14,8 @@ RUN yarn build
 #ENTRYPOINT ["yarn", "start"]
 
 FROM nginx:alpine as production
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 RUN mkdir /app
 COPY --from=build /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf

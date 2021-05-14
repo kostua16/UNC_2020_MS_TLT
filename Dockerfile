@@ -6,8 +6,8 @@ RUN java -Djarmode=layertools -jar /home/app/app.jar extract
 
 FROM openjdk:8-jdk-alpine AS package
 WORKDIR /home/app/
-#RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-#USER appuser
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 COPY --from=build /home/app/dependencies/ ./
 COPY --from=build /home/app/spring-boot-loader/ ./
 COPY --from=build /home/app/snapshot-dependencies/ ./
