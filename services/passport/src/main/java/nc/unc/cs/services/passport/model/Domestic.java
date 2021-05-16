@@ -24,8 +24,6 @@ public class Domestic {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long domesticId;
 
-  @NotNull
-  @Min(value = 1L)
   private Long registrationId;
 
   @NotBlank(message = "Incorrect name")
