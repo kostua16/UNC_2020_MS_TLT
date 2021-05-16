@@ -11,7 +11,6 @@ import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.services.PropertyTaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "communal/property-tax")
 @Tag(name = "Property Tax Api", description = "API calculate property tax")
-@CrossOrigin
 public class PropertyTaxController {
 
   private final PropertyTaxService propertyTaxService;

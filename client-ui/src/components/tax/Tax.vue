@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    <h2 class="text-left ml-2">Налоги</h2>
     <div class="pt-5">
       <v-data-table
           :no-data-text="message"
@@ -24,7 +25,7 @@
             :length="pageCount"
         ></v-pagination>
         <v-row justify="center">
-          <v-col sm="6">
+          <v-col sm="4">
             <v-text-field
                 :value="itemsPerPage"
                 :error-messages="pageErrors"
