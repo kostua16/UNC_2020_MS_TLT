@@ -13,6 +13,5 @@ public interface PassportService {
   @PutMapping(value = "domestic/registration/{citizenId}", produces = "application/json")
   ResponseEntity<Long> updateDomesticRegistration(
       @PathVariable("citizenId") final Long citizenId,
-      @RequestBody final UpdateRegistrationIdDto updateRegistrationIdDto
-  );
+      @RequestBody final UpdateRegistrationIdDto updateRegistrationIdDto);
 }

@@ -15,13 +15,15 @@ public class ExceptionController {
   private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
 
   @ExceptionHandler(value = {DomesticPassportNotFoundException.class})
-  public ResponseEntity<Object> propertyNotFoundException(final DomesticPassportNotFoundException dpe) {
+  public ResponseEntity<Object> propertyNotFoundException(
+      final DomesticPassportNotFoundException dpe) {
     LOGGER.error("Domestic passport not Found!", dpe);
     return new ResponseEntity<>(dpe.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(value = {InternationalPassportNotFoundException.class})
-  public ResponseEntity<Object> propertyNotFoundException(final InternationalPassportNotFoundException ipe) {
+  public ResponseEntity<Object> propertyNotFoundException(
+      final InternationalPassportNotFoundException ipe) {
     LOGGER.error("International passport not Found!", ipe);
     return new ResponseEntity<>(ipe.getMessage(), HttpStatus.BAD_REQUEST);
   }

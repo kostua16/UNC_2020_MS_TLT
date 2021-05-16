@@ -83,8 +83,7 @@ class RegistrDomesticTest {
     citizen.setDateOfBirth(new Date());
 
     Domestic domestic =
-        new Domestic(
-            1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
+        new Domestic(1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
 
     when(passportTable.registerDomesticPassport(citizen)).thenReturn(ResponseEntity.ok(domestic));
 
