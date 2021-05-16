@@ -1,6 +1,9 @@
 package nc.unc.cs.services.communal.services;
 
 import java.util.List;
+import feign.FeignException;
+import nc.unc.cs.services.common.clients.passport.PassportService;
+import nc.unc.cs.services.common.clients.passport.UpdateRegistrationIdDto;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Property;
@@ -27,15 +30,19 @@ public class RegistrationService {
   private final PropertyRepository propertyRepository;
   private final RegistrationRepository registrationRepository;
   private final BankIntegrationService bankIntegrationService;
+  private final PassportService passportService;
 
   @Autowired
   public RegistrationService(
       final PropertyRepository propertyRepository,
       final RegistrationRepository registrationRepository,
-      final BankIntegrationService bankIntegrationService) {
+      final BankIntegrationService bankIntegrationService,
+      final PassportService passportService
+  ) {
     this.propertyRepository = propertyRepository;
     this.registrationRepository = registrationRepository;
     this.bankIntegrationService = bankIntegrationService;
+    this.passportService = passportService;
   }
 
   /**
@@ -76,13 +83,19 @@ public class RegistrationService {
       lastRegistration.setIsActive(false);
       this.registrationRepository.save(lastRegistration);
     }
-
     this.registrationRepository.save(registration);
     logger.info(
         "Registration has been added to the citizen with ID = {}", registration.getCitizenId());
     response = ResponseEntity.ok(registration);
 
+    this.updateDomestic(registration.getCitizenId(), registration.getRegistrationId());
+
     return response;
+  }
+
+  public void updateDomestic(final Long citizenId, final Long registrationId) throws FeignException {
+    final UpdateRegistrationIdDto updateRegistrationIdDto = new UpdateRegistrationIdDto(registrationId);
+    this.passportService.updateDomesticRegistration(citizenId, updateRegistrationIdDto);
   }
 
   /**

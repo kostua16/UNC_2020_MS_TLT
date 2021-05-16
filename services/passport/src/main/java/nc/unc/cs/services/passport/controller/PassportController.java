@@ -1,6 +1,7 @@
 package nc.unc.cs.services.passport.controller;
 
 import java.util.List;
+import nc.unc.cs.services.common.clients.passport.UpdateRegistrationIdDto;
 import nc.unc.cs.services.passport.controller.dto.DomesticDto;
 import nc.unc.cs.services.passport.controller.dto.InternationalDto;
 import nc.unc.cs.services.passport.model.Citizen;
@@ -9,6 +10,7 @@ import nc.unc.cs.services.passport.model.International;
 import nc.unc.cs.services.passport.service.PassportTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,5 +89,13 @@ public class PassportController {
   public List<International> getInternationalsByCitizenId(
       @PathVariable("citizenId") final Long citizenId) {
     return this.passportTable.getInternationalsByCitizenId(citizenId);
+  }
+
+  @PutMapping(value = "domestic/registration/{citizenId}", produces = "application/json")
+  public ResponseEntity<Long> updateDomesticRegistration(
+      @PathVariable("citizenId") final Long citizenId,
+      @Validated @RequestBody final UpdateRegistrationIdDto updateRegistrationIdDto
+  ) {
+    return this.passportTable.updateDomesticRegistration(citizenId, updateRegistrationIdDto.getRegistrationId());
   }
 }

@@ -33,14 +33,12 @@ class PassportRegistrationTest {
     citizen.setCitizenId(21L);
     citizen.setSurname("Pupkin");
     citizen.setName("Vasya");
-    citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date(1234L));
 
     final Domestic domestic =
         Domestic.builder()
             .name(citizen.getName())
             .surname(citizen.getSurname())
-            .registration(citizen.getRegistration())
             .dateOfBirth(citizen.getDateOfBirth())
             .citizenId(citizen.getCitizenId())
             .build();

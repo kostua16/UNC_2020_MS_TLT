@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import nc.unc.cs.services.common.clients.bank.BankService;
 import nc.unc.cs.services.common.clients.bank.PaymentPayload;
+import nc.unc.cs.services.common.clients.passport.UpdateRegistrationIdDto;
 import nc.unc.cs.services.common.clients.tax.IdInfo;
 import nc.unc.cs.services.common.clients.tax.TaxService;
 import nc.unc.cs.services.passport.controller.dto.DomesticDto;
@@ -83,7 +84,6 @@ public class PassportTable {
    */
   public ResponseEntity<Domestic> registerDomesticPassport(Citizen citizen) {
     Domestic domestic = new Domestic();
-    domestic.setRegistration(citizen.getRegistration());
     domestic.setName(citizen.getName());
     domestic.setSurname(citizen.getSurname());
     domestic.setDateOfBirth(citizen.getDateOfBirth());
@@ -146,7 +146,6 @@ public class PassportTable {
         domesticRepository
             .findById(id)
             .orElseThrow(() -> new DomesticPassportNotFoundException(id));
-    updateDomestic.setRegistration(domestic.getRegistration());
     updateDomestic.setName(domestic.getName());
     updateDomestic.setSurname(domestic.getSurname());
     updateDomestic.setDateOfBirth(domestic.getDateOfBirth());
@@ -241,5 +240,25 @@ public class PassportTable {
    */
   public List<International> getInternationalsByCitizenId(final Long citizenId) {
     return this.internationalRepository.findInternationalsByCitizenId(citizenId);
+  }
+
+  /**
+   * Обнавляет прописку пользователя.
+   *
+   * @param citizenId идентификатор пользователя
+   * @param registrationId идентификатор прописки
+   * @return паспорт гражданина
+   * @throws DomesticPassportNotFoundException если не удасться найти пасспорт
+   */
+  public ResponseEntity<Long> updateDomesticRegistration(
+      final Long citizenId, final Long registrationId) throws DomesticPassportNotFoundException {
+    final Domestic domestic = this.domesticRepository.findDomesticByCitizenId(citizenId);
+    if (domestic == null) {
+      throw new DomesticPassportNotFoundException();
+    } else {
+      domestic.setRegistrationId(registrationId);
+      this.domesticRepository.save(domestic);
+      return ResponseEntity.ok(domestic.getDomesticId());
+    }
   }
 }
