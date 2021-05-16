@@ -1,7 +1,7 @@
 package nc.unc.cs.services.communal.services;
 
-import java.util.List;
 import feign.FeignException;
+import java.util.List;
 import nc.unc.cs.services.common.clients.passport.PassportService;
 import nc.unc.cs.services.common.clients.passport.UpdateRegistrationIdDto;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
@@ -37,8 +37,7 @@ public class RegistrationService {
       final PropertyRepository propertyRepository,
       final RegistrationRepository registrationRepository,
       final BankIntegrationService bankIntegrationService,
-      final PassportService passportService
-  ) {
+      final PassportService passportService) {
     this.propertyRepository = propertyRepository;
     this.registrationRepository = registrationRepository;
     this.bankIntegrationService = bankIntegrationService;
@@ -93,8 +92,10 @@ public class RegistrationService {
     return response;
   }
 
-  public void updateDomestic(final Long citizenId, final Long registrationId) throws FeignException {
-    final UpdateRegistrationIdDto updateRegistrationIdDto = new UpdateRegistrationIdDto(registrationId);
+  public void updateDomestic(final Long citizenId, final Long registrationId)
+      throws FeignException {
+    final UpdateRegistrationIdDto updateRegistrationIdDto =
+        new UpdateRegistrationIdDto(registrationId);
     this.passportService.updateDomesticRegistration(citizenId, updateRegistrationIdDto);
   }
 

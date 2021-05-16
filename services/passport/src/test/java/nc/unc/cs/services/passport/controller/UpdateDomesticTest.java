@@ -87,8 +87,7 @@ class UpdateDomesticTest {
     citizen.setDateOfBirth(new Date());
 
     DomesticDto domesticDTO =
-        new DomesticDto(
-            1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
+        new DomesticDto(1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
 
     final Domestic domestic = new Domestic();
 

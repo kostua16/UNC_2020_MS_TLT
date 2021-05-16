@@ -96,8 +96,8 @@ public class PassportController {
   @PutMapping(value = "domestic/registration/{citizenId}", produces = "application/json")
   public ResponseEntity<Long> updateDomesticRegistration(
       @PathVariable("citizenId") final Long citizenId,
-      @Validated @RequestBody final UpdateRegistrationIdDto updateRegistrationIdDto
-  ) {
-    return this.passportTable.updateDomesticRegistration(citizenId, updateRegistrationIdDto.getRegistrationId());
+      @Validated @RequestBody final UpdateRegistrationIdDto updateRegistrationIdDto) {
+    return this.passportTable.updateDomesticRegistration(
+        citizenId, updateRegistrationIdDto.getRegistrationId());
   }
 }

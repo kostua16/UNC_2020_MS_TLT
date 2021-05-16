@@ -38,10 +38,7 @@ public class Citizen {
 
   @Builder
   public Citizen(
-      final String name,
-      final String surname,
-      final Date dateOfBirth,
-      final Long citizenId) {
+      final String name, final String surname, final Date dateOfBirth, final Long citizenId) {
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
