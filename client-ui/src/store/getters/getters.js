@@ -6,6 +6,9 @@ export default {
     GET_ALL_PROPERTIES(state) {
         return state.allProperties;
     },
+    GET_REGISTRATION(state) {
+        return state.registration;
+    },
 
     // price lists
     SORTED_UTILITIES_PRICE_LIST(state) {

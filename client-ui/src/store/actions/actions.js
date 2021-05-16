@@ -79,6 +79,19 @@ export default {
             })
     },
 
+    GET_REGISTRATION_FROM_API({commit}, registrationId) {
+        return axios
+            .get(URL_COMMUNAL + '/registration/' + registrationId)
+            .then(response => {
+                commit('SET_REGISTRATION_TO_STATE');
+                return response;
+            })
+            .catch(error => {
+                console.error('Failed to get registration. ', error.response.status);
+                return error.response;
+            })
+    },
+
     GET_ALL_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(

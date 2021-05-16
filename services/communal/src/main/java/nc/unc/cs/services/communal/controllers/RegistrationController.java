@@ -40,7 +40,7 @@ public class RegistrationController {
     return this.registrationService.getAllRegistrations(citizenId);
   }
 
-  @GetMapping(value = "registrations/{registrationId}", produces = "application/json")
+  @GetMapping(value = "{registrationId}", produces = "application/json")
   public Registration getRegistrationByRegistrationId(
       @PathVariable("registrationId") final Long registrationId) {
     return this.registrationService.getRegistrationByRegistrationId(registrationId);
