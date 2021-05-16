@@ -57,6 +57,9 @@ class UpdateDomesticTest {
   private static final FieldDescriptor NUMBER_DESCR =
       fieldWithPath("number").type(Long.class).description("Number of the passport.");
 
+  private static final FieldDescriptor REGISTRATION_ID_DESCR =
+      fieldWithPath("registrationId").type(Long.class).description("ID of the registration.");
+
   private static final FieldDescriptor[] PASSPORT_DESCR =
       new FieldDescriptor[] {
         UpdateDomesticTest.DOMESTIC_ID_DESCR,
@@ -66,7 +69,8 @@ class UpdateDomesticTest {
         UpdateDomesticTest.SURNAME_DESCR,
         UpdateDomesticTest.DATE_OF_BIRTH_DESCR,
         UpdateDomesticTest.SERIES_DESCR,
-        UpdateDomesticTest.NUMBER_DESCR
+        UpdateDomesticTest.NUMBER_DESCR,
+        UpdateDomesticTest.REGISTRATION_ID_DESCR
       };
 
   private static final ResponseFieldsSnippet PASSPORT_RESP =
