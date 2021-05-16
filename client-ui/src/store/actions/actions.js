@@ -297,7 +297,6 @@ export default {
                     name: citizen.name,
                     surname: citizen.surname,
                     dateOfBirth: citizen.dateOfBirth,
-                    registration: 'unknown', // todo: remove hard code
                     citizenId: AuthModule.state.user.citizenId,
                 },
                 {}
@@ -389,7 +388,6 @@ export default {
                     name: citizen.name,
                     surname: citizen.surname,
                     dateOfBirth: citizen.dateOfBirth,
-                    registration: 'unknown', // todo: remove hard code
                     citizenId: AuthModule.state.user.citizenId,
                 },
                 {}
