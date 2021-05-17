@@ -191,7 +191,22 @@ export default {
       this.registration.house = this.house
       this.registration.apartment = this.apartment
 
-      CommunalService.addRegistration(this.registration);
+      CommunalService.addRegistration(this.registration)
+          .then(status => {
+            if (status === 200) {
+              this.notificationColor = 'green'
+              this.notification = 'Прописка добавлена'
+              this.snackbar = true
+              setTimeout(() => this.$router.push('/profile'), 2500)
+            } else if (status === 503) {
+              this.serviceUnavailable()
+            } else {
+              this.notificationColor = 'red'
+              this.notification = 'Не удалось добавить прописку'
+              this.snackbar = true
+              this.clear()
+            }
+          })
     },
     close() {
       this.dialog = false
@@ -209,16 +224,19 @@ export default {
       this.registration.street = ''
       this.registration.house = ''
       this.registration.apartment = ''
+    },
+    serviceUnavailable() {
+      this.notificationColor = 'red'
+      this.notification = 'Сервис временно не доступен!'
+      this.snackbar = true
+      setTimeout(() => this.$router.push('/profile'), 2500)
     }
   },
   created() {
     this.GET_REGISTRATIONS_FROM_API()
         .then(status => {
           if (status === 503) {
-            this.notificationColor = 'red'
-            this.notification = 'Сервис временно не доступен!'
-            this.snackbar = true
-            setTimeout(() => this.$router.push('/profile'), 2500)
+            this.serviceUnavailable()
           }
         })
   }
