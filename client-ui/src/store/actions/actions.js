@@ -92,6 +92,19 @@ export default {
             })
     },
 
+    GET_REGISTRATIONS_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + 'registration/all/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_REGISTRATIONS_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get citizens registrations', error.response.status);
+                return error.response.status;
+            })
+    },
+
     GET_ALL_PROPERTIES_FROM_API({commit}) {
         return axios
             .get(

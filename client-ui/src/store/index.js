@@ -22,6 +22,7 @@ export default new Vuex.Store({
         domestic: new Domestic(),
         internationals: [],
         registration: new Registration(),
+        registrations: '',
     },
     mutations,
     actions,
