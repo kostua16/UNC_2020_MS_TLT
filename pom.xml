@@ -108,9 +108,6 @@
   <!-- список модулей\под-проектов	-->
   <modules>
     <module>services</module>
-    <module>discovery</module>
-    <module>config</module>
-    <module>proxy</module>
   </modules>
 
   <!-- общие зависимости для всех модулей	-->
