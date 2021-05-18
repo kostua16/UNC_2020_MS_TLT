@@ -13,7 +13,7 @@
   <groupId>nc.unc.cs</groupId>
   <artifactId>Project2020</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Project</name>
+  <name>Project2020</name>
   <description>Project project for Spring Boot</description>
   <packaging>pom</packaging>
 
