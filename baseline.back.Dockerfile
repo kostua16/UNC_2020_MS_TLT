@@ -16,7 +16,7 @@ COPY services/passport/pom.xml ./services/passport/
 COPY services/tax/pom.xml ./services/tax/
 COPY services/repackage.skip ./services/
 COPY services/common/repackage.skip ./services/common/
-RUN mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies -X -U
+RUN mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
 
 FROM maven:3.6-alpine AS build
 COPY --from=deps /root/.m2/ /root/.m2/
