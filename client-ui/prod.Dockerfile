@@ -1,4 +1,4 @@
-FROM kostua16/unc_2020_frontend_base AS build
+FROM kostua16/unc_2020_frontend_base:latest AS build
 WORKDIR /app
 COPY . /app
 RUN yarn build

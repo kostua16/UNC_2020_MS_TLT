@@ -1,4 +1,4 @@
-FROM kostua16/unc_2020_backend_base AS deps
+FROM kostua16/unc_2020_backend_base:latest AS build
 WORKDIR /home/app
 COPY pom.xml ./
 COPY services/pom.xml ./services/
@@ -17,12 +17,9 @@ COPY services/tax/pom.xml ./services/tax/
 COPY services/repackage.skip ./services/
 COPY services/common/repackage.skip ./services/common/
 COPY services/common/src/ ./services/common/src/
-RUN mvn install -pl services,services/common,services/service_parent -T 1C -DskipTests=true -DskipInspections=true -DskipDocs=true
-
-FROM deps AS build
 ARG PROJECT
 COPY services/${PROJECT}/src/ ./services/${PROJECT}/src/
-RUN mvn install -am -pl services/${PROJECT} -T 1C -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
+RUN mvn install -am -pl services/${PROJECT} -T 2C -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
 
 FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
