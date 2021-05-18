@@ -119,7 +119,7 @@ public class PassportTable {
       international.setLocked(
           this.taxService.getListUnpaidTaxes(
               new IdInfo(
-                  citizen.getCitizenId(), 2L))); // 2 - номер моего сервиса, добавть сшешяутШd
+                  citizen.getCitizenId(), 3L))); // 2 - номер моего сервиса, добавть сшешяутШd
     } catch (Exception e) {
       logger.error("Не удалось проверить налоги");
     }

@@ -24,6 +24,8 @@ public class RegistrationService {
   public static final Integer TAX_PERCENT = 50;
   /** Номер сервиса. */
   public static final Long SERVICE_ID = 19L;
+  /** Номер сервиса регистрации. */
+  public static final Long REGISTRATION_SERVICE_ID = 19L;
   /** Стоимость предоставляемой услуги */
   public static final Integer SERVICE_COST = 2000;
 
