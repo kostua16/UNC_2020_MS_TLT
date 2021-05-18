@@ -19,20 +19,20 @@ COPY services/common/repackage.skip ./services/common/
 COPY services/common/src/ ./services/common/src/
 ARG PROJECT
 COPY services/${PROJECT}/src/ ./services/${PROJECT}/src/
-RUN time mvn install -am -pl services/${PROJECT} -T 2C -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
+RUN time mvn install -am -pl services/${PROJECT} -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
 
 FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
 ENV APP_XMS=100M
 ENV APP_XMX=300M
-ENTRYPOINT ["backend.sh"]
+ENTRYPOINT ["/home/app/backend.sh"]
 EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
 WORKDIR /home/app/
 USER appuser
-COPY --from=build --chown=appuser:appgroup /home/app/dependencies/ ./
-COPY --from=build --chown=appuser:appgroup /home/app/spring-boot-loader/ ./
-COPY --from=build --chown=appuser:appgroup /home/app/snapshot-dependencies/ ./
-COPY --from=build --chown=appuser:appgroup /home/app/application/ ./
-COPY --chown=appuser:appgroup ./backend.sh ./backend.sh
-RUN chmod +x ./backend.sh
+COPY --from=build --chown=appuser:appgroup /home/app/dependencies/ /home/app/
+COPY --from=build --chown=appuser:appgroup /home/app/spring-boot-loader/ /home/app/
+COPY --from=build --chown=appuser:appgroup /home/app/snapshot-dependencies/ /home/app/
+COPY --from=build --chown=appuser:appgroup /home/app/application/ /home/app/
+COPY --chown=appuser:appgroup ./backend.sh /home/app/backend.sh
+RUN chmod +x /home/app/backend.sh

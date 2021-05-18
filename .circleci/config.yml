@@ -32,7 +32,8 @@ jobs:
       - run: |
           chmod +x .circleci/build_backend_baseline_image.sh
           chmod +x .circleci/build_frontend_baseline_image.sh
-          chmod +x .circleci/build_service_images.sh
+          chmod +x .circleci/build_backend_service.sh
+          chmod +x .circleci/build_frontend_service.sh
       - run: |
           BRANCH_NAME=${CIRCLE_BRANCH}
       - run: |
@@ -44,7 +45,27 @@ jobs:
             time .circleci/build_frontend_baseline_image.sh
           fi
       - run: |
-          time .circleci/build_service_images.sh
+          .circleci/build_backend_service.sh discovery nc-edu-2020-discovery
+      - run: |
+          .circleci/build_backend_service.sh config nc-edu-2020-config
+      - run: |
+          .circleci/build_backend_service.sh proxy nc-edu-2020-proxy
+      - run: |
+          .circleci/build_backend_service.sh logging nc-edu-2020-logger
+      - run: |
+          .circleci/build_backend_service.sh tax nc-edu-2020-tax
+      - run: |
+          .circleci/build_backend_service.sh gibdd nc-edu-2020-gibdd
+      - run: |
+          .circleci/build_backend_service.sh account nc-edu-2020-account
+      - run: |
+          .circleci/build_backend_service.sh bank nc-edu-2020-bank
+      - run: |
+          .circleci/build_backend_service.sh communal nc-edu-2020-communal
+      - run: |
+          .circleci/build_backend_service.sh passport nc-edu-2020-passport
+      - run: |
+          .circleci/build_frontend_service.sh
 workflows:
   maven_test:
     jobs:

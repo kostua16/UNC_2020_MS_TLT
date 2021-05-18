@@ -17,7 +17,7 @@ build_baseline() {
   CACHE_FROM=""
   generate_common_vars
   docker_hub_login
-  docker pull "${IMAGE_NAME}:${TAG}" || true
+  time docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
   else
@@ -32,13 +32,12 @@ build_baseline() {
     fi
   fi
   if [[ -z "${CACHE_FROM}" ]]; then
-    docker build -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
+    time docker build -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
   else
-    docker build ${CACHE_FROM} -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
+    time docker build ${CACHE_FROM} -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
   fi
-  docker build ${CACHE_FROM} -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
-  docker push "${IMAGE_NAME}:${TAG}"
-  docker push "${IMAGE_NAME}:latest"
+  time docker push "${IMAGE_NAME}:${TAG}"
+  time docker push "${IMAGE_NAME}:latest"
 }
 build_service() {
   PROJECT=${1}
@@ -48,30 +47,36 @@ build_service() {
   CACHE_FROM=""
   generate_common_vars
   docker_hub_login
-  docker pull "${IMAGE_NAME}:${TAG}" || true
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 1/6 -------------"
+  time docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
   else
-    docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
+    time docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
     if [[ "$(docker images -q ${IMAGE_NAME}:${DEV_TAG} 2> /dev/null)" == "" ]]; then
       CACHE_FROM="--cache-from ${IMAGE_NAME}:${DEV_TAG}"
     else
-      docker pull "${IMAGE_NAME}:latest" || true
+      time docker pull "${IMAGE_NAME}:latest" || true
       if [[ "$(docker images -q ${IMAGE_NAME}:latest 2> /dev/null)" == "" ]]; then
         CACHE_FROM="--cache-from ${IMAGE_NAME}:latest"
       fi
     fi
   fi
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 2/6 -------------"
   if [[ -z "${CACHE_FROM}" ]]; then
-    docker build -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
+    time docker build -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
   else
-    docker build ${CACHE_FROM} -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
+    time docker build ${CACHE_FROM} -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
   fi
-  docker push "${IMAGE_NAME}:${TAG}"
-  docker push "${IMAGE_NAME}:latest"
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 3/6 -------------"
+  time docker push "${IMAGE_NAME}:${TAG}"
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 4/6 -------------"
+  time docker push "${IMAGE_NAME}:latest"
   docker_heroku_login
-  docker push "${HEROKU_IMAGE_NAME}/web"
-  heroku container:release -a "${HEROKU_APP_NAME}" web
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 5/6 -------------"
+  time docker push "${HEROKU_IMAGE_NAME}/web"
+  echo "------------- [BUILD_SERVICE] ${PROJECT} 6/6 -------------"
+  time heroku container:release -a "${HEROKU_APP_NAME}" web
 }
 build_ui() {
   IMAGE_NAME=kostua16/unc_2020_frontend
@@ -80,29 +85,35 @@ build_ui() {
   CACHE_FROM=""
   generate_common_vars
   docker_hub_login
-  docker pull "${IMAGE_NAME}:${TAG}" || true
+  echo "------------- [BUILD_UI] 1/6 -------------"
+  time docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
   else
-    docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
+    time docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
     if [[ "$(docker images -q ${IMAGE_NAME}:${DEV_TAG} 2> /dev/null)" == "" ]]; then
       CACHE_FROM="--cache-from ${IMAGE_NAME}:${DEV_TAG}"
     else
-      docker pull "${IMAGE_NAME}:latest" || true
+      time docker pull "${IMAGE_NAME}:latest" || true
       if [[ "$(docker images -q ${IMAGE_NAME}:latest 2> /dev/null)" == "" ]]; then
         CACHE_FROM="--cache-from ${IMAGE_NAME}:latest"
       fi
     fi
   fi
+  echo "------------- [BUILD_UI] 2/6 -------------"
   if [[ -z "${CACHE_FROM}" ]]; then
-    docker build -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
+    time docker build -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
   else
-    docker build ${CACHE_FROM} -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
+    time docker build ${CACHE_FROM} -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
   fi
-  docker push "${IMAGE_NAME}:${TAG}"
-  docker push "${IMAGE_NAME}:latest"
+  echo "------------- [BUILD_UI] 3/6 -------------"
+  time docker push "${IMAGE_NAME}:${TAG}"
+  echo "------------- [BUILD_UI] 4/6 -------------"
+  time docker push "${IMAGE_NAME}:latest"
   docker_heroku_login
-  docker push "${HEROKU_IMAGE_NAME}/web"
-  heroku container:release -a "${HEROKU_APP_NAME}" web
+  echo "------------- [BUILD_UI] 5/6 -------------"
+  time docker push "${HEROKU_IMAGE_NAME}/web"
+  echo "------------- [BUILD_UI] 6/6 -------------"
+  time heroku container:release -a "${HEROKU_APP_NAME}" web
 }
 
