@@ -25,7 +25,7 @@ FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
 ENV APP_XMS=100M
 ENV APP_XMX=300M
-ENTRYPOINT java org.springframework.boot.loader.JarLauncher -Xms${APP_XMS} -Xmx${APP_XMX} -Xss1M -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT}
+ENTRYPOINT ["backend.sh"]
 EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
 WORKDIR /home/app/
@@ -34,3 +34,5 @@ COPY --from=build --chown=appuser:appgroup /home/app/dependencies/ ./
 COPY --from=build --chown=appuser:appgroup /home/app/spring-boot-loader/ ./
 COPY --from=build --chown=appuser:appgroup /home/app/snapshot-dependencies/ ./
 COPY --from=build --chown=appuser:appgroup /home/app/application/ ./
+COPY --chown=appuser:appgroup ./backend.sh ./backend.sh
+RUN chmod +x ./backend.sh
