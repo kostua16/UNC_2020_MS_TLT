@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-set -e
-set -x
-TAG=branch_${CIRCLE_BRANCH//\//_}.latest
-DEV_TAG=branch_develop.latest
+generate_common_vars() {
+  export TAG=branch_${CIRCLE_BRANCH//\//_}.latest
+  export DEV_TAG=branch_develop.latest
+}
+
 docker_hub_login() {
   echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
 }
@@ -14,6 +15,7 @@ build_baseline() {
   DOCKER_FILE=${2}
   IMAGE_NAME=kostua16/${BASELINE_NAME}
   CACHE_FROM=""
+  generate_common_vars
   docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
@@ -43,6 +45,7 @@ build_service() {
   IMAGE_NAME=kostua16/unc_2020_${PROJECT}
   HEROKU_IMAGE_NAME=registry.heroku.com/${2}
   CACHE_FROM=""
+  generate_common_vars
   docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
@@ -73,6 +76,7 @@ build_ui() {
   IMAGE_NAME=kostua16/unc_2020_frontend
   HEROKU_IMAGE_NAME=registry.heroku.com/nc-edu-2020-ui
   CACHE_FROM=""
+  generate_common_vars
   docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
@@ -99,18 +103,4 @@ build_ui() {
   docker push "${HEROKU_IMAGE_NAME}/web"
   heroku container:release -a "${HEROKU_IMAGE_NAME}" web
 }
-
-build_baseline unc_2020_backend_base baseline.back.Dockerfile
-build_baseline unc_2020_frontend_base baseline.frontend.Dockerfile
-build_service discovery nc-edu-2020-discovery
-build_service config nc-edu-2020-config
-build_service proxy nc-edu-2020-proxy
-build_service logging nc-edu-2020-logger
-build_service tax nc-edu-2020-tax
-build_service gibdd nc-edu-2020-gibdd
-build_service account nc-edu-2020-account
-build_service bank nc-edu-2020-bank
-build_service communal nc-edu-2020-communal
-build_service passport nc-edu-2020-passport
-build_ui
 

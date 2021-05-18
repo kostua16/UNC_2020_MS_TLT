@@ -7,25 +7,28 @@ orbs:
 
 jobs:
   build-and-push:
-    executor: docker/docker
+    executor:
+      name: docker/machine
+      dlc: true
     steps:
       - setup_remote_docker:
           version: 19.03.13
           docker_layer_caching: true
       - checkout
+      - create_concatenated_checksum_file:
+          filename: poms.lock
       - heroku/install
       - heroku/check-authentication
       # build and push Docker image
       - run: |
-          chmod +x .circleci/build_docker_images.sh
-      - run: |
-          heroku container:login
-      - run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+          chmod +x .circleci/build_baseline_images.sh
+          chmod +x .circleci/build_service_images.sh
       - run: |
           BRANCH_NAME=${CIRCLE_BRANCH}
       - run: |
-          .circleci/build_docker_images.sh
+          .circleci/build_baseline_images.sh
+      - run: |
+          .circleci/build_service_images.sh
 workflows:
   maven_test:
     jobs:
