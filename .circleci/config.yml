@@ -37,14 +37,14 @@ jobs:
           BRANCH_NAME=${CIRCLE_BRANCH}
       - run: |
           if ["$BRANCH_NAME" == "develop"]; then
-            .circleci/build_backend_baseline_image.sh
+            time .circleci/build_backend_baseline_image.sh
           fi
       - run: |
           if ["$BRANCH_NAME" == "develop"]; then
-            .circleci/build_frontend_baseline_image.sh
+            time .circleci/build_frontend_baseline_image.sh
           fi
       - run: |
-          .circleci/build_service_images.sh
+          time .circleci/build_service_images.sh
 workflows:
   maven_test:
     jobs:
