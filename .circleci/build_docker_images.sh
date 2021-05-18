@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 TAG=branch_${CIRCLE_BRANCH//\//_}.latest
 DEV_TAG=branch_develop.latest
-
+docker_hub_login() {
+  echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+}
+docker_heroku_login() {
+  heroku container:login
+}
 build_baseline() {
   BASELINE_NAME=${1}
   DOCKER_FILE=${2}
   IMAGE_NAME=kostua16/${BASELINE_NAME}
   CACHE_FROM=""
+  docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
@@ -30,6 +36,7 @@ build_service() {
   IMAGE_NAME=kostua16/unc_2020_${PROJECT}
   HEROKU_IMAGE_NAME=registry.heroku.com/${2}
   CACHE_FROM=""
+  docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
@@ -47,6 +54,7 @@ build_service() {
   docker build "${CACHE_FROM}" -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
   docker push "${IMAGE_NAME}:${TAG}"
   docker push "${IMAGE_NAME}:latest"
+  docker_heroku_login
   docker push "${HEROKU_IMAGE_NAME}/web"
   heroku container:release -a "${HEROKU_IMAGE_NAME}" web
 }
@@ -54,6 +62,7 @@ build_ui() {
   IMAGE_NAME=kostua16/unc_2020_frontend
   HEROKU_IMAGE_NAME=registry.heroku.com/nc-edu-2020-ui
   CACHE_FROM=""
+  docker_hub_login
   docker pull "${IMAGE_NAME}:${TAG}" || true
   if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
     CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
@@ -71,6 +80,7 @@ build_ui() {
   docker build "${CACHE_FROM}" -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
   docker push "${IMAGE_NAME}:${TAG}"
   docker push "${IMAGE_NAME}:latest"
+  docker_heroku_login
   docker push "${HEROKU_IMAGE_NAME}/web"
   heroku container:release -a "${HEROKU_IMAGE_NAME}" web
 }
