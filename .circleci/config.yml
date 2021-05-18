@@ -20,9 +20,9 @@ jobs:
       name: docker/machine
       dlc: true
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
+#      - setup_remote_docker:
+#          version: 19.03.13
+#          docker_layer_caching: true
       - checkout
       - create_concatenated_checksum_file:
           filename: poms.lock
