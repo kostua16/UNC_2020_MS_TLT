@@ -36,9 +36,13 @@ jobs:
       - run: |
           BRANCH_NAME=${CIRCLE_BRANCH}
       - run: |
-          .circleci/build_backend_baseline_image.sh
+          if ["$BRANCH_NAME" == "develop"]; then
+            .circleci/build_backend_baseline_image.sh
+          fi
       - run: |
-          .circleci/build_frontend_baseline_image.sh
+          if ["$BRANCH_NAME" == "develop"]; then
+            .circleci/build_frontend_baseline_image.sh
+          fi
       - run: |
           .circleci/build_service_images.sh
 workflows:
