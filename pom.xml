@@ -162,7 +162,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
+<!--      <scope>runtime</scope>-->
       <optional>true</optional>
     </dependency>
 
@@ -262,6 +262,12 @@
           <groupId>org.asciidoctor</groupId>
           <artifactId>asciidoctor-maven-plugin</artifactId>
           <version>${asciidoc.build.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>de.qaware.maven</groupId>
+          <artifactId>go-offline-maven-plugin</artifactId>
+          <version>1.2.8</version>
+<!--          <inherited>false</inherited>-->
         </plugin>
       </plugins>
     </pluginManagement>

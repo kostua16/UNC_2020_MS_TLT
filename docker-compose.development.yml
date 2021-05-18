@@ -3,15 +3,16 @@ services:
   discovery:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
         JAR_FILE: discovery/target/discovery-0.0.1-SNAPSHOT.jar
     container_name: discovery
     deploy:
       resources:
         limits:
-          cpus: 0.50
-          memory: 200M
+          cpus: '0.50'
+          memory: 300M
         reservations:
           memory: 200M
     environment:
@@ -23,7 +24,8 @@ services:
   config:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
         JAR_FILE: config/target/config-0.0.1-SNAPSHOT.jar
     container_name: config
@@ -32,10 +34,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
-          memory: 150M
+          cpus: '0.50'
+          memory: 300M
         reservations:
-          memory: 85M
+          memory: 100M
     environment:
       - APP_XMX=150m
       - APP_XMS=85m
@@ -47,7 +49,8 @@ services:
   proxy:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
         JAR_FILE: proxy/target/proxy-0.0.1-SNAPSHOT.jar
     container_name: proxy
@@ -57,7 +60,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -73,9 +76,10 @@ services:
   logging:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/logging/target/logging-0.0.1-SNAPSHOT.jar
+        JAR_FILE: logging/target/logging-0.0.1-SNAPSHOT.jar
     container_name: logging
     depends_on:
       - discovery
@@ -83,7 +87,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -98,9 +102,10 @@ services:
   tax:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/tax/target/tax-0.0.1-SNAPSHOT.jar
+        JAR_FILE: tax/target/tax-0.0.1-SNAPSHOT.jar
     container_name: tax
     depends_on:
       - discovery
@@ -109,7 +114,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -125,9 +130,10 @@ services:
   gibdd:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/gibdd/target/gibdd-0.0.1-SNAPSHOT.jar
+        JAR_FILE: gibdd/target/gibdd-0.0.1-SNAPSHOT.jar
     container_name: gibdd
     depends_on:
       - discovery
@@ -136,7 +142,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -152,9 +158,10 @@ services:
   account:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/account/target/account-0.0.1-SNAPSHOT.jar
+        JAR_FILE: account/target/account-0.0.1-SNAPSHOT.jar
     container_name: account
     depends_on:
       - discovery
@@ -162,7 +169,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -178,9 +185,10 @@ services:
   bank:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/bank/target/bank-0.0.1-SNAPSHOT.jar
+        JAR_FILE: bank/target/bank-0.0.1-SNAPSHOT.jar
     container_name: bank
     depends_on:
       - discovery
@@ -190,7 +198,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -206,9 +214,10 @@ services:
   communal:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/communal/target/communal-0.0.1-SNAPSHOT.jar
+        JAR_FILE: communal/target/communal-0.0.1-SNAPSHOT.jar
     container_name: communal
     depends_on:
       - discovery
@@ -219,7 +228,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -235,9 +244,10 @@ services:
   passport:
     restart: always
     build:
-      context: .
+      context: services
+      dockerfile: backend.development.Dockerfile
       args:
-        JAR_FILE: services/passport/target/passport-0.0.1-SNAPSHOT.jar
+        JAR_FILE: passport/target/passport-0.0.1-SNAPSHOT.jar
     container_name: passport
     depends_on:
       - discovery
@@ -248,7 +258,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 300M
         reservations:
           memory: 100M
@@ -265,6 +275,7 @@ services:
     restart: always
     build:
       context: client-ui
+      dockerfile: dev.Dockerfile
     container_name: frontend
     depends_on:
       - discovery
@@ -272,7 +283,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 40M
         reservations:
           memory: 10M

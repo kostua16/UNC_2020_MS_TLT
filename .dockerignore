@@ -1,6 +1,4 @@
-*.java
-*/src
-*/*/src
+client-ui/node_modules
 *.yml
 *.yaml
 *.toml
@@ -12,3 +10,6 @@
 *.md
 *.adoc
 *.png
+*.jar
+*.jar.original
+!**/target/*.jar
