@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
+  @SuppressWarnings("lgtm[java/spring-disabled-csrf-protection]")
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().cors().and().authorizeRequests().antMatchers("/**").permitAll();
     super.configure(http);
