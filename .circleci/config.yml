@@ -19,6 +19,7 @@ jobs:
       - run: |
           chmod +x .circleci/build_docker_images.sh
       - run: |
+          heroku login
           heroku container:login
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
