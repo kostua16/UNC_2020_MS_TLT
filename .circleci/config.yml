@@ -2,7 +2,37 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@1.1
+  docker: circleci/docker@1.5.0
 
+jobs:
+  build-and-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: kostua16/unc_2020_backend_base
+          path: .
+          dockerfile: baseline.back.Dockerfile
+      - docker/build:
+          image: kostua16/unc_2020_frontend_base
+          path: .
+          dockerfile: baseline.frontend.Dockerfile
+#      - docker/push:
+#          digest-path: /tmp/digest.txt
+#          image: kostua16/unc_2020_backend_base
+      - docker/publish:
+          cache_from: kostua16/unc_2020_backend_base:circle_ci
+          image: kostua16/unc_2020_backend_base
+          tag: circle_ci
+      - docker/publish:
+          cache_from: kostua16/unc_2020_frontend_base:circle_ci
+          image: kostua16/unc_2020_frontend_base
+          tag: circle_ci
+#      - run:
+#          command: |
+#            echo "Digest is: $(</tmp/digest.txt)"
 workflows:
   maven_test:
     jobs:
