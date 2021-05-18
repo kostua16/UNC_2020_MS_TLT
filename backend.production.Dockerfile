@@ -33,7 +33,7 @@ EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
 WORKDIR /home/app/
 USER appuser
-COPY --from=build --chown=appuser /home/app/dependencies/ ./
-COPY --from=build --chown=appuser /home/app/spring-boot-loader/ ./
-COPY --from=build --chown=appuser /home/app/snapshot-dependencies/ ./
-COPY --from=build --chown=appuser /home/app/application/ ./
+COPY --from=build --chown=appuser:appgroup /home/app/dependencies/ ./
+COPY --from=build --chown=appuser:appgroup /home/app/spring-boot-loader/ ./
+COPY --from=build --chown=appuser:appgroup /home/app/snapshot-dependencies/ ./
+COPY --from=build --chown=appuser:appgroup /home/app/application/ ./
