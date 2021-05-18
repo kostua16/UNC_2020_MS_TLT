@@ -3,6 +3,7 @@ echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
 TAG=branch_${CIRCLE_BRANCH//\//_}.latest
 DEV_TAG=branch_develop.latest
 #TAG_DETAILED=branch_${CIRCLE_BRANCH//\//_}.${CIRCLE_BUILD_NUM}
+heroku container:login
 
 docker pull kostua16/unc_2020_backend_base:${TAG} || true
 if [[ "$(docker images -q kostua16/unc_2020_backend_base:${TAG} 2> /dev/null)" == "" ]]; then
@@ -30,8 +31,10 @@ else
 fi
 docker push kostua16/unc_2020_frontend_base:${TAG}
 
-docker build -f backend.production.Dockerfile --build-arg PROJECT=discovery -t kostua16/unc_2020_discovery:${TAG} .
+docker build -f backend.production.Dockerfile --build-arg PROJECT=discovery -t kostua16/unc_2020_discovery:${TAG} -t registry.heroku.com/nc-edu-2020-discovery/web .
 docker push kostua16/unc_2020_discovery:${TAG}
+docker push registry.heroku.com/nc-edu-2020-discovery/web
+
 
 docker build -f backend.production.Dockerfile --build-arg PROJECT=config -t kostua16/unc_2020_config:${TAG} .
 docker push kostua16/unc_2020_config:${TAG}
