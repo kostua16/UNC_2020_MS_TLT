@@ -20,7 +20,7 @@
           <v-row>
             <v-text-field
                 type="text"
-                label="Область"
+                label="Регион"
                 v-model.trim="region"
                 :error-messages="regionErrors"
                 hide-details="auto"
@@ -143,7 +143,7 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]+[ ]+(область|край|округ)+$/i.test(val)
     },
     city: {
       required,
@@ -177,7 +177,7 @@ export default {
       if (!this.$v.region.$dirty) return errors
       !this.$v.region.minLength && errors.push('Название региона должно состоять из не менее, чем из 2 букв!')
       !this.$v.region.maxLength && errors.push('Название региона должно состоять из не более, чем из 40 букв!')
-      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская", "Ямало-Ненецкий"')
+      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская область", "Ямало-Ненецкий округ"')
       !this.$v.region.required && errors.push('Это обязательное поле!')
       return errors
     },

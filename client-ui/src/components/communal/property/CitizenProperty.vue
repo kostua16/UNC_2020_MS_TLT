@@ -15,11 +15,13 @@
         </v-col>
 
         <v-data-table
+            :no-data-text="message"
             :headers="headers"
             :items="filteredProperties"
             item-key="propertyId"
             :items-per-page="10"
             class="elevation-0"
+
         >
           <template v-slot:top>
             <v-toolbar
@@ -84,6 +86,7 @@ export default {
           value: 'actions'
         },
       ],
+      message: 'Налогов не найдено.',
     }
   },
   computed: {
@@ -103,9 +106,9 @@ export default {
   },
   created() {
     this.GET_PROPERTIES_FROM_API()
-        .then(response => {
-          if (response.data) {
-            console.log('Data arrived!')
+        .then(status => {
+          if (status === 503) {
+            this.message = 'Не удалось получить данные. Попробуйте позже.'
           }
         })
   },
