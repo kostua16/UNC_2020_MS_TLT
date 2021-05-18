@@ -42,8 +42,9 @@ build_baseline() {
 }
 build_service() {
   PROJECT=${1}
+  HEROKU_APP_NAME=${2}
   IMAGE_NAME=kostua16/unc_2020_${PROJECT}
-  HEROKU_IMAGE_NAME=registry.heroku.com/${2}
+  HEROKU_IMAGE_NAME=registry.heroku.com/${HEROKU_APP_NAME}
   CACHE_FROM=""
   generate_common_vars
   docker_hub_login
@@ -70,11 +71,12 @@ build_service() {
   docker push "${IMAGE_NAME}:latest"
   docker_heroku_login
   docker push "${HEROKU_IMAGE_NAME}/web"
-  heroku container:release -a "${HEROKU_IMAGE_NAME}" web
+  heroku container:release -a "${HEROKU_APP_NAME}" web
 }
 build_ui() {
   IMAGE_NAME=kostua16/unc_2020_frontend
-  HEROKU_IMAGE_NAME=registry.heroku.com/nc-edu-2020-ui
+  HEROKU_APP_NAME=nc-edu-2020-ui
+  HEROKU_IMAGE_NAME=registry.heroku.com/${HEROKU_APP_NAME}
   CACHE_FROM=""
   generate_common_vars
   docker_hub_login
@@ -101,6 +103,6 @@ build_ui() {
   docker push "${IMAGE_NAME}:latest"
   docker_heroku_login
   docker push "${HEROKU_IMAGE_NAME}/web"
-  heroku container:release -a "${HEROKU_IMAGE_NAME}" web
+  heroku container:release -a "${HEROKU_APP_NAME}" web
 }
 
