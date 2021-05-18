@@ -12,7 +12,9 @@ else
     docker build -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${DEV_TAG} .
   fi
 fi
+docker tag kostua16/unc_2020_backend_base:${TAG} kostua16/unc_2020_backend_base:latest
 docker push kostua16/unc_2020_backend_base:${TAG}
+docker push kostua16/unc_2020_backend_base:latest
 
 docker pull kostua16/unc_2020_frontend_base:${TAG} || true
 if [[ "$(docker images -q kostua16/unc_2020_frontend_base:${TAG} 2> /dev/null)" == "" ]]; then
@@ -25,7 +27,9 @@ else
     docker build -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
   fi
 fi
+docker tag kostua16/unc_2020_frontend_base:${TAG} kostua16/unc_2020_frontend_base:latest
 docker push kostua16/unc_2020_frontend_base:${TAG}
+docker push kostua16/unc_2020_frontend_base:latest
 
 docker build -f backend.production.Dockerfile --build-arg PROJECT=discovery -t kostua16/unc_2020_discovery:${TAG} -t registry.heroku.com/nc-edu-2020-discovery/web .
 docker push kostua16/unc_2020_discovery:${TAG}
