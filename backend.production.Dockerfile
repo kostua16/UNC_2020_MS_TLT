@@ -17,7 +17,7 @@ COPY services/tax/pom.xml ./services/tax/
 COPY services/repackage.skip ./services/
 COPY services/common/repackage.skip ./services/common/
 COPY services/common/src/ ./services/common/src/
-RUN mvn install -pl Project2020,services,services/common,services/service_parent -T 1C -DskipTests=true -DskipInspections=true -DskipDocs=true
+RUN mvn install -pl services,services/common,services/service_parent -T 1C -DskipTests=true -DskipInspections=true -DskipDocs=true
 
 FROM deps AS build
 ARG PROJECT
