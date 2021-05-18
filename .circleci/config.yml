@@ -18,6 +18,13 @@ jobs:
       # build and push Docker image
       - run: |
           chmod +x .circleci/build_docker_images.sh
+      - run: |
+          heroku container:login
+      - run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+      - run: |
+          BRANCH_NAME=${CIRCLE_BRANCH}
+      - run: |
           .circleci/build_docker_images.sh
 workflows:
   maven_test:
