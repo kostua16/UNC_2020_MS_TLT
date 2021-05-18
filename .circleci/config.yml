@@ -30,12 +30,15 @@ jobs:
       - heroku/check-authentication
       # build and push Docker image
       - run: |
-          chmod +x .circleci/build_baseline_images.sh
+          chmod +x .circleci/build_backend_baseline_image.sh
+          chmod +x .circleci/build_frontend_baseline_image.sh
           chmod +x .circleci/build_service_images.sh
       - run: |
           BRANCH_NAME=${CIRCLE_BRANCH}
       - run: |
-          .circleci/build_baseline_images.sh
+          .circleci/build_backend_baseline_image.sh
+      - run: |
+          .circleci/build_frontend_baseline_image.sh
       - run: |
           .circleci/build_service_images.sh
 workflows:
