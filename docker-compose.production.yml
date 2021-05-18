@@ -11,7 +11,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 200M
@@ -34,7 +34,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -60,7 +60,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -87,7 +87,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -114,7 +114,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -142,7 +142,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -169,7 +169,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -198,7 +198,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -228,7 +228,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -258,7 +258,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 300M
         reservations:
           memory: 100M
@@ -283,7 +283,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 40M
         reservations:
           memory: 10M
