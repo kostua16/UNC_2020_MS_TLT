@@ -4,7 +4,16 @@ orbs:
   maven: circleci/maven@1.1
   docker: circleci/docker@1.5.0
   heroku: circleci/heroku@1.2.6
-
+commands:
+  create_concatenated_checksum_file:
+    description: "Concatenate checksums from all pom.xml files into single file. File is used as checksum source for part of caching key."
+    parameters:
+      filename:
+        type: string
+    steps:
+      - run:
+          name: Combine package-lock.json files to single file
+          command: find ./ -type f  -name pom.xml | xargs cat > << parameters.filename >>
 jobs:
   build-and-push:
     executor:
