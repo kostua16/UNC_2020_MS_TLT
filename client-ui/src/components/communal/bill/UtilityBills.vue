@@ -21,8 +21,19 @@
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
+      <template v-slot:item.isPaid="{ item }">
+        <v-simple-checkbox
+            v-model="item.isPaid"
+            disabled
+        ></v-simple-checkbox>
+      </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn icon color="green" @click="payUtilityBill(item)">
+        <v-btn
+            v-if="!item.isPaid"
+            icon
+            color="green"
+            @click="payUtilityBill(item)"
+        >
           <v-icon>payment</v-icon>
         </v-btn>
       </template>
@@ -54,7 +65,7 @@ import UtilityBill from "@/models/communal/utility-bill";
 import {mapActions, mapGetters} from "vuex";
 import PaymentRequest from "@/models/bank/payment-request"
 
-export default { // todo: всплывающее уведомление: данных не найдено
+export default {
   name: "UtilityBills",
   data() {
     return {
@@ -67,7 +78,7 @@ export default { // todo: всплывающее уведомление: дан�
       paymentRequest: new PaymentRequest(),
       headers: [
         {text: 'УН Квитанции', align: 'start', value: 'utilityBillId'},
-        {text: 'Дата', align: 'center', value: 'date'},
+        {text: 'Дата создания', align: 'center', value: 'date'},
         {text: 'Статус оплаты', value: 'isPaid'},
         {text: 'Кол-во Х. воды, куб. м. ', value: 'coldWater'},
         {text: 'Кол-во Г. воды, куб. м.', value: 'hotWater'},

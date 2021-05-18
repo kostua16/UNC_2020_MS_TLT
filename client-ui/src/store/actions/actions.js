@@ -19,13 +19,13 @@ export default {
                 PROPERTY_API_URL + '/citizen/' + AuthModule.state.user.citizenId,
                 {},
             )
-            .then((properties) => {
-                commit('SET_PROPERTY_TO_STATE', properties.data);
-                return properties;
+            .then(response => {
+                commit('SET_PROPERTY_TO_STATE', response.data);
+                return response.status;
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log('Failed to get information about the user\'s property. \n' + error);
-                return error;
+                return error.response.status;
             })
     },
 
