@@ -15,15 +15,71 @@ jobs:
       # build and push Docker image
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
-          TAG=circle_ci.$CIRCLE_BUILD_NUM
-          docker build -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:circle_ci .
-          docker build -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:circle_ci .
-          docker tag  kostua16/unc_2020_backend_base:circle_ci kostua16/unc_2020_backend_base:$TAG
-          docker tag  kostua16/unc_2020_frontend_base:circle_ci kostua16/unc_2020_frontend_base:$TAG
-          docker push kostua16/unc_2020_backend_base:circle_ci
-          docker push kostua16/unc_2020_frontend_base:circle_ci
-          docker push kostua16/unc_2020_backend_base:$TAG
-          docker push kostua16/unc_2020_frontend_base:$TAG
+          TAG=branch_${CIRCLE_BRANCH}.latest
+          DEV_TAG=branch_develop.latest
+          TAG_DETAILED=branch_${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}
+
+          docker pull kostua16/unc_2020_backend_base:${TAG} || true
+          docker pull kostua16/unc_2020_backend_base:${DEV_TAG} || true
+          if [[ "$(docker images -q kostua16/unc_2020_backend_base:${TAG} 2> /dev/null)" == "" ]]; then
+            docker build --cache-from kostua16/unc_2020_backend_base:${TAG} -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${TAG} .
+          else
+            docker build --cache-from kostua16/unc_2020_backend_base:${DEV_TAG} -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${DEV_TAG} .
+          fi
+          docker push kostua16/unc_2020_backend_base:${TAG}
+
+          docker pull kostua16/unc_2020_frontend_base:${TAG} || true
+          docker pull kostua16/unc_2020_frontend_base:${DEV_TAG} || true
+          if [[ "$(docker images -q kostua16/unc_2020_frontend_base:${TAG} 2> /dev/null)" == "" ]]; then
+            docker build --cache-from kostua16/unc_2020_frontend_base:${TAG} -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
+          else
+            docker build --cache-from kostua16/unc_2020_frontend_base:${DEV_TAG} -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
+          fi
+          docker push kostua16/unc_2020_frontend_base:${TAG}
+
+          docker pull kostua16/unc_2020_discovery:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_discovery:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=discovery -t kostua16/unc_2020_discovery:${TAG} .
+          docker push kostua16/unc_2020_discovery:${TAG}
+
+          docker pull kostua16/unc_2020_config:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_config:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=config -t kostua16/unc_2020_config:${TAG} .
+          docker push kostua16/unc_2020_config:${TAG}
+
+          docker pull kostua16/unc_2020_proxy:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_proxy:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=proxy -t kostua16/unc_2020_proxy:${TAG} .
+          docker push kostua16/unc_2020_proxy:${TAG}
+
+          docker pull kostua16/unc_2020_logging:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_logging:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=logging -t kostua16/unc_2020_logging:${TAG} .
+          docker push kostua16/unc_2020_logging:${TAG}
+
+          docker pull kostua16/unc_2020_tax:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_tax:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=tax -t kostua16/unc_2020_tax:${TAG} .
+          docker push kostua16/unc_2020_tax:${TAG}
+
+          docker pull kostua16/unc_2020_gibdd:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_gibdd:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=gibdd -t kostua16/unc_2020_gibdd:${TAG} .
+          docker push kostua16/unc_2020_gibdd:${TAG}
+
+          docker pull kostua16/unc_2020_account:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_account:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=account -t kostua16/unc_2020_account:${TAG} .
+          docker push kostua16/unc_2020_account:${TAG}
+
+          docker pull kostua16/unc_2020_bank:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_bank:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=bank -t kostua16/unc_2020_bank:${TAG} .
+          docker push kostua16/unc_2020_bank:${TAG}
+
+          docker pull kostua16/unc_2020_communal:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_communal:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=communal -t kostua16/unc_2020_communal:${TAG} .
+          docker push kostua16/unc_2020_communal:${TAG}
+
+          docker pull kostua16/unc_2020_passport:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_passport:${TAG} -f backend.production.Dockerfile --build-arg PROJECT=passport -t kostua16/unc_2020_passport:${TAG} .
+          docker push kostua16/unc_2020_passport:${TAG}
+
+          docker pull kostua16/unc_2020_frontend:${TAG} || true
+          docker build --cache-from kostua16/unc_2020_frontend:${TAG} -f prod.Dockerfile -t kostua16/unc_2020_frontend:${TAG} ./client-ui
+          docker push kostua16/unc_2020_frontend:${TAG}
 workflows:
   maven_test:
     jobs:
