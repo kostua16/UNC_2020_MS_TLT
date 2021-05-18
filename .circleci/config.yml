@@ -8,31 +8,22 @@ jobs:
   build-and-push:
     executor: docker/docker
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
       - checkout
-      - docker/check
-      - docker/build:
-          image: kostua16/unc_2020_backend_base
-          path: .
-          dockerfile: baseline.back.Dockerfile
-      - docker/build:
-          image: kostua16/unc_2020_frontend_base
-          path: .
-          dockerfile: baseline.frontend.Dockerfile
-#      - docker/push:
-#          digest-path: /tmp/digest.txt
-#          image: kostua16/unc_2020_backend_base
-      - docker/publish:
-          cache_from: kostua16/unc_2020_backend_base:circle_ci
-          image: kostua16/unc_2020_backend_base
-          tag: circle_ci
-      - docker/publish:
-          cache_from: kostua16/unc_2020_frontend_base:circle_ci
-          image: kostua16/unc_2020_frontend_base
-          tag: circle_ci
-#      - run:
-#          command: |
-#            echo "Digest is: $(</tmp/digest.txt)"
+      # build and push Docker image
+      - run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+          TAG=circle_ci.$CIRCLE_BUILD_NUM
+          docker build -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:circle_ci .
+          docker build -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:circle_ci .
+          docker tag  kostua16/unc_2020_backend_base:circle_ci kostua16/unc_2020_backend_base:$TAG
+          docker tag  kostua16/unc_2020_frontend_base:circle_ci kostua16/unc_2020_frontend_base:$TAG
+          docker push kostua16/unc_2020_backend_base:circle_ci
+          docker push kostua16/unc_2020_frontend_base:circle_ci
+          docker push kostua16/unc_2020_backend_base:$TAG
+          docker push kostua16/unc_2020_frontend_base:$TAG
 workflows:
   maven_test:
     jobs:
