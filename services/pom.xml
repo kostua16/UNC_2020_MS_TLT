@@ -15,10 +15,6 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 
-  <properties>
-    <build.repackage>true</build.repackage>
-  </properties>
-
   <modules>
     <module>discovery</module>
     <module>config</module>
@@ -47,6 +43,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
+              <executable>false</executable>
               <excludeDevtools>false</excludeDevtools>
               <wait>1000</wait>
               <maxAttempts>180</maxAttempts>
