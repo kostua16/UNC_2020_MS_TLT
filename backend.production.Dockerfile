@@ -24,7 +24,7 @@ RUN time mvn install -am -pl services/${PROJECT} -DskipTests=true -DskipInspecti
 FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
 ENV APP_XMS=100M
-ENV APP_XMX=300M
+ENV APP_XMX=256M
 ENTRYPOINT ["/home/app/backend.sh"]
 EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
