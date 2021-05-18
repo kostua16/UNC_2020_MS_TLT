@@ -87,8 +87,8 @@ build_ui() {
   heroku container:release -a "${HEROKU_IMAGE_NAME}" web
 }
 
-build_baseline kostua16/unc_2020_backend_base baseline.back.Dockerfile
-build_baseline kostua16/unc_2020_frontend_base baseline.frontend.Dockerfile
+build_baseline unc_2020_backend_base baseline.back.Dockerfile
+build_baseline unc_2020_frontend_base baseline.frontend.Dockerfile
 build_service discovery nc-edu-2020-discovery
 build_service config nc-edu-2020-config
 build_service proxy nc-edu-2020-proxy
