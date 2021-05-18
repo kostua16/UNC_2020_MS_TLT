@@ -15,9 +15,9 @@ jobs:
       # build and push Docker image
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
-          TAG=branch_${CIRCLE_BRANCH}.latest
+          TAG=branch_${CIRCLE_BRANCH//\//_}.latest
           DEV_TAG=branch_develop.latest
-          TAG_DETAILED=branch_${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}
+          TAG_DETAILED=branch_${CIRCLE_BRANCH//\//_}.${CIRCLE_BUILD_NUM}
 
           docker pull kostua16/unc_2020_backend_base:${TAG} || true
           if [[ "$(docker images -q kostua16/unc_2020_backend_base:${TAG} 2> /dev/null)" == "" ]]; then
