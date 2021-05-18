@@ -60,5 +60,5 @@ docker push kostua16/unc_2020_communal:${TAG}
 docker build -f backend.production.Dockerfile --build-arg PROJECT=passport -t kostua16/unc_2020_passport:${TAG} .
 docker push kostua16/unc_2020_passport:${TAG}
 
-docker build -f prod.Dockerfile -t kostua16/unc_2020_frontend:${TAG} ./client-ui
+docker build -f client-ui/prod.Dockerfile -t kostua16/unc_2020_frontend:${TAG} ./client-ui
 docker push kostua16/unc_2020_frontend:${TAG}
