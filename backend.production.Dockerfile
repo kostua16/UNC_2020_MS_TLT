@@ -28,7 +28,7 @@ FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
 ENV APP_XMS=100M
 ENV APP_XMX=300M
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher", " -Xms${APP_XMS}", "-Xmx${APP_XMX}", "-Xss1m", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=${PORT}"]
+ENTRYPOINT java org.springframework.boot.loader.JarLauncher -Xms${APP_XMS} -Xmx${APP_XMX} -Xss1M -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT} -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
 EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
 WORKDIR /home/app/

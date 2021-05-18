@@ -1,88 +1,91 @@
 #!/usr/bin/env bash
 TAG=branch_${CIRCLE_BRANCH//\//_}.latest
 DEV_TAG=branch_develop.latest
-docker pull kostua16/unc_2020_backend_base:${TAG} || true
-if [[ "$(docker images -q kostua16/unc_2020_backend_base:${TAG} 2> /dev/null)" == "" ]]; then
-  docker build --cache-from kostua16/unc_2020_backend_base:${TAG} -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${TAG} .
-else
-  docker pull kostua16/unc_2020_backend_base:${DEV_TAG} || true
-  if [[ "$(docker images -q kostua16/unc_2020_backend_base:${DEV_TAG} 2> /dev/null)" == "" ]]; then
-    docker build --cache-from kostua16/unc_2020_backend_base:${DEV_TAG} -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${DEV_TAG} .
+
+build_baseline() {
+  BASELINE_NAME=${1}
+  DOCKER_FILE=${2}
+  IMAGE_NAME=kostua16/${BASELINE_NAME}
+  CACHE_FROM=""
+  docker pull "${IMAGE_NAME}:${TAG}" || true
+  if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
+    CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
   else
-    docker build -f baseline.back.Dockerfile -t kostua16/unc_2020_backend_base:${DEV_TAG} .
+    docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
+    if [[ "$(docker images -q ${IMAGE_NAME}:${DEV_TAG} 2> /dev/null)" == "" ]]; then
+      CACHE_FROM="--cache-from ${IMAGE_NAME}:${DEV_TAG}"
+    else
+      docker pull "${IMAGE_NAME}:latest" || true
+      if [[ "$(docker images -q ${IMAGE_NAME}:latest 2> /dev/null)" == "" ]]; then
+        CACHE_FROM="--cache-from ${IMAGE_NAME}:latest"
+      fi
+    fi
   fi
-fi
-docker tag kostua16/unc_2020_backend_base:${TAG} kostua16/unc_2020_backend_base:latest
-docker push kostua16/unc_2020_backend_base:${TAG}
-docker push kostua16/unc_2020_backend_base:latest
-
-docker pull kostua16/unc_2020_frontend_base:${TAG} || true
-if [[ "$(docker images -q kostua16/unc_2020_frontend_base:${TAG} 2> /dev/null)" == "" ]]; then
-  docker build --cache-from kostua16/unc_2020_frontend_base:${TAG} -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
-else
-  docker pull kostua16/unc_2020_frontend_base:${DEV_TAG} || true
-  if [[ "$(docker images -q kostua16/unc_2020_frontend_base:${DEV_TAG} 2> /dev/null)" == "" ]]; then
-    docker build --cache-from kostua16/unc_2020_frontend_base:${DEV_TAG} -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
+  docker build "${CACHE_FROM}" -f "${DOCKER_FILE}" -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
+  docker push "${IMAGE_NAME}:${TAG}"
+  docker push "${IMAGE_NAME}:latest"
+}
+build_service() {
+  PROJECT=${1}
+  IMAGE_NAME=kostua16/unc_2020_${PROJECT}
+  HEROKU_IMAGE_NAME=registry.heroku.com/${2}
+  CACHE_FROM=""
+  docker pull "${IMAGE_NAME}:${TAG}" || true
+  if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
+    CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
   else
-    docker build -f baseline.frontend.Dockerfile -t kostua16/unc_2020_frontend_base:${TAG} .
+    docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
+    if [[ "$(docker images -q ${IMAGE_NAME}:${DEV_TAG} 2> /dev/null)" == "" ]]; then
+      CACHE_FROM="--cache-from ${IMAGE_NAME}:${DEV_TAG}"
+    else
+      docker pull "${IMAGE_NAME}:latest" || true
+      if [[ "$(docker images -q ${IMAGE_NAME}:latest 2> /dev/null)" == "" ]]; then
+        CACHE_FROM="--cache-from ${IMAGE_NAME}:latest"
+      fi
+    fi
   fi
-fi
-docker tag kostua16/unc_2020_frontend_base:${TAG} kostua16/unc_2020_frontend_base:latest
-docker push kostua16/unc_2020_frontend_base:${TAG}
-docker push kostua16/unc_2020_frontend_base:latest
+  docker build "${CACHE_FROM}" -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" .
+  docker push "${IMAGE_NAME}:${TAG}"
+  docker push "${IMAGE_NAME}:latest"
+  docker push "${HEROKU_IMAGE_NAME}/web"
+  heroku container:release -a "${HEROKU_IMAGE_NAME}" web
+}
+build_ui() {
+  IMAGE_NAME=kostua16/unc_2020_frontend
+  HEROKU_IMAGE_NAME=registry.heroku.com/nc-edu-2020-ui
+  CACHE_FROM=""
+  docker pull "${IMAGE_NAME}:${TAG}" || true
+  if [[ "$(docker images -q ${IMAGE_NAME}:${TAG} 2> /dev/null)" == "" ]]; then
+    CACHE_FROM="--cache-from ${IMAGE_NAME}:${TAG}"
+  else
+    docker pull "${IMAGE_NAME}:${DEV_TAG}" || true
+    if [[ "$(docker images -q ${IMAGE_NAME}:${DEV_TAG} 2> /dev/null)" == "" ]]; then
+      CACHE_FROM="--cache-from ${IMAGE_NAME}:${DEV_TAG}"
+    else
+      docker pull "${IMAGE_NAME}:latest" || true
+      if [[ "$(docker images -q ${IMAGE_NAME}:latest 2> /dev/null)" == "" ]]; then
+        CACHE_FROM="--cache-from ${IMAGE_NAME}:latest"
+      fi
+    fi
+  fi
+  docker build "${CACHE_FROM}" -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" ./client-ui
+  docker push "${IMAGE_NAME}:${TAG}"
+  docker push "${IMAGE_NAME}:latest"
+  docker push "${HEROKU_IMAGE_NAME}/web"
+  heroku container:release -a "${HEROKU_IMAGE_NAME}" web
+}
 
-docker build -f backend.production.Dockerfile --build-arg PROJECT=discovery -t kostua16/unc_2020_discovery:${TAG} -t registry.heroku.com/nc-edu-2020-discovery/web .
-docker push kostua16/unc_2020_discovery:${TAG}
-docker push registry.heroku.com/nc-edu-2020-discovery/web
-heroku container:release -a nc-edu-2020-discovery web
+build_baseline kostua16/unc_2020_backend_base baseline.back.Dockerfile
+build_baseline kostua16/unc_2020_frontend_base baseline.frontend.Dockerfile
+build_service discovery nc-edu-2020-discovery
+build_service config nc-edu-2020-config
+build_service proxy nc-edu-2020-proxy
+build_service logging nc-edu-2020-logger
+build_service tax nc-edu-2020-tax
+build_service gibdd nc-edu-2020-gibdd
+build_service account nc-edu-2020-account
+build_service bank nc-edu-2020-bank
+build_service communal nc-edu-2020-communal
+build_service passport nc-edu-2020-passport
+build_ui
 
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=config -t kostua16/unc_2020_config:${TAG} -t registry.heroku.com/nc-edu-2020-config/web .
-docker push kostua16/unc_2020_config:${TAG}
-docker push registry.heroku.com/nc-edu-2020-config/web
-heroku container:release -a nc-edu-2020-config web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=proxy -t kostua16/unc_2020_proxy:${TAG} -t registry.heroku.com/nc-edu-2020-proxy/web .
-docker push kostua16/unc_2020_proxy:${TAG}
-docker push registry.heroku.com/nc-edu-2020-proxy/web
-heroku container:release -a nc-edu-2020-proxy web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=logging -t kostua16/unc_2020_logging:${TAG} -t registry.heroku.com/nc-edu-2020-logger/web .
-docker push kostua16/unc_2020_logging:${TAG}
-docker push registry.heroku.com/nc-edu-2020-logger/web
-heroku container:release -a nc-edu-2020-logger web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=tax -t kostua16/unc_2020_tax:${TAG} -t registry.heroku.com/nc-edu-2020-tax/web .
-docker push kostua16/unc_2020_tax:${TAG}
-docker push registry.heroku.com/nc-edu-2020-tax/web
-heroku container:release -a nc-edu-2020-tax web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=gibdd -t kostua16/unc_2020_gibdd:${TAG} -t registry.heroku.com/nc-edu-2020-gibdd/web .
-docker push kostua16/unc_2020_gibdd:${TAG}
-docker push registry.heroku.com/nc-edu-2020-gibdd/web
-heroku container:release -a nc-edu-2020-gibdd web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=account -t kostua16/unc_2020_account:${TAG} -t registry.heroku.com/nc-edu-2020-account/web .
-docker push kostua16/unc_2020_account:${TAG}
-docker push registry.heroku.com/nc-edu-2020-account/web
-heroku container:release -a nc-edu-2020-account web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=bank -t kostua16/unc_2020_bank:${TAG} -t registry.heroku.com/nc-edu-2020-bank/web .
-docker push kostua16/unc_2020_bank:${TAG}
-docker push registry.heroku.com/nc-edu-2020-bank/web
-heroku container:release -a nc-edu-2020-bank web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=communal -t kostua16/unc_2020_communal:${TAG} -t registry.heroku.com/nc-edu-2020-communal/web .
-docker push kostua16/unc_2020_communal:${TAG}
-docker push registry.heroku.com/nc-edu-2020-communal/web
-heroku container:release -a nc-edu-2020-communal web
-
-docker build -f backend.production.Dockerfile --build-arg PROJECT=passport -t kostua16/unc_2020_passport:${TAG} -t registry.heroku.com/nc-edu-2020-passport/web .
-docker push kostua16/unc_2020_passport:${TAG}
-docker push registry.heroku.com/nc-edu-2020-passport/web
-heroku container:release -a nc-edu-2020-passport web
-
-docker build -f client-ui/prod.Dockerfile -t kostua16/unc_2020_frontend:${TAG} -t registry.heroku.com/nc-edu-2020-ui/web ./client-ui
-docker push kostua16/unc_2020_frontend:${TAG}
-docker push registry.heroku.com/nc-edu-2020-ui/web
-heroku container:release -a nc-edu-2020-ui web
