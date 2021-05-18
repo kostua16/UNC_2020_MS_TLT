@@ -44,7 +44,7 @@ build_service() {
       fi
     fi
   fi
-  docker build "${CACHE_FROM}" -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" .
+  docker build "${CACHE_FROM}" -f backend.production.Dockerfile --build-arg "PROJECT=${PROJECT}" -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" .
   docker push "${IMAGE_NAME}:${TAG}"
   docker push "${IMAGE_NAME}:latest"
   docker push "${HEROKU_IMAGE_NAME}/web"
@@ -68,7 +68,7 @@ build_ui() {
       fi
     fi
   fi
-  docker build "${CACHE_FROM}" -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" ./client-ui
+  docker build "${CACHE_FROM}" -f client-ui/prod.Dockerfile -t "${IMAGE_NAME}:${TAG}" -t "${HEROKU_IMAGE_NAME}/web" -t "${IMAGE_NAME}:latest" ./client-ui
   docker push "${IMAGE_NAME}:${TAG}"
   docker push "${IMAGE_NAME}:latest"
   docker push "${HEROKU_IMAGE_NAME}/web"
