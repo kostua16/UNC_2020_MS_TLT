@@ -37,4 +37,7 @@ workflows:
   maven_test:
     jobs:
       - maven/test
+  docker_build:
+    jobs:
+      - build-and-push
 
