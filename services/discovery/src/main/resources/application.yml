@@ -28,17 +28,17 @@ eureka:
   server:
     expected-client-renewal-interval-seconds: 15
     my-url: ${discovery.url}
-
 logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
   level:
-    org.springframework.cloud: debug
-    nc.unc.cs.services: debug
-    com:
-      netflix:
-        eureka: INFO
-        discovery: INFO
-#    org:
-#      springframework:
-#        web:
-#          client:
-#            RestTemplate: DEBUG
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+  file:
+    name: logs/application-debug.log

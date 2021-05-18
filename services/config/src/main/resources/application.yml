@@ -45,17 +45,19 @@ eureka:
     home-page-url: "http://${eureka.instance.hostname}/${eureka.instance.home-page-url-path}"
     instance-id: "${eureka.instance.hostname}"
 logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
   level:
-    org.springframework.cloud: debug
-    com:
-      netflix:
-        eureka: OFF
-        discovery: OFF
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate: error
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+  file:
+    name: logs/application-debug.log
 ---
 spring:
   cloud:
