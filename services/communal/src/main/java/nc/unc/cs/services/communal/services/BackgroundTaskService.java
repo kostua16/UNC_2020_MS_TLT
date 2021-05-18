@@ -1,8 +1,8 @@
 package nc.unc.cs.services.communal.services;
 
+import feign.FeignException;
 import java.util.Date;
 import java.util.List;
-import feign.FeignException;
 import nc.unc.cs.services.common.clients.logging.LogEntry;
 import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.communal.entities.Property;
@@ -64,8 +64,7 @@ public class BackgroundTaskService {
       final PropertyTaxValueRepository propertyTaxValueRepository,
       final UtilityBillRepository utilityBillRepository,
       final BankIntegrationService bankIntegrationService,
-      final LoggingService logging
-  ) {
+      final LoggingService logging) {
     this.propertyRepository = propertyRepository;
     this.propertyTaxRepository = propertyTaxRepository;
     this.propertyTaxValueRepository = propertyTaxValueRepository;
@@ -193,14 +192,12 @@ public class BackgroundTaskService {
     return (int) (apartmentSize * pricePerSquareMeter / 100.0 * (cadastralValue / 100.0));
   }
 
-  /**
-   * Фоновый процесс валидации статуса налога на недвижимость.
-   */
+  /** Фоновый процесс валидации статуса налога на недвижимость. */
   @Scheduled(fixedRateString = "${communal.background.job.property-tax.period}")
   public void checkPropertyTaxPaymentStatus() {
     final Pageable pageable = PageRequest.of(0, propertyTaxPageSize);
-    final Page<PropertyTax> pagePropertyTaxes
-        = this.propertyTaxRepository.findAllByIsPaid(false, pageable);
+    final Page<PropertyTax> pagePropertyTaxes =
+        this.propertyTaxRepository.findAllByIsPaid(false, pageable);
     if (pagePropertyTaxes == null) {
       LOGGER.info("Property Tax not found!");
     } else {
@@ -208,7 +205,6 @@ public class BackgroundTaskService {
       propertyTaxes.forEach(this::changePaymentStatus);
     }
   }
-
 
   /**
    * Валидирует статус оплаты.
@@ -226,8 +222,7 @@ public class BackgroundTaskService {
                 .created(new Date())
                 .message(
                     String.format(
-                        "PropertyTax with ID = %d has been paid",
-                        propertyTax.getPropertyTaxId()))
+                        "PropertyTax with ID = %d has been paid", propertyTax.getPropertyTaxId()))
                 .build());
       }
     } catch (FeignException fe) {
@@ -235,14 +230,12 @@ public class BackgroundTaskService {
     }
   }
 
-  /**
-   * Фоновый процесс валидации статуса нкоммунальных квитанций.
-   */
+  /** Фоновый процесс валидации статуса нкоммунальных квитанций. */
   @Scheduled(fixedRateString = "${communal.background.job.property-tax.period}")
   public void checkUtilityBillPaymentStatus() {
     final Pageable pageable = PageRequest.of(0, utilityBillPageSize);
-    final Page<UtilityBill> pageUtilityBills
-        = this.utilityBillRepository.findAllByIsPaid(false, pageable);
+    final Page<UtilityBill> pageUtilityBills =
+        this.utilityBillRepository.findAllByIsPaid(false, pageable);
     if (pageUtilityBills == null) {
       LOGGER.info("Utility Bill not found!");
     } else {
@@ -267,8 +260,7 @@ public class BackgroundTaskService {
                 .created(new Date())
                 .message(
                     String.format(
-                        "UtilityBill with ID = %d has been paid",
-                        utilityBill.getUtilityBillId()))
+                        "UtilityBill with ID = %d has been paid", utilityBill.getUtilityBillId()))
                 .build());
       }
     } catch (FeignException fe) {
