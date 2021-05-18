@@ -19,7 +19,7 @@ COPY services/common/repackage.skip ./services/common/
 COPY services/common/src/ ./services/common/src/
 ARG PROJECT
 COPY services/${PROJECT}/src/ ./services/${PROJECT}/src/
-RUN mvn install -am -pl services/${PROJECT} -T 2C -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
+RUN time mvn install -am -pl services/${PROJECT} -T 2C -DskipTests=true -DskipInspections=true -DskipDocs=true && java -Djarmode=layertools -jar ./services/${PROJECT}/target/${PROJECT}-0.0.1-SNAPSHOT.jar extract
 
 FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
