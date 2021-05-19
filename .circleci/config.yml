@@ -158,3 +158,4 @@ workflows:
           name: build-frontend
           requires:
             - build-baseline-images
+            - build-discovery
