@@ -23,7 +23,7 @@ spring:
     config:
       discovery:
         enabled: true
-        service-id: CONFIGSERVER
+        service-id: configserver
       label: master
       fail-fast: true
 eureka:
