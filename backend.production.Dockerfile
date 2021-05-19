@@ -23,6 +23,7 @@ RUN time mvn install -am -pl services/${PROJECT} -DskipTests=true -DskipInspecti
 
 FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
+ENV PROFILE=default
 ENV APP_XMS=100M
 ENV APP_XMX=250M
 CMD ["/home/app/backend.sh"]
