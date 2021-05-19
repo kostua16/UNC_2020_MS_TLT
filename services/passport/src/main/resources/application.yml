@@ -7,6 +7,7 @@ management:
 spring:
   main:
     banner-mode: off
+    lazy-initialization: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   datasource:

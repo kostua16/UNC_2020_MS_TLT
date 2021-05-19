@@ -8,6 +8,7 @@ management:
 spring:
   main:
     banner-mode: off
+    lazy-initialization: true
   cloud:
     gateway:
       routes:
