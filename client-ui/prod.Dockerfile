@@ -6,6 +6,8 @@ RUN yarn build
 FROM nginx:alpine as production
 USER nginx
 ENV PORT=8080
-COPY --chown=nginx --from=build /app/dist /app
+CMD ["frontend.sh"]
 COPY --chown=nginx nginx.conf /etc/nginx/nginx.conf.template
-CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf" && nginx -g 'daemon off;'
+COPY --chown=nginx ./frontend.sh /app/frontend.sh
+RUN chmod +x /app/frontend.sh
+COPY --chown=nginx --from=build /app/dist /app
