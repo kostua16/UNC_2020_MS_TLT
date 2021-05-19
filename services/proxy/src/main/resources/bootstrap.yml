@@ -1,6 +1,5 @@
 app:
-  local-url: 127.0.0.1:${server.port}
-  public-url: ${APP_URL:${app.local-url}}
+  public-url: ${APP_URL:${java.rmi.server.hostname}}:${APP_PORT:${server.port}}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020}
   user: ${EUREKA_UID:unc2020}
