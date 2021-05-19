@@ -1,10 +1,4 @@
-#!/usr/bin/env bash
-if [[ -z "${APP_XMX}" ]]; then
-    export APP_XMX=248M
-fi
-if [[ -z "${APP_XMS}" ]]; then
-    export APP_XMS=100M
-fi
+#!/usr/bin/env sh
 echo "------- [DEFAULT JAVA OPTIONS] -------"
 java -XX:+PrintFlagsFinal
 echo "------- [CONFIGURED JAVA OPTIONS] -------"
