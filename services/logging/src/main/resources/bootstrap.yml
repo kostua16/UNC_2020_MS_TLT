@@ -28,8 +28,10 @@ spring:
     name: LOGGER
   cloud:
     config:
-      uri: ${config.url}
-      fail-fast: true
+      discovery:
+        enabled: true
+#      uri: ${config.url}
+#      fail-fast: true
 eureka:
   client:
     service-url:
