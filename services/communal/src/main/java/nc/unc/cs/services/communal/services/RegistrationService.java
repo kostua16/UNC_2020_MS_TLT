@@ -25,7 +25,7 @@ public class RegistrationService {
   /** Номер сервиса. */
   public static final Long SERVICE_ID = 19L;
   /** Номер сервиса регистрации. */
-  public static final Long REGISTRATION_SERVICE_ID = 19L;
+  public static final Long REGISTRATION_SERVICE_ID = 18L;
   /** Стоимость предоставляемой услуги */
   public static final Integer SERVICE_COST = 2000;
 
@@ -79,7 +79,7 @@ public class RegistrationService {
         this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
 
     this.bankIntegrationService.bankRequest(
-        SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+        REGISTRATION_SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
     if (lastRegistration != null) {
       lastRegistration.setIsActive(false);
       this.registrationRepository.save(lastRegistration);

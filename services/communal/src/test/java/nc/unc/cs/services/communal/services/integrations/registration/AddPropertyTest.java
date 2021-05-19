@@ -25,7 +25,7 @@ class AddPropertyTest {
   /** Налоговый процент от стоимости платежа. */
   public static final Integer TAX_PERCENT = RegistrationService.TAX_PERCENT;
   /** Номер сервиса. */
-  public static final Long SERVICE_ID = RegistrationService.SERVICE_ID;
+  public static final Long REGISTRATION_SERVICE_ID = RegistrationService.REGISTRATION_SERVICE_ID;
   /** Стоимость предоставляемой услуги */
   public static final Integer SERVICE_COST = RegistrationService.SERVICE_COST;
 
@@ -68,7 +68,7 @@ class AddPropertyTest {
 
     given(
             this.bankIntegrationService.bankRequest(
-                SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
+                REGISTRATION_SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
         .willReturn(15L);
 
     given(this.propertyRepository.save(property)).willReturn(property);
@@ -92,7 +92,7 @@ class AddPropertyTest {
 
     given(
             this.bankIntegrationService.bankRequest(
-                SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
+                REGISTRATION_SERVICE_ID, property.getCitizenId(), SERVICE_COST, TAX_PERCENT))
         .willReturn(15L);
 
     given(this.propertyRepository.save(property)).willReturn(property);
