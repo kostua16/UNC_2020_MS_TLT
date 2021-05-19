@@ -1,79 +1,85 @@
 <template>
-  <div class="mt-10">
-    <v-text-field
-        type="text"
-        label="Область"
-        v-model.trim="region"
-        :error-messages="regionErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.region.$touch()"
-        @blur="$v.region.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Населённый пункт"
-        v-model.trim="city"
-        :error-messages="cityErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.city.$touch()"
-        @blur="$v.city.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Улица"
-        v-model.trim="street"
-        :error-messages="streetErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.street.$touch()"
-        @blur="$v.street.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="Дом"
-        v-model.trim="house"
-        :error-messages="houseErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.house.$touch()"
-        @blur="$v.house.$touch()"
-    />
-    <v-text-field
-        type="text"
-        label="офис/квартира"
-        v-model.trim="apartment"
-        :error-messages="apartmentErrors"
-        hide-details="auto"
-        counter
-        required
-        @input="$v.apartment.$touch()"
-        @blur="$v.apartment.$touch()"
-    />
-    <v-btn
-        @click="addRegistration"
-        class="mt-5 mb-8"
-        block
-        color="red"
-        dark
-    >
-      Добавить прописку
-    </v-btn>
-    <v-snackbar
-        :color="notificationColor"
-        v-model="snackbar"
-        :timeout="timeout"
-        top
-        width="auto"
-    >
-      {{ notification }}
-    </v-snackbar>
-  </div>
+  <v-main>
+    <div class="mt-5">
+      <v-autocomplete
+          type="text"
+          label="Область"
+          v-model.trim="region"
+          :error-messages="regionErrors"
+          hide-details="auto"
+          counter
+          required
+          @input="$v.region.$touch()"
+          @blur="$v.region.$touch()"
+          :items="regions"
+          dense
+          flat
+          no-data-text="Такого региона не найдено"
+      ></v-autocomplete>
+      <v-text-field
+          type="text"
+          label="Населённый пункт"
+          v-model.trim="city"
+          :error-messages="cityErrors"
+          hide-details="auto"
+          counter
+          required
+          @input="$v.city.$touch()"
+          @blur="$v.city.$touch()"
+      />
+      <v-text-field
+          type="text"
+          label="Улица"
+          v-model.trim="street"
+          :error-messages="streetErrors"
+          hide-details="auto"
+          counter
+          required
+          @input="$v.street.$touch()"
+          @blur="$v.street.$touch()"
+      />
+      <v-text-field
+          type="text"
+          label="Дом"
+          v-model.trim="house"
+          :error-messages="houseErrors"
+          hide-details="auto"
+          counter
+          required
+          @input="$v.house.$touch()"
+          @blur="$v.house.$touch()"
+      />
+      <v-text-field
+          type="text"
+          label="офис/квартира"
+          v-model.trim="apartment"
+          :error-messages="apartmentErrors"
+          hide-details="auto"
+          counter
+          required
+          @input="$v.apartment.$touch()"
+          @blur="$v.apartment.$touch()"
+      />
+      <v-btn
+          @click="addRegistration"
+          class="mt-5 mb-8"
+          block
+          color="red"
+          dark
+      >
+        Добавить прописку
+      </v-btn>
+      <v-snackbar
+          :color="notificationColor"
+          v-model="snackbar"
+          :timeout="timeout"
+          top
+          width="auto"
+      >
+        {{ notification }}
+      </v-snackbar>
+    </div>
+  </v-main>
 </template>
 
 <script>
@@ -81,6 +87,7 @@ import CommunalService from '@/services/communal/communal-service'
 import Registration from "@/models/communal/registration";
 import {maxLength, minLength, required} from "vuelidate/lib/validators";
 import {mapActions} from "vuex";
+import regions from "@/models/list/region-list";
 
 export default {
   name: "Registration",
@@ -96,6 +103,7 @@ export default {
       notification: '',
       timeout: 2500,
       notificationColor: '',
+      regions: regions
     }
   },
   validations: {
@@ -103,7 +111,7 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё][а-яё-]+[ ]+(область|край|округ)+$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]+[ ]+[а-яё]+$|^(Севастополь)$/i.test(val)
     },
     city: {
       required,

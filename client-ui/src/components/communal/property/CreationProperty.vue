@@ -17,10 +17,10 @@
     <v-card>
       <v-card-text>
         <v-container>
-          <v-row>
-            <v-text-field
+          <v-row class="pt-5">
+            <v-autocomplete
                 type="text"
-                label="Регион"
+                label="Область"
                 v-model.trim="region"
                 :error-messages="regionErrors"
                 hide-details="auto"
@@ -28,7 +28,11 @@
                 required
                 @input="$v.region.$touch()"
                 @blur="$v.region.$touch()"
-            />
+                :items="regions"
+                dense
+                flat
+                no-data-text="Такого региона не найдено"
+            ></v-autocomplete>
           </v-row>
           <v-row>
             <v-text-field
@@ -122,6 +126,7 @@
 import CreationProperty from '@/models/communal/requests/creation-property'
 import {maxLength, minLength, minValue, numeric, required} from "vuelidate/lib/validators";
 import {mapActions} from "vuex";
+import regions from "@/models/list/region-list";
 
 export default {
   name: "CreationProperty",
@@ -136,6 +141,7 @@ export default {
       house: '',
       apartment: '',
       apartmentSize: '',
+      regions: regions,
     }
   },
   validations: {
@@ -143,7 +149,7 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё][а-яё-]+[ ]+(область|край|округ)+$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]+[ ]+[а-яё]+$|^(Севастополь)$/i.test(val)
     },
     city: {
       required,

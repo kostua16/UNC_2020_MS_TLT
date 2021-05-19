@@ -33,7 +33,7 @@
             Прописка:
           </v-col>
           <v-col class="font-weight-bold">
-            {{ registration.region }} обл.,
+            {{ registration.region }},
             г. {{ registration.city }},
             ул. {{ registration.street }},
             д. {{ registration.house }},

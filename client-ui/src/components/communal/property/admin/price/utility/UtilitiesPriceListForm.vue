@@ -1,16 +1,22 @@
 <template>
   <div>
     <h2 class="text-center">Прейскурант для рассчёта стоимости коммунальных услуг</h2>
-    <v-text-field
+    <v-autocomplete
+        class="pt-5"
         type="text"
-        label="Введите название региона"
+        label="Область"
         v-model.trim="region"
-        hide-details="auto"
         :error-messages="regionErrors"
+        hide-details="auto"
+        counter
         required
         @input="$v.region.$touch()"
         @blur="$v.region.$touch()"
-    />
+        :items="regions"
+        dense
+        flat
+        no-data-text="Такого региона не найдено"
+    ></v-autocomplete>
     <v-text-field
         type="number"
         label="Введите стоимость 1 куб. м. холодной воды"
@@ -57,6 +63,7 @@
 import UtilitiesPriceList from "@/models/communal/utilities-price-list";
 import {mapActions} from 'vuex';
 import {maxLength, minLength, minValue, numeric, required} from "vuelidate/lib/validators";
+import regions from "@/models/list/region-list";
 
 export default {
   name: "UtilitiesPriceListForm",
@@ -73,6 +80,7 @@ export default {
       coldWaterPrice: '',
       hotWaterPrice: '',
       electricityPrice: '',
+      regions: regions,
     }
   },
   validations: {
@@ -80,7 +88,7 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё][а-яё-]+[ ]+(область|край|округ)+$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]+[ ]+[а-яё]+$|^(Севастополь)$/i.test(val)
     },
     coldWaterPrice: {
       required,
