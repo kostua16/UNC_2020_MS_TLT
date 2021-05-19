@@ -29,6 +29,7 @@ logging:
     org.springframework: WARN
     org.springframework.cloud: INFO
     org.springframework.web.client.RestTemplate: WARN
+    org.springframework.cloud.config: debug
   file:
     name: logs/application-debug.log
 server:
