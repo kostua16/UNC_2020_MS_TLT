@@ -1,9 +1,10 @@
 management:
   endpoints:
     enabled-by-default: true
-    web:
-      exposure:
-        include: "*"
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 spring:
   main:
     banner-mode: off
