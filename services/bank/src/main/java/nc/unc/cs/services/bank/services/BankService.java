@@ -23,14 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class BankService {
 
-  private final Map<Long, String> serviceTitles = new HashMap<Long, String>() {{
-    put(2L, "Оформление паспорта гражданинаю");
-    put(3L, "Оформление заграничного паспорта");
-    put(18L, "Обновление прописки гражданина");
-    put(19L, "Регистрация недвижимости");
-    put(20L, "Налог на недвижимость");
-    put(21L, "Коммунальные услуги");
-  }};
+  private final Map<Long, String> serviceTitles =
+      new HashMap<Long, String>() {
+        {
+          put(2L, "Оформление паспорта гражданинаю");
+          put(3L, "Оформление заграничного паспорта");
+          put(18L, "Обновление прописки гражданина");
+          put(19L, "Регистрация недвижимости");
+          put(20L, "Налог на недвижимость");
+          put(21L, "Коммунальные услуги");
+        }
+      };
 
   /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(BankService.class);

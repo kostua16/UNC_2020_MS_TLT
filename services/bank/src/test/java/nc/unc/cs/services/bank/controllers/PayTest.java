@@ -39,22 +39,20 @@ class PayTest {
       fieldWithPath("serviceTitle").type(String.class).description("Service title.");
 
   private static final FieldDescriptor[] PAYMENT_DESCR =
-      new FieldDescriptor[]{
-          PayTest.TRANSACTION_ID_DESCR,
-          PayTest.CITIZEN_ID_DESCR,
-          PayTest.PAYMENT_REQUEST_ID_DESCR,
-          PayTest.CREATION_DATE_DESCR,
-          PayTest.AMOUNT_DESCR,
-          PayTest.SERVICE_TITLE_DESCR
+      new FieldDescriptor[] {
+        PayTest.TRANSACTION_ID_DESCR,
+        PayTest.CITIZEN_ID_DESCR,
+        PayTest.PAYMENT_REQUEST_ID_DESCR,
+        PayTest.CREATION_DATE_DESCR,
+        PayTest.AMOUNT_DESCR,
+        PayTest.SERVICE_TITLE_DESCR
       };
 
   private static final ResponseFieldsSnippet PAYMENT_RESP = responseFields(PayTest.PAYMENT_DESCR);
 
   private static final String BANK_CONTROLLER_MAPPING = "http://localhost:8084/bank/payment/";
-  @Autowired
-  private MockMvc mockMvc;
-  @MockBean
-  private BankService bankService;
+  @Autowired private MockMvc mockMvc;
+  @MockBean private BankService bankService;
 
   private Transaction createTransaction() {
     return Transaction.builder()
