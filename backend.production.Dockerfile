@@ -25,7 +25,7 @@ FROM openjdk:8-jdk-alpine AS package
 ENV PORT=8080
 ENV PROFILE=default
 ENV APP_XMS=100M
-ENV APP_XMX=250M
+ENV APP_XMX=260M
 CMD ["/home/app/backend.sh"]
 EXPOSE ${PORT}
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup && mkdir /home/app/ && chown appuser:appgroup /home/app
