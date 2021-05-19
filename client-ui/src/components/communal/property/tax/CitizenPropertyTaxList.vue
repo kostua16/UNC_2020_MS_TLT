@@ -12,7 +12,7 @@
         <v-toolbar
             flat
         >
-          <v-toolbar-title>Мои налоги на едвижимость</v-toolbar-title>
+          <v-toolbar-title>Мои налоги на недвижимость</v-toolbar-title>
           <v-divider
               class="mx-4"
               inset
