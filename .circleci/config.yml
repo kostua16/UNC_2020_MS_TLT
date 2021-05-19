@@ -81,55 +81,66 @@ workflows:
     jobs:
       - build-baseline-images
       - build-backend-service:
+          name: build-discovery
           service_name: discovery
           target_app: nc-edu-2020-discovery
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-config
           service_name: config
           target_app: nc-edu-2020-config
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-proxy
           service_name: proxy
           target_app: nc-edu-2020-proxy
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-logging
           service_name: logging
           target_app: nc-edu-2020-logger
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-tax
           service_name: tax
           target_app: nc-edu-2020-tax
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-gibdd
           service_name: gibdd
           target_app: nc-edu-2020-gibdd
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-account
           service_name: account
           target_app: nc-edu-2020-account
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-bank
           service_name: bank
           target_app: nc-edu-2020-bank
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-communal
           service_name: communal
           target_app: nc-edu-2020-communal
           requires:
             - build-baseline-images
       - build-backend-service:
+          name: build-passport
           service_name: passport
           target_app: nc-edu-2020-passport
           requires:
             - build-baseline-images
       - build-frontend-service:
+          name: build-frontend
           requires:
             - build-baseline-images
