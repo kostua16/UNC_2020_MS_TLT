@@ -18,6 +18,14 @@ spring:
       name: ${discovery.user}
 server:
   port: ${PORT:8761}
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3
 eureka:
   client:
     register-with-eureka: false

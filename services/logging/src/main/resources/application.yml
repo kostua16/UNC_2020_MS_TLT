@@ -29,9 +29,12 @@ logging:
     org.springframework.web.client.RestTemplate: WARN
   file:
     name: logs/application-debug.log
-feign:
-#  httpclient:
-#    connection-timeout: 2000
-#    enabled: false
-#  okhttp:
-#    enabled: true
+server:
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3

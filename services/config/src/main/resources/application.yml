@@ -29,6 +29,14 @@ spring:
           search-locations: [classpath:/config, file:./config, file:../config_repo]
 server:
   port: ${PORT:8762}
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3
 eureka:
   client:
     service-url:
