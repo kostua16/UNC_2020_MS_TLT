@@ -12,12 +12,7 @@ discovery:
   host: ${EUREKA_HOST:127.0.0.1:8761}
   protocol: ${EUREKA_PROTOCOL:http}
   url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
-config:
-  password: ${CFG_PASSWORD:unc2020}
-  user: ${CFG_UID:unc2020}
-  host: ${CFG_HOST:127.0.0.1:8762}
-  protocol: ${CFG_PROTOCOL:http}
-  url: ${config.protocol}://${config.user}:${config.password}@${config.host}/
+
 server:
   port: ${PORT:8088}
 spring:
