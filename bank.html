@@ -460,14 +460,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#paymentTest_response_fields">Response fields</a></li>
 </ul>
 </li>
-<li><a href="#checkPaymentStatusTest">Checking invoice payment status</a>
-<ul class="sectlevel2">
-<li><a href="#checkPaymentStatusTest_curl_request">CURL request</a></li>
-<li><a href="#checkPaymentStatusTest_http_request">Example request</a></li>
-<li><a href="#checkPaymentStatusTest_http_response">Example response</a></li>
-<li><a href="#checkPaymentStatusTest_response_fields">Response fields</a></li>
-</ul>
-</li>
 <li><a href="#getDebtPaymentRequestsTest">Receiving unpaid invoices by citizen ID</a>
 <ul class="sectlevel2">
 <li><a href="#getDebtPaymentRequestsTest_curl_request">CURL request</a></li>
@@ -624,9 +616,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 108
+Content-Length: 161
 
-{"transactionId":1,"creationDate":"2021-05-19 08:23:37","amount":1000,"paymentRequestId":15,"citizenId":111}</code></pre>
+{"transactionId":1,"creationDate":"2021-05-19 08:35:24","amount":1000,"paymentRequestId":15,"citizenId":111,"serviceTitle":"СТОРОННЯЯ ОПЕРАЦИЯ"}</code></pre>
 </div>
 </div>
 </div>
@@ -671,37 +663,13 @@ Content-Length: 108
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Service cost.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>serviceTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service title.</p></td>
+</tr>
 </tbody>
 </table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="checkPaymentStatusTest">Checking invoice payment status</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="checkPaymentStatusTest_curl_request">CURL request</h3>
-<div class="paragraph">
-<p>Snippet curl-request not found for operation::checkPaymentStatusTest</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="checkPaymentStatusTest_http_request">Example request</h3>
-<div class="paragraph">
-<p>Snippet http-request not found for operation::checkPaymentStatusTest</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="checkPaymentStatusTest_http_response">Example response</h3>
-<div class="paragraph">
-<p>Snippet http-response not found for operation::checkPaymentStatusTest</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="checkPaymentStatusTest_response_fields">Response fields</h3>
-<div class="paragraph">
-<p>Snippet response-fields not found for operation::checkPaymentStatusTest</p>
-</div>
 </div>
 </div>
 </div>
@@ -807,7 +775,7 @@ Content-Length: 93
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-05-19 08:21:37 UTC
+Last updated 2021-05-19 08:33:22 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
