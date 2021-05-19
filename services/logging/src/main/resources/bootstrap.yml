@@ -1,5 +1,5 @@
 app:
-  public-url: ${APP_URL:${java.rmi.server.hostname}}:${APP_PORT:${server.port}}
+  public-url: ${APP_URL:127.0.0.1}:${APP_PORT:${server.port}}
   bank-url: ${BANK_URL:127.0.0.1:8084}
   tax-url: ${TAX_URL:127.0.0.1:8082}
   logging-url: ${LOGGING_URL:127.0.0.1:8089}
