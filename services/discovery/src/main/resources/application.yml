@@ -54,10 +54,7 @@ logging:
     org.springframework: WARN
     org.springframework.cloud: INFO
     org.springframework.web.client.RestTemplate: WARN
-    com:
-      netflix:
-        eureka:
-          cluster:
-            ReplicationTaskProcessor: fatal
+    com.netflix.eureka.cluster.ReplicationTaskProcessor: fatal
+    com.sun.jersey.api.client.ClientHandlerException: fatal
   file:
     name: logs/application-debug.log

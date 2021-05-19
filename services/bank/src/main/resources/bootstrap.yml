@@ -16,11 +16,12 @@ server:
   port: ${PORT:8084}
 spring:
   application:
-    name: BANK
+    name: bank
   cloud:
     config:
       discovery:
         enabled: true
+        service-id: CONFIGSERVER
       label: master
 eureka:
   client:

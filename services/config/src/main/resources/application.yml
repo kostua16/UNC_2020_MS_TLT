@@ -63,6 +63,7 @@ eureka:
     metadata-map:
       user: ${config.user}
       password: ${config.password}
+    appname: configserver
 logging:
   pattern:
     console: "%d %-5level %logger : %msg%n"

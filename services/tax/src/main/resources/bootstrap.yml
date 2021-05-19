@@ -21,6 +21,7 @@ spring:
     config:
       discovery:
         enabled: true
+        service-id: CONFIGSERVER
       label: master
 eureka:
   client:
