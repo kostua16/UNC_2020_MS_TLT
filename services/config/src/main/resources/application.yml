@@ -47,6 +47,8 @@ eureka:
   client:
     service-url:
       defaultZone: ${discovery.url}
+    should-enforce-registration-at-init: true
+    region: europe-1
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 15
