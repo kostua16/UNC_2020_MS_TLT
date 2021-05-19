@@ -26,6 +26,10 @@ spring:
         service-id: configserver
       label: master
       fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 10
+        multiplier: 1.0
 eureka:
   client:
     service-url:
@@ -43,3 +47,6 @@ eureka:
     instance-id: "${eureka.instance.hostname}"
     non-secure-port: ${APP_PORT:${server.port}}
     virtual-host-name: ${app.public-url}
+logging:
+  level:
+    org.springframework.cloud.config: debug
