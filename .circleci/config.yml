@@ -104,42 +104,56 @@ workflows:
           target_app: nc-edu-2020-logger
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-tax
           service_name: tax
           target_app: nc-edu-2020-tax
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-gibdd
           service_name: gibdd
           target_app: nc-edu-2020-gibdd
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-account
           service_name: account
           target_app: nc-edu-2020-account
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-bank
           service_name: bank
           target_app: nc-edu-2020-bank
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-communal
           service_name: communal
           target_app: nc-edu-2020-communal
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-backend-service:
           name: build-passport
           service_name: passport
           target_app: nc-edu-2020-passport
           requires:
             - build-baseline-images
+            - build-discovery
+            - build-config
       - build-frontend-service:
           name: build-frontend
           requires:
