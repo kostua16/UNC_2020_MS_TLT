@@ -32,37 +32,24 @@ public class Citizen {
   @Temporal(value = TemporalType.DATE)
   private Date dateOfBirth;
 
-  @NotBlank(message = "Incorrect region registration")
-  @Size(min = 2, max = 40, message = "Incorrect region registration")
-  private String registration;
-
   @NotNull(message = "Incorrect citizen ID")
   @Min(1L)
   private Long citizenId;
 
   @Builder
   public Citizen(
-      final String name,
-      final String surname,
-      final Date dateOfBirth,
-      final String registration,
-      final Long citizenId) {
+      final String name, final String surname, final Date dateOfBirth, final Long citizenId) {
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
-    this.registration = registration.trim().toUpperCase();
     this.citizenId = citizenId;
   }
 
-  public void setRegistration(String registration) {
-    this.registration = registration.trim().toUpperCase();
-  }
-
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name.trim().toUpperCase();
   }
 
-  public void setSurname(String surname) {
+  public void setSurname(final String surname) {
     this.surname = surname.trim().toUpperCase();
   }
 }

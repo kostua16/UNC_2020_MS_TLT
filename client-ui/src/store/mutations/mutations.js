@@ -23,6 +23,12 @@ export default {
     ADD_PROPERTY(state, property) {
         state.properties.push(property);
     },
+    SET_REGISTRATION_TO_STATE(state, registration) {
+        state.registration = registration
+    },
+    SET_REGISTRATIONS_TO_STATE(state, registrations) {
+        state.registrations = registrations;
+    },
 
     // utilities price list
     SET_UTILITIES_PRICE_LIST_TO_STATE(state, utilitiesPriceLists) {

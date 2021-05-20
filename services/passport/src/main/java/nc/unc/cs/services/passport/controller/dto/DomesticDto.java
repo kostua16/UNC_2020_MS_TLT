@@ -26,11 +26,6 @@ public class DomesticDto {
   @NotBlank(message = "Incorrect region name")
   @Size(min = 2, max = 40, message = "Incorrect region name")
   @Column(nullable = false, length = 40)
-  private String registration;
-
-  @NotBlank(message = "Incorrect region name")
-  @Size(min = 2, max = 40, message = "Incorrect region name")
-  @Column(nullable = false, length = 40)
   private String name;
 
   @NotBlank(message = "Incorrect region name")
@@ -63,7 +58,6 @@ public class DomesticDto {
 
   public DomesticDto(
       final Long domesticId,
-      final String registration,
       final String name,
       final String surname,
       final Date dateOfBirth,
@@ -72,7 +66,6 @@ public class DomesticDto {
       final Integer number,
       final Long citizenId) {
     this.domesticId = domesticId;
-    this.registration = registration.trim().toUpperCase();
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
@@ -82,15 +75,11 @@ public class DomesticDto {
     this.citizenId = citizenId;
   }
 
-  public void setRegistration(String registration) {
-    this.registration = registration.trim().toUpperCase();
-  }
-
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name.trim().toUpperCase();
   }
 
-  public void setSurname(String surname) {
+  public void setSurname(final String surname) {
     this.surname = surname.trim().toUpperCase();
   }
 }

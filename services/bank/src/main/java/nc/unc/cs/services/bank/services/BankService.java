@@ -2,7 +2,9 @@ package nc.unc.cs.services.bank.services;
 
 import feign.FeignException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import nc.unc.cs.services.bank.entities.PaymentRequest;
 import nc.unc.cs.services.bank.entities.Transaction;
 import nc.unc.cs.services.bank.exceptions.PaymentRequestNotFoundException;
@@ -20,6 +22,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BankService {
+
+  private final Map<Long, String> serviceTitles =
+      new HashMap<Long, String>() {
+        {
+          put(2L, "Оформление паспорта гражданинаю");
+          put(3L, "Оформление заграничного паспорта");
+          put(18L, "Обновление прописки гражданина");
+          put(19L, "Регистрация недвижимости");
+          put(20L, "Налог на недвижимость");
+          put(21L, "Коммунальные услуги");
+        }
+      };
 
   /** Логгер. */
   private static final Logger logger = LoggerFactory.getLogger(BankService.class);
@@ -123,6 +137,7 @@ public class BankService {
               .paymentRequestId(paymentRequestId)
               .amount(paymentRequest.getAmount())
               .citizenId(paymentRequest.getCitizenId())
+              .serviceTitle(this.getServiceTitle(paymentRequest.getServiceId()))
               .build();
       this.taxIntegrationService.payTax(paymentRequest.getTaxId(), transaction.getCreationDate());
       logging.addLog(
@@ -137,6 +152,17 @@ public class BankService {
       response = ResponseEntity.ok(transaction);
     }
     return response;
+  }
+
+  public String getServiceTitle(final Long serviceId) {
+    final String title;
+    final String serviceTitle = this.serviceTitles.get(serviceId);
+    if (serviceTitle == null) {
+      title = "Сторонняя операция";
+    } else {
+      title = serviceTitle;
+    }
+    return title;
   }
 
   /**

@@ -3,28 +3,30 @@ import AuthModule from "@/store/auth.module";
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
 const COMMUNAL_URL = process.env.VUE_APP_API_URL || 'localhost:8880';
-const API_URL = HTTP_PROTOCOL + '://' + COMMUNAL_URL + '/communal/housing';
+const API_URL = HTTP_PROTOCOL + '://' + COMMUNAL_URL + '/communal/registration';
 
 class CommunalService {
     addRegistration(registration) {
-        registration.citizenId = AuthModule.state.user.citizenId;
-        return axios.post(API_URL + '/', {
+        return axios.post(
+            API_URL,
+            {
+                region: registration.region,
                 state: registration.state,
                 city: registration.city,
                 street: registration.street,
                 house: registration.house,
                 apartment: registration.apartment,
-                citizenId: registration.citizenId
-            }, {}
+                citizenId: AuthModule.state.user.citizenId
+            },
+            {}
         )
             .then(response => {
-                    console.log('RESPONSE REGISTRATION: ', response);
-                    return response;
+                    return response.status;
                 }
             )
             .catch(error => {
-                    console.error("Failed to add registration.", error);
-                    return error;
+                    console.error("Failed to add registration.", error.response.status);
+                    return error.response.status;
                 }
             );
     }

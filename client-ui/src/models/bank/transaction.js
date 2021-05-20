@@ -3,11 +3,13 @@ export default class Transaction {
         transactionId,
         creationDate,
         amount,
-        paymentRequestId
+        paymentRequestId,
+        serviceTitle
     ) {
         this.transactionId = transactionId
         this.creationDate = creationDate
         this.amount = amount
         this.paymentRequestId = paymentRequestId
+        this.serviceTitle = serviceTitle
     }
 }

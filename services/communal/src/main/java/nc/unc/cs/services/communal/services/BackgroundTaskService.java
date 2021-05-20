@@ -8,14 +8,19 @@ import nc.unc.cs.services.common.clients.logging.LoggingService;
 import nc.unc.cs.services.communal.entities.Property;
 import nc.unc.cs.services.communal.entities.PropertyTax;
 import nc.unc.cs.services.communal.entities.PropertyTaxValue;
+import nc.unc.cs.services.communal.entities.UtilityBill;
 import nc.unc.cs.services.communal.exceptions.PropertyNotFoundException;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
+import nc.unc.cs.services.communal.repositories.UtilityBillRepository;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +42,18 @@ public class BackgroundTaskService {
   @Value("${communal.background.job.tax-period}")
   private Integer taxPeriod;
 
+  /** Длина выборки налогов. */
+  @Value("${communal.background.job.property-tax.page-size}")
+  private Integer propertyTaxPageSize;
+
+  /** Длина выборки квитанций. */
+  @Value("${communal.background.job.utility-bill.page-size}")
+  private Integer utilityBillPageSize;
+
   private final PropertyRepository propertyRepository;
   private final PropertyTaxRepository propertyTaxRepository;
   private final PropertyTaxValueRepository propertyTaxValueRepository;
+  private final UtilityBillRepository utilityBillRepository;
   private final BankIntegrationService bankIntegrationService;
   /** Сервис логгирования. */
   private final LoggingService logging;
@@ -48,11 +62,13 @@ public class BackgroundTaskService {
       final PropertyRepository propertyRepository,
       final PropertyTaxRepository propertyTaxRepository,
       final PropertyTaxValueRepository propertyTaxValueRepository,
+      final UtilityBillRepository utilityBillRepository,
       final BankIntegrationService bankIntegrationService,
       final LoggingService logging) {
     this.propertyRepository = propertyRepository;
     this.propertyTaxRepository = propertyTaxRepository;
     this.propertyTaxValueRepository = propertyTaxValueRepository;
+    this.utilityBillRepository = utilityBillRepository;
     this.bankIntegrationService = bankIntegrationService;
     this.logging = logging;
   }
@@ -66,7 +82,7 @@ public class BackgroundTaskService {
   // ! В случае отсутствия прейскуранта для конвретной области,
   // расчёт происходит по стандартному прейскуранту
   // *доступная дата - дата превышающая налоговый период
-  @Scheduled(fixedDelayString = "${communal.background.job.timeout}")
+  @Scheduled(fixedRateString = "${communal.background.job.timeout}")
   public void reportDate() {
     final Date beforeDate = DateUtils.addDays(new Date(), -taxPeriod);
     LOGGER.info("Before Date: {}", beforeDate);
@@ -174,5 +190,92 @@ public class BackgroundTaskService {
   public Integer calculatePropertyTaxAmount(
       final Double apartmentSize, final Double pricePerSquareMeter, final Double cadastralValue) {
     return (int) (apartmentSize * pricePerSquareMeter / 100.0 * (cadastralValue / 100.0));
+  }
+
+  /** Фоновый процесс валидации статуса налога на недвижимость. */
+  @Scheduled(fixedRateString = "${communal.background.job.property-tax.period}")
+  public void checkPropertyTaxPaymentStatus() {
+    final Pageable pageable = PageRequest.of(0, propertyTaxPageSize);
+    final Page<PropertyTax> pagePropertyTaxes =
+        this.propertyTaxRepository.findAllByIsPaid(false, pageable);
+    if (pagePropertyTaxes == null) {
+      LOGGER.info("Property Tax not found!");
+    } else {
+      final List<PropertyTax> propertyTaxes = pagePropertyTaxes.getContent();
+      propertyTaxes.forEach(this::changePaymentStatus);
+    }
+  }
+
+  /**
+   * Валидирует статус оплаты.
+   *
+   * @param propertyTax налог на недвижимость
+   */
+  public void changePaymentStatus(final PropertyTax propertyTax) {
+    try {
+      if (this.checkPaymentStatus(propertyTax.getPaymentRequestId())) {
+        propertyTax.setIsPaid(true);
+        this.propertyTaxRepository.save(propertyTax);
+        this.logging.addLog(
+            LogEntry.builder()
+                .service("Communal")
+                .created(new Date())
+                .message(
+                    String.format(
+                        "PropertyTax with ID = %d has been paid", propertyTax.getPropertyTaxId()))
+                .build());
+      }
+    } catch (FeignException fe) {
+      LOGGER.error("Failed to check payment status!", fe);
+    }
+  }
+
+  /** Фоновый процесс валидации статуса нкоммунальных квитанций. */
+  @Scheduled(fixedRateString = "${communal.background.job.property-tax.period}")
+  public void checkUtilityBillPaymentStatus() {
+    final Pageable pageable = PageRequest.of(0, utilityBillPageSize);
+    final Page<UtilityBill> pageUtilityBills =
+        this.utilityBillRepository.findAllByIsPaid(false, pageable);
+    if (pageUtilityBills == null) {
+      LOGGER.info("Utility Bill not found!");
+    } else {
+      final List<UtilityBill> utilityBills = pageUtilityBills.getContent();
+      utilityBills.forEach(this::changePaymentStatus);
+    }
+  }
+
+  /**
+   * Валидирует статус оплаты.
+   *
+   * @param utilityBill налог на недвижимость
+   */
+  public void changePaymentStatus(final UtilityBill utilityBill) {
+    try {
+      if (this.checkPaymentStatus(utilityBill.getPaymentRequestId())) {
+        utilityBill.setIsPaid(true);
+        this.utilityBillRepository.save(utilityBill);
+        this.logging.addLog(
+            LogEntry.builder()
+                .service("Communal")
+                .created(new Date())
+                .message(
+                    String.format(
+                        "UtilityBill with ID = %d has been paid", utilityBill.getUtilityBillId()))
+                .build());
+      }
+    } catch (FeignException fe) {
+      LOGGER.error("Failed to check payment status!", fe);
+    }
+  }
+
+  /**
+   * Проверяет статус оплаты в банковском сервисе.
+   *
+   * @param paymentRequestId идентификатор выставленно счёта
+   * @return статус оплаты
+   * @throws FeignException если сервис не отвечает
+   */
+  public Boolean checkPaymentStatus(final Long paymentRequestId) throws FeignException {
+    return bankIntegrationService.checkPaymentStatus(paymentRequestId);
   }
 }

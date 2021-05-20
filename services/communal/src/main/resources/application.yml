@@ -35,6 +35,12 @@ communal:
     job:
       tax-period: 1
       timeout: 60000
+      property-tax:
+        period: ${PROPERTY_TAX_CHECK_PERIOD:20000}
+        page-size: ${PROPERTY_TAX_CHECK_SIZE:10}
+      utility-bill:
+        period: ${UTILITY_BILL_CHECK_PERIOD:20000}
+        page-size: ${UTILITY_BILL_CHECK_SIZE:10}
   property:
     tax-percent: 10
   service-id:

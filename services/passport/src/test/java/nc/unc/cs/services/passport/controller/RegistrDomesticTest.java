@@ -13,8 +13,6 @@ import nc.unc.cs.services.passport.model.Citizen;
 import nc.unc.cs.services.passport.model.Domestic;
 import nc.unc.cs.services.passport.service.PassportTable;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,13 +26,12 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 class RegistrDomesticTest {
   private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
-  private static final Logger logger = LoggerFactory.getLogger(RegistrDomesticTest.class);
-
-  private static final FieldDescriptor REGISTRATION_DESCR =
-      fieldWithPath("registration").type(String.class).description("registration of citizen.");
 
   private static final FieldDescriptor DOMESTIC_ID_DESCR =
       fieldWithPath("domesticId").type(String.class).description("registration of citizen.");
+
+  private static final FieldDescriptor REGISTRATION_ID_DESCR =
+      fieldWithPath("registrationId").type(Long.class).description("ID of the registration.");
 
   private static final FieldDescriptor CITIZEN_ID_DESCR =
       fieldWithPath("citizenId").type(String.class).description("registration of citizen.");
@@ -67,9 +64,9 @@ class RegistrDomesticTest {
         RegistrDomesticTest.NAME_DESCR,
         RegistrDomesticTest.SURNAME_DESCR,
         RegistrDomesticTest.DATE_OF_BIRTH_DESCR,
-        RegistrDomesticTest.REGISTRATION_DESCR,
         RegistrDomesticTest.SERIES_DESCR,
-        RegistrDomesticTest.NUMBER_DESCR
+        RegistrDomesticTest.NUMBER_DESCR,
+        RegistrDomesticTest.REGISTRATION_ID_DESCR
       };
 
   private static final RequestFieldsSnippet PASSPORT_REQ =
@@ -87,12 +84,10 @@ class RegistrDomesticTest {
     citizen.setCitizenId(1L);
     citizen.setSurname("Pupkin");
     citizen.setName("Vasya");
-    citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date());
 
     Domestic domestic =
-        new Domestic(
-            1L, "Samara", "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
+        new Domestic(1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
 
     when(passportTable.registerDomesticPassport(citizen)).thenReturn(ResponseEntity.ok(domestic));
 

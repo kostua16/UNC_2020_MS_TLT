@@ -11,11 +11,11 @@ import UtilitiesPriceList from "@/components/communal/property/admin/price/utili
 import PropertyTaxValue from "@/components/communal/property/admin/price/tax/PropertyTaxValue";
 import MainPage from "@/components/main/MainPage";
 import Transactions from "@/components/bank/Transactions";
-import RegistrationData from "@/models/auth/registration-data";
 import DomesticRegistration from "@/components/passport/DomesticRegistration";
 import CitizenPropertyTaxList from "@/components/communal/property/tax/CitizenPropertyTaxList";
 import UtilityBills from "@/components/communal/bill/UtilityBills";
 import International from "@/components/passport/international/International";
+import Registration from "@/components/communal/Registration";
 
 Vue.use(Router);
 
@@ -95,7 +95,7 @@ export const router = new Router({
         {
             path: '/communal/add-registration',
             name: 'add-registration',
-            component: RegistrationData,
+            component: Registration,
             beforeEnter(to, from, next) {
                 checkAuth(to, from, next);
             },

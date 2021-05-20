@@ -27,11 +27,36 @@
           </v-col>
         </v-row>
       </v-list-item>
-      <!--      <v-list-item>Тут вытягивается регитсрация</v-list-item>  class="font-weight-bold"-->
+      <v-list-item v-if="registration.registrationId">
+        <v-row>
+          <v-col sm="4">
+            Прописка:
+          </v-col>
+          <v-col class="font-weight-bold">
+            {{ registration.region }},
+            г. {{ registration.city }},
+            ул. {{ registration.street }},
+            д. {{ registration.house }},
+            офис {{ registration.apartment }}
+          </v-col>
+        </v-row>
+      </v-list-item>
+      <v-list-item v-else>
+        У вас ещё нет прописки
+      </v-list-item>
     </v-list>
     <v-card-actions class="card_action">
-      <v-btn>
-        Изменить паспортные данные
+      <v-btn
+          v-if="domestic.registrationId"
+          @click="$router.push('/communal/add-registration')"
+      >
+        Изменить прописку
+      </v-btn>
+      <v-btn
+          v-else
+          @click="$router.push('/communal/add-registration')"
+      >
+        Добавить прописку
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -63,6 +88,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import Domestic from "@/models/passport/domestic";
 import Moment from "moment";
+import Registration from "@/models/communal/registration";
 
 export default {
   name: "DomesticCard",
@@ -70,13 +96,14 @@ export default {
     return {
       message: '',
       domestic: new Domestic(),
+      registration: new Registration(),
     }
   },
   computed: {
-    ...mapGetters(['GET_DOMESTIC'])
+    ...mapGetters(['GET_DOMESTIC', 'GET_REGISTRATION']),
   },
   methods: {
-    ...mapActions(['GET_DOMESTIC_FROM_API'])
+    ...mapActions(['GET_DOMESTIC_FROM_API', 'GET_REGISTRATION_FROM_API'])
   },
   created() {
     this.GET_DOMESTIC_FROM_API()
@@ -86,6 +113,15 @@ export default {
             this.message = 'Не удалось получить данные о паспотре гражданина РФ!';
           } else {
             this.domestic = response.data;
+            this.GET_REGISTRATION_FROM_API(this.domestic.registrationId)
+                .then(resp => {
+                  console.log(resp.data)
+                  if (resp.status !== 200) {
+                    // error snackbar
+                  } else {
+                    this.registration = resp.data
+                  }
+                })
           }
         })
   },

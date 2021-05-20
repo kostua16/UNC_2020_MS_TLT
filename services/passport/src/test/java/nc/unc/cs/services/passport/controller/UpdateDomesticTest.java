@@ -31,9 +31,6 @@ class UpdateDomesticTest {
   private static final String PASSPORT_CONTROLLER_MAPPING = "http://localhost:8095";
   private static final Logger logger = LoggerFactory.getLogger(UpdateDomesticTest.class);
 
-  private static final FieldDescriptor REGISTRATION_DESCR =
-      fieldWithPath("registration").type(String.class).description("registration of citizen.");
-
   private static final FieldDescriptor DOMESTIC_ID_DESCR =
       fieldWithPath("domesticId").type(String.class).description("registration of citizen.");
 
@@ -60,6 +57,9 @@ class UpdateDomesticTest {
   private static final FieldDescriptor NUMBER_DESCR =
       fieldWithPath("number").type(Long.class).description("Number of the passport.");
 
+  private static final FieldDescriptor REGISTRATION_ID_DESCR =
+      fieldWithPath("registrationId").type(Long.class).description("ID of the registration.");
+
   private static final FieldDescriptor[] PASSPORT_DESCR =
       new FieldDescriptor[] {
         UpdateDomesticTest.DOMESTIC_ID_DESCR,
@@ -68,9 +68,9 @@ class UpdateDomesticTest {
         UpdateDomesticTest.NAME_DESCR,
         UpdateDomesticTest.SURNAME_DESCR,
         UpdateDomesticTest.DATE_OF_BIRTH_DESCR,
-        UpdateDomesticTest.REGISTRATION_DESCR,
         UpdateDomesticTest.SERIES_DESCR,
-        UpdateDomesticTest.NUMBER_DESCR
+        UpdateDomesticTest.NUMBER_DESCR,
+        UpdateDomesticTest.REGISTRATION_ID_DESCR
       };
 
   private static final ResponseFieldsSnippet PASSPORT_RESP =
@@ -88,12 +88,10 @@ class UpdateDomesticTest {
     citizen.setCitizenId(111L);
     citizen.setSurname("Pupkin");
     citizen.setName("Vasya");
-    citizen.setRegistration("Samara");
     citizen.setDateOfBirth(new Date());
 
     DomesticDto domesticDTO =
-        new DomesticDto(
-            1L, "Samara", "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
+        new DomesticDto(1L, "Pupkin", "Vasya", citizen.getDateOfBirth(), false, 2222, 333333, 111L);
 
     final Domestic domestic = new Domestic();
 

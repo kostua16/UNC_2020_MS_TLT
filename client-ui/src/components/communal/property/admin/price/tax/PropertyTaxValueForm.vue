@@ -1,16 +1,22 @@
 <template>
   <div>
     <h2 class="text-center">Прейскурант для рассчёта налога на недвижимость</h2>
-    <v-text-field
+    <v-autocomplete
+        class="pt-5"
         type="text"
-        label="Введите название региона"
-        v-model="region"
-        hide-details="auto"
+        label="Область"
+        v-model.trim="region"
         :error-messages="regionErrors"
+        hide-details="auto"
+        counter
         required
         @input="$v.region.$touch()"
         @blur="$v.region.$touch()"
-    />
+        :items="regions"
+        dense
+        flat
+        no-data-text="Такого региона не найдено"
+    ></v-autocomplete>
     <v-text-field
         type="number"
         label="Введите стоимость 1 кв. м."
@@ -47,6 +53,7 @@
 import PropertyTaxValue from "@/models/communal/property-tax-value";
 import {mapActions} from "vuex";
 import {maxLength, minLength, required, numeric, minValue, maxValue} from "vuelidate/lib/validators";
+import regions from "@/models/list/region-list";
 
 export default {
   name: "PropertyTaxValueForm",
@@ -62,7 +69,7 @@ export default {
       region: '',
       pricePerSquareMeter: '',
       cadastralValue: '',
-
+      regions: regions,
     }
   },
   validations: {
@@ -70,7 +77,7 @@ export default {
       required,
       minLength: minLength(2),
       maxLength: maxLength(40),
-      alpha: val => /^[а-яё][а-яё-]*$/i.test(val)
+      alpha: val => /^[а-яё][а-яё-]+[ ]+[а-яё]+$|^(Севастополь)$/i.test(val)
     },
     pricePerSquareMeter: {
       required,
@@ -99,7 +106,7 @@ export default {
       if (!this.$v.region.$dirty) return errors
       !this.$v.region.minLength && errors.push('Название региона должно состоять из не менее, чем из 2 букв!')
       !this.$v.region.maxLength && errors.push('Название региона должно состоять из не более, чем из 40 букв!')
-      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская", "Ямало-Ненецкий"')
+      !this.$v.region.alpha && errors.push('Неверный формат региона! Пример: "Московская область", "Ямало-Ненецкий округ"')
       !this.$v.region.required && errors.push('Это обязательное поле!')
       return errors
     },
