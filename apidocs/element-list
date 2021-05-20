@@ -21,6 +21,7 @@ nc.unc.cs.services.common.clients
 nc.unc.cs.services.common.clients.bank
 nc.unc.cs.services.common.clients.gibdd
 nc.unc.cs.services.common.clients.logging
+nc.unc.cs.services.common.clients.passport
 nc.unc.cs.services.common.clients.tax
 nc.unc.cs.services.common.configurations
 nc.unc.cs.services.common.services
