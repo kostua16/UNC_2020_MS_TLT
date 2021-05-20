@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,23 +24,21 @@ public class Domestic {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long domesticId;
 
-  @NotBlank(message = "Incorrect region name")
-  @Size(min = 2, max = 40, message = "Incorrect region name")
-  @Column(nullable = false, length = 40)
-  private String registration;
+  private Long registrationId;
 
-  @NotBlank(message = "Incorrect region name")
-  @Size(min = 2, max = 40, message = "Incorrect region name")
+  @NotBlank(message = "Incorrect name")
+  @Size(min = 2, max = 40, message = "Incorrect name size")
   @Column(nullable = false, length = 40)
   private String name;
 
-  @NotBlank(message = "Incorrect region name")
-  @Size(min = 2, max = 40, message = "Incorrect region name")
+  @NotBlank(message = "Incorrect surname")
+  @Size(min = 2, max = 40, message = "Incorrect surname size")
   @Column(nullable = false, length = 40)
   private String surname;
 
   @NotNull
   @Column(updatable = false, nullable = false)
+  @Temporal(value = TemporalType.DATE)
   private Date dateOfBirth;
 
   @NotNull
@@ -63,7 +63,6 @@ public class Domestic {
   @Builder
   public Domestic(
       final Long domesticId,
-      final String registration,
       final String name,
       final String surname,
       final Date dateOfBirth,
@@ -72,7 +71,7 @@ public class Domestic {
       final Integer number,
       final Long citizenId) {
     this.domesticId = domesticId;
-    this.registration = registration.trim().toUpperCase();
+    this.registrationId = null;
     this.name = name.trim().toUpperCase();
     this.surname = surname.trim().toUpperCase();
     this.dateOfBirth = dateOfBirth;
@@ -82,15 +81,11 @@ public class Domestic {
     this.citizenId = citizenId;
   }
 
-  public void setRegistration(String registration) {
-    this.registration = registration.trim().toUpperCase();
-  }
-
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name.trim().toUpperCase();
   }
 
-  public void setSurname(String surname) {
+  public void setSurname(final String surname) {
     this.surname = surname.trim().toUpperCase();
   }
 }

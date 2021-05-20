@@ -12,6 +12,7 @@ import nc.unc.cs.services.communal.entities.PropertyTaxValue;
 import nc.unc.cs.services.communal.repositories.PropertyRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxRepository;
 import nc.unc.cs.services.communal.repositories.PropertyTaxValueRepository;
+import nc.unc.cs.services.communal.repositories.UtilityBillRepository;
 import nc.unc.cs.services.communal.services.BackgroundTaskService;
 import nc.unc.cs.services.communal.services.BankIntegrationService;
 import org.apache.commons.lang.time.DateUtils;
@@ -40,6 +41,7 @@ class BackgroundTaskServiceTest {
   @Mock private PropertyRepository propertyRepository;
   @Mock private PropertyTaxRepository propertyTaxRepository;
   @Mock private PropertyTaxValueRepository propertyTaxValueRepository;
+  @Mock private UtilityBillRepository utilityBillRepository;
   @Mock private BankIntegrationService bankIntegrationService;
   @Mock private LoggingService logging;
   @InjectMocks private BackgroundTaskService backgroundTaskService;

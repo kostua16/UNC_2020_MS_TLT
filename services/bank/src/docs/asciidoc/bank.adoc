@@ -37,10 +37,6 @@ operation::requestPaymentTest[snippets='curl-request,http-request,http-response'
 == Bills payment
 operation::paymentTest[snippets='curl-request,http-request,http-response,response-fields']
 
-[[checkPaymentStatusTest]]
-== Checking invoice payment status
-operation::checkPaymentStatusTest[snippets='curl-request,http-request,http-response,response-fields']
-
 [[getDebtPaymentRequestsTest]]
 == Receiving unpaid invoices by citizen ID
 operation::getDebtPaymentRequestsTest[snippets='curl-request,http-request,http-response,response-fields']

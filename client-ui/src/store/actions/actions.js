@@ -19,13 +19,13 @@ export default {
                 PROPERTY_API_URL + '/citizen/' + AuthModule.state.user.citizenId,
                 {},
             )
-            .then((properties) => {
-                commit('SET_PROPERTY_TO_STATE', properties.data);
-                return properties;
+            .then(response => {
+                commit('SET_PROPERTY_TO_STATE', response.data);
+                return response.status;
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log('Failed to get information about the user\'s property. \n' + error);
-                return error;
+                return error.response.status;
             })
     },
 
@@ -75,6 +75,32 @@ export default {
             })
             .catch(error => {
                 console.error('Failed to change property tax payment status!', error.response.status);
+                return error.response.status;
+            })
+    },
+
+    GET_REGISTRATION_FROM_API({commit}, registrationId) {
+        return axios
+            .get(URL_COMMUNAL + '/registration/' + registrationId)
+            .then(response => {
+                commit('SET_REGISTRATION_TO_STATE');
+                return response;
+            })
+            .catch(error => {
+                console.error('Failed to get registration. ', error.response.status);
+                return error.response;
+            })
+    },
+
+    GET_REGISTRATIONS_FROM_API({commit}) {
+        return axios
+            .get(URL_COMMUNAL + 'registration/all/' + AuthModule.state.user.citizenId)
+            .then(response => {
+                commit('SET_REGISTRATIONS_TO_STATE', response.data);
+                return response.status;
+            })
+            .catch(error => {
+                console.error('Failed to get citizens registrations', error.response.status);
                 return error.response.status;
             })
     },
@@ -297,7 +323,6 @@ export default {
                     name: citizen.name,
                     surname: citizen.surname,
                     dateOfBirth: citizen.dateOfBirth,
-                    registration: 'unknown', // todo: remove hard code
                     citizenId: AuthModule.state.user.citizenId,
                 },
                 {}
@@ -389,7 +414,6 @@ export default {
                     name: citizen.name,
                     surname: citizen.surname,
                     dateOfBirth: citizen.dateOfBirth,
-                    registration: 'unknown', // todo: remove hard code
                     citizenId: AuthModule.state.user.citizenId,
                 },
                 {}

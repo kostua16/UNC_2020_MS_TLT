@@ -7,8 +7,8 @@ Zabegaev Nikita;
 | Entity | Client API | Service Impl
 
 | Passport Service
-| link:/{jdocs}/nc/unc/cs/services/passport/src/main/java/nc/unc/cs/common/clients/passport/PassportService..html[PassportClient]
-| link:/{jdocs}/nc/unc/cs/services/passport/service/PassportService.html[PassportService]
+| link:/{jdocs}/nc/unc/cs/services/common/clients/passport/PassportService.html[PassportClient]
+| link:/{jdocs}/nc/unc/cs/services/passport/service/PassportTable.html[PassportService]
 
 |===
 |===
@@ -42,7 +42,7 @@ Zabegaev Nikita;
 
 [[registerDomesticPassportTest]]
 == Registration of new domestic passport
-operation::registerDomesticPassportTest[snippets='curl-request,http-request,http-response,response-fields']
+operation::registerDomesticPassportTest[snippets='curl-request,http-request,http-response,request-fields']
 
 [[UpdateDomesticTest]]
 == Updating an existing passport

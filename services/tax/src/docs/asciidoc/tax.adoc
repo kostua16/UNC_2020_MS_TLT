@@ -1,4 +1,4 @@
-= GIBDD API Guide
+= Tax API Guide
 
 [[javadocs]]
 == Javadocs
@@ -6,7 +6,7 @@
 | Entity | Client API | Service Impl
 
 | Tax service
-| link:/{jdocs}/nc/unc/cs/services/common/clients/tax/GibddService.html[Tax client]
+| link:/{jdocs}/nc/unc/cs/services/common/clients/tax/TaxService.html[Tax client]
 | link:/{jdocs}/nc/unc/cs/services/tax/services/TaxService.html[Tax service]
 
 
@@ -30,4 +30,4 @@
 
 [[createTax]]
 == Tax registration information
-operation::createTax[snippets='curl-request,http-request,http-response,response-fields']
+operation::createTax[snippets='curl-request,http-request,http-response,request-fields']

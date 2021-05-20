@@ -1,6 +1,9 @@
 package nc.unc.cs.services.communal.services;
 
+import feign.FeignException;
 import java.util.List;
+import nc.unc.cs.services.common.clients.passport.PassportService;
+import nc.unc.cs.services.common.clients.passport.UpdateRegistrationIdDto;
 import nc.unc.cs.services.communal.controllers.payloads.CreationProperty;
 import nc.unc.cs.services.communal.controllers.payloads.CreationRegistration;
 import nc.unc.cs.services.communal.entities.Property;
@@ -21,21 +24,26 @@ public class RegistrationService {
   public static final Integer TAX_PERCENT = 50;
   /** Номер сервиса. */
   public static final Long SERVICE_ID = 19L;
+  /** Номер сервиса регистрации. */
+  public static final Long REGISTRATION_SERVICE_ID = 18L;
   /** Стоимость предоставляемой услуги */
   public static final Integer SERVICE_COST = 2000;
 
   private final PropertyRepository propertyRepository;
   private final RegistrationRepository registrationRepository;
   private final BankIntegrationService bankIntegrationService;
+  private final PassportService passportService;
 
   @Autowired
   public RegistrationService(
       final PropertyRepository propertyRepository,
       final RegistrationRepository registrationRepository,
-      final BankIntegrationService bankIntegrationService) {
+      final BankIntegrationService bankIntegrationService,
+      final PassportService passportService) {
     this.propertyRepository = propertyRepository;
     this.registrationRepository = registrationRepository;
     this.bankIntegrationService = bankIntegrationService;
+    this.passportService = passportService;
   }
 
   /**
@@ -71,18 +79,26 @@ public class RegistrationService {
         this.getActiveRegistrationByCitizenId(creationRegistration.getCitizenId());
 
     this.bankIntegrationService.bankRequest(
-        SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
+        REGISTRATION_SERVICE_ID, registration.getCitizenId(), SERVICE_COST, TAX_PERCENT);
     if (lastRegistration != null) {
       lastRegistration.setIsActive(false);
       this.registrationRepository.save(lastRegistration);
     }
-
     this.registrationRepository.save(registration);
     logger.info(
         "Registration has been added to the citizen with ID = {}", registration.getCitizenId());
     response = ResponseEntity.ok(registration);
 
+    this.updateDomestic(registration.getCitizenId(), registration.getRegistrationId());
+
     return response;
+  }
+
+  public void updateDomestic(final Long citizenId, final Long registrationId)
+      throws FeignException {
+    final UpdateRegistrationIdDto updateRegistrationIdDto =
+        new UpdateRegistrationIdDto(registrationId);
+    this.passportService.updateDomesticRegistration(citizenId, updateRegistrationIdDto);
   }
 
   /**

@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-5 my-5 green lighten-1" width="495px" height="270px">
     <v-row>
-      <v-col sm="8">
+      <v-col sm="9">
         <v-card-title primary-title>
           Регион: {{ utilitiesPriceList.region }}
         </v-card-title>

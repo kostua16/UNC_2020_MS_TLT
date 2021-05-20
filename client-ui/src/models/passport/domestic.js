@@ -1,7 +1,7 @@
 export default class Domestic {
     constructor(
         domesticId,
-        registration,
+        registrationId,
         name,
         surname,
         dateOfBirth,
@@ -11,7 +11,7 @@ export default class Domestic {
         citizenId,
     ) {
         this.domesticId = domesticId
-        this.registration = registration
+        this.registrationId = registrationId
         this.name = name
         this.surname = surname
         this.dateOfBirth = dateOfBirth

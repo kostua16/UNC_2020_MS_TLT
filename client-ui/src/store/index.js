@@ -5,6 +5,7 @@ import actions from './actions/actions'
 import getters from './getters/getters'
 import auth from './auth.module'
 import Domestic from "@/models/passport/domestic";
+import Registration from "@/models/communal/registration";
 
 Vue.use(Vuex)
 
@@ -20,6 +21,8 @@ export default new Vuex.Store({
         propertyTaxes: [],
         domestic: new Domestic(),
         internationals: [],
+        registration: new Registration(),
+        registrations: '',
     },
     mutations,
     actions,

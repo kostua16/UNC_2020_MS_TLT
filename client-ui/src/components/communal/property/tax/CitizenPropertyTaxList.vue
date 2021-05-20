@@ -12,7 +12,7 @@
         <v-toolbar
             flat
         >
-          <v-toolbar-title>Мои налоги на едвижимость</v-toolbar-title>
+          <v-toolbar-title>Мои налоги на недвижимость</v-toolbar-title>
           <v-divider
               class="mx-4"
               inset
@@ -21,8 +21,18 @@
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
+      <template v-slot:item.isPaid="{ item }">
+        <v-simple-checkbox
+            v-model="item.isPaid"
+            disabled
+        ></v-simple-checkbox>
+      </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn icon color="green" @click="payPropertyTax(item)">
+        <v-btn
+            v-if="!item.isPaid"
+            icon color="green"
+            @click="payPropertyTax(item)"
+        >
           <v-icon>payment</v-icon>
         </v-btn>
       </template>

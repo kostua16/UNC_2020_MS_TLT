@@ -35,6 +35,8 @@ class PayTest {
       fieldWithPath("creationDate").type(Long.class).description("Payment date");
   private static final FieldDescriptor AMOUNT_DESCR =
       fieldWithPath("amount").type(Long.class).description("Service cost.");
+  private static final FieldDescriptor SERVICE_TITLE_DESCR =
+      fieldWithPath("serviceTitle").type(String.class).description("Service title.");
 
   private static final FieldDescriptor[] PAYMENT_DESCR =
       new FieldDescriptor[] {
@@ -42,7 +44,8 @@ class PayTest {
         PayTest.CITIZEN_ID_DESCR,
         PayTest.PAYMENT_REQUEST_ID_DESCR,
         PayTest.CREATION_DATE_DESCR,
-        PayTest.AMOUNT_DESCR
+        PayTest.AMOUNT_DESCR,
+        PayTest.SERVICE_TITLE_DESCR
       };
 
   private static final ResponseFieldsSnippet PAYMENT_RESP = responseFields(PayTest.PAYMENT_DESCR);
@@ -57,6 +60,7 @@ class PayTest {
         .citizenId(111L)
         .paymentRequestId(15L)
         .amount(1000)
+        .serviceTitle("Сторонняя операция")
         .build();
   }
 
