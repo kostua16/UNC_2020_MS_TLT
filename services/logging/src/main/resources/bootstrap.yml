@@ -53,3 +53,5 @@ logging:
   level:
     org.springframework.cloud.config: debug
     org.springframework.cloud.netflix.eureka: debug
+    org.springframework.web.client: debug
+    org.springframework.http.client: debug

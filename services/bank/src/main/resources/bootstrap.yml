@@ -23,7 +23,7 @@ spring:
         enabled: true
         service-id: configserver
       label: master
-      fail-fast: true
+      fail-fast: false
 eureka:
   client:
     service-url:
