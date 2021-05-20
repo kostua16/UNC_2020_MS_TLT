@@ -45,9 +45,9 @@ eureka:
     status-page-url-path: "actuator/info"
     health-check-url-path: "actuator/health"
     home-page-url-path: ""
-#    status-page-url: "http://${eureka.instance.hostname}/${eureka.instance.status-page-url-path}"
-#    health-check-url: "http://${eureka.instance.hostname}/${eureka.instance.health-check-url-path}"
-#    home-page-url: "http://${eureka.instance.hostname}/${eureka.instance.home-page-url-path}"
+    status-page-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.status-page-url-path}"
+    health-check-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.health-check-url-path}"
+    home-page-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.home-page-url-path}"
     instance-id: "${app.public-url}"
     non-secure-port: ${app.public-port}
     virtual-host-name: ${spring.application.name}
