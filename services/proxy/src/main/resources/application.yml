@@ -11,6 +11,9 @@ spring:
     lazy-initialization: true
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: logger
           uri: lb://LOGGER
