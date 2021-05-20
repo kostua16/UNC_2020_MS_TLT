@@ -39,4 +39,3 @@ server:
     threads:
       max: 10
       min: 3
-
