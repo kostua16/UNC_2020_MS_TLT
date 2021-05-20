@@ -61,7 +61,7 @@ eureka:
     home-page-url: "http://${eureka.instance.hostname}/${eureka.instance.home-page-url-path}"
     instance-id: configserver
     non-secure-port: ${APP_PORT:${server.port}}
-    virtual-host-name: ${app.public-url}
+    virtual-host-name: ${spring.application.name}
     metadata-map:
       user: ${config.user}
       password: ${config.password}

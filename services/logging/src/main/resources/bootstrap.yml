@@ -48,7 +48,7 @@ eureka:
     home-page-url: "http://${eureka.instance.hostname}/${eureka.instance.home-page-url-path}"
     instance-id: "${eureka.instance.hostname}"
     non-secure-port: ${APP_PORT:${server.port}}
-    virtual-host-name: ${app.public-url}
+    virtual-host-name: ${spring.application.name}
 logging:
   level:
     org.springframework.cloud.config: debug
