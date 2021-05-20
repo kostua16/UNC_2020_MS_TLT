@@ -6,7 +6,9 @@ management:
     health:
       show-details: ALWAYS
 app:
-  public-url: ${APP_URL:127.0.0.1}:${APP_PORT:${server.port}}
+  public-host: ${APP_URL:127.0.0.1}
+  public-port: ${APP_PORT:${server.port}}
+  public-url: ${app.public-host}:${app.public-port}
 discovery:
   password: ${EUREKA_PASSWORD:unc2020}
   user: ${EUREKA_UID:unc2020}
