@@ -1,0 +1,15 @@
+client-ui/node_modules
+*.yml
+*.yaml
+*.toml
+.editorconfig
+.project
+.gitignore
+.whitesource
+*.MD
+*.md
+*.adoc
+*.png
+*.jar
+*.jar.original
+!**/target/*.jar

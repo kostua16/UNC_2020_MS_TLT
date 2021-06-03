@@ -1,0 +1,72 @@
+management:
+  endpoints:
+    enabled-by-default: true
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+spring:
+  main:
+    banner-mode: off
+    lazy-initialization: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: logger
+          uri: lb://LOGGER
+          predicates:
+            - Path=/logger/**
+        - id: account
+          uri: lb://ACCOUNT
+          predicates:
+            - Path=/auth/**
+        - id: bank
+          uri: lb://BANK
+          predicates:
+            - Path=/bank/**
+        - id: communal
+          uri: lb://COMMUNAL
+          predicates:
+            - Path=/communal/**
+        - id: passport
+          uri: lb://PASSPORT
+          predicates:
+            - Path=/passport/**
+        - id: tax
+          uri: lb://TAX
+          predicates:
+            - Path=/tax/**
+        - id: gibdd
+          uri: lb://GIBDD
+          predicates:
+            - Path=/gibdd/**
+        - id: frontend
+          uri: ${FRONTEND_URI:127.0.0.1:3000}
+          predicates:
+            - Path=/**
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+  file:
+    name: logs/application-debug.log
+server:
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3

@@ -13,7 +13,7 @@
   <groupId>nc.unc.cs</groupId>
   <artifactId>Project2020</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Project</name>
+  <name>Project2020</name>
   <description>Project project for Spring Boot</description>
   <packaging>pom</packaging>
 
@@ -108,8 +108,6 @@
   <!-- список модулей\под-проектов	-->
   <modules>
     <module>services</module>
-    <module>discovery</module>
-    <module>config</module>
   </modules>
 
   <!-- общие зависимости для всех модулей	-->
@@ -127,18 +125,44 @@
 
     <!--
     Возможность использовать bootstrap.yml файлы - которые загружают конфигурацию до
-    активации Spring сервиса
+    активации Spring сервиса.
       -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-bootstrap</artifactId>
     </dependency>
 
+    <!--
+    Возможность использовать jackson-json в качестве json сериализатора везде и избежать падения
+     отсутствующих классов в net.minidev .
+      -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-json</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Cтандартный сериалайзер для json если не включен jackson-json	-->
+    <dependency>
+      <groupId>net.minidev</groupId>
+      <artifactId>json-smart</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+    </dependency>
+
     <!-- дополнительные сервисы для ускорения разработки	-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
+<!--      <scope>runtime</scope>-->
       <optional>true</optional>
     </dependency>
 
@@ -155,22 +179,7 @@
       <optional>true</optional>
     </dependency>
 
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-webmvc-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-data-rest</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-security</artifactId>
-    </dependency>
+
 
     <!-- Автогенерация кода через простановку аннотаций	-->
     <dependency>
@@ -197,7 +206,7 @@
     <dependency>
       <groupId>net.minidev</groupId>
       <artifactId>asm</artifactId>
-      <scope>test</scope>
+<!--      <scope>test</scope>-->
     </dependency>
 
     <!-- Зависимость для модуля для написания тестов	-->
@@ -254,6 +263,12 @@
           <artifactId>asciidoctor-maven-plugin</artifactId>
           <version>${asciidoc.build.version}</version>
         </plugin>
+        <plugin>
+          <groupId>de.qaware.maven</groupId>
+          <artifactId>go-offline-maven-plugin</artifactId>
+          <version>1.2.8</version>
+<!--          <inherited>false</inherited>-->
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -269,136 +284,160 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <inherited>true</inherited>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-          <encoding>UTF-8</encoding>
-          <consoleOutput>true</consoleOutput>
-          <enableFilesSummary>true</enableFilesSummary>
-          <cacheFile>target/checkstyle.cache</cacheFile>
-          <failOnViolation>true</failOnViolation>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <inherited>true</inherited>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <!-- attached to Maven test phase -->
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <inherited>true</inherited>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-aggregate</id>
-            <phase>prepare-package</phase>
-            <inherited>false</inherited>
-            <goals>
-              <goal>report-aggregate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <reportFormat>plain</reportFormat>
-          <forkCount>1C</forkCount>
-          <includes>
-            <include>**/*Test*.java</include>
-            <include>**/*IT*.java</include>
-          </includes>
-          <!--suppress UnresolvedMavenProperty -->
-          <argLine>${spring.runner.args} @{argLine}</argLine>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-docs</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>process-asciidoc</goal>
-            </goals>
-            <configuration>
-              <backend>html5</backend>
-              <doctype>book</doctype>
-              <attributes>
-                <root>UNC_2020_MS_TLT</root>
-                <jdocs>UNC_2020_MS_TLT/apidocs</jdocs>
-                <templates>${mpr.root}/docs/templates</templates>
-                <snippets>${project.build.directory}/generated-snippets</snippets>
-                <icons>font</icons>
-                <source-highlighter>highlightjs</source-highlighter>
-                <toc>left</toc>
-                <toclevels>4</toclevels>
-                <operation-curl-request-title>CURL request</operation-curl-request-title>
-                <operation-http-request-title>Example request</operation-http-request-title>
-                <operation-http-response-title>Example response</operation-http-response-title>
-              </attributes>
-              <outputDirectory>${mpr.root}/documentation/</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.springframework.restdocs</groupId>
-            <artifactId>spring-restdocs-asciidoctor</artifactId>
-            <version>${spring-restdocs.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <phase>prepare-package</phase>
-            <id>generate-apidocs</id>
-            <goals>
-              <goal>aggregate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <reportOutputDirectory>documentation/apidocs</reportOutputDirectory>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <profile>
+      <id>docs</id>
+      <activation>
+        <property>
+          <name>!skipDocs</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctor-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate-docs</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>process-asciidoc</goal>
+                </goals>
+                <configuration>
+                  <backend>html5</backend>
+                  <doctype>book</doctype>
+                  <attributes>
+                    <root>UNC_2020_MS_TLT</root>
+                    <jdocs>UNC_2020_MS_TLT/apidocs</jdocs>
+                    <templates>${mpr.root}/docs/templates</templates>
+                    <snippets>${project.build.directory}/generated-snippets</snippets>
+                    <icons>font</icons>
+                    <source-highlighter>highlightjs</source-highlighter>
+                    <toc>left</toc>
+                    <toclevels>4</toclevels>
+                    <operation-curl-request-title>CURL request</operation-curl-request-title>
+                    <operation-http-request-title>Example request</operation-http-request-title>
+                    <operation-http-response-title>Example response</operation-http-response-title>
+                  </attributes>
+                  <outputDirectory>${mpr.root}/documentation/</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.springframework.restdocs</groupId>
+                <artifactId>spring-restdocs-asciidoctor</artifactId>
+                <version>${spring-restdocs.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <phase>prepare-package</phase>
+                <id>generate-apidocs</id>
+                <goals>
+                  <goal>aggregate</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <reportOutputDirectory>documentation/apidocs</reportOutputDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>inspections</id>
+      <activation>
+        <property>
+          <name>!skipInspections</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <inherited>true</inherited>
+            <executions>
+              <execution>
+                <phase>compile</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <configLocation>checkstyle.xml</configLocation>
+              <encoding>UTF-8</encoding>
+              <consoleOutput>true</consoleOutput>
+              <enableFilesSummary>true</enableFilesSummary>
+              <cacheFile>target/checkstyle.cache</cacheFile>
+              <failOnViolation>true</failOnViolation>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>${checkstyle.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <inherited>true</inherited>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <!-- attached to Maven test phase -->
+              <execution>
+                <id>report</id>
+                <phase>test</phase>
+                <inherited>true</inherited>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-aggregate</id>
+                <phase>prepare-package</phase>
+                <inherited>false</inherited>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <reportFormat>plain</reportFormat>
+              <forkCount>1C</forkCount>
+              <includes>
+                <include>**/*Test*.java</include>
+                <include>**/*IT*.java</include>
+              </includes>
+              <!--suppress UnresolvedMavenProperty -->
+              <argLine>${spring.runner.args} @{argLine}</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>sonar</id>
       <properties>

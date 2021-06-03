@@ -1,0 +1,62 @@
+management:
+  endpoints:
+    enabled-by-default: true
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+app:
+  public-host: ${APP_URL:127.0.0.1}
+  public-port: ${APP_PORT:${server.port}}
+  public-url: ${app.public-host}:${app.public-port}
+discovery:
+  password: ${EUREKA_PASSWORD:unc2020}
+  user: ${EUREKA_UID:unc2020}
+  host: ${EUREKA_HOST:${app.public-url}}
+  protocol: ${EUREKA_PROTOCOL:http}
+  url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
+spring:
+  application:
+    name: discovery
+  main:
+    banner-mode: off
+  security:
+    user:
+      password: ${discovery.password}
+      name: ${discovery.user}
+server:
+  port: ${PORT:8761}
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 15
+  server:
+    expected-client-renewal-interval-seconds: 15
+    my-url: ${discovery.url}
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+    com.netflix.eureka.cluster.ReplicationTaskProcessor: fatal
+    com.sun.jersey.api.client.ClientHandlerException: fatal
+  file:
+    name: logs/application-debug.log

@@ -1,0 +1,291 @@
+version: "3.9"
+services:
+  discovery:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: discovery
+    container_name: discovery
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 200M
+    environment:
+      - APP_XMX=200m
+      - APP_XMS=200m
+      - APP_URL=discovery:8080
+    ports:
+      - "8761:8080"
+  config:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: config
+    container_name: config
+    depends_on:
+      - discovery
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=150m
+      - APP_XMS=85m
+      - EUREKA_HOST=discovery:8080
+      - APP_URL=config:8080
+      - SPRING_PROFILES_ACTIVE=native
+    ports:
+      - "8762:8080"
+  proxy:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: proxy
+    container_name: proxy
+    depends_on:
+      - discovery
+      - config
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - APP_URL=proxy:8080
+      - FRONTEND_URI=http://frontend:3000
+    ports:
+      - "8080:8080"
+  logging:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: logging
+    container_name: logging
+    depends_on:
+      - discovery
+      - config
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - APP_URL=logging:8080
+    ports:
+      - "8089:8080"
+  tax:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: tax
+    container_name: tax
+    depends_on:
+      - discovery
+      - config
+      - logging
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=tax:8080
+    ports:
+      - "8094:8080"
+  gibdd:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: gibdd
+    container_name: gibdd
+    depends_on:
+      - discovery
+      - config
+      - logging
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=gibdd:8080
+    ports:
+      - "8088:8080"
+  account:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: account
+    container_name: account
+    depends_on:
+      - discovery
+      - config
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=account:8080
+    ports:
+      - "8090:8080"
+  bank:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: bank
+    container_name: bank
+    depends_on:
+      - discovery
+      - config
+      - logging
+      - tax
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=bank:8080
+    ports:
+      - "8091:8080"
+  communal:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: communal
+    container_name: communal
+    depends_on:
+      - discovery
+      - config
+      - logging
+      - bank
+      - tax
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=communal:8080
+    ports:
+      - "8092:8080"
+  passport:
+    restart: always
+    build:
+      context: .
+      dockerfile: backend.production.Dockerfile
+      args:
+        PROJECT: passport
+    container_name: passport
+    depends_on:
+      - discovery
+      - config
+      - logging
+      - bank
+      - tax
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 300M
+        reservations:
+          memory: 100M
+    environment:
+      - APP_XMX=300M
+      - APP_XMS=100M
+      - EUREKA_HOST=discovery:8080
+      - CFG_HOST=config:8080
+      - LOGGING_URL=logging:8080
+      - APP_URL=passport:8080
+    ports:
+      - "8093:8080"
+  frontend:
+    restart: always
+    build:
+      context: client-ui
+      dockerfile: prod.Dockerfile
+    container_name: frontend
+    depends_on:
+      - discovery
+      - config
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 40M
+        reservations:
+          memory: 10M
+    ports:
+      - "3000:3000"

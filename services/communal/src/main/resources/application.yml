@@ -1,14 +1,17 @@
 management:
   endpoints:
     enabled-by-default: true
-    web:
-      exposure:
-        include: "*"
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 spring:
   main:
     banner-mode: off
+    lazy-initialization: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=FALSE
     username: sa
@@ -42,3 +45,12 @@ communal:
     tax-percent: 10
   service-id:
     property-tax: 20
+server:
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3

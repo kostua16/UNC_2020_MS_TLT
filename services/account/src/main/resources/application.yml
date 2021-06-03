@@ -1,35 +1,40 @@
 management:
   endpoints:
     enabled-by-default: true
-    web:
-      exposure:
-        include: "*"
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 spring:
   main:
     banner-mode: off
+    lazy-initialization: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: sa
     platform: h2
 logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
   level:
-    org.springframework.cloud: debug
-    nc.unc.cs.services: debug
-    com:
-      netflix:
-        eureka: OFF
-        discovery: OFF
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate: OFF
-#feign:
-#  httpclient:
-#    connection-timeout: 2000
-#    enabled: false
-#  okhttp:
-#    enabled: true
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+server:
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3

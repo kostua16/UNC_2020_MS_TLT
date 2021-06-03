@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const HTTP_PROTOCOL = process.env.VUE_APP_PROTOCOL || 'http';
-const ACCOUNT_URL = process.env.VUE_APP_API_URL || 'localhost:8880';
+const ACCOUNT_URL = process.env.VUE_APP_API_URL || window.location.port + ':' + window.location.port;
 const API_URL = HTTP_PROTOCOL + '://' + ACCOUNT_URL + '/auth';
 
 class AuthService {

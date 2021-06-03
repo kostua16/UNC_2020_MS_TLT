@@ -1,0 +1,101 @@
+management:
+  endpoints:
+    enabled-by-default: true
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+app:
+  public-host: ${APP_URL:127.0.0.1}
+  public-port: ${APP_PORT:${server.port}}
+  public-url: ${app.public-host}:${app.public-port}
+discovery:
+  password: ${EUREKA_PASSWORD:unc2020}
+  user: ${EUREKA_UID:unc2020}
+  host: ${EUREKA_HOST:127.0.0.1:8761}
+  protocol: ${EUREKA_PROTOCOL:http}
+  url: ${discovery.protocol}://${discovery.user}:${discovery.password}@${discovery.host}/eureka
+config:
+  password: ${CFG_PASSWORD:unc2020}
+  user: ${CFG_UID:unc2020}
+  host: ${CFG_HOST:127.0.0.1:8762}
+  protocol: ${CFG_PROTOCOL:http}
+  url: ${config.protocol}://${config.user}:${config.password}@${config.host}/
+spring:
+  application:
+    name: configserver
+  main:
+    banner-mode: off
+  security:
+    user:
+      password: ${config.password}
+      name: ${config.user}
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: [classpath:/config, file:./config, file:../config_repo]
+server:
+  port: ${PORT:8762}
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 3
+  jetty:
+    threads:
+      max: 10
+      min: 3
+eureka:
+  client:
+    service-url:
+      defaultZone: ${discovery.url}
+    should-enforce-registration-at-init: true
+    region: europe-1
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 15
+    hostname: ${app.public-host}
+    status-page-url-path: "actuator/info"
+    health-check-url-path: "actuator/health"
+    home-page-url-path: ""
+    status-page-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.status-page-url-path}"
+    health-check-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.health-check-url-path}"
+    home-page-url: "http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/${eureka.instance.home-page-url-path}"
+    instance-id: "${app.public-url}"
+    non-secure-port: ${app.public-port}
+    virtual-host-name: ${spring.application.name}
+    metadata-map:
+      user: ${config.user}
+      password: ${config.password}
+    appname: configserver
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    root: WARN
+    nc.unc.cs.services: TRACE
+    com.netflix.eureka: ERROR
+    com.netflix.discovery: ERROR
+    org.springframework: WARN
+    org.springframework.cloud: INFO
+    org.springframework.web.client.RestTemplate: WARN
+  file:
+    name: logs/application-debug.log
+---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URL:file://config_repo}
+          ignoreLocalSshSettings: true
+          skipSslValidation: true
+          privateKey: |
+            ${DEPLOY_KEY:test}
+          basedir: target/repo
+          force-pull: true
+          preferredAuthentications: publickey
+  config:
+    activate:
+      on-profile: git
