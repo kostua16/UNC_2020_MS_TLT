@@ -110,7 +110,7 @@ jobs:
       # Create new issue if any step failed #
       #######################################
       - name: Create issue if build fails
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4.0.2
         if: ${{ failure() }}
         with:
           github-token: ${{secrets.GH_TKN}}
@@ -121,7 +121,7 @@ jobs:
       # Add 'build_passed' label if build success  #
       ##############################################
       - name: Add 'build_passed' label if build success
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4.0.2
         if: ${{ success() }}
         with:
           github-token: ${{secrets.GH_TKN}}
